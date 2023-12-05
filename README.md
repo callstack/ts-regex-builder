@@ -27,7 +27,8 @@ MIT
 
 ## Reference
 
-[Original API docs](https://developer.apple.com/documentation/regexbuilder)
+- [Swift Regex Builder API docs](https://developer.apple.com/documentation/regexbuilder)
+- [Swift Evolution 351: Regex Builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md)
 
 ---
 
