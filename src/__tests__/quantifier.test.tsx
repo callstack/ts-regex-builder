@@ -1,4 +1,4 @@
-import { one, oneOrMore, optionally } from '../quantifiers';
+import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers';
 import { buildPattern } from '../compiler';
 
 test('"oneOrMore" quantifier', () => {
@@ -14,4 +14,9 @@ test('"one" quantifier', () => {
 test('"optionally" quantifier', () => {
   expect(buildPattern(optionally('a'))).toEqual('a?');
   expect(buildPattern(optionally('ab'))).toEqual('(ab)?');
+});
+
+test('"zeroOrMore" quantifier', () => {
+  expect(buildPattern(zeroOrMore('a'))).toEqual('a*');
+  expect(buildPattern(zeroOrMore('ab'))).toEqual('(ab)*');
 });
