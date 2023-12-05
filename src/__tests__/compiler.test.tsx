@@ -1,4 +1,5 @@
 import { buildPattern, buildRegex, oneOrMore, optionally } from '..';
+import { one } from '../quantifiers';
 
 test('basic quantifies', () => {
   expect(buildPattern('a')).toEqual('a');
@@ -12,6 +13,8 @@ test('basic quantifies', () => {
   expect(buildPattern('a', oneOrMore('bc'))).toEqual('a(bc)+');
 
   expect(buildPattern(optionally('a'), 'b')).toEqual('a?b');
+
+  expect(buildPattern(optionally('a'), 'b', one('d'))).toEqual('a?bd');
 });
 
 test('regex constructor', () => {
