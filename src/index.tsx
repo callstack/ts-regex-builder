@@ -1,3 +1,4 @@
-export function multiply(a: number, b: number): Promise<number> {
-  return Promise.resolve(a * b);
-}
+export type * from './types';
+
+export { buildRegex, buildPattern } from './compiler';
+export { oneOrMore, optionally } from './quantifiers';
