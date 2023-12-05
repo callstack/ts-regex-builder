@@ -11,11 +11,10 @@ npm install ts-regex
 ## Usage
 
 ```js
-import { multiply } from 'ts-regex';
+import { buildRegex, oneOrMore } from 'ts-regex';
 
-// ...
-
-const result = await multiply(3, 7);
+// /(Hello)+ World/
+const regex = buildRegex(oneOrMore('Hello '), 'World');
 ```
 
 ## Contributing
