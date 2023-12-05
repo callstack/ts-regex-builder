@@ -1,7 +1,7 @@
 {
-  "name": "swift-regex",
+  "name": "ts-regex",
   "version": "0.1.0",
-  "description": "Adapation of Swift Regex for TypeScript",
+  "description": "TypeScript adaptation of Swift Regex Builder API",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
@@ -40,7 +40,7 @@
     "android"
   ],
   "repository": "https://github.com/mdjastrzebski/swift-regex",
-  "author": "Maciej Jastrzebski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
+  "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mdjastrzebski/swift-regex/issues"
