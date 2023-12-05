@@ -1,4 +1,4 @@
-import type { OneOrMore, Optionally, RegexComponent } from './types';
+import type { One, OneOrMore, Optionally, RegexComponent } from './types';
 import type { CompilerMap } from './types-internal';
 import { wrapGroup } from './utils';
 
@@ -16,7 +16,15 @@ export function optionally(...children: RegexComponent[]): Optionally {
   };
 }
 
+export function one(...children: RegexComponent[]): One {
+  return {
+    type: 'one',
+    children,
+  };
+}
+
 export const compilers = {
   oneOrMore: (compiledChildren) => `${wrapGroup(compiledChildren)}+`,
-  optionally: (compiledChildren: string) => `${wrapGroup(compiledChildren)}?`,
+  optionally: (compiledChildren) => `${wrapGroup(compiledChildren)}?`,
+  one: (compiledChildren) => compiledChildren,
 } satisfies CompilerMap;
