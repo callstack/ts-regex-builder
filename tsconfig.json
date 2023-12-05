@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "swift-regex": ["./src/index"]
+      "ts-regex": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

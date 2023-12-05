@@ -2,50 +2,9 @@
 #
 .DS_Store
 
-# XDE
-.expo/
-
 # VSCode
 .vscode/
 jsconfig.json
-
-# Xcode
-#
-build/
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
-project.xcworkspace
-
-# Android/IJ
-#
-.classpath
-.cxx
-.gradle
-.idea
-.project
-.settings
-local.properties
-android.iml
-
-# Cocoapods
-#
-example/ios/Pods
-
-# Ruby
-example/vendor/
 
 # node.js
 #
@@ -57,8 +16,6 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-android/app/libs
-android/keystores/debug.keystore
 
 # Yarn
 .yarn/*
@@ -67,9 +24,6 @@ android/keystores/debug.keystore
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-
-# Expo
-.expo/
 
 # Turborepo
 .turbo/

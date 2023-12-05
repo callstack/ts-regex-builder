@@ -1,17 +1,17 @@
-# swift-regex
+# TS Regex
 
-Adapation of Swift Regex for TypeScript
+TypeScript adaptation of Swift Regex Builder API.
 
 ## Installation
 
 ```sh
-npm install swift-regex
+npm install ts-regex
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'swift-regex';
+import { multiply } from 'ts-regex';
 
 // ...
 
@@ -25,6 +25,10 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
+
+## Reference
+
+[Original API docs](https://developer.apple.com/documentation/regexbuilder)
 
 ---
 
