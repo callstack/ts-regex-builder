@@ -1,6 +1,6 @@
 export type RegexComponent = string | RegexQuantifier;
 
-export type RegexQuantifier = OneOrMore | Optionally | One;
+export type RegexQuantifier = One | OneOrMore | Optionally;
 
 // Quantifiers
 export type OneOrMore = {
