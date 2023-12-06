@@ -26,3 +26,21 @@ test('oneOrMore does not generate capture when grouping', () => {
   const groups = [...'aa'.match(regex)!];
   expect(groups).toEqual(['aa']);
 });
+
+test('one does not generate capture when grouping', () => {
+  const regex = buildRegex(one('aa'));
+  const groups = [...'aa'.match(regex)!];
+  expect(groups).toEqual(['aa']);
+});
+
+test('optionally does not generate capture when grouping', () => {
+  const regex = buildRegex(optionally('aa'));
+  const groups = [...'aa'.match(regex)!];
+  expect(groups).toEqual(['aa']);
+});
+
+test('zeroOrMore does not generate capture when grouping', () => {
+  const regex = buildRegex(zeroOrMore('aa'));
+  const groups = [...'aa'.match(regex)!];
+  expect(groups).toEqual(['aa']);
+});
