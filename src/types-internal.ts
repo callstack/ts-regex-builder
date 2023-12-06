@@ -1,3 +1,5 @@
 // Compilation
 export type ElementCompiler = (compiledChildren: string) => string;
-export type CompilerMap = Record<string, ElementCompiler>;
+export type CompilerMap =
+  | Record<string, ElementCompiler>
+  | Record<string, string>;

@@ -1,4 +1,5 @@
 import type { Any, Digit, Whitespace, Word } from './types';
+import type { CompilerMap } from './types-internal';
 
 export function whitespace(): Whitespace {
   return { type: 'whitespace' };
@@ -21,4 +22,4 @@ export const compilers = {
   digit: '\\d',
   word: '\\w',
   any: '.',
-};
+} satisfies CompilerMap;

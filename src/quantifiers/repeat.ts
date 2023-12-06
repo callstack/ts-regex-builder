@@ -9,9 +9,5 @@ export function compileRepeat(
     return `${wrapGroup(compiledChildren)}{${config.count}}`;
   }
 
-  if ('min' in config) {
-    return `${wrapGroup(compiledChildren)}{${config.min},${config?.max ?? ''}}`;
-  }
-
-  return `${wrapGroup(compiledChildren)}`;
+  return `${wrapGroup(compiledChildren)}{${config.min},${config?.max ?? ''}}`;
 }
