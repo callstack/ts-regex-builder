@@ -2,12 +2,10 @@ import type {
   One,
   OneOrMore,
   Optionally,
+  Quantifier,
   RegexElement,
-  Repeat,
-  RepeatConfig,
   ZeroOrMore,
 } from '../types';
-import type { CompilerMap } from '../types-internal';
 import { wrapGroup } from '../utils';
 
 export function oneOrMore(...children: RegexElement[]): OneOrMore {
@@ -38,20 +36,15 @@ export function zeroOrMore(...children: RegexElement[]): ZeroOrMore {
   };
 }
 
-export function repeat(
-  config: RepeatConfig,
-  ...children: RegexElement[]
-): Repeat {
-  return {
-    type: 'repeat',
-    children,
-    config,
-  };
-}
-
-export const compilers = {
+export const baseQuantifiers = {
   one: (compiledChildren) => compiledChildren,
   oneOrMore: (compiledChildren) => `${wrapGroup(compiledChildren)}+`,
   optionally: (compiledChildren) => `${wrapGroup(compiledChildren)}?`,
   zeroOrMore: (compiledChildren) => `${wrapGroup(compiledChildren)}*`,
-} satisfies CompilerMap;
+} as const satisfies Record<string, (compiledChildren: string) => string>;
+
+export function isBaseQuantifier(
+  element: Exclude<RegexElement, string>
+): element is Quantifier {
+  return element.type in baseQuantifiers;
+}

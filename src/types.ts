@@ -1,11 +1,14 @@
-export type RegexElement = string | RegexQuantifier;
+export type RegexElement = string | CharacterClass | Quantifier;
 
-export type RegexQuantifier =
-  | One
-  | OneOrMore
-  | Optionally
-  | ZeroOrMore
-  | Repeat;
+export type CharacterClass = Whitespace | Digit | Word | Any;
+
+export type Quantifier = One | OneOrMore | Optionally | ZeroOrMore | Repeat;
+
+// Character classes
+export type Whitespace = { type: 'whitespace' };
+export type Digit = { type: 'digit' };
+export type Word = { type: 'word' };
+export type Any = { type: 'any' };
 
 // Quantifiers
 export type One = {

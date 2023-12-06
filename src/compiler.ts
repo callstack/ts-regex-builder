@@ -1,5 +1,6 @@
 import type { RegexElement } from './types';
-import { compilers as quantifiers } from './quantifiers';
+import { characterClasses, isCharacterClass } from './character-classes';
+import { baseQuantifiers, isBaseQuantifier } from './quantifiers/base';
 import { compileRepeat } from './quantifiers/repeat';
 
 /**
@@ -28,21 +29,26 @@ function compileList(elements: RegexElement[]): string {
   return elements.map((c) => compileSingle(c)).join('');
 }
 
-function compileSingle(elements: RegexElement): string {
-  if (typeof elements === 'string') {
-    return elements;
+function compileSingle(element: RegexElement): string {
+  if (typeof element === 'string') {
+    return element;
   }
 
-  const compiledChildren = compileList(elements.children);
-
-  if (elements.type === 'repeat') {
-    return compileRepeat(elements.config, compiledChildren);
+  if (isCharacterClass(element)) {
+    return characterClasses[element.type];
   }
 
-  const elementCompiler = quantifiers[elements.type];
-  if (!elementCompiler) {
-    throw new Error(`Unknown elements type ${elements.type}`);
+  const compiledChildren = compileList(element.children);
+
+  if (element.type === 'repeat') {
+    return compileRepeat(element.config, compiledChildren);
   }
 
-  return elementCompiler(compiledChildren);
+  if (isBaseQuantifier(element)) {
+    const compiler = baseQuantifiers[element.type];
+    return compiler(compiledChildren);
+  }
+
+  // @ts-expect-error User passed incorrect type
+  throw new Error(`Unknown elements type ${element.type}`);
 }

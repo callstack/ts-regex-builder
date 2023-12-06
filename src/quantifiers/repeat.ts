@@ -1,17 +1,24 @@
-import type { RepeatConfig } from '../types';
+import type { RegexElement, Repeat, RepeatConfig } from '../types';
 import { wrapGroup } from '../utils';
+
+export function repeat(
+  config: RepeatConfig,
+  ...children: RegexElement[]
+): Repeat {
+  return {
+    type: 'repeat',
+    children,
+    config,
+  };
+}
 
 export function compileRepeat(
   config: RepeatConfig,
   compiledChildren: string
 ): string {
-  if ('count' in config && typeof config.count === 'number') {
+  if ('count' in config) {
     return `${wrapGroup(compiledChildren)}{${config.count}}`;
   }
 
-  if ('min' in config && typeof config.min === 'number') {
-    return `${wrapGroup(compiledChildren)}{${config.min},${config?.max ?? ''}}`;
-  }
-
-  return `${wrapGroup(compiledChildren)}`;
+  return `${wrapGroup(compiledChildren)}{${config.min},${config?.max ?? ''}}`;
 }
