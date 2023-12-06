@@ -1,17 +1,17 @@
-# TS Regex
+# TS Regex Builder
 
 TypeScript adaptation of Swift Regex Builder API.
 
 ## Installation
 
 ```sh
-npm install ts-regex
+npm install ts-regex-builder
 ```
 
 ## Usage
 
 ```js
-import { buildRegex, oneOrMore } from 'ts-regex';
+import { buildRegex, oneOrMore } from 'ts-regex-builder';
 
 // /(Hello)+ World/
 const regex = buildRegex(oneOrMore('Hello '), 'World');
