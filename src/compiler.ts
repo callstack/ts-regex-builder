@@ -1,5 +1,6 @@
 import type { RegexElement } from './types';
 import { compilers as quantifiers } from './quantifiers';
+import { compileRepeat } from './quantifiers/repeat';
 
 /**
  * Generate RegExp object for elements.
@@ -32,11 +33,16 @@ function compileSingle(elements: RegexElement): string {
     return elements;
   }
 
+  const compiledChildren = compileList(elements.children);
+
+  if (elements.type === 'repeat') {
+    return compileRepeat(elements.config, compiledChildren);
+  }
+
   const elementCompiler = quantifiers[elements.type];
   if (!elementCompiler) {
     throw new Error(`Unknown elements type ${elements.type}`);
   }
 
-  const children = compileList(elements.children);
-  return elementCompiler(children);
+  return elementCompiler(compiledChildren);
 }

@@ -3,10 +3,12 @@ import type {
   OneOrMore,
   Optionally,
   RegexElement,
+  Repeat,
+  RepeatConfig,
   ZeroOrMore,
-} from './types';
-import type { CompilerMap } from './types-internal';
-import { wrapGroup } from './utils';
+} from '../types';
+import type { CompilerMap } from '../types-internal';
+import { wrapGroup } from '../utils';
 
 export function oneOrMore(...children: RegexElement[]): OneOrMore {
   return {
@@ -36,9 +38,20 @@ export function zeroOrMore(...children: RegexElement[]): ZeroOrMore {
   };
 }
 
+export function repeat(
+  config: RepeatConfig,
+  ...children: RegexElement[]
+): Repeat {
+  return {
+    type: 'repeat',
+    children,
+    config,
+  };
+}
+
 export const compilers = {
   one: (compiledChildren) => compiledChildren,
   oneOrMore: (compiledChildren) => `${wrapGroup(compiledChildren)}+`,
-  optionally: (compiledChildren: string) => `${wrapGroup(compiledChildren)}?`,
-  zeroOrMore: (compiledChildren: string) => `${wrapGroup(compiledChildren)}*`,
+  optionally: (compiledChildren) => `${wrapGroup(compiledChildren)}?`,
+  zeroOrMore: (compiledChildren) => `${wrapGroup(compiledChildren)}*`,
 } satisfies CompilerMap;
