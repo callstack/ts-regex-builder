@@ -1,18 +1,16 @@
-import type { Repeat } from '../types';
+import type { RepeatConfig } from '../types';
 import { wrapGroup } from '../utils';
 
-export function repeat(
-  compiledChildren: string,
-  config: Repeat['config']
+export function compileRepeat(
+  config: RepeatConfig,
+  compiledChildren: string
 ): string {
-  if ('count' in config && typeof config?.count === 'number') {
-    return `${wrapGroup(compiledChildren)}{${config?.count || ''}}`;
+  if ('count' in config && typeof config.count === 'number') {
+    return `${wrapGroup(compiledChildren)}{${config.count}}`;
   }
 
-  if ('min' in config) {
-    return `${wrapGroup(compiledChildren)}{${config?.min || ''},${
-      config?.max || ''
-    }}`;
+  if ('min' in config && typeof config.min === 'number') {
+    return `${wrapGroup(compiledChildren)}{${config.min},${config?.max ?? ''}}`;
   }
 
   return `${wrapGroup(compiledChildren)}`;

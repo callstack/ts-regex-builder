@@ -23,15 +23,16 @@ export type Optionally = {
   children: RegexElement[];
 };
 
+export type RepeatConfig =
+  | { min: number; max?: number }
+  | {
+      count: number;
+    };
+
 export type Repeat = {
   type: 'repeat';
   children: RegexElement[];
-  config:
-    | {
-        min: number;
-        max?: number;
-      }
-    | { count: number };
+  config: RepeatConfig;
 };
 
 export type ZeroOrMore = {

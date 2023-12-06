@@ -4,6 +4,7 @@ import type {
   Optionally,
   RegexElement,
   Repeat,
+  RepeatConfig,
   ZeroOrMore,
 } from '../types';
 import type { CompilerMap } from '../types-internal';
@@ -38,7 +39,7 @@ export function zeroOrMore(...children: RegexElement[]): ZeroOrMore {
 }
 
 export function repeat(
-  config: Repeat['config'],
+  config: RepeatConfig,
   ...children: RegexElement[]
 ): Repeat {
   return {
