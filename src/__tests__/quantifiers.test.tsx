@@ -1,4 +1,4 @@
-import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers';
+import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers/base';
 import { buildPattern, buildRegex } from '../compiler';
 
 test('"oneOrMore" quantifier', () => {

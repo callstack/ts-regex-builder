@@ -1,7 +1,7 @@
 import type { RegexElement } from './types';
-import { compilers as quantifiers } from './quantifiers';
+import { characterClasses, isCharacterClass } from './character-classes';
+import { baseQuantifiers, isBaseQuantifier } from './quantifiers/base';
 import { compileRepeat } from './quantifiers/repeat';
-import { compilers as characterClasses } from './characterClasses';
 
 /**
  * Generate RegExp object for elements.
@@ -29,31 +29,26 @@ function compileList(elements: RegexElement[]): string {
   return elements.map((c) => compileSingle(c)).join('');
 }
 
-function compileSingle(elements: RegexElement): string {
-  if (typeof elements === 'string') {
-    return elements;
+function compileSingle(element: RegexElement): string {
+  if (typeof element === 'string') {
+    return element;
   }
 
-  if (!('children' in elements)) {
-    const characterCompiler = characterClasses[elements.type];
-
-    if (!characterCompiler) {
-      throw new Error(`Unknown character type ${elements.type}`);
-    }
-
-    return characterCompiler;
+  if (isCharacterClass(element)) {
+    return characterClasses[element.type];
   }
 
-  const compiledChildren = compileList(elements.children);
+  const compiledChildren = compileList(element.children);
 
-  if (elements.type === 'repeat') {
-    return compileRepeat(elements.config, compiledChildren);
+  if (element.type === 'repeat') {
+    return compileRepeat(element.config, compiledChildren);
   }
 
-  const elementCompiler = quantifiers[elements.type];
-  if (!elementCompiler) {
-    throw new Error(`Unknown elements type ${elements.type}`);
+  if (isBaseQuantifier(element)) {
+    const compiler = baseQuantifiers[element.type];
+    return compiler(compiledChildren);
   }
 
-  return elementCompiler(compiledChildren);
+  // @ts-expect-error User passed incorrect type
+  throw new Error(`Unknown elements type ${element.type}`);
 }

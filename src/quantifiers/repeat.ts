@@ -1,5 +1,16 @@
-import type { RepeatConfig } from '../types';
+import type { RegexElement, Repeat, RepeatConfig } from '../types';
 import { wrapGroup } from '../utils';
+
+export function repeat(
+  config: RepeatConfig,
+  ...children: RegexElement[]
+): Repeat {
+  return {
+    type: 'repeat',
+    children,
+    config,
+  };
+}
 
 export function compileRepeat(
   config: RepeatConfig,

@@ -1,5 +1,6 @@
 import { buildPattern, buildRegex } from '../compiler';
-import { oneOrMore, optionally, one, zeroOrMore, repeat } from '../quantifiers';
+import { oneOrMore, optionally, one, zeroOrMore } from '../quantifiers/base';
+import { repeat } from '../quantifiers/repeat';
 
 test('basic quantifies', () => {
   expect(buildPattern('a')).toEqual('a');

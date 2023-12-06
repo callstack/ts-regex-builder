@@ -1,5 +1,6 @@
 import { buildPattern } from '../compiler';
-import { repeat, zeroOrMore, oneOrMore } from '../quantifiers';
+import { zeroOrMore, oneOrMore } from '../quantifiers/base';
+import { repeat } from '../quantifiers/repeat';
 
 test('"repeat" quantifier', () => {
   expect(buildPattern('a', repeat({ min: 1, max: 5 }, 'b'))).toEqual('ab{1,5}');

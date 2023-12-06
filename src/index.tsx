@@ -1,5 +1,5 @@
 export type * from './types';
 
-export { whitespace } from './characterClasses';
+export { whitespace } from './character-classes';
 export { buildRegex, buildPattern } from './compiler';
-export { oneOrMore, optionally } from './quantifiers';
+export { oneOrMore, optionally } from './quantifiers/base';
