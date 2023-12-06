@@ -1,24 +1,24 @@
-export type RegexComponent = string | RegexQuantifier;
+export type RegexElement = string | RegexQuantifier;
 
 export type RegexQuantifier = One | OneOrMore | Optionally | ZeroOrMore;
 
 // Quantifiers
 export type One = {
   type: 'one';
-  children: RegexComponent[];
+  children: RegexElement[];
 };
 
 export type OneOrMore = {
   type: 'oneOrMore';
-  children: RegexComponent[];
+  children: RegexElement[];
 };
 
 export type Optionally = {
   type: 'optionally';
-  children: RegexComponent[];
+  children: RegexElement[];
 };
 
 export type ZeroOrMore = {
   type: 'zeroOrMore';
-  children: RegexComponent[];
+  children: RegexElement[];
 };

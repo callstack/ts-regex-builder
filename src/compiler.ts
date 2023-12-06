@@ -1,42 +1,42 @@
-import type { RegexComponent } from './types';
+import type { RegexElement } from './types';
 import { compilers as quantifiers } from './quantifiers';
 
 /**
- * Generate RegExp object from components.
+ * Generate RegExp object for elements.
  *
- * @param components
+ * @param elements
  * @returns
  */
-export function buildRegex(...components: RegexComponent[]): RegExp {
-  const pattern = compileList(components);
+export function buildRegex(...elements: RegexElement[]): RegExp {
+  const pattern = compileList(elements);
   return new RegExp(pattern);
 }
 
 /**
- * Generate regex pattern from components.
- * @param components
+ * Generate regex pattern for elements.
+ * @param elements
  * @returns
  */
-export function buildPattern(...components: RegexComponent[]): string {
-  return compileList(components);
+export function buildPattern(...elements: RegexElement[]): string {
+  return compileList(elements);
 }
 
 // Recursive compilation
 
-function compileList(components: RegexComponent[]): string {
-  return components.map((c) => compileSingle(c)).join('');
+function compileList(elements: RegexElement[]): string {
+  return elements.map((c) => compileSingle(c)).join('');
 }
 
-function compileSingle(component: RegexComponent): string {
-  if (typeof component === 'string') {
-    return component;
+function compileSingle(elements: RegexElement): string {
+  if (typeof elements === 'string') {
+    return elements;
   }
 
-  const componentCompiler = quantifiers[component.type];
-  if (!componentCompiler) {
-    throw new Error(`Unknown component type ${component.type}`);
+  const elementCompiler = quantifiers[elements.type];
+  if (!elementCompiler) {
+    throw new Error(`Unknown elements type ${elements.type}`);
   }
 
-  const children = compileList(component.children);
-  return componentCompiler(children);
+  const children = compileList(elements.children);
+  return elementCompiler(children);
 }
