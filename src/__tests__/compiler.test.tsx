@@ -9,12 +9,12 @@ test('basic quantifies', () => {
   expect(buildPattern(optionally('a'))).toEqual('a?');
 
   expect(buildPattern('a', oneOrMore('b'))).toEqual('ab+');
-  expect(buildPattern('a', oneOrMore('bc'))).toEqual('a(bc)+');
-  expect(buildPattern('a', oneOrMore('bc'))).toEqual('a(bc)+');
+  expect(buildPattern('a', oneOrMore('bc'))).toEqual('a(?:bc)+');
+  expect(buildPattern('a', oneOrMore('bc'))).toEqual('a(?:bc)+');
 
   expect(buildPattern('a', zeroOrMore('b'))).toEqual('ab*');
-  expect(buildPattern('a', zeroOrMore('bc'))).toEqual('a(bc)*');
-  expect(buildPattern('a', zeroOrMore('bc'))).toEqual('a(bc)*');
+  expect(buildPattern('a', zeroOrMore('bc'))).toEqual('a(?:bc)*');
+  expect(buildPattern('a', zeroOrMore('bc'))).toEqual('a(?:bc)*');
 
   expect(buildPattern(optionally('a'), 'b')).toEqual('a?b');
 
