@@ -3451,9 +3451,9 @@ __metadata:
   linkType: hard
 
 "acorn-walk@npm:^8.1.1, acorn-walk@npm:^8.2.0":
-  version: 8.3.0
-  resolution: "acorn-walk@npm:8.3.0"
-  checksum: 15ea56ab6529135be05e7d018f935ca80a572355dd3f6d3cd717e36df3346e0f635a93ae781b1c7942607693e2e5f3ef81af5c6fc697bbadcc377ebda7b7f5f6
+  version: 8.3.1
+  resolution: "acorn-walk@npm:8.3.1"
+  checksum: 5c8926ddb5400bc825b6baca782931f9df4ace603ba1a517f5243290fd9cdb089d52877840687b5d5c939591ebc314e2e63721514feaa37c6829c828f2b940ce
   languageName: node
   linkType: hard
 
@@ -4119,7 +4119,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.20.4, browserslist@npm:^4.21.9, browserslist@npm:^4.22.1":
+"browserslist@npm:^4.20.4, browserslist@npm:^4.21.9, browserslist@npm:^4.22.2":
   version: 4.22.2
   resolution: "browserslist@npm:4.22.2"
   dependencies:
@@ -4935,11 +4935,11 @@ __metadata:
   linkType: hard
 
 "core-js-compat@npm:^3.31.0, core-js-compat@npm:^3.33.1":
-  version: 3.33.3
-  resolution: "core-js-compat@npm:3.33.3"
+  version: 3.34.0
+  resolution: "core-js-compat@npm:3.34.0"
   dependencies:
-    browserslist: ^4.22.1
-  checksum: cb121e83f0f5f18b2b75428cdfb19524936a18459f1e0358f9124c8ff8b75d6a5901495cb996560cfde3a416103973f78eb5947777bb8b2fd877cdf84471465d
+    browserslist: ^4.22.2
+  checksum: 6281f7f57a72f254c06611ec088445e11cf84e0b4edfb5f43dece1a1ff8b0ed0e81ed0bc291024761cd90c39d0f007d8bc46548265139808081d311c7cbc9c81
   languageName: node
   linkType: hard
 
@@ -5411,9 +5411,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.601":
-  version: 1.4.602
-  resolution: "electron-to-chromium@npm:1.4.602"
-  checksum: a3e30fee47f377f180a99db26f1067acb72891fab720b6800221d74de0c962ac2f595bd977d1f1fd265e0b7f7258b4524c8f9053d17620d01bb8cfa2c0ae32de
+  version: 1.4.605
+  resolution: "electron-to-chromium@npm:1.4.605"
+  checksum: 2d42afd5d8cfc053d68944891f02fb007931fae85c0a19bc4f458bb3430e793b8a76664b058e1b06ab99e784f73e4c6b56493eaede2ff6012dbcaf8781fec4a7
   languageName: node
   linkType: hard
 
@@ -6287,9 +6287,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.223.2
-  resolution: "flow-parser@npm:0.223.2"
-  checksum: 8dc81137571c0f0f90e2de747dcfa2a710b535121e52f093e6a2cf5200ccb78bc6ce76ae5b8f08e9fc3935aa39e490e65f4c3106c85501ee4b4bbd4f9ced45ae
+  version: 0.223.3
+  resolution: "flow-parser@npm:0.223.3"
+  checksum: 4c0df178ff2e9140f57b5e7321b11e1cb827e00fbad6f342742c5834bd313f1bb0fe84d919d36e0c593e916c4ae5c8a93fcdb42c4328d6c5d77d75c8eed12090
   languageName: node
   linkType: hard
 
@@ -12305,9 +12305,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-regex@workspace:.":
+"ts-regex-builder@workspace:.":
   version: 0.0.0-use.local
-  resolution: "ts-regex@workspace:."
+  resolution: "ts-regex-builder@workspace:."
   dependencies:
     "@commitlint/config-conventional": ^17.0.2
     "@evilmartians/lefthook": ^1.5.0
