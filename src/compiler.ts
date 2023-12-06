@@ -34,26 +34,26 @@ function compileSingle(elements: RegexElement): string {
     return elements;
   }
 
-  if ('children' in elements) {
-    const compiledChildren = compileList(elements.children);
+  if (!('children' in elements)) {
+    const characterCompiler = characterClasses[elements.type];
 
-    if (elements.type === 'repeat') {
-      return compileRepeat(elements.config, compiledChildren);
+    if (!characterCompiler) {
+      throw new Error(`Unknown character type ${elements.type}`);
     }
 
-    const elementCompiler = quantifiers[elements.type];
-    if (!elementCompiler) {
-      throw new Error(`Unknown elements type ${elements.type}`);
-    }
-
-    return elementCompiler(compiledChildren);
+    return characterCompiler;
   }
 
-  const characterCompiler = characterClasses[elements.type];
+  const compiledChildren = compileList(elements.children);
 
-  if (!characterCompiler) {
-    throw new Error(`Unknown character type ${elements.type}`);
+  if (elements.type === 'repeat') {
+    return compileRepeat(elements.config, compiledChildren);
   }
 
-  return characterCompiler;
+  const elementCompiler = quantifiers[elements.type];
+  if (!elementCompiler) {
+    throw new Error(`Unknown elements type ${elements.type}`);
+  }
+
+  return elementCompiler(compiledChildren);
 }

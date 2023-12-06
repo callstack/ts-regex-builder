@@ -1,5 +1,5 @@
 import type { Any, Digit, Whitespace, Word } from './types';
-import type { CompilerMap } from './types-internal';
+import type { CharacterClassCompilerMap } from './types-internal';
 
 export const whitespace: Whitespace = { type: 'whitespace' };
 
@@ -14,4 +14,4 @@ export const compilers = {
   digit: '\\d',
   word: '\\w',
   any: '.',
-} satisfies CompilerMap;
+} satisfies CharacterClassCompilerMap;
