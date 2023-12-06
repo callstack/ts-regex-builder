@@ -21,6 +21,8 @@ const regex = buildRegex(oneOrMore('Hello '), 'World');
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
+See the [project guidelines](GUIDELINES.md) to understand our core principles.
+
 ## License
 
 MIT
