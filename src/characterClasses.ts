@@ -1,21 +1,13 @@
 import type { Any, Digit, Whitespace, Word } from './types';
 import type { CompilerMap } from './types-internal';
 
-export function whitespace(): Whitespace {
-  return { type: 'whitespace' };
-}
+export const whitespace: Whitespace = { type: 'whitespace' };
 
-export function digit(): Digit {
-  return { type: 'digit' };
-}
+export const digit: Digit = { type: 'digit' };
 
-export function word(): Word {
-  return { type: 'word' };
-}
+export const word: Word = { type: 'word' };
 
-export function any(): Any {
-  return { type: 'any' };
-}
+export const any: Any = { type: 'any' };
 
 export const compilers = {
   whitespace: '\\s',
