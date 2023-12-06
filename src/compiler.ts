@@ -49,5 +49,11 @@ function compileSingle(elements: RegexElement): string {
     return elementCompiler(compiledChildren);
   }
 
-  return characterClasses[elements.type];
+  const characterCompiler = characterClasses[elements.type];
+
+  if (!characterCompiler) {
+    throw new Error(`Unknown character type ${elements.type}`);
+  }
+
+  return characterCompiler;
 }
