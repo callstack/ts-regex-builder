@@ -2,34 +2,34 @@ import type {
   One,
   OneOrMore,
   Optionally,
-  RegexComponent,
+  RegexElement,
   ZeroOrMore,
 } from './types';
 import type { CompilerMap } from './types-internal';
 import { wrapGroup } from './utils';
 
-export function oneOrMore(...children: RegexComponent[]): OneOrMore {
+export function oneOrMore(...children: RegexElement[]): OneOrMore {
   return {
     type: 'oneOrMore',
     children,
   };
 }
 
-export function optionally(...children: RegexComponent[]): Optionally {
+export function optionally(...children: RegexElement[]): Optionally {
   return {
     type: 'optionally',
     children,
   };
 }
 
-export function one(...children: RegexComponent[]): One {
+export function one(...children: RegexElement[]): One {
   return {
     type: 'one',
     children,
   };
 }
 
-export function zeroOrMore(...children: RegexComponent[]): ZeroOrMore {
+export function zeroOrMore(...children: RegexElement[]): ZeroOrMore {
   return {
     type: 'zeroOrMore',
     children,
