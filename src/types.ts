@@ -1,4 +1,4 @@
-export type RegexElement = string | CharacterClass | Quantifier;
+export type RegexElement = string | ChoiceOf | CharacterClass | Quantifier;
 
 export type CharacterClass = Whitespace | Digit | Word | Any;
 
@@ -9,6 +9,12 @@ export type Whitespace = { type: 'whitespace' };
 export type Digit = { type: 'digit' };
 export type Word = { type: 'word' };
 export type Any = { type: 'any' };
+
+// Components
+export type ChoiceOf = {
+  type: 'choiceOf';
+  children: RegexElement[];
+};
 
 // Quantifiers
 export type One = {
