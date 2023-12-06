@@ -1,4 +1,6 @@
-export type RegexElement = string | RegexQuantifier;
+export type RegexElement = string | RegexCharacterClass | RegexQuantifier;
+
+export type RegexCharacterClass = Whitespace;
 
 export type RegexQuantifier =
   | One
@@ -6,6 +8,9 @@ export type RegexQuantifier =
   | Optionally
   | ZeroOrMore
   | Repeat;
+
+// Character classes
+export type Whitespace = `\\s`;
 
 // Quantifiers
 export type One = {
