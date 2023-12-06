@@ -1,6 +1,11 @@
 export type RegexElement = string | RegexQuantifier;
 
-export type RegexQuantifier = One | OneOrMore | Optionally | ZeroOrMore;
+export type RegexQuantifier =
+  | One
+  | OneOrMore
+  | Optionally
+  | ZeroOrMore
+  | Repeat;
 
 // Quantifiers
 export type One = {
@@ -16,6 +21,17 @@ export type OneOrMore = {
 export type Optionally = {
   type: 'optionally';
   children: RegexElement[];
+};
+
+export type Repeat = {
+  type: 'repeat';
+  children: RegexElement[];
+  config:
+    | {
+        min: number;
+        max?: number;
+      }
+    | { count: number };
 };
 
 export type ZeroOrMore = {
