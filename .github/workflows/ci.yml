@@ -35,6 +35,11 @@ jobs:
       - name: Run unit tests
         run: yarn test --maxWorkers=2 --coverage
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
   build-library:
     runs-on: ubuntu-latest
     steps:
@@ -46,3 +51,4 @@ jobs:
 
       - name: Build package
         run: yarn prepare
+
