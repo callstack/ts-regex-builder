@@ -41,7 +41,7 @@ function compileSingle(element: RegexElement): string {
   }
 
   if (element.type === 'choiceOf') {
-    return compileChoiceOf(element);
+    return compileChoiceOf(element, compileSingle);
   }
 
   if (element.type === 'repeat') {
