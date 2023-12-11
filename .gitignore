@@ -32,3 +32,4 @@ buck-out/
 lib/
 
 /.idea
+coverage/

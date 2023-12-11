@@ -2,6 +2,7 @@ import type { RegexElement } from './types';
 import { characterClasses, isCharacterClass } from './character-classes';
 import { baseQuantifiers, isBaseQuantifier } from './quantifiers/base';
 import { compileRepeat } from './quantifiers/repeat';
+import { escapeText } from './utils';
 
 /**
  * Generate RegExp object for elements.
@@ -51,9 +52,4 @@ function compileSingle(element: RegexElement): string {
 
   // @ts-expect-error User passed incorrect type
   throw new Error(`Unknown elements type ${element.type}`);
-}
-
-// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
-function escapeText(text: string) {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
