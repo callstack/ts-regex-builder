@@ -6,7 +6,7 @@ export function compileCharacterClass({ characters }: CharacterClass): string {
   }
 
   if (characters.length === 1) {
-    return characters[0] ?? '';
+    return characters[0]!;
   }
 
   return `[${escapeHypen(characters).join('')}]`;

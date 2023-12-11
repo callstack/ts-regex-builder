@@ -3,6 +3,7 @@ import { oneOrMore } from '../../quantifiers/base';
 import { anyOf } from '../any-of';
 
 test('"anyOf" base cases', () => {
+  expect(p(anyOf(''))).toBe('');
   expect(p(anyOf('a'))).toBe('a');
   expect(p(anyOf('abc'))).toBe('[abc]');
 });
