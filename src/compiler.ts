@@ -31,7 +31,7 @@ function compileList(elements: RegexElement[]): string {
 
 function compileSingle(element: RegexElement): string {
   if (typeof element === 'string') {
-    return element;
+    return escapeText(element);
   }
 
   if (isCharacterClass(element)) {
@@ -51,4 +51,9 @@ function compileSingle(element: RegexElement): string {
 
   // @ts-expect-error User passed incorrect type
   throw new Error(`Unknown elements type ${element.type}`);
+}
+
+// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
+function escapeText(text: string) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }

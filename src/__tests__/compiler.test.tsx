@@ -28,3 +28,20 @@ test('regex constructor', () => {
   expect(buildRegex('a').test('a')).toBeTruthy();
   expect(buildRegex('a').test('b')).toBeFalsy();
 });
+
+test('buildPattern escapes special characters', () => {
+  expect(buildPattern('.')).toBe('\\.');
+  expect(buildPattern('*')).toBe('\\*');
+  expect(buildPattern('+')).toBe('\\+');
+  expect(buildPattern('?')).toBe('\\?');
+  expect(buildPattern('^')).toBe('\\^');
+  expect(buildPattern('$')).toBe('\\$');
+  expect(buildPattern('{')).toBe('\\{');
+  expect(buildPattern('}')).toBe('\\}');
+  expect(buildPattern('|')).toBe('\\|');
+  expect(buildPattern('[')).toBe('\\[');
+  expect(buildPattern(']')).toBe('\\]');
+  expect(buildPattern('\\')).toBe('\\\\');
+
+  expect(buildPattern('*.*')).toBe('\\*\\.\\*');
+});
