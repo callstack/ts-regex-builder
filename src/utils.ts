@@ -1,5 +1,3 @@
-import type { RegexElement } from './types';
-
 /**
  * Wraps regex string in a non-capturing group if it is more than one character long.
  *
