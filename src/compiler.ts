@@ -2,6 +2,7 @@ import type { RegexElement } from './types';
 import { characterClasses, isCharacterClass } from './character-classes';
 import { baseQuantifiers, isBaseQuantifier } from './quantifiers/base';
 import { compileRepeat } from './quantifiers/repeat';
+import { escapeText } from './utils';
 
 /**
  * Generate RegExp object for elements.
@@ -31,20 +32,20 @@ function compileList(elements: RegexElement[]): string {
 
 function compileSingle(element: RegexElement): string {
   if (typeof element === 'string') {
-    return element;
+    return escapeText(element);
   }
 
   if (isCharacterClass(element)) {
     return characterClasses[element.type];
   }
 
-  const compiledChildren = compileList(element.children);
-
   if (element.type === 'repeat') {
+    const compiledChildren = compileList(element.children);
     return compileRepeat(element.config, compiledChildren);
   }
 
   if (isBaseQuantifier(element)) {
+    const compiledChildren = compileList(element.children);
     const compiler = baseQuantifiers[element.type];
     return compiler(compiledChildren);
   }
