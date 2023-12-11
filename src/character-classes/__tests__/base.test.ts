@@ -1,6 +1,6 @@
-import { any, digit, whitespace, word } from '../character-classes';
-import { buildPattern } from '../compiler';
-import { one } from '../quantifiers/base';
+import { any, digit, whitespace, word } from '../base';
+import { buildPattern } from '../../compiler';
+import { one } from '../../quantifiers/base';
 
 test('"whitespace" character class', () => {
   expect(buildPattern(whitespace)).toEqual(`\\s`);

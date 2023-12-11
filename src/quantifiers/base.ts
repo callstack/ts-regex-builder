@@ -8,6 +8,13 @@ import type {
 } from '../types';
 import { wrapGroup } from '../utils';
 
+export function one(...children: RegexElement[]): One {
+  return {
+    type: 'one',
+    children,
+  };
+}
+
 export function oneOrMore(...children: RegexElement[]): OneOrMore {
   return {
     type: 'oneOrMore',
@@ -18,13 +25,6 @@ export function oneOrMore(...children: RegexElement[]): OneOrMore {
 export function optionally(...children: RegexElement[]): Optionally {
   return {
     type: 'optionally',
-    children,
-  };
-}
-
-export function one(...children: RegexElement[]): One {
-  return {
-    type: 'one',
     children,
   };
 }
