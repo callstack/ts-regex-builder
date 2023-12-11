@@ -1,5 +1,5 @@
 import { buildPattern, buildRegex } from '../compiler';
-import { oneOrMore, optionally, one, zeroOrMore } from '../quantifiers/base';
+import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers/base';
 import { repeat } from '../quantifiers/repeat';
 
 test('basic quantifies', () => {
@@ -48,4 +48,11 @@ test('"buildPattern" escapes special characters', () => {
   expect(buildPattern(oneOrMore('.*'), zeroOrMore('[]{}'))).toBe(
     '(?:\\.\\*)+(?:\\[\\]\\{\\})*'
   );
+});
+
+test('buildRegex throws error on unknown element', () => {
+  expect(() =>
+    // @ts-expect-error intentionally passing incorrect object
+    buildRegex({ type: 'unknown' })
+  ).toThrowErrorMatchingInlineSnapshot(`"Unknown elements type unknown"`);
 });

@@ -39,13 +39,13 @@ function compileSingle(element: RegexElement): string {
     return characterClasses[element.type];
   }
 
-  const compiledChildren = compileList(element.children);
-
   if (element.type === 'repeat') {
+    const compiledChildren = compileList(element.children);
     return compileRepeat(element.config, compiledChildren);
   }
 
   if (isBaseQuantifier(element)) {
+    const compiledChildren = compileList(element.children);
     const compiler = baseQuantifiers[element.type];
     return compiler(compiledChildren);
   }
