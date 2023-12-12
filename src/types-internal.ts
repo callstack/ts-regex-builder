@@ -5,15 +5,25 @@ import type { RegexElement } from './types';
  */
 export interface RegexNode {
   pattern: string;
-  type: RegexNodeType;
+  priority: RegexNodePriority;
 }
 
-export type RegexNodeType =
-  /** Atom */
-  | 'atom'
-  /** Sequence of atoms */
-  | 'sequence'
-  /** Alternation */
-  | 'alternation';
+/**
+ * Higher is more important.
+ */
+export const RegexNodePriority = {
+  // Atoms: single characters, character classes (`\d`, `[a-z]`),
+  // capturing and non-capturing groups (`()`)
+  Atom: 3,
+
+  // Sequence of atoms, e.g., `abc`
+  Sequence: 2,
+
+  // Alteration (OR, `|`) expression, e.g., `a|b`
+  Alternation: 1,
+} as const;
+
+type ValueOf<T> = T[keyof T];
+type RegexNodePriority = ValueOf<typeof RegexNodePriority>;
 
 export type CompileSingle = (element: RegexElement) => RegexNode;

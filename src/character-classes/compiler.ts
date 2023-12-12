@@ -1,25 +1,25 @@
 import type { CharacterClass } from '../types';
-import type { RegexNode } from '../types-internal';
+import { RegexNodePriority, type RegexNode } from '../types-internal';
 
 export function compileCharacterClass({
   characters,
 }: CharacterClass): RegexNode {
   if (characters.length === 0) {
     return {
-      type: 'atom',
+      priority: RegexNodePriority.Atom,
       pattern: '',
     };
   }
 
   if (characters.length === 1) {
     return {
-      type: 'atom',
+      priority: RegexNodePriority.Atom,
       pattern: characters[0]!,
     };
   }
 
   return {
-    type: 'atom',
+    priority: RegexNodePriority.Atom,
     pattern: `[${escapeHyphen(characters).join('')}]`,
   };
 }

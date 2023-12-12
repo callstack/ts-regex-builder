@@ -1,5 +1,9 @@
 import type { ChoiceOf, RegexElement } from '../types';
-import type { CompileSingle, RegexNode } from '../types-internal';
+import {
+  RegexNodePriority,
+  type CompileSingle,
+  type RegexNode,
+} from '../types-internal';
 
 export function choiceOf(...children: RegexElement[]): ChoiceOf {
   return {
@@ -18,7 +22,7 @@ export function compileChoiceOf(
   }
 
   return {
-    type: 'alternation',
+    priority: RegexNodePriority.Alternation,
     pattern: compileNodes.map((n) => n.pattern).join('|'),
   };
 }

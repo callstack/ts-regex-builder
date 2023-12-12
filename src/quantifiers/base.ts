@@ -7,7 +7,7 @@ import type {
   ZeroOrMore,
 } from '../types';
 import { asAtom } from '../utils';
-import type { RegexNode } from '../types-internal';
+import { RegexNodePriority, type RegexNode } from '../types-internal';
 
 export function one(...children: RegexElement[]): One {
   return {
@@ -43,19 +43,19 @@ export const baseQuantifiers = {
   },
   oneOrMore: (node) => {
     return {
-      type: 'sequence',
+      priority: RegexNodePriority.Sequence,
       pattern: `${asAtom(node)}+`,
     };
   },
   optionally: (node) => {
     return {
-      type: 'sequence',
+      priority: RegexNodePriority.Sequence,
       pattern: `${asAtom(node)}?`,
     };
   },
   zeroOrMore: (node) => {
     return {
-      type: 'sequence',
+      priority: RegexNodePriority.Sequence,
       pattern: `${asAtom(node)}*`,
     };
   },

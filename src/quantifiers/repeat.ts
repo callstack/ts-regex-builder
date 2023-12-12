@@ -1,5 +1,5 @@
 import type { RegexElement, Repeat, RepeatConfig } from '../types';
-import type { RegexNode } from '../types-internal';
+import { RegexNodePriority, type RegexNode } from '../types-internal';
 import { asAtom } from '../utils';
 
 export function repeat(
@@ -19,13 +19,13 @@ export function compileRepeat(
 ): RegexNode {
   if ('count' in config) {
     return {
-      type: 'sequence',
+      priority: RegexNodePriority.Sequence,
       pattern: `${asAtom(node)}{${config.count}}`,
     };
   }
 
   return {
-    type: 'sequence',
+    priority: RegexNodePriority.Sequence,
     pattern: `${asAtom(node)}{${config.min},${config?.max ?? ''}}`,
   };
 }

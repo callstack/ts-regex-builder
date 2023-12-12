@@ -1,5 +1,5 @@
 import type { RegexElement } from './types';
-import type { RegexNode } from './types-internal';
+import { RegexNodePriority, type RegexNode } from './types-internal';
 import { compileChoiceOf } from './components/choiceOf';
 import { compileCharacterClass } from './character-classes/compiler';
 import { baseQuantifiers, isBaseQuantifier } from './quantifiers/base';
@@ -35,7 +35,10 @@ function compileList(elements: RegexElement[]): RegexNode {
 function compileSingle(element: RegexElement): RegexNode {
   if (typeof element === 'string') {
     return {
-      type: element.length === 1 ? 'atom' : 'sequence',
+      priority:
+        element.length === 1
+          ? RegexNodePriority.Atom
+          : RegexNodePriority.Sequence,
       pattern: escapeText(element),
     };
   }
