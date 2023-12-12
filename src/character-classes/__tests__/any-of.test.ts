@@ -14,10 +14,10 @@ test('"anyOf" in context', () => {
   expect(p('x', oneOrMore(anyOf('abc')), 'x')).toBe('x(?:[abc])+x');
 });
 
-test('"anyOf" escapes special charactes', () => {
+test('"anyOf" escapes special characters', () => {
   expect(p(anyOf('abc-+.'))).toBe('[-abc\\+\\.]');
 });
 
-test('"anyOf" moves hypen to the first position', () => {
+test('"anyOf" moves hyphen to the first position', () => {
   expect(p(anyOf('a-bc'))).toBe('[-abc]');
 });
