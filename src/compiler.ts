@@ -1,6 +1,6 @@
 import type { RegexElement } from './types';
-import { characterClasses, isCharacterClass } from './character-classes';
 import { compileChoiceOf } from './components/choiceOf';
+import { compileCharacterClass } from './character-classes/compiler';
 import { baseQuantifiers, isBaseQuantifier } from './quantifiers/base';
 import { compileRepeat } from './quantifiers/repeat';
 import { escapeText } from './utils';
@@ -36,8 +36,8 @@ function compileSingle(element: RegexElement): string {
     return escapeText(element);
   }
 
-  if (isCharacterClass(element)) {
-    return characterClasses[element.type];
+  if (element.type === 'characterClass') {
+    return compileCharacterClass(element);
   }
 
   if (element.type === 'choiceOf') {

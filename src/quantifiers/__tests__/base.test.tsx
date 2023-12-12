@@ -1,5 +1,5 @@
-import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers/base';
-import { buildPattern, buildRegex } from '../compiler';
+import { one, oneOrMore, optionally, zeroOrMore } from '../base';
+import { buildPattern, buildRegex } from '../../compiler';
 
 test('"oneOrMore" quantifier', () => {
   expect(buildPattern(oneOrMore('a'))).toEqual('a+');
