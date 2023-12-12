@@ -1,11 +1,30 @@
+import type { RegexNode } from './types-internal';
+
 /**
- * Wraps regex string in a non-capturing group if it is more than one character long.
+ * Returns atomic pattern for given node.
  *
- * @param regex
+ * @param node
  * @returns
  */
-export function wrapGroup(regex: string): string {
-  return regex.length === 1 ? regex : `(?:${regex})`;
+export function asAtom(node: RegexNode): string {
+  if (node.type === 'atom') {
+    return node.pattern;
+  }
+
+  return `(?:${node.pattern})`;
+}
+
+export function concatNodes(nodes: RegexNode[]): RegexNode {
+  if (nodes.length === 1) {
+    return nodes[0]!;
+  }
+
+  return {
+    type: 'sequence',
+    pattern: nodes
+      .map((n) => (n.type === 'alternation' ? asAtom(n) : n.pattern))
+      .join(''),
+  };
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping

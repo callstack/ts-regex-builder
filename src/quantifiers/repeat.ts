@@ -1,5 +1,6 @@
 import type { RegexElement, Repeat, RepeatConfig } from '../types';
-import { wrapGroup } from '../utils';
+import type { RegexNode } from '../types-internal';
+import { asAtom } from '../utils';
 
 export function repeat(
   config: RepeatConfig,
@@ -14,11 +15,17 @@ export function repeat(
 
 export function compileRepeat(
   config: RepeatConfig,
-  compiledChildren: string
-): string {
+  node: RegexNode
+): RegexNode {
   if ('count' in config) {
-    return `${wrapGroup(compiledChildren)}{${config.count}}`;
+    return {
+      type: 'sequence',
+      pattern: `${asAtom(node)}{${config.count}}`,
+    };
   }
 
-  return `${wrapGroup(compiledChildren)}{${config.min},${config?.max ?? ''}}`;
+  return {
+    type: 'sequence',
+    pattern: `${asAtom(node)}{${config.min},${config?.max ?? ''}}`,
+  };
 }

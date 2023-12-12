@@ -1,6 +1,5 @@
 import type { ChoiceOf, RegexElement } from '../types';
-import type { CompileSingle } from '../types-internal';
-import { wrapGroup } from '../utils';
+import type { CompileSingle, RegexNode } from '../types-internal';
 
 export function choiceOf(...children: RegexElement[]): ChoiceOf {
   return {
@@ -12,7 +11,14 @@ export function choiceOf(...children: RegexElement[]): ChoiceOf {
 export function compileChoiceOf(
   element: ChoiceOf,
   compileSingle: CompileSingle
-): string {
-  const compiledChildren = element.children.map(compileSingle);
-  return wrapGroup(compiledChildren.join('|'));
+): RegexNode {
+  const compileNodes = element.children.map(compileSingle);
+  if (compileNodes.length === 1) {
+    return compileNodes[0]!;
+  }
+
+  return {
+    type: 'alternation',
+    pattern: compileNodes.map((n) => n.pattern).join('|'),
+  };
 }

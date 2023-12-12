@@ -11,7 +11,7 @@ test('"anyOf" base cases', () => {
 test('"anyOf" in context', () => {
   expect(p('x', anyOf('a'), 'x')).toBe('xax');
   expect(p('x', anyOf('abc'), 'x')).toBe('x[abc]x');
-  expect(p('x', oneOrMore(anyOf('abc')), 'x')).toBe('x(?:[abc])+x');
+  expect(p('x', oneOrMore(anyOf('abc')), 'x')).toBe('x[abc]+x');
 });
 
 test('"anyOf" escapes special characters', () => {

@@ -1,9 +1,10 @@
 import type { RegexElement } from './types';
+import type { RegexNode } from './types-internal';
 import { compileChoiceOf } from './components/choiceOf';
 import { compileCharacterClass } from './character-classes/compiler';
 import { baseQuantifiers, isBaseQuantifier } from './quantifiers/base';
 import { compileRepeat } from './quantifiers/repeat';
-import { escapeText } from './utils';
+import { concatNodes, escapeText } from './utils';
 
 /**
  * Generate RegExp object for elements.
@@ -12,7 +13,7 @@ import { escapeText } from './utils';
  * @returns
  */
 export function buildRegex(...elements: RegexElement[]): RegExp {
-  const pattern = compileList(elements);
+  const pattern = compileList(elements).pattern;
   return new RegExp(pattern);
 }
 
@@ -22,18 +23,21 @@ export function buildRegex(...elements: RegexElement[]): RegExp {
  * @returns
  */
 export function buildPattern(...elements: RegexElement[]): string {
-  return compileList(elements);
+  return compileList(elements).pattern;
 }
 
 // Recursive compilation
 
-function compileList(elements: RegexElement[]): string {
-  return elements.map((c) => compileSingle(c)).join('');
+function compileList(elements: RegexElement[]): RegexNode {
+  return concatNodes(elements.map((c) => compileSingle(c)));
 }
 
-function compileSingle(element: RegexElement): string {
+function compileSingle(element: RegexElement): RegexNode {
   if (typeof element === 'string') {
-    return escapeText(element);
+    return {
+      type: element.length === 1 ? 'atom' : 'sequence',
+      pattern: escapeText(element),
+    };
   }
 
   if (element.type === 'characterClass') {

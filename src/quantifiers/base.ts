@@ -6,7 +6,8 @@ import type {
   RegexElement,
   ZeroOrMore,
 } from '../types';
-import { wrapGroup } from '../utils';
+import { asAtom } from '../utils';
+import type { RegexNode } from '../types-internal';
 
 export function one(...children: RegexElement[]): One {
   return {
@@ -37,11 +38,28 @@ export function zeroOrMore(...children: RegexElement[]): ZeroOrMore {
 }
 
 export const baseQuantifiers = {
-  one: (compiledChildren) => compiledChildren,
-  oneOrMore: (compiledChildren) => `${wrapGroup(compiledChildren)}+`,
-  optionally: (compiledChildren) => `${wrapGroup(compiledChildren)}?`,
-  zeroOrMore: (compiledChildren) => `${wrapGroup(compiledChildren)}*`,
-} as const satisfies Record<string, (compiledChildren: string) => string>;
+  one: (node) => {
+    return node;
+  },
+  oneOrMore: (node) => {
+    return {
+      type: 'sequence',
+      pattern: `${asAtom(node)}+`,
+    };
+  },
+  optionally: (node) => {
+    return {
+      type: 'sequence',
+      pattern: `${asAtom(node)}?`,
+    };
+  },
+  zeroOrMore: (node) => {
+    return {
+      type: 'sequence',
+      pattern: `${asAtom(node)}*`,
+    };
+  },
+} as const satisfies Record<string, (node: RegexNode) => RegexNode>;
 
 export function isBaseQuantifier(
   element: Exclude<RegexElement, string>

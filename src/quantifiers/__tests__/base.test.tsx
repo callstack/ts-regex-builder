@@ -1,5 +1,6 @@
 import { one, oneOrMore, optionally, zeroOrMore } from '../base';
 import { buildPattern, buildRegex } from '../../compiler';
+import { digit } from '../../character-classes/base';
 
 test('"oneOrMore" quantifier', () => {
   expect(buildPattern(oneOrMore('a'))).toEqual('a+');
@@ -43,4 +44,11 @@ test('zeroOrMore does not generate capture when grouping', () => {
   const regex = buildRegex(zeroOrMore('aa'));
   const groups = [...'aa'.match(regex)!];
   expect(groups).toEqual(['aa']);
+});
+
+test('base quantifiers optimize grouping for atoms', () => {
+  expect(buildPattern(one(digit))).toBe('\\d');
+  expect(buildPattern(oneOrMore(digit))).toBe('\\d+');
+  expect(buildPattern(optionally(digit))).toBe('\\d?');
+  expect(buildPattern(zeroOrMore(digit))).toBe('\\d*');
 });

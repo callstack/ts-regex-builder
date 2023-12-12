@@ -1,15 +1,27 @@
 import type { CharacterClass } from '../types';
+import type { RegexNode } from '../types-internal';
 
-export function compileCharacterClass({ characters }: CharacterClass): string {
+export function compileCharacterClass({
+  characters,
+}: CharacterClass): RegexNode {
   if (characters.length === 0) {
-    return '';
+    return {
+      type: 'atom',
+      pattern: '',
+    };
   }
 
   if (characters.length === 1) {
-    return characters[0]!;
+    return {
+      type: 'atom',
+      pattern: characters[0]!,
+    };
   }
 
-  return `[${escapeHyphen(characters).join('')}]`;
+  return {
+    type: 'atom',
+    pattern: `[${escapeHyphen(characters).join('')}]`,
+  };
 }
 
 // If passed characters includes hyphen (`-`) it need to be moved to
