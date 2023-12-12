@@ -30,3 +30,9 @@ test('"choiceOf" using nested regex', () => {
     )
   ).toBe('a{1,3}|(?:bx){5}');
 });
+
+test('`anyOf` throws on empty options', () => {
+  expect(() => choiceOf()).toThrowErrorMatchingInlineSnapshot(
+    `"\`choiceOf\` should receive at least one option"`
+  );
+});

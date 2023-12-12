@@ -5,10 +5,7 @@ export function compileCharacterClass({
   characters,
 }: CharacterClass): RegexNode {
   if (characters.length === 0) {
-    return {
-      priority: RegexNodePriority.Atom,
-      pattern: '',
-    };
+    throw new Error('Character class should contain at least one character');
   }
 
   if (characters.length === 1) {

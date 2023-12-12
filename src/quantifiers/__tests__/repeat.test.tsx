@@ -21,3 +21,9 @@ test('"repeat"" optimizes grouping for atoms', () => {
   expect(buildPattern(repeat({ min: 2 }, digit))).toBe('\\d{2,}');
   expect(buildPattern(repeat({ min: 1, max: 5 }, digit))).toBe('\\d{1,5}');
 });
+
+test('`repeat` throws on no children', () => {
+  expect(() => repeat({ count: 1 })).toThrowErrorMatchingInlineSnapshot(
+    `"\`repeat\` should receive at least one element"`
+  );
+});

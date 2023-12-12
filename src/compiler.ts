@@ -34,13 +34,7 @@ function compileList(elements: RegexElement[]): RegexNode {
 
 function compileSingle(element: RegexElement): RegexNode {
   if (typeof element === 'string') {
-    return {
-      priority:
-        element.length === 1
-          ? RegexNodePriority.Atom
-          : RegexNodePriority.Sequence,
-      pattern: escapeText(element),
-    };
+    return compileText(element);
   }
 
   if (element.type === 'characterClass') {
@@ -64,4 +58,22 @@ function compileSingle(element: RegexElement): RegexNode {
 
   // @ts-expect-error User passed incorrect type
   throw new Error(`Unknown elements type ${element.type}`);
+}
+
+function compileText(text: string): RegexNode {
+  if (text.length === 0) {
+    throw new Error('`compileText`: received text should not be empty');
+  }
+
+  if (text.length === 1) {
+    return {
+      priority: RegexNodePriority.Atom,
+      pattern: escapeText(text),
+    };
+  }
+
+  return {
+    priority: RegexNodePriority.Sequence,
+    pattern: escapeText(text),
+  };
 }

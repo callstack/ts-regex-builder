@@ -6,6 +6,10 @@ export function repeat(
   config: RepeatConfig,
   ...children: RegexElement[]
 ): Repeat {
+  if (children.length === 0) {
+    throw new Error('`repeat` should receive at least one element');
+  }
+
   return {
     type: 'repeat',
     children,

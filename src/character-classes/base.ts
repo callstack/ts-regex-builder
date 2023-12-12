@@ -1,5 +1,10 @@
 import type { CharacterClass } from '../types';
 
+export const any: CharacterClass = {
+  type: 'characterClass',
+  characters: ['.'],
+};
+
 export const whitespace: CharacterClass = {
   type: 'characterClass',
   characters: ['\\s'],
@@ -13,9 +18,4 @@ export const digit: CharacterClass = {
 export const word: CharacterClass = {
   type: 'characterClass',
   characters: ['\\w'],
-};
-
-export const any: CharacterClass = {
-  type: 'characterClass',
-  characters: ['.'],
 };

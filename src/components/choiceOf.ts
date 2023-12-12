@@ -6,6 +6,10 @@ import {
 } from '../types-internal';
 
 export function choiceOf(...children: RegexElement[]): ChoiceOf {
+  if (children.length === 0) {
+    throw new Error('`choiceOf` should receive at least one option');
+  }
+
   return {
     type: 'choiceOf',
     children,

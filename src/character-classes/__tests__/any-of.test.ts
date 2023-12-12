@@ -3,7 +3,6 @@ import { oneOrMore } from '../../quantifiers/base';
 import { anyOf } from '../any-of';
 
 test('"anyOf" base cases', () => {
-  expect(p(anyOf(''))).toBe('');
   expect(p(anyOf('a'))).toBe('a');
   expect(p(anyOf('abc'))).toBe('[abc]');
 });
@@ -20,4 +19,10 @@ test('"anyOf" escapes special characters', () => {
 
 test('"anyOf" moves hyphen to the first position', () => {
   expect(p(anyOf('a-bc'))).toBe('[-abc]');
+});
+
+test('`anyOf` throws on empty text', () => {
+  expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(
+    `"\`anyOf\` should received at least one character"`
+  );
 });

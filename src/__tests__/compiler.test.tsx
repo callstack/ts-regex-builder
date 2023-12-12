@@ -56,3 +56,9 @@ test('buildRegex throws error on unknown element', () => {
     buildRegex({ type: 'unknown' })
   ).toThrowErrorMatchingInlineSnapshot(`"Unknown elements type unknown"`);
 });
+
+test('buildPattern throws on empty text', () => {
+  expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
+    `"\`compileText\`: received text should not be empty"`
+  );
+});
