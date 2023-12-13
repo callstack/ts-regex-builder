@@ -10,6 +10,7 @@ import {
 } from './quantifiers/base';
 import { encodeRepeat } from './quantifiers/repeat';
 import { concatNodes, escapeText } from './utils';
+import { encodeCapture } from './capture';
 
 export function encodeSequence(elements: RegexElement[]): EncoderNode {
   return concatNodes(elements.map((c) => encodeElement(c)));
@@ -46,6 +47,10 @@ export function encodeElement(element: RegexElement): EncoderNode {
 
   if (element.type === 'zeroOrMore') {
     return encodeZeroOrMore(encodeSequence(element.children));
+  }
+
+  if (element.type === 'capture') {
+    return encodeCapture(encodeSequence(element.children));
   }
 
   // @ts-expect-error User passed incorrect type
