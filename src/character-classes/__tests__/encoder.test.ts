@@ -1,8 +1,8 @@
-import { compileCharacterClass } from '../compiler';
+import { encodeCharacterClass } from '../encoder';
 
 test('buildPattern throws on empty text', () => {
   expect(() =>
-    compileCharacterClass({
+    encodeCharacterClass({
       type: 'characterClass',
       characters: [],
     })

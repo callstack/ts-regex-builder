@@ -6,8 +6,8 @@ import type {
   RegexElement,
   ZeroOrMore,
 } from '../types';
-import { asAtom } from '../utils';
-import { RegexNodePriority, type RegexNode } from '../types-internal';
+import { toAtom } from '../utils';
+import { EncoderPriority, type EncoderNode } from '../types-internal';
 
 export function one(...children: RegexElement[]): One {
   return {
@@ -43,23 +43,23 @@ export const baseQuantifiers = {
   },
   oneOrMore: (node) => {
     return {
-      priority: RegexNodePriority.Sequence,
-      pattern: `${asAtom(node)}+`,
+      priority: EncoderPriority.Sequence,
+      pattern: `${toAtom(node)}+`,
     };
   },
   optionally: (node) => {
     return {
-      priority: RegexNodePriority.Sequence,
-      pattern: `${asAtom(node)}?`,
+      priority: EncoderPriority.Sequence,
+      pattern: `${toAtom(node)}?`,
     };
   },
   zeroOrMore: (node) => {
     return {
-      priority: RegexNodePriority.Sequence,
-      pattern: `${asAtom(node)}*`,
+      priority: EncoderPriority.Sequence,
+      pattern: `${toAtom(node)}*`,
     };
   },
-} as const satisfies Record<string, (node: RegexNode) => RegexNode>;
+} as const satisfies Record<string, (node: EncoderNode) => EncoderNode>;
 
 export function isBaseQuantifier(
   element: Exclude<RegexElement, string>

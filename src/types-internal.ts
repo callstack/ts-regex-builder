@@ -3,15 +3,15 @@ import type { RegexElement } from './types';
 /**
  * Compiled regex pattern with information about its type (atom, sequence)
  */
-export interface RegexNode {
+export interface EncoderNode {
   pattern: string;
-  priority: RegexNodePriority;
+  priority: EncoderPriority;
 }
 
 /**
  * Higher is more important.
  */
-export const RegexNodePriority = {
+export const EncoderPriority = {
   // Atoms: single characters, character classes (`\d`, `[a-z]`),
   // capturing and non-capturing groups (`()`)
   Atom: 3,
@@ -24,6 +24,6 @@ export const RegexNodePriority = {
 } as const;
 
 type ValueOf<T> = T[keyof T];
-type RegexNodePriority = ValueOf<typeof RegexNodePriority>;
+type EncoderPriority = ValueOf<typeof EncoderPriority>;
 
-export type CompileSingle = (element: RegexElement) => RegexNode;
+export type EncodeElement = (element: RegexElement) => EncoderNode;

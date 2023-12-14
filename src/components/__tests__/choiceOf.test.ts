@@ -1,4 +1,4 @@
-import { buildPattern } from '../../compiler';
+import { buildPattern } from '../..';
 import { oneOrMore, zeroOrMore } from '../../quantifiers/base';
 import { repeat } from '../../quantifiers/repeat';
 import { choiceOf } from '../choiceOf';

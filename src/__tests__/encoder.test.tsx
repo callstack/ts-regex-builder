@@ -1,4 +1,4 @@
-import { buildPattern, buildRegex } from '../compiler';
+import { buildPattern, buildRegex } from '..';
 import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers/base';
 import { repeat } from '../quantifiers/repeat';
 

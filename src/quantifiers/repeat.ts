@@ -1,6 +1,6 @@
 import type { RegexElement, Repeat, RepeatConfig } from '../types';
-import { RegexNodePriority, type RegexNode } from '../types-internal';
-import { asAtom } from '../utils';
+import { EncoderPriority, type EncoderNode } from '../types-internal';
+import { toAtom } from '../utils';
 
 export function repeat(
   config: RepeatConfig,
@@ -17,19 +17,19 @@ export function repeat(
   };
 }
 
-export function compileRepeat(
+export function encodeRepeat(
   config: RepeatConfig,
-  node: RegexNode
-): RegexNode {
+  node: EncoderNode
+): EncoderNode {
   if ('count' in config) {
     return {
-      priority: RegexNodePriority.Sequence,
-      pattern: `${asAtom(node)}{${config.count}}`,
+      priority: EncoderPriority.Sequence,
+      pattern: `${toAtom(node)}{${config.count}}`,
     };
   }
 
   return {
-    priority: RegexNodePriority.Sequence,
-    pattern: `${asAtom(node)}{${config.min},${config?.max ?? ''}}`,
+    priority: EncoderPriority.Sequence,
+    pattern: `${toAtom(node)}{${config.min},${config?.max ?? ''}}`,
   };
 }

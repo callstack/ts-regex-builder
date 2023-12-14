@@ -1,7 +1,7 @@
+import { buildPattern } from '../..';
+import { digit } from '../../character-classes/base';
 import { zeroOrMore, oneOrMore } from '../base';
 import { repeat } from '../repeat';
-import { digit } from '../../character-classes/base';
-import { buildPattern } from '../../compiler';
 
 test('"repeat" quantifier', () => {
   expect(buildPattern('a', repeat({ min: 1, max: 5 }, 'b'))).toEqual('ab{1,5}');

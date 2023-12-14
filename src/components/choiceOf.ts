@@ -1,8 +1,8 @@
 import type { ChoiceOf, RegexElement } from '../types';
 import {
-  RegexNodePriority,
-  type CompileSingle,
-  type RegexNode,
+  EncoderPriority,
+  type EncodeElement,
+  type EncoderNode,
 } from '../types-internal';
 
 export function choiceOf(...children: RegexElement[]): ChoiceOf {
@@ -16,17 +16,17 @@ export function choiceOf(...children: RegexElement[]): ChoiceOf {
   };
 }
 
-export function compileChoiceOf(
+export function encodeChoiceOf(
   element: ChoiceOf,
-  compileSingle: CompileSingle
-): RegexNode {
+  compileSingle: EncodeElement
+): EncoderNode {
   const compileNodes = element.children.map(compileSingle);
   if (compileNodes.length === 1) {
     return compileNodes[0]!;
   }
 
   return {
-    priority: RegexNodePriority.Alternation,
+    priority: EncoderPriority.Alternation,
     pattern: compileNodes.map((n) => n.pattern).join('|'),
   };
 }

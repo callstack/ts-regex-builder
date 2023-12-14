@@ -1,4 +1,4 @@
-import { RegexNodePriority, type RegexNode } from './types-internal';
+import { EncoderPriority, type EncoderNode } from './types-internal';
 
 /**
  * Returns atomic pattern for given node.
@@ -6,24 +6,24 @@ import { RegexNodePriority, type RegexNode } from './types-internal';
  * @param node
  * @returns
  */
-export function asAtom(node: RegexNode): string {
-  if (node.priority === RegexNodePriority.Atom) {
+export function toAtom(node: EncoderNode): string {
+  if (node.priority === EncoderPriority.Atom) {
     return node.pattern;
   }
 
   return `(?:${node.pattern})`;
 }
 
-export function concatNodes(nodes: RegexNode[]): RegexNode {
+export function concatNodes(nodes: EncoderNode[]): EncoderNode {
   if (nodes.length === 1) {
     return nodes[0]!;
   }
 
   return {
-    priority: RegexNodePriority.Sequence,
+    priority: EncoderPriority.Sequence,
     pattern: nodes
       .map((n) =>
-        n.priority < RegexNodePriority.Sequence ? asAtom(n) : n.pattern
+        n.priority < EncoderPriority.Sequence ? toAtom(n) : n.pattern
       )
       .join(''),
   };
