@@ -59,6 +59,6 @@ test('buildRegex throws error on unknown element', () => {
 
 test('buildPattern throws on empty text', () => {
   expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
-    `"\`compileText\`: received text should not be empty"`
+    `"\`encodeText\`: received text should not be empty"`
   );
 });

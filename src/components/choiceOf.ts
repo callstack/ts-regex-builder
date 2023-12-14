@@ -18,15 +18,15 @@ export function choiceOf(...children: RegexElement[]): ChoiceOf {
 
 export function encodeChoiceOf(
   element: ChoiceOf,
-  compileSingle: EncodeElement
+  encodeElement: EncodeElement
 ): EncoderNode {
-  const compileNodes = element.children.map(compileSingle);
-  if (compileNodes.length === 1) {
-    return compileNodes[0]!;
+  const encodedNodes = element.children.map(encodeElement);
+  if (encodedNodes.length === 1) {
+    return encodedNodes[0]!;
   }
 
   return {
     priority: EncoderPriority.Alternation,
-    pattern: compileNodes.map((n) => n.pattern).join('|'),
+    pattern: encodedNodes.map((n) => n.pattern).join('|'),
   };
 }

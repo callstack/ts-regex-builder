@@ -54,7 +54,7 @@ export function encodeElement(element: RegexElement): EncoderNode {
 
 function encodeText(text: string): EncoderNode {
   if (text.length === 0) {
-    throw new Error('`compileText`: received text should not be empty');
+    throw new Error('`encodeText`: received text should not be empty');
   }
 
   if (text.length === 1) {

@@ -1,7 +1,7 @@
 import type { RegexElement } from './types';
 
 /**
- * Compiled regex pattern with information about its type (atom, sequence)
+ * Encoded regex pattern with information about its type (atom, sequence)
  */
 export interface EncoderNode {
   pattern: string;
