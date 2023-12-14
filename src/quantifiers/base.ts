@@ -2,12 +2,11 @@ import type {
   One,
   OneOrMore,
   Optionally,
-  Quantifier,
   RegexElement,
   ZeroOrMore,
 } from '../types';
-import { toAtom } from '../utils';
 import { EncoderPriority, type EncoderNode } from '../types-internal';
+import { toAtom } from '../utils';
 
 export function one(...children: RegexElement[]): One {
   return {
@@ -37,32 +36,27 @@ export function zeroOrMore(...children: RegexElement[]): ZeroOrMore {
   };
 }
 
-export const baseQuantifiers = {
-  one: (node) => {
-    return node;
-  },
-  oneOrMore: (node) => {
-    return {
-      priority: EncoderPriority.Sequence,
-      pattern: `${toAtom(node)}+`,
-    };
-  },
-  optionally: (node) => {
-    return {
-      priority: EncoderPriority.Sequence,
-      pattern: `${toAtom(node)}?`,
-    };
-  },
-  zeroOrMore: (node) => {
-    return {
-      priority: EncoderPriority.Sequence,
-      pattern: `${toAtom(node)}*`,
-    };
-  },
-} as const satisfies Record<string, (node: EncoderNode) => EncoderNode>;
+export function encodeOne(node: EncoderNode) {
+  return node;
+}
 
-export function isBaseQuantifier(
-  element: Exclude<RegexElement, string>
-): element is Quantifier {
-  return element.type in baseQuantifiers;
+export function encodeOneOrMore(node: EncoderNode): EncoderNode {
+  return {
+    priority: EncoderPriority.Sequence,
+    pattern: `${toAtom(node)}+`,
+  };
+}
+
+export function encodeOptionally(node: EncoderNode): EncoderNode {
+  return {
+    priority: EncoderPriority.Sequence,
+    pattern: `${toAtom(node)}?`,
+  };
+}
+
+export function encodeZeroOrMore(node: EncoderNode): EncoderNode {
+  return {
+    priority: EncoderPriority.Sequence,
+    pattern: `${toAtom(node)}*`,
+  };
 }

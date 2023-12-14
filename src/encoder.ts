@@ -2,7 +2,12 @@ import type { RegexElement } from './types';
 import { EncoderPriority, type EncoderNode } from './types-internal';
 import { encodeChoiceOf } from './components/choiceOf';
 import { encodeCharacterClass } from './character-classes/encoder';
-import { baseQuantifiers, isBaseQuantifier } from './quantifiers/base';
+import {
+  encodeOne,
+  encodeOneOrMore,
+  encodeOptionally,
+  encodeZeroOrMore,
+} from './quantifiers/base';
 import { encodeRepeat } from './quantifiers/repeat';
 import { concatNodes, escapeText } from './utils';
 
@@ -24,14 +29,23 @@ export function encodeElement(element: RegexElement): EncoderNode {
   }
 
   if (element.type === 'repeat') {
-    const compiledChildren = encodeSequence(element.children);
-    return encodeRepeat(element.config, compiledChildren);
+    return encodeRepeat(element.config, encodeSequence(element.children));
   }
 
-  if (isBaseQuantifier(element)) {
-    const compiledChildren = encodeSequence(element.children);
-    const encoder = baseQuantifiers[element.type];
-    return encoder(compiledChildren);
+  if (element.type === 'one') {
+    return encodeOne(encodeSequence(element.children));
+  }
+
+  if (element.type === 'oneOrMore') {
+    return encodeOneOrMore(encodeSequence(element.children));
+  }
+
+  if (element.type === 'optionally') {
+    return encodeOptionally(encodeSequence(element.children));
+  }
+
+  if (element.type === 'zeroOrMore') {
+    return encodeZeroOrMore(encodeSequence(element.children));
   }
 
   // @ts-expect-error User passed incorrect type
