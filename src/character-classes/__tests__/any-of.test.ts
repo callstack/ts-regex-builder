@@ -1,23 +1,28 @@
-import { buildPattern as p } from '../../compiler';
+import { buildPattern } from '../..';
 import { oneOrMore } from '../../quantifiers/base';
 import { anyOf } from '../any-of';
 
 test('"anyOf" base cases', () => {
-  expect(p(anyOf(''))).toBe('');
-  expect(p(anyOf('a'))).toBe('a');
-  expect(p(anyOf('abc'))).toBe('[abc]');
+  expect(buildPattern(anyOf('a'))).toBe('a');
+  expect(buildPattern(anyOf('abc'))).toBe('[abc]');
 });
 
 test('"anyOf" in context', () => {
-  expect(p('x', anyOf('a'), 'x')).toBe('xax');
-  expect(p('x', anyOf('abc'), 'x')).toBe('x[abc]x');
-  expect(p('x', oneOrMore(anyOf('abc')), 'x')).toBe('x(?:[abc])+x');
+  expect(buildPattern('x', anyOf('a'), 'x')).toBe('xax');
+  expect(buildPattern('x', anyOf('abc'), 'x')).toBe('x[abc]x');
+  expect(buildPattern('x', oneOrMore(anyOf('abc')), 'x')).toBe('x[abc]+x');
 });
 
 test('"anyOf" escapes special characters', () => {
-  expect(p(anyOf('abc-+.'))).toBe('[-abc\\+\\.]');
+  expect(buildPattern(anyOf('abc-+.'))).toBe('[-abc\\+\\.]');
 });
 
 test('"anyOf" moves hyphen to the first position', () => {
-  expect(p(anyOf('a-bc'))).toBe('[-abc]');
+  expect(buildPattern(anyOf('a-bc'))).toBe('[-abc]');
+});
+
+test('`anyOf` throws on empty text', () => {
+  expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(
+    `"\`anyOf\` should received at least one character"`
+  );
 });

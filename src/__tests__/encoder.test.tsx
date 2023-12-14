@@ -1,4 +1,4 @@
-import { buildPattern, buildRegex } from '../compiler';
+import { buildPattern, buildRegex } from '..';
 import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers/base';
 import { repeat } from '../quantifiers/repeat';
 
@@ -55,4 +55,10 @@ test('buildRegex throws error on unknown element', () => {
     // @ts-expect-error intentionally passing incorrect object
     buildRegex({ type: 'unknown' })
   ).toThrowErrorMatchingInlineSnapshot(`"Unknown elements type unknown"`);
+});
+
+test('buildPattern throws on empty text', () => {
+  expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
+    `"\`encodeText\`: received text should not be empty"`
+  );
 });

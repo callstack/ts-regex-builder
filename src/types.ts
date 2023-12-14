@@ -29,11 +29,10 @@ export type Optionally = {
   children: RegexElement[];
 };
 
-export type RepeatConfig =
-  | { min: number; max?: number }
-  | {
-      count: number;
-    };
+export type ZeroOrMore = {
+  type: 'zeroOrMore';
+  children: RegexElement[];
+};
 
 export type Repeat = {
   type: 'repeat';
@@ -41,7 +40,4 @@ export type Repeat = {
   config: RepeatConfig;
 };
 
-export type ZeroOrMore = {
-  type: 'zeroOrMore';
-  children: RegexElement[];
-};
+export type RepeatConfig = { count: number } | { min: number; max?: number };

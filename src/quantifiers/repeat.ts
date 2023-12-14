@@ -1,10 +1,15 @@
 import type { RegexElement, Repeat, RepeatConfig } from '../types';
-import { wrapGroup } from '../utils';
+import { EncoderPriority, type EncoderNode } from '../types-internal';
+import { toAtom } from '../utils';
 
 export function repeat(
   config: RepeatConfig,
   ...children: RegexElement[]
 ): Repeat {
+  if (children.length === 0) {
+    throw new Error('`repeat` should receive at least one element');
+  }
+
   return {
     type: 'repeat',
     children,
@@ -12,13 +17,19 @@ export function repeat(
   };
 }
 
-export function compileRepeat(
+export function encodeRepeat(
   config: RepeatConfig,
-  compiledChildren: string
-): string {
+  node: EncoderNode
+): EncoderNode {
   if ('count' in config) {
-    return `${wrapGroup(compiledChildren)}{${config.count}}`;
+    return {
+      priority: EncoderPriority.Sequence,
+      pattern: `${toAtom(node)}{${config.count}}`,
+    };
   }
 
-  return `${wrapGroup(compiledChildren)}{${config.min},${config?.max ?? ''}}`;
+  return {
+    priority: EncoderPriority.Sequence,
+    pattern: `${toAtom(node)}{${config.min},${config?.max ?? ''}}`,
+  };
 }
