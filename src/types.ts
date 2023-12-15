@@ -1,4 +1,9 @@
-export type RegexElement = string | ChoiceOf | CharacterClass | Quantifier;
+export type RegexElement =
+  | string
+  | CharacterClass
+  | ChoiceOf
+  | Quantifier
+  | Capture;
 
 export type Quantifier = One | OneOrMore | Optionally | ZeroOrMore | Repeat;
 
@@ -41,3 +46,9 @@ export type Repeat = {
 };
 
 export type RepeatConfig = { count: number } | { min: number; max?: number };
+
+// Captures
+export type Capture = {
+  type: 'capture';
+  children: RegexElement[];
+};
