@@ -1,7 +1,7 @@
-import { buildPattern } from '../..';
-import { oneOrMore, zeroOrMore } from '../../quantifiers/base';
-import { repeat } from '../../quantifiers/repeat';
-import { choiceOf } from '../choiceOf';
+import { buildPattern } from '../../builders';
+import { oneOrMore, zeroOrMore } from '../quantifiers';
+import { repeat } from '../repeat';
+import { choiceOf } from '../choice-of';
 
 test('"choiceOf" using basic strings', () => {
   expect(buildPattern(choiceOf('a'))).toEqual('a');

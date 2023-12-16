@@ -1,10 +1,10 @@
-import type { RegexElement, Repeat, RepeatConfig } from '../types';
-import { EncoderPriority, type EncoderNode } from '../types-internal';
+import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
 import { toAtom } from '../utils';
+import type { RegexElement, Repeat, RepeatConfig } from './types';
 
 export function repeat(
   config: RepeatConfig,
-  ...children: RegexElement[]
+  ...children: Array<RegexElement | string>
 ): Repeat {
   if (children.length === 0) {
     throw new Error('`repeat` should receive at least one element');
@@ -23,13 +23,13 @@ export function encodeRepeat(
 ): EncoderNode {
   if ('count' in config) {
     return {
-      priority: EncoderPriority.Sequence,
+      precedence: EncoderPrecedence.Sequence,
       pattern: `${toAtom(node)}{${config.count}}`,
     };
   }
 
   return {
-    priority: EncoderPriority.Sequence,
+    precedence: EncoderPrecedence.Sequence,
     pattern: `${toAtom(node)}{${config.min},${config?.max ?? ''}}`,
   };
 }

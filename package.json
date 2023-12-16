@@ -49,6 +49,7 @@
     "del-cli": "^5.0.0",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^28.1.1",
     "prettier": "^2.0.5",
@@ -103,6 +104,9 @@
       "@react-native",
       "prettier"
     ],
+    "plugins": [
+      "import"
+    ],
     "rules": {
       "prettier/prettier": [
         "error",
@@ -113,7 +117,15 @@
           "trailingComma": "es5",
           "useTabs": false
         }
-      ]
+      ],
+      "sort-imports": [
+        "error",
+        {
+          "ignoreCase": true,
+          "ignoreDeclarationSort": true
+        }
+      ],
+      "import/order": "error"
     }
   },
   "eslintIgnore": [

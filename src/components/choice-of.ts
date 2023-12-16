@@ -1,11 +1,11 @@
-import type { ChoiceOf, RegexElement } from '../types';
 import {
-  EncoderPriority,
   type EncodeElement,
   type EncoderNode,
-} from '../types-internal';
+  EncoderPrecedence,
+} from '../encoder/types';
+import type { ChoiceOf, RegexElement } from './types';
 
-export function choiceOf(...children: RegexElement[]): ChoiceOf {
+export function choiceOf(...children: Array<RegexElement | string>): ChoiceOf {
   if (children.length === 0) {
     throw new Error('`choiceOf` should receive at least one option');
   }
@@ -26,7 +26,7 @@ export function encodeChoiceOf(
   }
 
   return {
-    priority: EncoderPriority.Alternation,
+    precedence: EncoderPrecedence.Alternation,
     pattern: encodedNodes.map((n) => n.pattern).join('|'),
   };
 }

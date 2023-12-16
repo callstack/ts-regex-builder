@@ -1,6 +1,6 @@
-import { buildPattern } from '../..';
-import { digit } from '../../character-classes/base';
-import { zeroOrMore, oneOrMore } from '../base';
+import { buildPattern } from '../../builders';
+import { digit } from '../character-class';
+import { oneOrMore, zeroOrMore } from '../quantifiers';
 import { repeat } from '../repeat';
 
 test('"repeat" quantifier', () => {

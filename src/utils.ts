@@ -1,4 +1,4 @@
-import { EncoderPriority, type EncoderNode } from './types-internal';
+import { type EncoderNode, EncoderPrecedence } from './encoder/types';
 
 /**
  * Returns atomic pattern for given node.
@@ -7,7 +7,7 @@ import { EncoderPriority, type EncoderNode } from './types-internal';
  * @returns
  */
 export function toAtom(node: EncoderNode): string {
-  if (node.priority === EncoderPriority.Atom) {
+  if (node.precedence === EncoderPrecedence.Atom) {
     return node.pattern;
   }
 
@@ -20,10 +20,10 @@ export function concatNodes(nodes: EncoderNode[]): EncoderNode {
   }
 
   return {
-    priority: EncoderPriority.Sequence,
+    precedence: EncoderPrecedence.Sequence,
     pattern: nodes
       .map((n) =>
-        n.priority < EncoderPriority.Sequence ? toAtom(n) : n.pattern
+        n.precedence > EncoderPrecedence.Sequence ? toAtom(n) : n.pattern
       )
       .join(''),
   };
