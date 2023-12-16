@@ -5,7 +5,7 @@ import {
 } from '../encoder/types';
 import type { ChoiceOf, RegexElement } from './types';
 
-export function choiceOf(...children: RegexElement[]): ChoiceOf {
+export function choiceOf(...children: Array<RegexElement | string>): ChoiceOf {
   if (children.length === 0) {
     throw new Error('`choiceOf` should receive at least one option');
   }

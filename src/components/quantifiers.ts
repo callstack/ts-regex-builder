@@ -1,35 +1,41 @@
 import { EncoderPrecedence, type EncoderNode } from '../encoder/types';
 import { toAtom } from '../utils';
 import type {
+  RegexElement,
   One,
   OneOrMore,
   Optionally,
-  RegexElement,
   ZeroOrMore,
 } from './types';
 
-export function one(...children: RegexElement[]): One {
+export function one(...children: Array<RegexElement | string>): One {
   return {
     type: 'one',
     children,
   };
 }
 
-export function oneOrMore(...children: RegexElement[]): OneOrMore {
+export function oneOrMore(
+  ...children: Array<RegexElement | string>
+): OneOrMore {
   return {
     type: 'oneOrMore',
     children,
   };
 }
 
-export function optionally(...children: RegexElement[]): Optionally {
+export function optionally(
+  ...children: Array<RegexElement | string>
+): Optionally {
   return {
     type: 'optionally',
     children,
   };
 }
 
-export function zeroOrMore(...children: RegexElement[]): ZeroOrMore {
+export function zeroOrMore(
+  ...children: Array<RegexElement | string>
+): ZeroOrMore {
   return {
     type: 'zeroOrMore',
     children,

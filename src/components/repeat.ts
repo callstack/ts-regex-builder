@@ -4,7 +4,7 @@ import type { RegexElement, Repeat, RepeatConfig } from './types';
 
 export function repeat(
   config: RepeatConfig,
-  ...children: RegexElement[]
+  ...children: Array<RegexElement | string>
 ): Repeat {
   if (children.length === 0) {
     throw new Error('`repeat` should receive at least one element');

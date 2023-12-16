@@ -1,7 +1,7 @@
 import { EncoderPrecedence, type EncoderNode } from '../encoder/types';
 import type { Capture, RegexElement } from './types';
 
-export function capture(...children: RegexElement[]): Capture {
+export function capture(...children: Array<RegexElement | string>): Capture {
   return {
     type: 'capture',
     children,

@@ -25,7 +25,7 @@ export { repeat } from './components/repeat';
  * @param elements
  * @returns
  */
-export function buildRegex(...elements: RegexElement[]): RegExp {
+export function buildRegex(...elements: Array<RegexElement | string>): RegExp {
   const pattern = encodeSequence(elements).pattern;
   return new RegExp(pattern);
 }
@@ -35,6 +35,8 @@ export function buildRegex(...elements: RegexElement[]): RegExp {
  * @param elements
  * @returns
  */
-export function buildPattern(...elements: RegexElement[]): string {
+export function buildPattern(
+  ...elements: Array<RegexElement | string>
+): string {
   return encodeSequence(elements).pattern;
 }

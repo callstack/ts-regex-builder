@@ -1,5 +1,4 @@
 import type { RegexElement } from '../components/types';
-import { EncoderPrecedence, type EncoderNode } from './types';
 import { encodeCapture } from '../components/capture';
 import { encodeCharacterClass } from '../components/character-class';
 import { encodeChoiceOf } from '../components/choice-of';
@@ -11,12 +10,15 @@ import {
 } from '../components/quantifiers';
 import { encodeRepeat } from '../components/repeat';
 import { concatNodes, escapeText } from '../utils';
+import { EncoderPrecedence, type EncoderNode } from './types';
 
-export function encodeSequence(elements: RegexElement[]): EncoderNode {
+export function encodeSequence(
+  elements: Array<RegexElement | string>
+): EncoderNode {
   return concatNodes(elements.map((c) => encodeElement(c)));
 }
 
-export function encodeElement(element: RegexElement): EncoderNode {
+export function encodeElement(element: RegexElement | string): EncoderNode {
   if (typeof element === 'string') {
     return encodeText(element);
   }
