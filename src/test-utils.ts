@@ -8,11 +8,3 @@ export function execRegex(
   const regex = buildRegex(...elements);
   return [...regex.exec(text)!];
 }
-
-export function execRegexFull(
-  text: string,
-  elements: Array<RegexElement | string>
-) {
-  const regex = buildRegex(...elements);
-  return regex.exec(text)!;
-}
