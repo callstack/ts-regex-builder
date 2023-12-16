@@ -10,7 +10,7 @@ export function capture(...children: Array<RegexElement | string>): Capture {
 
 export function encodeCapture(node: EncoderNode): EncoderNode {
   return {
-    pattern: `(${node.pattern})`,
     precedence: EncoderPrecedence.Atom,
+    pattern: `(${node.pattern})`,
   };
 }
