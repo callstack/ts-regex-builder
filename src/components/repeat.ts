@@ -1,4 +1,4 @@
-import { EncoderPrecedence, type EncoderNode } from '../encoder/types';
+import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
 import { toAtom } from '../utils';
 import type { RegexElement, Repeat, RepeatConfig } from './types';
 

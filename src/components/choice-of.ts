@@ -1,7 +1,7 @@
 import {
-  EncoderPrecedence,
   type EncodeElement,
   type EncoderNode,
+  EncoderPrecedence,
 } from '../encoder/types';
 import type { ChoiceOf, RegexElement } from './types';
 

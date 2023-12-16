@@ -1,4 +1,4 @@
-import { EncoderPrecedence, type EncoderNode } from '../encoder/types';
+import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
 import { escapeText } from '../utils';
 import type { CharacterClass } from './types';
 

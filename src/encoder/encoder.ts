@@ -10,7 +10,7 @@ import {
 } from '../components/quantifiers';
 import { encodeRepeat } from '../components/repeat';
 import { concatNodes, escapeText } from '../utils';
-import { EncoderPrecedence, type EncoderNode } from './types';
+import { type EncoderNode, EncoderPrecedence } from './types';
 
 export function encodeSequence(
   elements: Array<RegexElement | string>
