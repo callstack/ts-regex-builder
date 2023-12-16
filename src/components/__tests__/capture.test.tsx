@@ -1,4 +1,4 @@
-import { buildPattern } from '../..';
+import { buildPattern } from '../../builders';
 import { capture } from '../capture';
 import { oneOrMore } from '../quantifiers';
 import { execRegex } from '../../test-utils';

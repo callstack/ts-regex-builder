@@ -1,4 +1,4 @@
-import { buildPattern } from '../..';
+import { buildPattern } from '../../builders';
 import { one, oneOrMore } from '../quantifiers';
 import {
   any,

@@ -1,4 +1,4 @@
-import { buildPattern } from '../..';
+import { buildPattern } from '../../builders';
 import { digit } from '../character-class';
 import { oneOrMore, zeroOrMore } from '../quantifiers';
 import { repeat } from '../repeat';

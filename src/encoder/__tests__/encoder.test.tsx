@@ -1,4 +1,4 @@
-import { buildPattern, buildRegex } from '../..';
+import { buildPattern, buildRegex } from '../../builders';
 import {
   one,
   oneOrMore,
