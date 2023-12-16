@@ -1,13 +1,23 @@
-import type { RegexElement } from './types';
-import { encodeSequence } from './encoder';
+import type { RegexElement } from './components/types';
+import { encodeSequence } from './encoder/encoder';
 
-export type * from './types';
+export type * from './components/types';
 
-export { any, digit, whitespace, word } from './character-classes/base';
-export { anyOf } from './character-classes/any-of';
-export { one, oneOrMore, optionally, zeroOrMore } from './quantifiers/base';
-export { repeat } from './quantifiers/repeat';
-export { choiceOf } from './components/choiceOf';
+export {
+  any,
+  anyOf,
+  digit,
+  whitespace,
+  word,
+} from './components/character-class';
+export { choiceOf } from './components/choice-of';
+export {
+  one,
+  oneOrMore,
+  optionally,
+  zeroOrMore,
+} from './components/quantifiers';
+export { repeat } from './components/repeat';
 
 /**
  * Generate RegExp object for elements.

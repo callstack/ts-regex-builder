@@ -1,9 +1,9 @@
-import type { ChoiceOf, RegexElement } from '../types';
 import {
-  EncoderPriority,
+  EncoderPrecedence,
   type EncodeElement,
   type EncoderNode,
-} from '../types-internal';
+} from '../encoder/types';
+import type { ChoiceOf, RegexElement } from './types';
 
 export function choiceOf(...children: RegexElement[]): ChoiceOf {
   if (children.length === 0) {
@@ -26,7 +26,7 @@ export function encodeChoiceOf(
   }
 
   return {
-    priority: EncoderPriority.Alternation,
+    precedence: EncoderPrecedence.Alternation,
     pattern: encodedNodes.map((n) => n.pattern).join('|'),
   };
 }

@@ -1,12 +1,12 @@
+import { EncoderPrecedence, type EncoderNode } from '../encoder/types';
+import { toAtom } from '../utils';
 import type {
   One,
   OneOrMore,
   Optionally,
   RegexElement,
   ZeroOrMore,
-} from '../types';
-import { EncoderPriority, type EncoderNode } from '../types-internal';
-import { toAtom } from '../utils';
+} from './types';
 
 export function one(...children: RegexElement[]): One {
   return {
@@ -42,21 +42,21 @@ export function encodeOne(node: EncoderNode) {
 
 export function encodeOneOrMore(node: EncoderNode): EncoderNode {
   return {
-    priority: EncoderPriority.Sequence,
+    precedence: EncoderPrecedence.Sequence,
     pattern: `${toAtom(node)}+`,
   };
 }
 
 export function encodeOptionally(node: EncoderNode): EncoderNode {
   return {
-    priority: EncoderPriority.Sequence,
+    precedence: EncoderPrecedence.Sequence,
     pattern: `${toAtom(node)}?`,
   };
 }
 
 export function encodeZeroOrMore(node: EncoderNode): EncoderNode {
   return {
-    priority: EncoderPriority.Sequence,
+    precedence: EncoderPrecedence.Sequence,
     pattern: `${toAtom(node)}*`,
   };
 }

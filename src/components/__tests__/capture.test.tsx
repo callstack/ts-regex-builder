@@ -1,7 +1,7 @@
-import { buildPattern } from '..';
+import { buildPattern } from '../..';
 import { capture } from '../capture';
-import { oneOrMore } from '../quantifiers/base';
-import { execRegex } from '../test-utils';
+import { oneOrMore } from '../quantifiers';
+import { execRegex } from '../../test-utils';
 
 test('"capture" base cases', () => {
   expect(buildPattern(capture('a'))).toBe('(a)');

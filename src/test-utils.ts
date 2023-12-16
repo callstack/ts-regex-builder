@@ -1,5 +1,5 @@
 import { buildRegex } from '.';
-import type { RegexElement } from './types';
+import type { RegexElement } from './components/types';
 
 export function execRegex(text: string, elements: RegexElement[]) {
   const regex = buildRegex(...elements);

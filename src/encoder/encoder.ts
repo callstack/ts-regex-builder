@@ -1,16 +1,16 @@
-import type { RegexElement } from './types';
-import { EncoderPriority, type EncoderNode } from './types-internal';
-import { encodeChoiceOf } from './components/choiceOf';
-import { encodeCharacterClass } from './character-classes/encoder';
+import type { RegexElement } from '../components/types';
+import { EncoderPrecedence, type EncoderNode } from './types';
+import { encodeCapture } from '../components/capture';
+import { encodeCharacterClass } from '../components/character-class';
+import { encodeChoiceOf } from '../components/choice-of';
 import {
   encodeOne,
   encodeOneOrMore,
   encodeOptionally,
   encodeZeroOrMore,
-} from './quantifiers/base';
-import { encodeRepeat } from './quantifiers/repeat';
-import { concatNodes, escapeText } from './utils';
-import { encodeCapture } from './capture';
+} from '../components/quantifiers';
+import { encodeRepeat } from '../components/repeat';
+import { concatNodes, escapeText } from '../utils';
 
 export function encodeSequence(elements: RegexElement[]): EncoderNode {
   return concatNodes(elements.map((c) => encodeElement(c)));
@@ -64,13 +64,13 @@ function encodeText(text: string): EncoderNode {
 
   if (text.length === 1) {
     return {
-      priority: EncoderPriority.Atom,
+      precedence: EncoderPrecedence.Atom,
       pattern: escapeText(text),
     };
   }
 
   return {
-    priority: EncoderPriority.Sequence,
+    precedence: EncoderPrecedence.Sequence,
     pattern: escapeText(text),
   };
 }

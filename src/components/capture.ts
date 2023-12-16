@@ -1,5 +1,5 @@
+import { EncoderPrecedence, type EncoderNode } from '../encoder/types';
 import type { Capture, RegexElement } from './types';
-import { EncoderPriority, type EncoderNode } from './types-internal';
 
 export function capture(...children: RegexElement[]): Capture {
   return {
@@ -11,6 +11,6 @@ export function capture(...children: RegexElement[]): Capture {
 export function encodeCapture(node: EncoderNode): EncoderNode {
   return {
     pattern: `(${node.pattern})`,
-    priority: EncoderPriority.Atom,
+    precedence: EncoderPrecedence.Atom,
   };
 }
