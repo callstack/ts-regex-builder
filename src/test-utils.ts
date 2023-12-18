@@ -6,5 +6,6 @@ export function execRegex(
   elements: Array<RegexElement | string>
 ) {
   const regex = buildRegex(...elements);
-  return [...regex.exec(text)!];
+  const result = regex.exec(text);
+  return result ? [...result] : null;
 }

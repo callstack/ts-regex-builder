@@ -5,21 +5,25 @@ import type { CharacterClass } from './types';
 export const any: CharacterClass = {
   type: 'characterClass',
   characters: ['.'],
+  inverted: false,
 };
 
 export const whitespace: CharacterClass = {
   type: 'characterClass',
   characters: ['\\s'],
+  inverted: false,
 };
 
 export const digit: CharacterClass = {
   type: 'characterClass',
   characters: ['\\d'],
+  inverted: false,
 };
 
 export const word: CharacterClass = {
   type: 'characterClass',
   characters: ['\\w'],
+  inverted: false,
 };
 
 export function anyOf(characters: string): CharacterClass {
@@ -31,26 +35,36 @@ export function anyOf(characters: string): CharacterClass {
   return {
     type: 'characterClass',
     characters: charactersArray,
+    inverted: false,
   };
 }
 
-export function encodeCharacterClass({
-  characters,
-}: CharacterClass): EncoderNode {
-  if (characters.length === 0) {
+export function inverted(characterClass: CharacterClass): CharacterClass {
+  return {
+    type: 'characterClass',
+    characters: characterClass.characters,
+    inverted: !characterClass.inverted,
+  };
+}
+
+export function encodeCharacterClass(
+  characterClass: CharacterClass
+): EncoderNode {
+  if (characterClass.characters.length === 0) {
     throw new Error('Character class should contain at least one character');
   }
 
-  if (characters.length === 1) {
+  if (characterClass.characters.length === 1 && !characterClass.inverted) {
     return {
       precedence: EncoderPrecedence.Atom,
-      pattern: characters[0]!,
+      pattern: characterClass.characters[0]!,
     };
   }
 
+  const characterString = reorderHyphen(characterClass.characters).join('');
   return {
     precedence: EncoderPrecedence.Atom,
-    pattern: `[${reorderHyphen(characters).join('')}]`,
+    pattern: `[${characterClass.inverted ? '^' : ''}${characterString}]`,
   };
 }
 

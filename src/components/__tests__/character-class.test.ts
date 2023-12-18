@@ -5,9 +5,11 @@ import {
   anyOf,
   digit,
   encodeCharacterClass,
+  inverted,
   whitespace,
   word,
 } from '../character-class';
+import { execRegex } from '../../test-utils';
 
 test('"whitespace" character class', () => {
   expect(buildPattern(whitespace)).toEqual(`\\s`);
@@ -60,10 +62,25 @@ test('"anyOf" moves hyphen to the first position', () => {
   expect(buildPattern(anyOf('a-bc'))).toBe('[-abc]');
 });
 
-test('`anyOf` throws on empty text', () => {
+test('"anyOf" throws on empty text', () => {
   expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(
     `"\`anyOf\` should received at least one character"`
   );
+});
+
+test('"inverted" character class', () => {
+  expect(buildPattern(inverted(anyOf('a')))).toBe('[^a]');
+  expect(buildPattern(inverted(anyOf('abc')))).toBe('[^abc]');
+});
+
+test('"inverted" character class double inversion', () => {
+  expect(buildPattern(inverted(inverted(anyOf('a'))))).toBe('a');
+  expect(buildPattern(inverted(inverted(anyOf('abc'))))).toBe('[abc]');
+});
+
+test('"inverted" character class execution', () => {
+  expect(execRegex('aa', [inverted(anyOf('a'))])).toBeNull();
+  expect(execRegex('aba', [inverted(anyOf('a'))])).toEqual(['b']);
 });
 
 test('buildPattern throws on empty text', () => {
@@ -71,6 +88,7 @@ test('buildPattern throws on empty text', () => {
     encodeCharacterClass({
       type: 'characterClass',
       characters: [],
+      inverted: false,
     })
   ).toThrowErrorMatchingInlineSnapshot(
     `"Character class should contain at least one character"`
