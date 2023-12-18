@@ -1,3 +1,4 @@
+import type { RegexElement } from './components/types';
 import { type EncoderNode, EncoderPrecedence } from './encoder/types';
 
 /**
@@ -27,6 +28,10 @@ export function concatNodes(nodes: EncoderNode[]): EncoderNode {
       )
       .join(''),
   };
+}
+
+export function isRegexElement(element: unknown): element is RegexElement {
+  return typeof element === 'object' && element !== null && 'type' in element;
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
