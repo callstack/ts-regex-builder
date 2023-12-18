@@ -1,6 +1,29 @@
 # TS Regex Builder
 
-TypeScript adaptation of Swift Regex Builder API.
+User-friendly egular Expression builder for TypeScript and JavaScript.
+
+## The problem & solution
+
+Regular expressions are a powerful tool for matching complex text patterns, yet they are notorious for their hard-to-understand syntax.
+
+Inspired by Swift's Regex Builder, this library allows users to write easily and understand regular expressions.
+
+```ts
+// Before
+const hexColor = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
+
+// After
+const hexDigit = characterClass(['a', 'f'], ['A', 'F'], ['0', '9']);
+const hexColor = buildRegex(
+  startOfString,
+  '#',
+  choiceOf(
+    repeat({ count: 6 }, hexDigit),
+    repeat({ count: 3 }, hexDigit),
+  ),
+  endOfString,
+);
+```
 
 ## Installation
 
@@ -14,7 +37,7 @@ npm install ts-regex-builder
 import { buildRegex, oneOrMore } from 'ts-regex-builder';
 
 // /(Hello)+ World/
-const regex = buildRegex(oneOrMore('Hello '), 'World');
+const regex = buildRegex(oneOrMore('Hello'), ' World');
 ```
 
 ## Contributing
