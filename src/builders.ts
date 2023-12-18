@@ -1,6 +1,6 @@
 import type { RegexElement } from './components/types';
 import { encodeSequence } from './encoder/encoder';
-import { extractPropsParam } from './utils';
+import { isRegexElement } from './utils';
 
 export interface RegexFlags {
   /** Global search. */
@@ -27,12 +27,15 @@ export function buildRegex(
   ...elements: Array<RegexElement | string>
 ): RegExp;
 export function buildRegex(
-  ..._elements: Array<RegexFlags | RegexElement | string>
+  first: RegexFlags | RegexElement | string,
+  ...rest: Array<RegexElement | string>
 ): RegExp {
-  const [flagsObject, elements] = extractPropsParam<RegexFlags>(_elements);
+  if (typeof first === 'string' || isRegexElement(first)) {
+    return buildRegex({}, first, ...rest);
+  }
 
-  const pattern = encodeSequence(elements).pattern;
-  const flags = encodeFlags(flagsObject);
+  const pattern = encodeSequence(rest).pattern;
+  const flags = encodeFlags(first);
   return new RegExp(pattern, flags);
 }
 

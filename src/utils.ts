@@ -30,22 +30,11 @@ export function concatNodes(nodes: EncoderNode[]): EncoderNode {
   };
 }
 
+export function isRegexElement(element: unknown): element is RegexElement {
+  return typeof element === 'object' && element !== null && 'type' in element;
+}
+
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
 export function escapeText(text: string) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-
-export function extractPropsParam<Props>(
-  args: Array<Props | RegexElement | string>
-) {
-  const first = args[0];
-  if (typeof first === 'string' || isRegexElement(first)) {
-    return [{}, args] as [Props, Array<RegexElement | string>];
-  }
-
-  return [first, args.slice(1)] as [Props, Array<RegexElement | string>];
-}
-
-function isRegexElement(element: unknown): element is RegexElement {
-  return typeof element === 'object' && element !== null && 'type' in element;
 }
