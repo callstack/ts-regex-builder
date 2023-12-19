@@ -1,7 +1,9 @@
-import { oneOrMore, optionally, zeroOrMore } from '../quantifiers';
+import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers';
 import {
   any,
   anyOf,
+  characterClass,
+  characterRange,
   digit,
   encodeCharacterClass,
   inverted,
@@ -31,6 +33,25 @@ test('`whitespace` character class', () => {
   expect(whitespace).toHavePattern('\\s');
   expect(['x', whitespace]).toHavePattern('x\\s');
   expect(['x', whitespace, 'x']).toHavePattern('x\\sx');
+});
+
+test('"characterClass" base cases', () => {
+  expect(characterClass(characterRange('a', 'z'))).toHavePattern('[a-z]');
+  expect(
+    characterClass(characterRange('a', 'z'), characterRange('A', 'Z'))
+  ).toHavePattern('[a-zA-Z]');
+  expect(characterClass(characterRange('a', 'z'), anyOf('05'))).toHavePattern(
+    '[a-z05]'
+  );
+  expect(
+    characterClass(characterRange('a', 'z'), whitespace, anyOf('05'))
+  ).toHavePattern('[a-z\\s05]');
+});
+
+test('"characterRange" base cases', () => {
+  expect(characterRange('a', 'z')).toHavePattern('[a-z]');
+  expect(['x', characterRange('0', '9')]).toHavePattern('x[0-9]');
+  expect([characterRange('A', 'F'), 'x']).toHavePattern('[A-F]x');
 });
 
 test('`anyOf` base cases', () => {
@@ -81,9 +102,10 @@ test('`encodeCharacterClass` throws on empty text', () => {
     encodeCharacterClass({
       type: 'characterClass',
       characters: [],
-      inverted: false,
+      ranges: [],
+      isInverted: false,
     })
   ).toThrowErrorMatchingInlineSnapshot(
-    `"Character class should contain at least one character"`
+    `"Character class should contain at least one character or character range"`
   );
 });
