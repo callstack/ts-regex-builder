@@ -10,15 +10,15 @@ import {
 } from '../components/quantifiers';
 import { encodeRepeat } from '../components/repeat';
 import { concatNodes, escapeText } from '../utils';
-import { type EncoderNode, EncoderPrecedence } from './types';
+import { type EncoderResult, EncoderPrecedence } from './types';
 
 export function encodeSequence(
   elements: Array<RegexElement | string>
-): EncoderNode {
+): EncoderResult {
   return concatNodes(elements.map((c) => encodeElement(c)));
 }
 
-export function encodeElement(element: RegexElement | string): EncoderNode {
+export function encodeElement(element: RegexElement | string): EncoderResult {
   if (typeof element === 'string') {
     return encodeText(element);
   }
@@ -59,7 +59,7 @@ export function encodeElement(element: RegexElement | string): EncoderNode {
   throw new Error(`Unknown elements type ${element.type}`);
 }
 
-function encodeText(text: string): EncoderNode {
+function encodeText(text: string): EncoderResult {
   if (text.length === 0) {
     throw new Error('`encodeText`: received text should not be empty');
   }

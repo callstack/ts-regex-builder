@@ -1,5 +1,5 @@
 import type { RegexElement } from './components/types';
-import { type EncoderNode, EncoderPrecedence } from './encoder/types';
+import { type EncoderResult, EncoderPrecedence } from './encoder/types';
 
 /**
  * Returns atomic pattern for given node.
@@ -7,7 +7,7 @@ import { type EncoderNode, EncoderPrecedence } from './encoder/types';
  * @param node
  * @returns
  */
-export function toAtom(node: EncoderNode): string {
+export function toAtom(node: EncoderResult): string {
   if (node.precedence === EncoderPrecedence.Atom) {
     return node.pattern;
   }
@@ -15,7 +15,7 @@ export function toAtom(node: EncoderNode): string {
   return `(?:${node.pattern})`;
 }
 
-export function concatNodes(nodes: EncoderNode[]): EncoderNode {
+export function concatNodes(nodes: EncoderResult[]): EncoderResult {
   if (nodes.length === 1) {
     return nodes[0]!;
   }

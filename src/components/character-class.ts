@@ -1,4 +1,4 @@
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
+import { type EncoderResult, EncoderPrecedence } from '../encoder/types';
 import { escapeText } from '../utils';
 import type { CharacterClass } from './types';
 
@@ -36,7 +36,7 @@ export function anyOf(characters: string): CharacterClass {
 
 export function encodeCharacterClass({
   characters,
-}: CharacterClass): EncoderNode {
+}: CharacterClass): EncoderResult {
   if (characters.length === 0) {
     throw new Error('Character class should contain at least one character');
   }

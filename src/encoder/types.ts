@@ -3,7 +3,7 @@ import type { RegexElement } from '../components/types';
 /**
  * Encoded regex pattern with information about its type (atom, sequence)
  */
-export interface EncoderNode {
+export interface EncoderResult {
   precedence: EncoderPrecedence;
   pattern: string;
 }
@@ -26,4 +26,4 @@ export const EncoderPrecedence = {
 type ValueOf<T> = T[keyof T];
 type EncoderPrecedence = ValueOf<typeof EncoderPrecedence>;
 
-export type EncodeElement = (element: RegexElement | string) => EncoderNode;
+export type EncodeElement = (element: RegexElement | string) => EncoderResult;

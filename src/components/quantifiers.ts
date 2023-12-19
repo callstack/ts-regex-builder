@@ -1,4 +1,4 @@
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
+import { type EncoderResult, EncoderPrecedence } from '../encoder/types';
 import { toAtom } from '../utils';
 import type {
   One,
@@ -42,25 +42,25 @@ export function zeroOrMore(
   };
 }
 
-export function encodeOne(node: EncoderNode) {
+export function encodeOne(node: EncoderResult) {
   return node;
 }
 
-export function encodeOneOrMore(node: EncoderNode): EncoderNode {
+export function encodeOneOrMore(node: EncoderResult): EncoderResult {
   return {
     precedence: EncoderPrecedence.Sequence,
     pattern: `${toAtom(node)}+`,
   };
 }
 
-export function encodeOptionally(node: EncoderNode): EncoderNode {
+export function encodeOptionally(node: EncoderResult): EncoderResult {
   return {
     precedence: EncoderPrecedence.Sequence,
     pattern: `${toAtom(node)}?`,
   };
 }
 
-export function encodeZeroOrMore(node: EncoderNode): EncoderNode {
+export function encodeZeroOrMore(node: EncoderResult): EncoderResult {
   return {
     precedence: EncoderPrecedence.Sequence,
     pattern: `${toAtom(node)}*`,

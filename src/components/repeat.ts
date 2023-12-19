@@ -1,4 +1,4 @@
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
+import { type EncoderResult, EncoderPrecedence } from '../encoder/types';
 import { toAtom } from '../utils';
 import type { RegexElement, Repeat, RepeatConfig } from './types';
 
@@ -19,8 +19,8 @@ export function repeat(
 
 export function encodeRepeat(
   config: RepeatConfig,
-  node: EncoderNode
-): EncoderNode {
+  node: EncoderResult
+): EncoderResult {
   if ('count' in config) {
     return {
       precedence: EncoderPrecedence.Sequence,
