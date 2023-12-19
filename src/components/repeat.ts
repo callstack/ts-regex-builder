@@ -3,47 +3,44 @@ import { toAtom } from '../utils';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexComponent,
+  type RegexElement,
 } from '../types';
-
-export interface Repeat extends RegexComponent {
-  type: 'repeat';
-  children: Array<RegexComponent | string>;
-  config: RepeatConfig;
-  encode: () => EncoderResult;
-}
 
 export type RepeatConfig = { count: number } | { min: number; max?: number };
 
-export function repeat(
-  config: RepeatConfig,
-  ...children: Array<RegexComponent | string>
-): Repeat {
-  if (children.length === 0) {
-    throw new Error('`repeat` should receive at least one element');
+export class Repeat implements RegexElement {
+  public children: Array<RegexElement | string>;
+  public config: RepeatConfig;
+
+  constructor(children: Array<RegexElement | string>, config: RepeatConfig) {
+    if (children.length === 0) {
+      throw new Error('"repeat" should receive at least one element');
+    }
+
+    this.children = children;
+    this.config = config;
   }
 
-  return {
-    type: 'repeat',
-    children,
-    config,
-    encode: encodeRepeat,
-  };
-}
+  encode(): EncoderResult {
+    const children = encodeSequence(this.children);
+    if ('count' in this.config) {
+      return {
+        precedence: EncoderPrecedence.Sequence,
+        pattern: `${toAtom(children)}{${this.config.count}}`,
+      };
+    }
 
-function encodeRepeat(this: Repeat): EncoderResult {
-  const children = encodeSequence(this.children);
-  if ('count' in this.config) {
     return {
       precedence: EncoderPrecedence.Sequence,
-      pattern: `${toAtom(children)}{${this.config.count}}`,
+      pattern: `${toAtom(children)}{${this.config.min},${
+        this.config?.max ?? ''
+      }}`,
     };
   }
-
-  return {
-    precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(children)}{${this.config.min},${
-      this.config?.max ?? ''
-    }}`,
-  };
+}
+export function repeat(
+  config: RepeatConfig,
+  ...children: Array<RegexElement | string>
+): Repeat {
+  return new Repeat(children, config);
 }

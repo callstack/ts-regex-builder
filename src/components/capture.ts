@@ -2,26 +2,25 @@ import { encodeSequence } from '../encoder';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexComponent,
+  type RegexElement,
 } from '../types';
 
-export interface Capture extends RegexComponent {
-  type: 'capture';
-  children: Array<RegexComponent | string>;
-  encode: () => EncoderResult;
+export class Capture implements RegexElement {
+  public children: Array<RegexElement | string>;
+
+  constructor(children: Array<RegexElement | string>) {
+    this.children = children;
+  }
+
+  encode(): EncoderResult {
+    const children = encodeSequence(this.children);
+    return {
+      precedence: EncoderPrecedence.Atom,
+      pattern: `(${children.pattern})`,
+    };
+  }
 }
 
-export function capture(...children: Array<RegexComponent | string>): Capture {
-  return {
-    type: 'capture',
-    children,
-    encode: encodeCapture,
-  };
-}
-
-function encodeCapture(this: Capture): EncoderResult {
-  return {
-    precedence: EncoderPrecedence.Atom,
-    pattern: `(${encodeSequence(this.children).pattern})`,
-  };
+export function capture(...children: Array<RegexElement | string>): Capture {
+  return new Capture(children);
 }

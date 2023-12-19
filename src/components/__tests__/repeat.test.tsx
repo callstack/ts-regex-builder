@@ -24,6 +24,6 @@ test('"repeat"" optimizes grouping for atoms', () => {
 
 test('`repeat` throws on no children', () => {
   expect(() => repeat({ count: 1 })).toThrowErrorMatchingInlineSnapshot(
-    `"\`repeat\` should receive at least one element"`
+    `"\\"repeat\\" should receive at least one element"`
   );
 });

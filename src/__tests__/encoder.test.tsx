@@ -57,6 +57,6 @@ test('"buildPattern" escapes special characters', () => {
 
 test('buildPattern throws on empty text', () => {
   expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
-    `"\`encodeText\`: received text should not be empty"`
+    `"\\"encodeText\\": received text should not be empty"`
   );
 });

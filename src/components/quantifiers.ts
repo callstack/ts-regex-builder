@@ -3,95 +3,103 @@ import { toAtom } from '../utils';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexComponent,
+  type RegexElement,
 } from '../types';
 
-export interface One extends RegexComponent {
-  type: 'one';
-  children: Array<RegexComponent | string>;
-  encode: () => EncoderResult;
+export class One implements RegexElement {
+  public children: Array<RegexElement | string>;
+
+  constructor(children: Array<RegexElement | string>) {
+    if (children.length === 0) {
+      throw new Error('"one" should receive at least one element');
+    }
+
+    this.children = children;
+  }
+
+  encode(): EncoderResult {
+    return encodeSequence(this.children);
+  }
 }
 
-export interface OneOrMore extends RegexComponent {
-  type: 'oneOrMore';
-  children: Array<RegexComponent | string>;
-  encode: () => EncoderResult;
+export function one(...children: Array<RegexElement | string>): One {
+  return new One(children);
 }
 
-export interface Optionally extends RegexComponent {
-  type: 'optionally';
-  children: Array<RegexComponent | string>;
-  encode: () => EncoderResult;
-}
+export class OneOrMore implements RegexElement {
+  public children: Array<RegexElement | string>;
 
-export interface ZeroOrMore extends RegexComponent {
-  type: 'zeroOrMore';
-  children: Array<RegexComponent | string>;
-  encode: () => EncoderResult;
-}
+  constructor(children: Array<RegexElement | string>) {
+    if (children.length === 0) {
+      throw new Error('"oneOrMore" should receive at least one element');
+    }
 
-export function one(...children: Array<RegexComponent | string>): One {
-  return {
-    type: 'one',
-    children,
-    encode: encodeOne,
-  };
+    this.children = children;
+  }
+
+  encode(): EncoderResult {
+    const children = encodeSequence(this.children);
+    return {
+      precedence: EncoderPrecedence.Sequence,
+      pattern: `${toAtom(children)}+`,
+    };
+  }
 }
 
 export function oneOrMore(
-  ...children: Array<RegexComponent | string>
+  ...children: Array<RegexElement | string>
 ): OneOrMore {
-  return {
-    type: 'oneOrMore',
-    children,
-    encode: encodeOneOrMore,
-  };
+  return new OneOrMore(children);
+}
+
+export class Optionally implements RegexElement {
+  public children: Array<RegexElement | string>;
+
+  constructor(children: Array<RegexElement | string>) {
+    if (children.length === 0) {
+      throw new Error('"optionally" should receive at least one element');
+    }
+
+    this.children = children;
+  }
+
+  encode(): EncoderResult {
+    const children = encodeSequence(this.children);
+    return {
+      precedence: EncoderPrecedence.Sequence,
+      pattern: `${toAtom(children)}?`,
+    };
+  }
 }
 
 export function optionally(
-  ...children: Array<RegexComponent | string>
+  ...children: Array<RegexElement | string>
 ): Optionally {
-  return {
-    type: 'optionally',
-    children,
-    encode: encodeOptionally,
-  };
+  return new Optionally(children);
+}
+
+export class ZeroOrMore implements RegexElement {
+  public children: Array<RegexElement | string>;
+
+  constructor(children: Array<RegexElement | string>) {
+    if (children.length === 0) {
+      throw new Error('"zeroOrMore" should receive at least one element');
+    }
+
+    this.children = children;
+  }
+
+  encode(): EncoderResult {
+    const children = encodeSequence(this.children);
+    return {
+      precedence: EncoderPrecedence.Sequence,
+      pattern: `${toAtom(children)}*`,
+    };
+  }
 }
 
 export function zeroOrMore(
-  ...children: Array<RegexComponent | string>
+  ...children: Array<RegexElement | string>
 ): ZeroOrMore {
-  return {
-    type: 'zeroOrMore',
-    children,
-    encode: encodeZeroOrMore,
-  };
-}
-
-function encodeOne(this: One): EncoderResult {
-  return encodeSequence(this.children);
-}
-
-function encodeOneOrMore(this: OneOrMore): EncoderResult {
-  const children = encodeSequence(this.children);
-  return {
-    precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(children)}+`,
-  };
-}
-
-function encodeOptionally(this: Optionally): EncoderResult {
-  const children = encodeSequence(this.children);
-  return {
-    precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(children)}?`,
-  };
-}
-
-function encodeZeroOrMore(this: ZeroOrMore): EncoderResult {
-  const children = encodeSequence(this.children);
-  return {
-    precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(children)}*`,
-  };
+  return new ZeroOrMore(children);
 }

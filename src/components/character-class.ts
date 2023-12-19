@@ -2,38 +2,39 @@ import { escapeText } from '../utils';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexComponent,
+  type RegexElement,
 } from '../types';
 
-export interface CharacterClass extends RegexComponent {
-  type: 'characterClass';
-  characters: string[];
-  encode: () => EncoderResult;
+export class CharacterClass implements RegexElement {
+  public characters: string[];
+
+  constructor(characters: string[]) {
+    if (characters.length === 0) {
+      throw new Error('Character class should contain at least one character');
+    }
+
+    this.characters = characters;
+  }
+
+  encode(): EncoderResult {
+    if (this.characters.length === 1) {
+      return {
+        precedence: EncoderPrecedence.Atom,
+        pattern: this.characters[0]!,
+      };
+    }
+
+    return {
+      precedence: EncoderPrecedence.Atom,
+      pattern: `[${reorderHyphen(this.characters).join('')}]`,
+    };
+  }
 }
 
-export const any: CharacterClass = {
-  type: 'characterClass',
-  characters: ['.'],
-  encode: encodeCharacterClass,
-};
-
-export const whitespace: CharacterClass = {
-  type: 'characterClass',
-  characters: ['\\s'],
-  encode: encodeCharacterClass,
-};
-
-export const digit: CharacterClass = {
-  type: 'characterClass',
-  characters: ['\\d'],
-  encode: encodeCharacterClass,
-};
-
-export const word: CharacterClass = {
-  type: 'characterClass',
-  characters: ['\\w'],
-  encode: encodeCharacterClass,
-};
+export const any = new CharacterClass(['.']);
+export const whitespace = new CharacterClass(['\\s']);
+export const digit = new CharacterClass(['\\d']);
+export const word = new CharacterClass(['\\w']);
 
 export function anyOf(characters: string): CharacterClass {
   const charactersArray = characters.split('').map(escapeText);
@@ -41,29 +42,7 @@ export function anyOf(characters: string): CharacterClass {
     throw new Error('`anyOf` should received at least one character');
   }
 
-  return {
-    type: 'characterClass',
-    characters: charactersArray,
-    encode: encodeCharacterClass,
-  };
-}
-
-function encodeCharacterClass(this: CharacterClass): EncoderResult {
-  if (this.characters.length === 0) {
-    throw new Error('Character class should contain at least one character');
-  }
-
-  if (this.characters.length === 1) {
-    return {
-      precedence: EncoderPrecedence.Atom,
-      pattern: this.characters[0]!,
-    };
-  }
-
-  return {
-    precedence: EncoderPrecedence.Atom,
-    pattern: `[${reorderHyphen(this.characters).join('')}]`,
-  };
+  return new CharacterClass(charactersArray);
 }
 
 // If passed characters includes hyphen (`-`) it need to be moved to

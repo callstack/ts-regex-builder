@@ -2,37 +2,33 @@ import { encodeElement } from '../encoder';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexComponent,
+  type RegexElement,
 } from '../types';
 
-export interface ChoiceOf extends RegexComponent {
-  type: 'choiceOf';
-  children: Array<RegexComponent | string>;
-  encode: () => EncoderResult;
-}
+export class ChoiceOf implements RegexElement {
+  public children: Array<RegexElement | string>;
 
-export function choiceOf(
-  ...children: Array<RegexComponent | string>
-): ChoiceOf {
-  if (children.length === 0) {
-    throw new Error('`choiceOf` should receive at least one option');
+  constructor(children: Array<RegexElement | string>) {
+    if (children.length === 0) {
+      throw new Error('"choiceOf" should receive at least one option');
+    }
+
+    this.children = children;
   }
 
-  return {
-    type: 'choiceOf',
-    children,
-    encode: encodeChoiceOf,
-  };
+  encode(): EncoderResult {
+    const children = this.children.map(encodeElement);
+    if (children.length === 1) {
+      return children[0]!;
+    }
+
+    return {
+      precedence: EncoderPrecedence.Alternation,
+      pattern: children.map((n) => n.pattern).join('|'),
+    };
+  }
 }
 
-function encodeChoiceOf(this: ChoiceOf): EncoderResult {
-  const encodedNodes = this.children.map(encodeElement);
-  if (encodedNodes.length === 1) {
-    return encodedNodes[0]!;
-  }
-
-  return {
-    precedence: EncoderPrecedence.Alternation,
-    pattern: encodedNodes.map((n) => n.pattern).join('|'),
-  };
+export function choiceOf(...children: Array<RegexElement | string>): ChoiceOf {
+  return new ChoiceOf(children);
 }

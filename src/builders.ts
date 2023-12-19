@@ -1,6 +1,6 @@
-import type { RegexComponent } from './types';
+import type { RegexElement } from './types';
 import { encodeSequence } from './encoder';
-import { isRegexElement } from './utils';
+import { isValidElement } from './utils';
 
 export interface RegexFlags {
   /** Global search. */
@@ -21,16 +21,16 @@ export interface RegexFlags {
  * @param elements
  * @returns
  */
-export function buildRegex(...elements: Array<RegexComponent | string>): RegExp;
+export function buildRegex(...elements: Array<RegexElement | string>): RegExp;
 export function buildRegex(
   flags: RegexFlags,
-  ...elements: Array<RegexComponent | string>
+  ...elements: Array<RegexElement | string>
 ): RegExp;
 export function buildRegex(
-  first: RegexFlags | RegexComponent | string,
-  ...rest: Array<RegexComponent | string>
+  first: RegexFlags | RegexElement | string,
+  ...rest: Array<RegexElement | string>
 ): RegExp {
-  if (typeof first === 'string' || isRegexElement(first)) {
+  if (typeof first === 'string' || isValidElement(first)) {
     return buildRegex({}, first, ...rest);
   }
 
@@ -45,7 +45,7 @@ export function buildRegex(
  * @returns
  */
 export function buildPattern(
-  ...elements: Array<RegexComponent | string>
+  ...elements: Array<RegexElement | string>
 ): string {
   return encodeSequence(elements).pattern;
 }
