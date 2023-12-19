@@ -55,13 +55,6 @@ test('"buildPattern" escapes special characters', () => {
   );
 });
 
-test('buildRegex throws error on unknown element', () => {
-  expect(() =>
-    // @ts-expect-error intentionally passing incorrect object
-    buildRegex({ type: 'unknown' })
-  ).toThrowErrorMatchingInlineSnapshot(`"Unknown elements type unknown"`);
-});
-
 test('buildPattern throws on empty text', () => {
   expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
     `"\`encodeText\`: received text should not be empty"`

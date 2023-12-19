@@ -1,4 +1,5 @@
-import { type EncoderResult, EncoderPrecedence } from '../encoder/types';
+import { encodeSequence } from '../encoder/encoder';
+import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
 import { toAtom } from '../utils';
 import type { RegexElement, Repeat, RepeatConfig } from './types';
 
@@ -14,22 +15,23 @@ export function repeat(
     type: 'repeat',
     children,
     config,
+    encode: encodeRepeat,
   };
 }
 
-export function encodeRepeat(
-  config: RepeatConfig,
-  node: EncoderResult
-): EncoderResult {
-  if ('count' in config) {
+function encodeRepeat(this: Repeat): EncoderResult {
+  const children = encodeSequence(this.children);
+  if ('count' in this.config) {
     return {
       precedence: EncoderPrecedence.Sequence,
-      pattern: `${toAtom(node)}{${config.count}}`,
+      pattern: `${toAtom(children)}{${this.config.count}}`,
     };
   }
 
   return {
     precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(node)}{${config.min},${config?.max ?? ''}}`,
+    pattern: `${toAtom(children)}{${this.config.min},${
+      this.config?.max ?? ''
+    }}`,
   };
 }

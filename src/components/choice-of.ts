@@ -1,8 +1,5 @@
-import {
-  type EncodeElement,
-  type EncoderResult,
-  EncoderPrecedence,
-} from '../encoder/types';
+import { encodeElement } from '../encoder/encoder';
+import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
 import type { ChoiceOf, RegexElement } from './types';
 
 export function choiceOf(...children: Array<RegexElement | string>): ChoiceOf {
@@ -13,14 +10,12 @@ export function choiceOf(...children: Array<RegexElement | string>): ChoiceOf {
   return {
     type: 'choiceOf',
     children,
+    encode: encodeChoiceOf,
   };
 }
 
-export function encodeChoiceOf(
-  element: ChoiceOf,
-  encodeElement: EncodeElement
-): EncoderResult {
-  const encodedNodes = element.children.map(encodeElement);
+function encodeChoiceOf(this: ChoiceOf): EncoderResult {
+  const encodedNodes = this.children.map(encodeElement);
   if (encodedNodes.length === 1) {
     return encodedNodes[0]!;
   }

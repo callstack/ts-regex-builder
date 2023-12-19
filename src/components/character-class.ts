@@ -1,25 +1,29 @@
-import { type EncoderResult, EncoderPrecedence } from '../encoder/types';
+import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
 import { escapeText } from '../utils';
 import type { CharacterClass } from './types';
 
 export const any: CharacterClass = {
   type: 'characterClass',
   characters: ['.'],
+  encode: encodeCharacterClass,
 };
 
 export const whitespace: CharacterClass = {
   type: 'characterClass',
   characters: ['\\s'],
+  encode: encodeCharacterClass,
 };
 
 export const digit: CharacterClass = {
   type: 'characterClass',
   characters: ['\\d'],
+  encode: encodeCharacterClass,
 };
 
 export const word: CharacterClass = {
   type: 'characterClass',
   characters: ['\\w'],
+  encode: encodeCharacterClass,
 };
 
 export function anyOf(characters: string): CharacterClass {
@@ -31,26 +35,25 @@ export function anyOf(characters: string): CharacterClass {
   return {
     type: 'characterClass',
     characters: charactersArray,
+    encode: encodeCharacterClass,
   };
 }
 
-export function encodeCharacterClass({
-  characters,
-}: CharacterClass): EncoderResult {
-  if (characters.length === 0) {
+function encodeCharacterClass(this: CharacterClass): EncoderResult {
+  if (this.characters.length === 0) {
     throw new Error('Character class should contain at least one character');
   }
 
-  if (characters.length === 1) {
+  if (this.characters.length === 1) {
     return {
       precedence: EncoderPrecedence.Atom,
-      pattern: characters[0]!,
+      pattern: this.characters[0]!,
     };
   }
 
   return {
     precedence: EncoderPrecedence.Atom,
-    pattern: `[${reorderHyphen(characters).join('')}]`,
+    pattern: `[${reorderHyphen(this.characters).join('')}]`,
   };
 }
 

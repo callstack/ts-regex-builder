@@ -1,13 +1,6 @@
 import { buildPattern } from '../../builders';
 import { one, oneOrMore } from '../quantifiers';
-import {
-  any,
-  anyOf,
-  digit,
-  encodeCharacterClass,
-  whitespace,
-  word,
-} from '../character-class';
+import { any, anyOf, digit, whitespace, word } from '../character-class';
 
 test('"whitespace" character class', () => {
   expect(buildPattern(whitespace)).toEqual(`\\s`);
@@ -63,16 +56,5 @@ test('"anyOf" moves hyphen to the first position', () => {
 test('`anyOf` throws on empty text', () => {
   expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(
     `"\`anyOf\` should received at least one character"`
-  );
-});
-
-test('buildPattern throws on empty text', () => {
-  expect(() =>
-    encodeCharacterClass({
-      type: 'characterClass',
-      characters: [],
-    })
-  ).toThrowErrorMatchingInlineSnapshot(
-    `"Character class should contain at least one character"`
   );
 });

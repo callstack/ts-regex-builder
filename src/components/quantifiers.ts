@@ -1,4 +1,5 @@
-import { type EncoderResult, EncoderPrecedence } from '../encoder/types';
+import { encodeSequence } from '../encoder/encoder';
+import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
 import { toAtom } from '../utils';
 import type {
   One,
@@ -12,6 +13,7 @@ export function one(...children: Array<RegexElement | string>): One {
   return {
     type: 'one',
     children,
+    encode: encodeOne,
   };
 }
 
@@ -21,6 +23,7 @@ export function oneOrMore(
   return {
     type: 'oneOrMore',
     children,
+    encode: encodeOneOrMore,
   };
 }
 
@@ -30,6 +33,7 @@ export function optionally(
   return {
     type: 'optionally',
     children,
+    encode: encodeOptionally,
   };
 }
 
@@ -39,30 +43,34 @@ export function zeroOrMore(
   return {
     type: 'zeroOrMore',
     children,
+    encode: encodeZeroOrMore,
   };
 }
 
-export function encodeOne(node: EncoderResult) {
-  return node;
+function encodeOne(this: One): EncoderResult {
+  return encodeSequence(this.children);
 }
 
-export function encodeOneOrMore(node: EncoderResult): EncoderResult {
+function encodeOneOrMore(this: OneOrMore): EncoderResult {
+  const children = encodeSequence(this.children);
   return {
     precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(node)}+`,
+    pattern: `${toAtom(children)}+`,
   };
 }
 
-export function encodeOptionally(node: EncoderResult): EncoderResult {
+function encodeOptionally(this: Optionally): EncoderResult {
+  const children = encodeSequence(this.children);
   return {
     precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(node)}?`,
+    pattern: `${toAtom(children)}?`,
   };
 }
 
-export function encodeZeroOrMore(node: EncoderResult): EncoderResult {
+function encodeZeroOrMore(this: ZeroOrMore): EncoderResult {
+  const children = encodeSequence(this.children);
   return {
     precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(node)}*`,
+    pattern: `${toAtom(children)}*`,
   };
 }
