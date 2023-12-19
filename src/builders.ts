@@ -1,5 +1,5 @@
-import type { RegexElement } from './components/types';
-import { encodeSequence } from './encoder/encoder';
+import type { RegexElement } from './types';
+import { encodeSequence } from './encoder';
 import { isRegexElement } from './utils';
 
 export interface RegexFlags {

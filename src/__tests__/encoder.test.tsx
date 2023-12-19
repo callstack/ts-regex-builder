@@ -1,11 +1,11 @@
-import { buildPattern, buildRegex } from '../../builders';
+import { buildPattern, buildRegex } from '../builders';
 import {
   one,
   oneOrMore,
   optionally,
   zeroOrMore,
-} from '../../components/quantifiers';
-import { repeat } from '../../components/repeat';
+} from '../components/quantifiers';
+import { repeat } from '../components/repeat';
 
 test('basic quantifies', () => {
   expect(buildPattern('a')).toEqual('a');

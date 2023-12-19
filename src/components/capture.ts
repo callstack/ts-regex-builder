@@ -1,6 +1,15 @@
-import { encodeSequence } from '../encoder/encoder';
-import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
-import type { Capture, RegexElement } from './types';
+import { encodeSequence } from '../encoder';
+import {
+  EncoderPrecedence,
+  type EncoderResult,
+  type RegexElement,
+} from '../types';
+
+export interface Capture extends RegexElement {
+  type: 'capture';
+  children: Array<RegexElement | string>;
+  encode: () => EncoderResult;
+}
 
 export function capture(...children: Array<RegexElement | string>): Capture {
   return {

@@ -1,7 +1,19 @@
-import { encodeSequence } from '../encoder/encoder';
-import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
+import { encodeSequence } from '../encoder';
 import { toAtom } from '../utils';
-import type { RegexElement, Repeat, RepeatConfig } from './types';
+import {
+  EncoderPrecedence,
+  type EncoderResult,
+  type RegexElement,
+} from '../types';
+
+export interface Repeat extends RegexElement {
+  type: 'repeat';
+  children: Array<RegexElement | string>;
+  config: RepeatConfig;
+  encode: () => EncoderResult;
+}
+
+export type RepeatConfig = { count: number } | { min: number; max?: number };
 
 export function repeat(
   config: RepeatConfig,

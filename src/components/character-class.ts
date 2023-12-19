@@ -1,6 +1,15 @@
-import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
 import { escapeText } from '../utils';
-import type { CharacterClass } from './types';
+import {
+  EncoderPrecedence,
+  type EncoderResult,
+  type RegexElement,
+} from '../types';
+
+export interface CharacterClass extends RegexElement {
+  type: 'characterClass';
+  characters: string[];
+  encode: () => EncoderResult;
+}
 
 export const any: CharacterClass = {
   type: 'characterClass',

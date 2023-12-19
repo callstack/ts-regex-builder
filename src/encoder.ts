@@ -1,6 +1,9 @@
-import type { RegexElement } from '../components/types';
-import { concatNodes, escapeText } from '../utils';
-import { EncoderPrecedence, type EncoderResult } from './types';
+import {
+  EncoderPrecedence,
+  type EncoderResult,
+  type RegexElement,
+} from './types';
+import { concatNodes, escapeText } from './utils';
 
 export function encodeSequence(
   elements: Array<RegexElement | string>

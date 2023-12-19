@@ -1,6 +1,15 @@
-import { encodeElement } from '../encoder/encoder';
-import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
-import type { ChoiceOf, RegexElement } from './types';
+import { encodeElement } from '../encoder';
+import {
+  EncoderPrecedence,
+  type EncoderResult,
+  type RegexElement,
+} from '../types';
+
+export interface ChoiceOf extends RegexElement {
+  type: 'choiceOf';
+  children: Array<RegexElement | string>;
+  encode: () => EncoderResult;
+}
 
 export function choiceOf(...children: Array<RegexElement | string>): ChoiceOf {
   if (children.length === 0) {

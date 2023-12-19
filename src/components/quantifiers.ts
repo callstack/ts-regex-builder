@@ -1,13 +1,34 @@
-import { encodeSequence } from '../encoder/encoder';
-import { EncoderPrecedence, type EncoderResult } from '../encoder/types';
+import { encodeSequence } from '../encoder';
 import { toAtom } from '../utils';
-import type {
-  One,
-  OneOrMore,
-  Optionally,
-  RegexElement,
-  ZeroOrMore,
-} from './types';
+import {
+  EncoderPrecedence,
+  type EncoderResult,
+  type RegexElement,
+} from '../types';
+
+export interface One extends RegexElement {
+  type: 'one';
+  children: Array<RegexElement | string>;
+  encode: () => EncoderResult;
+}
+
+export interface OneOrMore extends RegexElement {
+  type: 'oneOrMore';
+  children: Array<RegexElement | string>;
+  encode: () => EncoderResult;
+}
+
+export interface Optionally extends RegexElement {
+  type: 'optionally';
+  children: Array<RegexElement | string>;
+  encode: () => EncoderResult;
+}
+
+export interface ZeroOrMore extends RegexElement {
+  type: 'zeroOrMore';
+  children: Array<RegexElement | string>;
+  encode: () => EncoderResult;
+}
 
 export function one(...children: Array<RegexElement | string>): One {
   return {

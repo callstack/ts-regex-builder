@@ -1,5 +1,5 @@
 import { buildRegex } from './builders';
-import type { RegexElement } from './components/types';
+import type { RegexElement } from './types';
 
 export function execRegex(
   text: string,

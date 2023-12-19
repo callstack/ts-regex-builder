@@ -1,5 +1,8 @@
-import type { RegexElement } from './components/types';
-import { EncoderPrecedence, type EncoderResult } from './encoder/types';
+import {
+  EncoderPrecedence,
+  type EncoderResult,
+  type RegexElement,
+} from './types';
 
 /**
  * Returns atomic pattern for given node.
