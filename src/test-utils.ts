@@ -1,9 +1,9 @@
 import { buildRegex } from './builders';
-import type { RegexElement } from './types';
+import type { RegexComponent } from './types';
 
 export function execRegex(
   text: string,
-  elements: Array<RegexElement | string>
+  elements: Array<RegexComponent | string>
 ) {
   const regex = buildRegex(...elements);
   return [...regex.exec(text)!];

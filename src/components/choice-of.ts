@@ -2,16 +2,18 @@ import { encodeElement } from '../encoder';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexElement,
+  type RegexComponent,
 } from '../types';
 
-export interface ChoiceOf extends RegexElement {
+export interface ChoiceOf extends RegexComponent {
   type: 'choiceOf';
-  children: Array<RegexElement | string>;
+  children: Array<RegexComponent | string>;
   encode: () => EncoderResult;
 }
 
-export function choiceOf(...children: Array<RegexElement | string>): ChoiceOf {
+export function choiceOf(
+  ...children: Array<RegexComponent | string>
+): ChoiceOf {
   if (children.length === 0) {
     throw new Error('`choiceOf` should receive at least one option');
   }

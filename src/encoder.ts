@@ -1,17 +1,17 @@
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexElement,
+  type RegexComponent,
 } from './types';
 import { concatNodes, escapeText } from './utils';
 
 export function encodeSequence(
-  elements: Array<RegexElement | string>
+  elements: Array<RegexComponent | string>
 ): EncoderResult {
   return concatNodes(elements.map((c) => encodeElement(c)));
 }
 
-export function encodeElement(element: RegexElement | string): EncoderResult {
+export function encodeElement(element: RegexComponent | string): EncoderResult {
   if (typeof element === 'string') {
     return encodeText(element);
   }

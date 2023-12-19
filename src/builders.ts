@@ -1,4 +1,4 @@
-import type { RegexElement } from './types';
+import type { RegexComponent } from './types';
 import { encodeSequence } from './encoder';
 import { isRegexElement } from './utils';
 
@@ -21,14 +21,14 @@ export interface RegexFlags {
  * @param elements
  * @returns
  */
-export function buildRegex(...elements: Array<RegexElement | string>): RegExp;
+export function buildRegex(...elements: Array<RegexComponent | string>): RegExp;
 export function buildRegex(
   flags: RegexFlags,
-  ...elements: Array<RegexElement | string>
+  ...elements: Array<RegexComponent | string>
 ): RegExp;
 export function buildRegex(
-  first: RegexFlags | RegexElement | string,
-  ...rest: Array<RegexElement | string>
+  first: RegexFlags | RegexComponent | string,
+  ...rest: Array<RegexComponent | string>
 ): RegExp {
   if (typeof first === 'string' || isRegexElement(first)) {
     return buildRegex({}, first, ...rest);
@@ -45,7 +45,7 @@ export function buildRegex(
  * @returns
  */
 export function buildPattern(
-  ...elements: Array<RegexElement | string>
+  ...elements: Array<RegexComponent | string>
 ): string {
   return encodeSequence(elements).pattern;
 }

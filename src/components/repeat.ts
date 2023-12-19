@@ -3,12 +3,12 @@ import { toAtom } from '../utils';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexElement,
+  type RegexComponent,
 } from '../types';
 
-export interface Repeat extends RegexElement {
+export interface Repeat extends RegexComponent {
   type: 'repeat';
-  children: Array<RegexElement | string>;
+  children: Array<RegexComponent | string>;
   config: RepeatConfig;
   encode: () => EncoderResult;
 }
@@ -17,7 +17,7 @@ export type RepeatConfig = { count: number } | { min: number; max?: number };
 
 export function repeat(
   config: RepeatConfig,
-  ...children: Array<RegexElement | string>
+  ...children: Array<RegexComponent | string>
 ): Repeat {
   if (children.length === 0) {
     throw new Error('`repeat` should receive at least one element');

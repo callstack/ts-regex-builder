@@ -1,4 +1,4 @@
-export interface RegexElement {
+export interface RegexComponent {
   encode: () => EncoderResult;
 }
 

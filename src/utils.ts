@@ -1,7 +1,7 @@
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexElement,
+  type RegexComponent,
 } from './types';
 
 /**
@@ -33,7 +33,7 @@ export function concatNodes(nodes: EncoderResult[]): EncoderResult {
   };
 }
 
-export function isRegexElement(element: unknown): element is RegexElement {
+export function isRegexElement(element: unknown): element is RegexComponent {
   return typeof element === 'object' && element !== null && 'type' in element;
 }
 

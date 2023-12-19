@@ -2,10 +2,10 @@ import { escapeText } from '../utils';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexElement,
+  type RegexComponent,
 } from '../types';
 
-export interface CharacterClass extends RegexElement {
+export interface CharacterClass extends RegexComponent {
   type: 'characterClass';
   characters: string[];
   encode: () => EncoderResult;

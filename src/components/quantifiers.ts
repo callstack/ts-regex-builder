@@ -3,34 +3,34 @@ import { toAtom } from '../utils';
 import {
   EncoderPrecedence,
   type EncoderResult,
-  type RegexElement,
+  type RegexComponent,
 } from '../types';
 
-export interface One extends RegexElement {
+export interface One extends RegexComponent {
   type: 'one';
-  children: Array<RegexElement | string>;
+  children: Array<RegexComponent | string>;
   encode: () => EncoderResult;
 }
 
-export interface OneOrMore extends RegexElement {
+export interface OneOrMore extends RegexComponent {
   type: 'oneOrMore';
-  children: Array<RegexElement | string>;
+  children: Array<RegexComponent | string>;
   encode: () => EncoderResult;
 }
 
-export interface Optionally extends RegexElement {
+export interface Optionally extends RegexComponent {
   type: 'optionally';
-  children: Array<RegexElement | string>;
+  children: Array<RegexComponent | string>;
   encode: () => EncoderResult;
 }
 
-export interface ZeroOrMore extends RegexElement {
+export interface ZeroOrMore extends RegexComponent {
   type: 'zeroOrMore';
-  children: Array<RegexElement | string>;
+  children: Array<RegexComponent | string>;
   encode: () => EncoderResult;
 }
 
-export function one(...children: Array<RegexElement | string>): One {
+export function one(...children: Array<RegexComponent | string>): One {
   return {
     type: 'one',
     children,
@@ -39,7 +39,7 @@ export function one(...children: Array<RegexElement | string>): One {
 }
 
 export function oneOrMore(
-  ...children: Array<RegexElement | string>
+  ...children: Array<RegexComponent | string>
 ): OneOrMore {
   return {
     type: 'oneOrMore',
@@ -49,7 +49,7 @@ export function oneOrMore(
 }
 
 export function optionally(
-  ...children: Array<RegexElement | string>
+  ...children: Array<RegexComponent | string>
 ): Optionally {
   return {
     type: 'optionally',
@@ -59,7 +59,7 @@ export function optionally(
 }
 
 export function zeroOrMore(
-  ...children: Array<RegexElement | string>
+  ...children: Array<RegexComponent | string>
 ): ZeroOrMore {
   return {
     type: 'zeroOrMore',
