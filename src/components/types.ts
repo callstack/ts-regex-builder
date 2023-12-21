@@ -5,6 +5,7 @@ export type Quantifier = One | OneOrMore | Optionally | ZeroOrMore | Repeat;
 export type CharacterClass = {
   type: 'characterClass';
   characters: string[];
+  inverted: boolean;
 };
 
 // Components
