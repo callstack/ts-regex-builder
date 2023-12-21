@@ -1,25 +1,26 @@
-import { buildPattern, buildRegex } from '../../builders';
+import { buildRegex } from '../../builders';
+import { expectPattern } from '../../test-utils';
 import { digit } from '../character-class';
 import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers';
 
 test('"oneOrMore" quantifier', () => {
-  expect(buildPattern(oneOrMore('a'))).toEqual('a+');
-  expect(buildPattern(oneOrMore('ab'))).toEqual('(?:ab)+');
+  expectPattern(oneOrMore('a')).toBe('a+');
+  expectPattern(oneOrMore('ab')).toBe('(?:ab)+');
 });
 
 test('"one" quantifier', () => {
-  expect(buildPattern(one('a'))).toEqual('a');
-  expect(buildPattern(one('ab'))).toEqual('ab');
+  expectPattern(one('a')).toBe('a');
+  expectPattern(one('ab')).toBe('ab');
 });
 
 test('"optionally" quantifier', () => {
-  expect(buildPattern(optionally('a'))).toEqual('a?');
-  expect(buildPattern(optionally('ab'))).toEqual('(?:ab)?');
+  expectPattern(optionally('a')).toBe('a?');
+  expectPattern(optionally('ab')).toBe('(?:ab)?');
 });
 
 test('"zeroOrMore" quantifier', () => {
-  expect(buildPattern(zeroOrMore('a'))).toEqual('a*');
-  expect(buildPattern(zeroOrMore('ab'))).toEqual('(?:ab)*');
+  expectPattern(zeroOrMore('a')).toBe('a*');
+  expectPattern(zeroOrMore('ab')).toBe('(?:ab)*');
 });
 
 test('oneOrMore does not generate capture when grouping', () => {
@@ -47,8 +48,12 @@ test('zeroOrMore does not generate capture when grouping', () => {
 });
 
 test('base quantifiers optimize grouping for atoms', () => {
-  expect(buildPattern(one(digit))).toBe('\\d');
-  expect(buildPattern(oneOrMore(digit))).toBe('\\d+');
-  expect(buildPattern(optionally(digit))).toBe('\\d?');
-  expect(buildPattern(zeroOrMore(digit))).toBe('\\d*');
+  expectPattern(one(digit)).toBe('\\d');
+  expectPattern(oneOrMore(digit)).toBe('\\d+');
+  expectPattern(optionally(digit)).toBe('\\d?');
+  expectPattern(zeroOrMore(digit)).toBe('\\d*');
+
+  expectPattern(oneOrMore('a')).toBe('a+');
+  expectPattern(optionally('a')).toBe('a?');
+  expectPattern(zeroOrMore('a')).toBe('a*');
 });

@@ -1,13 +1,12 @@
-import { buildPattern } from '../../builders';
 import { capture } from '../capture';
 import { oneOrMore } from '../quantifiers';
-import { execRegex } from '../../test-utils';
+import { execRegex, expectPattern } from '../../test-utils';
 
 test('"capture" base cases', () => {
-  expect(buildPattern(capture('a'))).toBe('(a)');
-  expect(buildPattern(capture('abc'))).toBe('(abc)');
-  expect(buildPattern(capture(oneOrMore('abc')))).toBe('((?:abc)+)');
-  expect(buildPattern(oneOrMore(capture('abc')))).toBe('(abc)+');
+  expectPattern(capture('a')).toBe('(a)');
+  expectPattern(capture('abc')).toBe('(abc)');
+  expectPattern(capture(oneOrMore('abc'))).toBe('((?:abc)+)');
+  expectPattern(oneOrMore(capture('abc'))).toBe('(abc)+');
 });
 
 test('"capture" captures group', () => {

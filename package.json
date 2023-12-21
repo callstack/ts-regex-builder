@@ -125,6 +125,15 @@
           "ignoreDeclarationSort": true
         }
       ],
+      "jest/expect-expect": [
+        "error",
+        {
+          "assertFunctionNames": [
+            "expect",
+            "expectPattern"
+          ]
+        }
+      ],
       "import/order": "error"
     }
   },

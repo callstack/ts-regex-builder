@@ -8,12 +8,6 @@ export const any: CharacterClass = {
   inverted: false,
 };
 
-export const whitespace: CharacterClass = {
-  type: 'characterClass',
-  characters: ['\\s'],
-  inverted: false,
-};
-
 export const digit: CharacterClass = {
   type: 'characterClass',
   characters: ['\\d'],
@@ -23,6 +17,12 @@ export const digit: CharacterClass = {
 export const word: CharacterClass = {
   type: 'characterClass',
   characters: ['\\w'],
+  inverted: false,
+};
+
+export const whitespace: CharacterClass = {
+  type: 'characterClass',
+  characters: ['\\s'],
   inverted: false,
 };
 
