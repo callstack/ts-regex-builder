@@ -1,26 +1,26 @@
 import { buildRegex } from '../../builders';
-import { expectPattern } from '../../test-utils';
 import { digit } from '../character-class';
 import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers';
+import '../../test-utils';
 
 test('"oneOrMore" quantifier', () => {
-  expectPattern(oneOrMore('a')).toBe('a+');
-  expectPattern(oneOrMore('ab')).toBe('(?:ab)+');
+  expect(oneOrMore('a')).toHavePattern('a+');
+  expect(oneOrMore('ab')).toHavePattern('(?:ab)+');
 });
 
 test('"one" quantifier', () => {
-  expectPattern(one('a')).toBe('a');
-  expectPattern(one('ab')).toBe('ab');
+  expect(one('a')).toHavePattern('a');
+  expect(one('ab')).toHavePattern('ab');
 });
 
 test('"optionally" quantifier', () => {
-  expectPattern(optionally('a')).toBe('a?');
-  expectPattern(optionally('ab')).toBe('(?:ab)?');
+  expect(optionally('a')).toHavePattern('a?');
+  expect(optionally('ab')).toHavePattern('(?:ab)?');
 });
 
 test('"zeroOrMore" quantifier', () => {
-  expectPattern(zeroOrMore('a')).toBe('a*');
-  expectPattern(zeroOrMore('ab')).toBe('(?:ab)*');
+  expect(zeroOrMore('a')).toHavePattern('a*');
+  expect(zeroOrMore('ab')).toHavePattern('(?:ab)*');
 });
 
 test('oneOrMore does not generate capture when grouping', () => {
@@ -48,12 +48,12 @@ test('zeroOrMore does not generate capture when grouping', () => {
 });
 
 test('base quantifiers optimize grouping for atoms', () => {
-  expectPattern(one(digit)).toBe('\\d');
-  expectPattern(oneOrMore(digit)).toBe('\\d+');
-  expectPattern(optionally(digit)).toBe('\\d?');
-  expectPattern(zeroOrMore(digit)).toBe('\\d*');
+  expect(one(digit)).toHavePattern('\\d');
+  expect(oneOrMore(digit)).toHavePattern('\\d+');
+  expect(optionally(digit)).toHavePattern('\\d?');
+  expect(zeroOrMore(digit)).toHavePattern('\\d*');
 
-  expectPattern(oneOrMore('a')).toBe('a+');
-  expectPattern(optionally('a')).toBe('a?');
-  expectPattern(zeroOrMore('a')).toBe('a*');
+  expect(oneOrMore('a')).toHavePattern('a+');
+  expect(optionally('a')).toHavePattern('a?');
+  expect(zeroOrMore('a')).toHavePattern('a*');
 });

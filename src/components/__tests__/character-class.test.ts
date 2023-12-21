@@ -8,52 +8,52 @@ import {
   whitespace,
   word,
 } from '../character-class';
-import { execRegex, expectPattern } from '../../test-utils';
+import { execRegex } from '../../test-utils';
 
 test('"any" character class', () => {
-  expectPattern(any).toBe('.');
-  expectPattern('x', any).toBe('x.');
-  expectPattern('x', any, 'x').toBe('x.x');
+  expect(any).toHavePattern('.');
+  expect(['x', any]).toHavePattern('x.');
+  expect(['x', any, 'x']).toHavePattern('x.x');
 });
 
 test('"digit" character class', () => {
-  expectPattern(digit).toBe('\\d');
-  expectPattern('x', digit).toBe('x\\d');
-  expectPattern('x', digit, 'x').toBe('x\\dx');
+  expect(digit).toHavePattern('\\d');
+  expect(['x', digit]).toHavePattern('x\\d');
+  expect(['x', digit, 'x']).toHavePattern('x\\dx');
 });
 
 test('"word" character class', () => {
-  expectPattern(word).toBe('\\w');
-  expectPattern('x', word).toBe('x\\w');
-  expectPattern('x', word, 'x').toBe('x\\wx');
+  expect(word).toHavePattern('\\w');
+  expect(['x', word]).toHavePattern('x\\w');
+  expect(['x', word, 'x']).toHavePattern('x\\wx');
 });
 
 test('"whitespace" character class', () => {
-  expectPattern(whitespace).toBe('\\s');
-  expectPattern('x', whitespace).toBe('x\\s');
-  expectPattern('x', whitespace, 'x').toBe('x\\sx');
+  expect(whitespace).toHavePattern('\\s');
+  expect(['x', whitespace]).toHavePattern('x\\s');
+  expect(['x', whitespace, 'x']).toHavePattern('x\\sx');
 });
 
 test('"anyOf" base cases', () => {
-  expectPattern(anyOf('a')).toBe('a');
-  expectPattern('x', anyOf('a'), 'x').toBe('xax');
-  expectPattern(anyOf('ab')).toBe('[ab]');
-  expectPattern('x', anyOf('ab')).toBe('x[ab]');
-  expectPattern('x', anyOf('ab'), 'x').toBe('x[ab]x');
+  expect(anyOf('a')).toHavePattern('a');
+  expect(['x', anyOf('a'), 'x']).toHavePattern('xax');
+  expect(anyOf('ab')).toHavePattern('[ab]');
+  expect(['x', anyOf('ab')]).toHavePattern('x[ab]');
+  expect(['x', anyOf('ab'), 'x']).toHavePattern('x[ab]x');
 });
 
 test('"anyOf" with quantifiers', () => {
-  expectPattern('x', oneOrMore(anyOf('abc')), 'x').toBe('x[abc]+x');
-  expectPattern('x', optionally(anyOf('abc')), 'x').toBe('x[abc]?x');
-  expectPattern('x', zeroOrMore(anyOf('abc')), 'x').toBe('x[abc]*x');
+  expect(['x', oneOrMore(anyOf('abc')), 'x']).toHavePattern('x[abc]+x');
+  expect(['x', optionally(anyOf('abc')), 'x']).toHavePattern('x[abc]?x');
+  expect(['x', zeroOrMore(anyOf('abc')), 'x']).toHavePattern('x[abc]*x');
 });
 
 test('"anyOf" escapes special characters', () => {
-  expectPattern(anyOf('abc-+.')).toBe('[-abc\\+\\.]');
+  expect(anyOf('abc-+.')).toHavePattern('[-abc\\+\\.]');
 });
 
 test('"anyOf" moves hyphen to the first position', () => {
-  expectPattern(anyOf('a-bc')).toBe('[-abc]');
+  expect(anyOf('a-bc')).toHavePattern('[-abc]');
 });
 
 test('"anyOf" throws on empty text', () => {
@@ -63,13 +63,13 @@ test('"anyOf" throws on empty text', () => {
 });
 
 test('"inverted" character class', () => {
-  expectPattern(inverted(anyOf('a'))).toBe('[^a]');
-  expectPattern(inverted(anyOf('abc'))).toBe('[^abc]');
+  expect(inverted(anyOf('a'))).toHavePattern('[^a]');
+  expect(inverted(anyOf('abc'))).toHavePattern('[^abc]');
 });
 
 test('"inverted" character class double inversion', () => {
-  expectPattern(inverted(inverted(anyOf('a')))).toBe('a');
-  expectPattern(inverted(inverted(anyOf('abc')))).toBe('[abc]');
+  expect(inverted(inverted(anyOf('a')))).toHavePattern('a');
+  expect(inverted(inverted(anyOf('abc')))).toHavePattern('[abc]');
 });
 
 test('"inverted" character class execution', () => {
