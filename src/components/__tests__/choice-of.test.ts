@@ -21,6 +21,14 @@ test('`choiceOf` used in sequence', () => {
   expect(choiceOf('aaa', 'bbb')).toHavePattern('aaa|bbb');
 });
 
+test('`choiceOf` with sequence options', () => {
+  expect([choiceOf(['a', 'b'])]).toHavePattern('ab');
+  expect([choiceOf(['a', 'b'], ['c', 'd'])]).toHavePattern('ab|cd');
+  expect([
+    choiceOf(['a', zeroOrMore('b')], [oneOrMore('c'), 'd']),
+  ]).toHavePattern('ab*|c+d');
+});
+
 test('`choiceOf` using nested regex', () => {
   expect(choiceOf(oneOrMore('a'), zeroOrMore('b'))).toHavePattern('a+|b*');
   expect(

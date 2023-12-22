@@ -1,6 +1,6 @@
 import type { RegexElement } from './components/types';
 import { encodeSequence } from './encoder/encoder';
-import { isRegexElement } from './utils';
+import { toArray } from './utils';
 
 export interface RegexFlags {
   /** Global search. */
@@ -21,22 +21,13 @@ export interface RegexFlags {
  * @param elements
  * @returns
  */
-export function buildRegex(...elements: Array<RegexElement | string>): RegExp;
 export function buildRegex(
-  flags: RegexFlags,
-  ...elements: Array<RegexElement | string>
-): RegExp;
-export function buildRegex(
-  first: RegexFlags | RegexElement | string,
-  ...rest: Array<RegexElement | string>
+  elements: RegexElement | RegexElement[],
+  flags?: RegexFlags
 ): RegExp {
-  if (typeof first === 'string' || isRegexElement(first)) {
-    return buildRegex({}, first, ...rest);
-  }
-
-  const pattern = encodeSequence(rest).pattern;
-  const flags = encodeFlags(first);
-  return new RegExp(pattern, flags);
+  const pattern = encodeSequence(toArray(elements)).pattern;
+  const flagsString = encodeFlags(flags ?? {});
+  return new RegExp(pattern, flagsString);
 }
 
 /**
@@ -44,10 +35,8 @@ export function buildRegex(
  * @param elements
  * @returns
  */
-export function buildPattern(
-  ...elements: Array<RegexElement | string>
-): string {
-  return encodeSequence(elements).pattern;
+export function buildPattern(elements: RegexElement | RegexElement[]): string {
+  return encodeSequence(toArray(elements)).pattern;
 }
 
 function encodeFlags(flags: RegexFlags): string {

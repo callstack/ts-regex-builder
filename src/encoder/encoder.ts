@@ -12,13 +12,11 @@ import { encodeRepeat } from '../components/repeat';
 import { concatNodes, escapeText } from '../utils';
 import { type EncoderNode, EncoderPrecedence } from './types';
 
-export function encodeSequence(
-  elements: Array<RegexElement | string>
-): EncoderNode {
+export function encodeSequence(elements: RegexElement[]): EncoderNode {
   return concatNodes(elements.map((c) => encodeElement(c)));
 }
 
-export function encodeElement(element: RegexElement | string): EncoderNode {
+export function encodeElement(element: RegexElement): EncoderNode {
   if (typeof element === 'string') {
     return encodeText(element);
   }
@@ -28,7 +26,7 @@ export function encodeElement(element: RegexElement | string): EncoderNode {
   }
 
   if (element.type === 'choiceOf') {
-    return encodeChoiceOf(element, encodeElement);
+    return encodeChoiceOf(element, encodeSequence);
   }
 
   if (element.type === 'repeat') {

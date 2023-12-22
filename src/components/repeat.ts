@@ -1,11 +1,13 @@
 import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
-import { toAtom } from '../utils';
+import { toArray, toAtom } from '../utils';
 import type { RegexElement, Repeat, RepeatConfig } from './types';
 
 export function repeat(
   config: RepeatConfig,
-  ...children: Array<RegexElement | string>
+  children: RegexElement | RegexElement[]
 ): Repeat {
+  children = toArray(children);
+
   if (children.length === 0) {
     throw new Error('`repeat` should receive at least one element');
   }

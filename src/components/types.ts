@@ -1,4 +1,9 @@
-export type RegexElement = Capture | CharacterClass | ChoiceOf | Quantifier;
+export type RegexElement =
+  | string
+  | Capture
+  | CharacterClass
+  | ChoiceOf
+  | Quantifier;
 
 export type Quantifier = One | OneOrMore | Optionally | ZeroOrMore | Repeat;
 
@@ -20,33 +25,33 @@ export type CharacterRange = {
 // Components
 export type ChoiceOf = {
   type: 'choiceOf';
-  children: Array<RegexElement | string>;
+  children: RegexElement[][];
 };
 
 // Quantifiers
 export type One = {
   type: 'one';
-  children: Array<RegexElement | string>;
+  children: RegexElement[];
 };
 
 export type OneOrMore = {
   type: 'oneOrMore';
-  children: Array<RegexElement | string>;
+  children: RegexElement[];
 };
 
 export type Optionally = {
   type: 'optionally';
-  children: Array<RegexElement | string>;
+  children: RegexElement[];
 };
 
 export type ZeroOrMore = {
   type: 'zeroOrMore';
-  children: Array<RegexElement | string>;
+  children: RegexElement[];
 };
 
 export type Repeat = {
   type: 'repeat';
-  children: Array<RegexElement | string>;
+  children: RegexElement[];
   config: RepeatConfig;
 };
 
@@ -55,5 +60,5 @@ export type RepeatConfig = { count: number } | { min: number; max?: number };
 // Captures
 export type Capture = {
   type: 'capture';
-  children: Array<RegexElement | string>;
+  children: RegexElement[];
 };

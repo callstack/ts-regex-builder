@@ -31,11 +31,14 @@ export function concatNodes(nodes: EncoderNode[]): EncoderNode {
 }
 
 export function isRegexElement(element: unknown): element is RegexElement {
-  return typeof element === 'object' && element !== null && 'type' in element;
+  return (
+    typeof element === 'string' ||
+    (typeof element === 'object' && element !== null && 'type' in element)
+  );
 }
 
-export function isRegexElementOrString(element: unknown): boolean {
-  return typeof element === 'string' || isRegexElement(element);
+export function toArray<T>(elementOrArray: T | T[]): T[] {
+  return Array.isArray(elementOrArray) ? elementOrArray : [elementOrArray];
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
