@@ -1,4 +1,4 @@
-import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers';
+import { oneOrMore, optionally, zeroOrMore } from '../quantifiers';
 import {
   any,
   anyOf,
@@ -35,7 +35,7 @@ test('`whitespace` character class', () => {
   expect(['x', whitespace, 'x']).toHavePattern('x\\sx');
 });
 
-test('"characterClass" base cases', () => {
+test('`characterClass` base cases', () => {
   expect(characterClass(characterRange('a', 'z'))).toHavePattern('[a-z]');
   expect(
     characterClass(characterRange('a', 'z'), characterRange('A', 'Z'))
@@ -48,10 +48,30 @@ test('"characterClass" base cases', () => {
   ).toHavePattern('[a-z\\s05]');
 });
 
-test('"characterRange" base cases', () => {
+test('`characterClass` throws on inverted arguments', () => {
+  expect(() =>
+    characterClass(inverted(whitespace))
+  ).toThrowErrorMatchingInlineSnapshot(
+    `"\`characterClass\` should receive only non-inverted character classes"`
+  );
+});
+
+test('`characterRange` base cases', () => {
   expect(characterRange('a', 'z')).toHavePattern('[a-z]');
   expect(['x', characterRange('0', '9')]).toHavePattern('x[0-9]');
   expect([characterRange('A', 'F'), 'x']).toHavePattern('[A-F]x');
+});
+
+test('`characterRange` throws on incorrect arguments', () => {
+  expect(() => characterRange('z', 'a')).toThrowErrorMatchingInlineSnapshot(
+    `"\`start\` should be less or equal to \`end\`"`
+  );
+  expect(() => characterRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
+    `"\`characterRange\` should receive only single character \`start\` string"`
+  );
+  expect(() => characterRange('a', 'zz')).toThrowErrorMatchingInlineSnapshot(
+    `"\`characterRange\` should receive only single character \`end\` string"`
+  );
 });
 
 test('`anyOf` base cases', () => {
