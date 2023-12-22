@@ -15,7 +15,7 @@ export function toMatchGroups(
   elements.forEach((e) => {
     if (!isRegexElement(e)) {
       throw new Error(
-        `\`toHavePattern()\` received an array of RegexElements and strings.`
+        `\`toMatchGroups()\` received an array of RegexElements and strings.`
       );
     }
   });
