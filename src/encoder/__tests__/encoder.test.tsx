@@ -35,7 +35,7 @@ test('regex constructor', () => {
   expect(buildRegex('a').test('b')).toBeFalsy();
 });
 
-test('"buildPattern" escapes special characters', () => {
+test('`buildPattern` escapes special characters', () => {
   expect('.').toHavePattern('\\.');
   expect('*').toHavePattern('\\*');
   expect('+').toHavePattern('\\+');
@@ -56,14 +56,14 @@ test('"buildPattern" escapes special characters', () => {
   );
 });
 
-test('buildRegex throws error on unknown element', () => {
+test('`buildRegex` throws error on unknown element', () => {
   expect(() =>
     // @ts-expect-error intentionally passing incorrect object
     buildRegex({ type: 'unknown' })
-  ).toThrowErrorMatchingInlineSnapshot(`"Unknown elements type unknown"`);
+  ).toThrowErrorMatchingInlineSnapshot(`"Unknown element type unknown"`);
 });
 
-test('buildPattern throws on empty text', () => {
+test('`buildPattern` throws on empty text', () => {
   expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
     `"\`encodeText\`: received text should not be empty"`
   );

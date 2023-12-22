@@ -3,14 +3,14 @@ import { repeat } from '../repeat';
 import { choiceOf } from '../choice-of';
 import '../../test-utils';
 
-test('"choiceOf" using basic strings', () => {
+test('`choiceOf` using basic strings', () => {
   expect(choiceOf('a')).toHavePattern('a');
   expect(choiceOf('a', 'b')).toHavePattern('a|b');
   expect(choiceOf('a', 'b', 'c')).toHavePattern('a|b|c');
   expect(choiceOf('aaa', 'bbb')).toHavePattern('aaa|bbb');
 });
 
-test('"choiceOf" used in sequence', () => {
+test('`choiceOf` used in sequence', () => {
   expect(['x', choiceOf('a'), 'x']).toHavePattern('xax');
   expect([choiceOf('a', 'b'), 'x']).toHavePattern('(?:a|b)x');
   expect(['x', choiceOf('a', 'b')]).toHavePattern('x(?:a|b)');
@@ -22,7 +22,7 @@ test('"choiceOf" used in sequence', () => {
   expect(choiceOf('aaa', 'bbb')).toHavePattern('aaa|bbb');
 });
 
-test('"choiceOf" using nested regex', () => {
+test('`choiceOf` using nested regex', () => {
   expect(choiceOf(oneOrMore('a'), zeroOrMore('b'))).toHavePattern('a+|b*');
   expect(
     choiceOf(repeat({ min: 1, max: 3 }, 'a'), repeat({ count: 5 }, 'bx'))

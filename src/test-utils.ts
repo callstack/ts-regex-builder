@@ -23,7 +23,7 @@ export function toHavePattern(
   elements.forEach((e) => {
     if (typeof e !== 'string' && !isRegexElement(e)) {
       throw new Error(
-        `"toHavePattern()" received an array of RegexElements and strings.`
+        `\`toHavePattern()\` received an array of RegexElements and strings.`
       );
     }
   });

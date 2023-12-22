@@ -56,7 +56,7 @@ export function encodeElement(element: RegexElement | string): EncoderNode {
   }
 
   // @ts-expect-error User passed incorrect type
-  throw new Error(`Unknown elements type ${element.type}`);
+  throw new Error(`Unknown element type ${element.type}`);
 }
 
 function encodeText(text: string): EncoderNode {
