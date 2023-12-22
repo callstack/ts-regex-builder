@@ -1,7 +1,6 @@
 import { buildRegex } from '../../builders';
 import { digit } from '../character-class';
 import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers';
-import '../../test-utils';
 
 test('`oneOrMore` quantifier', () => {
   expect(oneOrMore('a')).toHavePattern('a+');

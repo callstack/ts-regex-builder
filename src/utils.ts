@@ -34,6 +34,10 @@ export function isRegexElement(element: unknown): element is RegexElement {
   return typeof element === 'object' && element !== null && 'type' in element;
 }
 
+export function isRegexElementOrString(element: unknown): boolean {
+  return typeof element === 'string' || isRegexElement(element);
+}
+
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
 export function escapeText(text: string) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string

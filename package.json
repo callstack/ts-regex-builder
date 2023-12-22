@@ -72,6 +72,12 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest-setup.ts"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
     "modulePathIgnorePatterns": [
       "<rootDir>/lib/"
     ]

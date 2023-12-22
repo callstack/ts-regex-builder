@@ -6,7 +6,6 @@ import {
   zeroOrMore,
 } from '../../components/quantifiers';
 import { repeat } from '../../components/repeat';
-import '../../test-utils';
 
 test('basic quantifies', () => {
   expect('a').toHavePattern('a');

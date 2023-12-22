@@ -1,15 +1,6 @@
-import { buildPattern, buildRegex } from './builders';
-import type { RegexElement } from './components/types';
-import { isRegexElement } from './utils';
-
-export function execRegex(
-  text: string,
-  elements: Array<RegexElement | string>
-) {
-  const regex = buildRegex(...elements);
-  const result = regex.exec(text);
-  return result ? [...result] : null;
-}
+import { buildPattern } from '../src/builders';
+import type { RegexElement } from '../src/components/types';
+import { isRegexElementOrString } from '../src/utils';
 
 export function toHavePattern(
   this: jest.MatcherContext,
@@ -21,7 +12,7 @@ export function toHavePattern(
   }
 
   elements.forEach((e) => {
-    if (typeof e !== 'string' && !isRegexElement(e)) {
+    if (!isRegexElementOrString(e)) {
       throw new Error(
         `\`toHavePattern()\` received an array of RegexElements and strings.`
       );

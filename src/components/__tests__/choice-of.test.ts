@@ -1,7 +1,6 @@
 import { oneOrMore, zeroOrMore } from '../quantifiers';
 import { repeat } from '../repeat';
 import { choiceOf } from '../choice-of';
-import '../../test-utils';
 
 test('`choiceOf` using basic strings', () => {
   expect(choiceOf('a')).toHavePattern('a');

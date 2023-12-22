@@ -1,4 +1,3 @@
-import '../../test-utils';
 import { digit } from '../character-class';
 import { oneOrMore, zeroOrMore } from '../quantifiers';
 import { repeat } from '../repeat';

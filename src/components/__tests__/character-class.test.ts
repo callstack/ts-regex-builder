@@ -8,7 +8,6 @@ import {
   whitespace,
   word,
 } from '../character-class';
-import { execRegex } from '../../test-utils';
 
 test('`any` character class', () => {
   expect(any).toHavePattern('.');
@@ -73,8 +72,8 @@ test('`inverted` character class double inversion', () => {
 });
 
 test('`inverted` character class execution', () => {
-  expect(execRegex('aa', [inverted(anyOf('a'))])).toBeNull();
-  expect(execRegex('aba', [inverted(anyOf('a'))])).toEqual(['b']);
+  expect(inverted(anyOf('a'))).toMatchGroups('aa', []);
+  expect(inverted(anyOf('a'))).toMatchGroups('aba', ['b']);
 });
 
 test('`encodeCharacterClass` throws on empty text', () => {
