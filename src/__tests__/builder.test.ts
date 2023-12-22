@@ -1,6 +1,6 @@
 import { buildRegex } from '../builders';
 
-test('"regexBuilder" flags', () => {
+test('`regexBuilder` flags', () => {
   expect(buildRegex('a').flags).toBe('');
   expect(buildRegex({}, 'a').flags).toBe('');
 

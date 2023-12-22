@@ -1,25 +1,24 @@
-import { buildPattern } from '../../builders';
 import { digit } from '../character-class';
 import { oneOrMore, zeroOrMore } from '../quantifiers';
 import { repeat } from '../repeat';
 
-test('"repeat" quantifier', () => {
-  expect(buildPattern('a', repeat({ min: 1, max: 5 }, 'b'))).toEqual('ab{1,5}');
-  expect(buildPattern('a', repeat({ min: 1 }, 'b'))).toEqual('ab{1,}');
-  expect(buildPattern('a', repeat({ count: 1 }, 'b'))).toEqual('ab{1}');
+test('`repeat` quantifier', () => {
+  expect(['a', repeat({ min: 1, max: 5 }, 'b')]).toHavePattern('ab{1,5}');
+  expect(['a', repeat({ min: 1 }, 'b')]).toHavePattern('ab{1,}');
+  expect(['a', repeat({ count: 1 }, 'b')]).toHavePattern('ab{1}');
 
-  expect(buildPattern('a', repeat({ count: 1 }, 'a', zeroOrMore('b')))).toEqual(
+  expect(['a', repeat({ count: 1 }, 'a', zeroOrMore('b'))]).toHavePattern(
     'a(?:ab*){1}'
   );
-  expect(
-    buildPattern(repeat({ count: 5 }, 'text', ' ', oneOrMore('d')))
-  ).toEqual('(?:text d+){5}');
+  expect(repeat({ count: 5 }, 'text', ' ', oneOrMore('d'))).toHavePattern(
+    '(?:text d+){5}'
+  );
 });
 
-test('"repeat"" optimizes grouping for atoms', () => {
-  expect(buildPattern(repeat({ count: 2 }, digit))).toBe('\\d{2}');
-  expect(buildPattern(repeat({ min: 2 }, digit))).toBe('\\d{2,}');
-  expect(buildPattern(repeat({ min: 1, max: 5 }, digit))).toBe('\\d{1,5}');
+test('`repeat` optimizes grouping for atoms', () => {
+  expect(repeat({ count: 2 }, digit)).toHavePattern('\\d{2}');
+  expect(repeat({ min: 2 }, digit)).toHavePattern('\\d{2,}');
+  expect(repeat({ min: 1, max: 5 }, digit)).toHavePattern('\\d{1,5}');
 });
 
 test('`repeat` throws on no children', () => {
