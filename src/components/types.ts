@@ -5,7 +5,16 @@ export type Quantifier = One | OneOrMore | Optionally | ZeroOrMore | Repeat;
 export type CharacterClass = {
   type: 'characterClass';
   characters: string[];
-  inverted: boolean;
+  ranges: CharacterRange[];
+  isInverted: boolean;
+};
+
+/**
+ * Character range from start to end (inclusive).
+ */
+export type CharacterRange = {
+  start: string;
+  end: string;
 };
 
 // Components
