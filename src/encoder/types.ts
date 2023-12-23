@@ -26,4 +26,5 @@ export const EncoderPrecedence = {
 type ValueOf<T> = T[keyof T];
 type EncoderPrecedence = ValueOf<typeof EncoderPrecedence>;
 
-export type EncodeElement = (element: RegexElement | string) => EncoderNode;
+export type EncodeSequence = (elements: RegexElement[]) => EncoderNode;
+export type EncodeElement = (element: RegexElement) => EncoderNode;

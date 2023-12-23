@@ -9,16 +9,15 @@ import {
   encodeZeroOrMore,
 } from '../components/quantifiers';
 import { encodeRepeat } from '../components/repeat';
-import { concatNodes, escapeText } from '../utils';
+import { escapeText } from '../utils/text';
 import { type EncoderNode, EncoderPrecedence } from './types';
+import { concatNodes } from './utils';
 
-export function encodeSequence(
-  elements: Array<RegexElement | string>
-): EncoderNode {
+export function encodeSequence(elements: RegexElement[]): EncoderNode {
   return concatNodes(elements.map((c) => encodeElement(c)));
 }
 
-export function encodeElement(element: RegexElement | string): EncoderNode {
+export function encodeElement(element: RegexElement): EncoderNode {
   if (typeof element === 'string') {
     return encodeText(element);
   }
@@ -28,7 +27,7 @@ export function encodeElement(element: RegexElement | string): EncoderNode {
   }
 
   if (element.type === 'choiceOf') {
-    return encodeChoiceOf(element, encodeElement);
+    return encodeChoiceOf(element, encodeSequence);
   }
 
   if (element.type === 'repeat') {

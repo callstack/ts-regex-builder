@@ -41,7 +41,7 @@ npm install ts-regex-builder
 import { buildRegex, capture, oneOrMore } from 'ts-regex-builder';
 
 // /Hello (\w+)/
-const regex = buildRegex('Hello ', capture(oneOrMore(word)));
+const regex = buildRegex(['Hello ', capture(oneOrMore(word))]);
 ```
 
 ## Contributing

@@ -1,5 +1,5 @@
 import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
-import { escapeText } from '../utils';
+import { escapeText } from '../utils/text';
 import type { CharacterClass } from './types';
 
 export const any: CharacterClass = {
@@ -126,7 +126,7 @@ export function encodeCharacterClass({
   // If passed characters includes hyphen (`-`) it need to be moved to
   // first (or last) place in order to treat it as hyphen character and not a range.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
-  const hypenString = characters.includes('-') ? '-' : '';
+  const hyphenString = characters.includes('-') ? '-' : '';
   const charactersString = characters.filter((c) => c !== '-').join('');
   const rangesString = ranges
     .map(({ start, end }) => `${start}-${end}`)
@@ -135,6 +135,6 @@ export function encodeCharacterClass({
 
   return {
     precedence: EncoderPrecedence.Atom,
-    pattern: `[${invertedString}${hypenString}${rangesString}${charactersString}]`,
+    pattern: `[${invertedString}${hyphenString}${rangesString}${charactersString}]`,
   };
 }

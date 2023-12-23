@@ -1,26 +1,29 @@
 import {
-  type EncodeElement,
   type EncoderNode,
   EncoderPrecedence,
+  type EncodeSequence,
 } from '../encoder/types';
+import { asElementArray } from '../utils/elements';
 import type { ChoiceOf, RegexElement } from './types';
 
-export function choiceOf(...children: Array<RegexElement | string>): ChoiceOf {
+export function choiceOf(
+  ...children: Array<RegexElement | RegexElement[]>
+): ChoiceOf {
   if (children.length === 0) {
     throw new Error('`choiceOf` should receive at least one option');
   }
 
   return {
     type: 'choiceOf',
-    children,
+    children: children.map((c) => asElementArray(c)),
   };
 }
 
 export function encodeChoiceOf(
   element: ChoiceOf,
-  encodeElement: EncodeElement
+  encodeSequence: EncodeSequence
 ): EncoderNode {
-  const encodedNodes = element.children.map(encodeElement);
+  const encodedNodes = element.children.map((c) => encodeSequence(c));
   if (encodedNodes.length === 1) {
     return encodedNodes[0]!;
   }

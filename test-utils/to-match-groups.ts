@@ -1,10 +1,10 @@
 import { buildRegex } from '../src/builders';
 import type { RegexElement } from '../src/components/types';
-import { isRegexElementOrString } from '../src/utils';
+import { isRegexElement } from '../src/utils/elements';
 
 export function toMatchGroups(
   this: jest.MatcherContext,
-  elements: Array<RegexElement | string> | RegexElement | string,
+  elements: RegexElement | RegexElement[],
   input: string,
   expected: string[]
 ) {
@@ -13,14 +13,14 @@ export function toMatchGroups(
   }
 
   elements.forEach((e) => {
-    if (!isRegexElementOrString(e)) {
+    if (!isRegexElement(e)) {
       throw new Error(
-        `\`toHavePattern()\` received an array of RegexElements and strings.`
+        `\`toMatchGroups()\` received an array of RegexElements and strings.`
       );
     }
   });
 
-  const regex = buildRegex(...elements);
+  const regex = buildRegex(elements);
   const options = {
     isNot: this.isNot,
   };

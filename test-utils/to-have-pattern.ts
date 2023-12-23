@@ -1,10 +1,10 @@
 import { buildPattern } from '../src/builders';
 import type { RegexElement } from '../src/components/types';
-import { isRegexElementOrString } from '../src/utils';
+import { isRegexElement } from '../src/utils/elements';
 
 export function toHavePattern(
   this: jest.MatcherContext,
-  elements: Array<RegexElement | string> | RegexElement | string,
+  elements: RegexElement | RegexElement[],
   expected: string
 ) {
   if (!Array.isArray(elements)) {
@@ -12,14 +12,14 @@ export function toHavePattern(
   }
 
   elements.forEach((e) => {
-    if (!isRegexElementOrString(e)) {
+    if (!isRegexElement(e)) {
       throw new Error(
         `\`toHavePattern()\` received an array of RegexElements and strings.`
       );
     }
   });
 
-  const received = buildPattern(...elements);
+  const received = buildPattern(elements);
 
   const options = {
     isNot: this.isNot,
