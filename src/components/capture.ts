@@ -1,11 +1,11 @@
 import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
-import { toArray } from '../utils';
+import { asElementArray } from '../utils/elements';
 import type { Capture, RegexElement } from './types';
 
 export function capture(children: RegexElement | RegexElement[]): Capture {
   return {
     type: 'capture',
-    children: toArray(children),
+    children: asElementArray(children),
   };
 }
 

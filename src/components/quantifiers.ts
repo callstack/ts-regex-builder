@@ -1,5 +1,6 @@
 import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
-import { toArray, toAtom } from '../utils';
+import { toAtom } from '../encoder/utils';
+import { asElementArray } from '../utils/elements';
 import type {
   One,
   OneOrMore,
@@ -11,14 +12,14 @@ import type {
 export function one(children: RegexElement | RegexElement[]): One {
   return {
     type: 'one',
-    children: toArray(children),
+    children: asElementArray(children),
   };
 }
 
 export function oneOrMore(children: RegexElement | RegexElement[]): OneOrMore {
   return {
     type: 'oneOrMore',
-    children: toArray(children),
+    children: asElementArray(children),
   };
 }
 
@@ -27,7 +28,7 @@ export function optionally(
 ): Optionally {
   return {
     type: 'optionally',
-    children: toArray(children),
+    children: asElementArray(children),
   };
 }
 
@@ -36,7 +37,7 @@ export function zeroOrMore(
 ): ZeroOrMore {
   return {
     type: 'zeroOrMore',
-    children: toArray(children),
+    children: asElementArray(children),
   };
 }
 

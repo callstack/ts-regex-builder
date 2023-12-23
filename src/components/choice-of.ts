@@ -3,7 +3,7 @@ import {
   EncoderPrecedence,
   type EncodeSequence,
 } from '../encoder/types';
-import { toArray } from '../utils';
+import { asElementArray } from '../utils/elements';
 import type { ChoiceOf, RegexElement } from './types';
 
 export function choiceOf(
@@ -15,7 +15,7 @@ export function choiceOf(
 
   return {
     type: 'choiceOf',
-    children: children.map((c) => toArray(c)),
+    children: children.map((c) => asElementArray(c)),
   };
 }
 

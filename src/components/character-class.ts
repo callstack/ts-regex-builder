@@ -1,5 +1,5 @@
 import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
-import { escapeText } from '../utils';
+import { escapeText } from '../utils/text';
 import type { CharacterClass } from './types';
 
 export const any: CharacterClass = {

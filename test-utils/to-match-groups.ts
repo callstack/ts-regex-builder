@@ -1,6 +1,6 @@
 import { buildRegex } from '../src/builders';
 import type { RegexElement } from '../src/components/types';
-import { isRegexElement } from '../src/utils';
+import { isRegexElement } from '../src/utils/elements';
 
 export function toMatchGroups(
   this: jest.MatcherContext,

@@ -9,8 +9,9 @@ import {
   encodeZeroOrMore,
 } from '../components/quantifiers';
 import { encodeRepeat } from '../components/repeat';
-import { concatNodes, escapeText } from '../utils';
+import { escapeText } from '../utils/text';
 import { type EncoderNode, EncoderPrecedence } from './types';
+import { concatNodes } from './utils';
 
 export function encodeSequence(elements: RegexElement[]): EncoderNode {
   return concatNodes(elements.map((c) => encodeElement(c)));
