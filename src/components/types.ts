@@ -1,18 +1,12 @@
 export type RegexElement =
   | string
-  | Capture
   | CharacterClass
+  | Anchor
   | ChoiceOf
-  | Quantifier;
+  | Quantifier
+  | Capture;
 
 export type Quantifier = One | OneOrMore | Optionally | ZeroOrMore | Repeat;
-
-export type CharacterClass = {
-  type: 'characterClass';
-  characters: string[];
-  ranges: CharacterRange[];
-  isInverted: boolean;
-};
 
 /**
  * Character range from start to end (inclusive).
@@ -23,6 +17,18 @@ export type CharacterRange = {
 };
 
 // Components
+export type CharacterClass = {
+  type: 'characterClass';
+  characters: string[];
+  ranges: CharacterRange[];
+  isInverted: boolean;
+};
+
+export type Anchor = {
+  type: 'anchor';
+  symbol: string;
+};
+
 export type ChoiceOf = {
   type: 'choiceOf';
   children: RegexElement[][];

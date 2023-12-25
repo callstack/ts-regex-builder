@@ -1,4 +1,5 @@
 import type { RegexElement } from '../components/types';
+import { encodeAnchor } from '../components/anchors';
 import { encodeCapture } from '../components/capture';
 import { encodeCharacterClass } from '../components/character-class';
 import { encodeChoiceOf } from '../components/choice-of';
@@ -10,6 +11,7 @@ import {
 } from '../components/quantifiers';
 import { encodeRepeat } from '../components/repeat';
 import { escapeText } from '../utils/text';
+
 import { type EncoderNode, EncoderPrecedence } from './types';
 import { concatNodes } from './utils';
 
@@ -24,6 +26,10 @@ export function encodeElement(element: RegexElement): EncoderNode {
 
   if (element.type === 'characterClass') {
     return encodeCharacterClass(element);
+  }
+
+  if (element.type === 'anchor') {
+    return encodeAnchor(element);
   }
 
   if (element.type === 'choiceOf') {
