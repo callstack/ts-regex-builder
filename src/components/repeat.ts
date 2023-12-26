@@ -11,10 +11,7 @@ export interface Repeat extends RegexElement {
 
 export type RepeatOptions = { count: number } | { min: number; max?: number };
 
-export function repeat(
-  options: RepeatOptions,
-  nodes: RegexNode | RegexNode[]
-): Repeat {
+export function repeat(options: RepeatOptions, nodes: RegexNode | RegexNode[]): Repeat {
   const children = asNodeArray(nodes);
 
   if (children.length === 0) {
@@ -41,8 +38,6 @@ function encodeRepeat(this: Repeat): EncodeOutput {
 
   return {
     precedence: 'sequence',
-    pattern: `${atomicNodes.pattern}{${this.options.min},${
-      this.options?.max ?? ''
-    }}`,
+    pattern: `${atomicNodes.pattern}{${this.options.min},${this.options?.max ?? ''}}`,
   };
 }

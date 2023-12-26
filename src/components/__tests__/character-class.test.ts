@@ -37,21 +37,17 @@ test('`whitespace` character class', () => {
 
 test('`characterClass` base cases', () => {
   expect(characterClass(characterRange('a', 'z'))).toHavePattern('[a-z]');
-  expect(
-    characterClass(characterRange('a', 'z'), characterRange('A', 'Z'))
-  ).toHavePattern('[a-zA-Z]');
-  expect(characterClass(characterRange('a', 'z'), anyOf('05'))).toHavePattern(
-    '[a-z05]'
+  expect(characterClass(characterRange('a', 'z'), characterRange('A', 'Z'))).toHavePattern(
+    '[a-zA-Z]'
   );
-  expect(
-    characterClass(characterRange('a', 'z'), whitespace, anyOf('05'))
-  ).toHavePattern('[a-z\\s05]');
+  expect(characterClass(characterRange('a', 'z'), anyOf('05'))).toHavePattern('[a-z05]');
+  expect(characterClass(characterRange('a', 'z'), whitespace, anyOf('05'))).toHavePattern(
+    '[a-z\\s05]'
+  );
 });
 
 test('`characterClass` throws on inverted arguments', () => {
-  expect(() =>
-    characterClass(inverted(whitespace))
-  ).toThrowErrorMatchingInlineSnapshot(
+  expect(() => characterClass(inverted(whitespace))).toThrowErrorMatchingInlineSnapshot(
     `"\`characterClass\` should receive only non-inverted character classes"`
   );
 });
@@ -89,11 +85,11 @@ test('`anyOf` with quantifiers', () => {
 });
 
 test('`anyOf` escapes special characters', () => {
-  expect(anyOf('abc-+.')).toHavePattern('[-abc\\+\\.]');
+  expect(anyOf('abc-+.]\\')).toHavePattern('[abc+.\\]\\\\-]');
 });
 
-test('`anyOf` moves hyphen to the first position', () => {
-  expect(anyOf('a-bc')).toHavePattern('[-abc]');
+test('`anyOf` moves hyphen to the last position', () => {
+  expect(anyOf('a-bc')).toHavePattern('[abc-]');
 });
 
 test('`anyOf` throws on empty text', () => {

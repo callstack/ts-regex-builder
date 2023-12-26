@@ -1,9 +1,5 @@
 import { buildPattern, buildRegex } from '../../builders';
-import {
-  oneOrMore,
-  optionally,
-  zeroOrMore,
-} from '../../components/quantifiers';
+import { oneOrMore, optionally, zeroOrMore } from '../../components/quantifiers';
 import { repeat } from '../../components/repeat';
 
 test('basic quantifies', () => {
@@ -49,18 +45,14 @@ test('`buildPattern` escapes special characters', () => {
 
   expect('*.*').toHavePattern('\\*\\.\\*');
 
-  expect([oneOrMore('.*'), zeroOrMore('[]{}')]).toHavePattern(
-    '(?:\\.\\*)+(?:\\[\\]\\{\\})*'
-  );
+  expect([oneOrMore('.*'), zeroOrMore('[]{}')]).toHavePattern('(?:\\.\\*)+(?:\\[\\]\\{\\})*');
 });
 
 test('`buildRegex` throws error on unknown element', () => {
   expect(() =>
     // @ts-expect-error intentionally passing incorrect object
     buildRegex({ type: 'unknown' })
-  ).toThrowErrorMatchingInlineSnapshot(
-    `"\`encodeNode\`: unknown element type unknown"`
-  );
+  ).toThrowErrorMatchingInlineSnapshot(`"\`encodeNode\`: unknown element type unknown"`);
 });
 
 test('`buildPattern` throws on empty text', () => {

@@ -11,9 +11,5 @@ test('`capture` base cases', () => {
 test('`capture` captures group', () => {
   expect(capture('b')).toMatchGroups('ab', ['b', 'b']);
   expect(['a', capture('b')]).toMatchGroups('ab', ['ab', 'b']);
-  expect(['a', capture('b'), capture('c')]).toMatchGroups('abc', [
-    'abc',
-    'b',
-    'c',
-  ]);
+  expect(['a', capture('b'), capture('c')]).toMatchGroups('abc', ['abc', 'b', 'c']);
 });

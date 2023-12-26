@@ -1,5 +1,4 @@
 import type { EncodeOutput } from '../encoder/types';
-import { escapeText } from '../utils/text';
 
 export interface CharacterClass {
   type: 'characterClass';
@@ -52,9 +51,7 @@ export const whitespace: CharacterClass = {
 export function characterClass(...elements: CharacterClass[]): CharacterClass {
   elements.forEach((element) => {
     if (element.isInverted) {
-      throw new Error(
-        '`characterClass` should receive only non-inverted character classes'
-      );
+      throw new Error('`characterClass` should receive only non-inverted character classes');
     }
   });
 
@@ -69,37 +66,29 @@ export function characterClass(...elements: CharacterClass[]): CharacterClass {
 
 export function characterRange(start: string, end: string): CharacterClass {
   if (start.length !== 1) {
-    throw new Error(
-      '`characterRange` should receive only single character `start` string'
-    );
+    throw new Error('`characterRange` should receive only single character `start` string');
   }
 
   if (end.length !== 1) {
-    throw new Error(
-      '`characterRange` should receive only single character `end` string'
-    );
+    throw new Error('`characterRange` should receive only single character `end` string');
   }
 
   if (start > end) {
     throw new Error('`start` should be before or equal to `end`');
   }
 
-  const range = {
-    start: escapeText(start),
-    end: escapeText(end),
-  };
-
   return {
     type: 'characterClass',
     characters: [],
-    ranges: [range],
+    ranges: [{ start, end }],
     isInverted: false,
     encode: encodeCharacterClass,
   };
 }
 
 export function anyOf(characters: string): CharacterClass {
-  const charactersArray = characters.split('').map(escapeText);
+  const charactersArray = characters.split('').map((c) => escapeForCharacterClass(c));
+
   if (charactersArray.length === 0) {
     throw new Error('`anyOf` should received at least one character');
   }
@@ -125,17 +114,11 @@ export function inverted(element: CharacterClass): CharacterClass {
 
 function encodeCharacterClass(this: CharacterClass): EncodeOutput {
   if (this.characters.length === 0 && this.ranges.length === 0) {
-    throw new Error(
-      'Character class should contain at least one character or character range'
-    );
+    throw new Error('Character class should contain at least one character or character range');
   }
 
   // Direct rendering for single-character class
-  if (
-    this.characters.length === 1 &&
-    this.ranges?.length === 0 &&
-    !this.isInverted
-  ) {
+  if (this.characters.length === 1 && this.ranges?.length === 0 && !this.isInverted) {
     return {
       precedence: 'atom',
       pattern: this.characters[0]!,
@@ -147,13 +130,15 @@ function encodeCharacterClass(this: CharacterClass): EncodeOutput {
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
   const hyphen = this.characters.includes('-') ? '-' : '';
   const otherCharacters = this.characters.filter((c) => c !== '-').join('');
-  const ranges = this.ranges
-    .map(({ start, end }) => `${start}-${end}`)
-    .join('');
+  const ranges = this.ranges.map(({ start, end }) => `${start}-${end}`).join('');
   const isInverted = this.isInverted ? '^' : '';
 
   return {
     precedence: 'atom',
-    pattern: `[${isInverted}${hyphen}${ranges}${otherCharacters}]`,
+    pattern: `[${isInverted}${ranges}${otherCharacters}${hyphen}]`,
   };
+}
+
+function escapeForCharacterClass(text: string): string {
+  return text.replace(/[\]\\]/g, '\\$&'); // $& means the whole matched string
 }

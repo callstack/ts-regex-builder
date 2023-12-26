@@ -35,19 +35,13 @@ export function buildRegex(elements: RegexNode | RegexNode[]): RegExp;
  * @param flags RegExp flags object
  * @returns RegExp object
  */
-export function buildRegex(
-  flags: RegexFlags,
-  elements: RegexNode | RegexNode[]
-): RegExp;
+export function buildRegex(flags: RegexFlags, elements: RegexNode | RegexNode[]): RegExp;
 
 export function buildRegex(first: any, second?: any): RegExp {
   return _buildRegex(...optionalFirstArg(first, second));
 }
 
-export function _buildRegex(
-  flags: RegexFlags,
-  elements: RegexNode | RegexNode[]
-): RegExp {
+export function _buildRegex(flags: RegexFlags, elements: RegexNode | RegexNode[]): RegExp {
   const pattern = encodeSequence(asNodeArray(elements)).pattern;
   const flagsString = encodeFlags(flags ?? {});
   return new RegExp(pattern, flagsString);

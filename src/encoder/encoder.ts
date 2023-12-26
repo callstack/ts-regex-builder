@@ -49,9 +49,7 @@ function concatSequence(encoded: EncodeOutput[]): EncodeOutput {
 
   return {
     precedence: 'sequence',
-    pattern: encoded
-      .map((n) => (n.precedence === 'alternation' ? asAtom(n) : n).pattern)
-      .join(''),
+    pattern: encoded.map((n) => (n.precedence === 'alternation' ? asAtom(n) : n).pattern).join(''),
   };
 }
 

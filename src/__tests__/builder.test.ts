@@ -19,7 +19,5 @@ test('`regexBuilder` flags', () => {
   expect(buildRegex({ sticky: true }, 'a').flags).toBe('y');
   expect(buildRegex({ sticky: false }, 'a').flags).toBe('');
 
-  expect(
-    buildRegex({ global: true, ignoreCase: true, multiline: false }, 'a').flags
-  ).toBe('gi');
+  expect(buildRegex({ global: true, ignoreCase: true, multiline: false }, 'a').flags).toBe('gi');
 });

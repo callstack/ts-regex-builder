@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "ts-regex": ["./src/index"]
+      "ts-regex-builder": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
