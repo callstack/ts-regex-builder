@@ -1,4 +1,13 @@
-import { buildRegex, capture, characterRange, choiceOf, digit, endOfString, repeat, startOfString } from '../index';
+import {
+  buildRegex,
+  capture,
+  characterRange,
+  choiceOf,
+  digit,
+  endOfString,
+  repeat,
+  startOfString,
+} from '../index';
 
 test('example: IPv4 address validator', () => {
   const octet = choiceOf(

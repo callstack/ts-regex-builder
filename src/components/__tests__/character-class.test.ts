@@ -1,5 +1,14 @@
 import { oneOrMore, optionally, zeroOrMore } from '../quantifiers';
-import { any, anyOf, characterClass, characterRange, digit, inverted, whitespace, word } from '../character-class';
+import {
+  any,
+  anyOf,
+  characterClass,
+  characterRange,
+  digit,
+  inverted,
+  whitespace,
+  word,
+} from '../character-class';
 import { buildRegex } from '../../builders';
 
 test('`any` character class', () => {
@@ -28,9 +37,13 @@ test('`whitespace` character class', () => {
 
 test('`characterClass` base cases', () => {
   expect(characterClass(characterRange('a', 'z'))).toHavePattern('[a-z]');
-  expect(characterClass(characterRange('a', 'z'), characterRange('A', 'Z'))).toHavePattern('[a-zA-Z]');
+  expect(characterClass(characterRange('a', 'z'), characterRange('A', 'Z'))).toHavePattern(
+    '[a-zA-Z]'
+  );
   expect(characterClass(characterRange('a', 'z'), anyOf('05'))).toHavePattern('[a-z05]');
-  expect(characterClass(characterRange('a', 'z'), whitespace, anyOf('05'))).toHavePattern('[a-z\\s05]');
+  expect(characterClass(characterRange('a', 'z'), whitespace, anyOf('05'))).toHavePattern(
+    '[a-z\\s05]'
+  );
 });
 
 test('`characterClass` throws on inverted arguments', () => {
@@ -80,7 +93,9 @@ test('`anyOf` moves hyphen to the last position', () => {
 });
 
 test('`anyOf` throws on empty text', () => {
-  expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(`"\`anyOf\` should received at least one character"`);
+  expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(
+    `"\`anyOf\` should received at least one character"`
+  );
 });
 
 test('`inverted` character class', () => {
@@ -109,5 +124,7 @@ test('`encodeCharacterClass` throws on empty text', () => {
         isInverted: false,
       })
     )
-  ).toThrowErrorMatchingInlineSnapshot(`"Character class should contain at least one character or character range"`);
+  ).toThrowErrorMatchingInlineSnapshot(
+    `"Character class should contain at least one character or character range"`
+  );
 });

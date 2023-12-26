@@ -7,12 +7,8 @@ test('`repeat` quantifier', () => {
   expect(['a', repeat({ min: 1 }, 'b')]).toHavePattern('ab{1,}');
   expect(['a', repeat({ count: 1 }, 'b')]).toHavePattern('ab{1}');
 
-  expect(['a', repeat({ count: 1 }, ['a', zeroOrMore('b')])]).toHavePattern(
-    'a(?:ab*){1}'
-  );
-  expect(repeat({ count: 5 }, ['text', ' ', oneOrMore('d')])).toHavePattern(
-    '(?:text d+){5}'
-  );
+  expect(['a', repeat({ count: 1 }, ['a', zeroOrMore('b')])]).toHavePattern('a(?:ab*){1}');
+  expect(repeat({ count: 5 }, ['text', ' ', oneOrMore('d')])).toHavePattern('(?:text d+){5}');
 });
 
 test('`repeat` optimizes grouping for atoms', () => {

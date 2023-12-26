@@ -12,9 +12,7 @@ export function toHavePattern(
 
   nodes.forEach((e) => {
     if (!isRegexNode(e)) {
-      throw new Error(
-        `\`toHavePattern()\` received an array of RegexElements and strings.`
-      );
+      throw new Error(`\`toHavePattern()\` received an array of RegexElements and strings.`);
     }
   });
 
@@ -28,9 +26,7 @@ export function toHavePattern(
     message: () =>
       this.utils.matcherHint('toHavePattern', undefined, undefined, options) +
       '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(
-        expected
-      )}\n` +
+      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n` +
       `Received: ${this.utils.printReceived(received)}`,
   };
 }

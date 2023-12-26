@@ -8,9 +8,7 @@ export interface ChoiceOf extends RegexElement {
   alternatives: RegexNode[][];
 }
 
-export function choiceOf(
-  ...alternatives: Array<RegexNode | RegexNode[]>
-): ChoiceOf {
+export function choiceOf(...alternatives: Array<RegexNode | RegexNode[]>): ChoiceOf {
   if (alternatives.length === 0) {
     throw new Error('`choiceOf` should receive at least one alternative');
   }
