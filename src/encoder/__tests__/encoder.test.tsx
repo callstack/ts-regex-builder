@@ -1,6 +1,5 @@
 import { buildPattern, buildRegex } from '../../builders';
 import {
-  one,
   oneOrMore,
   optionally,
   zeroOrMore,
@@ -26,7 +25,7 @@ test('basic quantifies', () => {
 
   expect([optionally('a'), 'b']).toHavePattern('a?b');
 
-  expect([optionally('a'), 'b', one('d')]).toHavePattern('a?bd');
+  expect([optionally('a'), 'b', oneOrMore('d')]).toHavePattern('a?bd+');
 });
 
 test('regex constructor', () => {

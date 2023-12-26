@@ -1,12 +1,7 @@
-import { encodeAtom, encodeSequence } from '../encoder/encoder';
+import { encodeAtom } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
 import type { RegexElement, RegexNode } from '../types';
-
-export interface One extends RegexElement {
-  type: 'one';
-  children: RegexNode[];
-}
 
 export interface OneOrMore extends RegexElement {
   type: 'oneOrMore';
@@ -21,14 +16,6 @@ export interface Optionally extends RegexElement {
 export interface ZeroOrMore extends RegexElement {
   type: 'zeroOrMore';
   children: RegexNode[];
-}
-
-export function one(nodes: RegexNode | RegexNode[]): One {
-  return {
-    type: 'one',
-    children: asNodeArray(nodes),
-    encode: encodeOne,
-  };
 }
 
 export function oneOrMore(nodes: RegexNode | RegexNode[]): OneOrMore {
@@ -53,10 +40,6 @@ export function zeroOrMore(nodes: RegexNode | RegexNode[]): ZeroOrMore {
     children: asNodeArray(nodes),
     encode: encodeZeroOrMore,
   };
-}
-
-function encodeOne(this: One) {
-  return encodeSequence(this.children);
 }
 
 function encodeOneOrMore(this: OneOrMore): EncodeOutput {

@@ -11,10 +11,5 @@ export {
   word,
 } from './components/character-class';
 export { choiceOf } from './components/choice-of';
-export {
-  one,
-  oneOrMore,
-  optionally,
-  zeroOrMore,
-} from './components/quantifiers';
+export { oneOrMore, optionally, zeroOrMore } from './components/quantifiers';
 export { repeat } from './components/repeat';

@@ -1,15 +1,10 @@
 import { buildRegex } from '../../builders';
 import { digit } from '../character-class';
-import { one, oneOrMore, optionally, zeroOrMore } from '../quantifiers';
+import { oneOrMore, optionally, zeroOrMore } from '../quantifiers';
 
 test('`oneOrMore` quantifier', () => {
   expect(oneOrMore('a')).toHavePattern('a+');
   expect(oneOrMore('ab')).toHavePattern('(?:ab)+');
-});
-
-test('`one` quantifier', () => {
-  expect(one('a')).toHavePattern('a');
-  expect(one('ab')).toHavePattern('ab');
 });
 
 test('`optionally` quantifier', () => {
@@ -28,12 +23,6 @@ test('`oneOrMore` does not generate capture when grouping', () => {
   expect(groups).toEqual(['aa']);
 });
 
-test('`one` does not generate capture when grouping', () => {
-  const regex = buildRegex(one('aa'));
-  const groups = [...'aa'.match(regex)!];
-  expect(groups).toEqual(['aa']);
-});
-
 test('`optionally` does not generate capture when grouping', () => {
   const regex = buildRegex(optionally('aa'));
   const groups = [...'aa'.match(regex)!];
@@ -47,7 +36,6 @@ test('`zeroOrMore` does not generate capture when grouping', () => {
 });
 
 test('base quantifiers optimize grouping for atoms', () => {
-  expect(one(digit)).toHavePattern('\\d');
   expect(oneOrMore(digit)).toHavePattern('\\d+');
   expect(optionally(digit)).toHavePattern('\\d?');
   expect(zeroOrMore(digit)).toHavePattern('\\d*');
