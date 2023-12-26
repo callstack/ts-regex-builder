@@ -1,5 +1,5 @@
 import { buildPattern } from '../src/builders';
-import type { RegexNode } from '../src/components/types';
+import type { RegexNode } from '../src/types';
 import { isRegexNode } from '../src/utils/nodes';
 
 export function toHavePattern(

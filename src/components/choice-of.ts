@@ -1,7 +1,7 @@
 import { encodeSequence } from '../encoder/encoder';
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
+import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode } from './types';
+import type { RegexElement, RegexNode } from '../types';
 
 export interface ChoiceOf extends RegexElement {
   type: 'choiceOf';
@@ -22,14 +22,14 @@ export function choiceOf(
   };
 }
 
-function encodeChoiceOf(this: ChoiceOf): EncoderNode {
+function encodeChoiceOf(this: ChoiceOf): EncodeOutput {
   const encodedNodes = this.children.map((c) => encodeSequence(c));
   if (encodedNodes.length === 1) {
     return encodedNodes[0]!;
   }
 
   return {
-    precedence: EncoderPrecedence.Alternation,
+    precedence: 'alternation',
     pattern: encodedNodes.map((n) => n.pattern).join('|'),
   };
 }

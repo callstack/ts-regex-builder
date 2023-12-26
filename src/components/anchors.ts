@@ -1,5 +1,5 @@
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
-import type { RegexElement } from './types';
+import type { EncodeOutput } from '../encoder/types';
+import type { RegexElement } from '../types';
 
 export interface Anchor extends RegexElement {
   type: 'anchor';
@@ -18,9 +18,9 @@ export const endOfString: Anchor = {
   encode: encodeAnchor,
 };
 
-function encodeAnchor(this: Anchor): EncoderNode {
+function encodeAnchor(this: Anchor): EncodeOutput {
   return {
-    precedence: EncoderPrecedence.Sequence,
+    precedence: 'sequence',
     pattern: this.symbol,
   };
 }

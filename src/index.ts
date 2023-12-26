@@ -1,4 +1,4 @@
-export type * from './components/types';
+export type * from './types';
 
 export { buildPattern, buildRegex } from './builders';
 

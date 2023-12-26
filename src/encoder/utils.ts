@@ -1,4 +1,4 @@
-import { type EncoderNode, EncoderPrecedence } from './types';
+import { type EncodeOutput } from './types';
 
 /**
  * Returns atomic pattern for given node.
@@ -6,25 +6,23 @@ import { type EncoderNode, EncoderPrecedence } from './types';
  * @param node
  * @returns
  */
-export function toAtom(node: EncoderNode): string {
-  if (node.precedence === EncoderPrecedence.Atom) {
+export function toAtom(node: EncodeOutput): string {
+  if (node.precedence === 'atom') {
     return node.pattern;
   }
 
   return `(?:${node.pattern})`;
 }
 
-export function concatNodes(nodes: EncoderNode[]): EncoderNode {
+export function concatNodes(nodes: EncodeOutput[]): EncodeOutput {
   if (nodes.length === 1) {
     return nodes[0]!;
   }
 
   return {
-    precedence: EncoderPrecedence.Sequence,
+    precedence: 'sequence',
     pattern: nodes
-      .map((n) =>
-        n.precedence > EncoderPrecedence.Sequence ? toAtom(n) : n.pattern
-      )
+      .map((n) => (n.precedence === 'alternation' ? toAtom(n) : n.pattern))
       .join(''),
   };
 }

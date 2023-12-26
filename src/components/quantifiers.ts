@@ -1,8 +1,8 @@
 import { encodeSequence } from '../encoder/encoder';
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
+import type { EncodeOutput } from '../encoder/types';
 import { toAtom } from '../encoder/utils';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode } from './types';
+import type { RegexElement, RegexNode } from '../types';
 
 export interface One extends RegexElement {
   type: 'one';
@@ -60,23 +60,23 @@ function encodeOne(this: One) {
   return encodeSequence(this.children);
 }
 
-function encodeOneOrMore(this: OneOrMore): EncoderNode {
+function encodeOneOrMore(this: OneOrMore): EncodeOutput {
   return {
-    precedence: EncoderPrecedence.Sequence,
+    precedence: 'sequence',
     pattern: `${toAtom(encodeSequence(this.children))}+`,
   };
 }
 
-function encodeOptionally(this: Optionally): EncoderNode {
+function encodeOptionally(this: Optionally): EncodeOutput {
   return {
-    precedence: EncoderPrecedence.Sequence,
+    precedence: 'sequence',
     pattern: `${toAtom(encodeSequence(this.children))}?`,
   };
 }
 
-function encodeZeroOrMore(this: ZeroOrMore): EncoderNode {
+function encodeZeroOrMore(this: ZeroOrMore): EncodeOutput {
   return {
-    precedence: EncoderPrecedence.Sequence,
+    precedence: 'sequence',
     pattern: `${toAtom(encodeSequence(this.children))}*`,
   };
 }

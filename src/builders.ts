@@ -1,4 +1,4 @@
-import type { RegexNode } from './components/types';
+import type { RegexNode } from './types';
 import { encodeSequence } from './encoder/encoder';
 import { asNodeArray } from './utils/nodes';
 import { optionalFirstArg } from './utils/optional-arg';

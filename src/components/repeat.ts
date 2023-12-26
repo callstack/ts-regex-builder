@@ -1,8 +1,8 @@
 import { encodeSequence } from '../encoder/encoder';
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
+import type { EncodeOutput } from '../encoder/types';
 import { toAtom } from '../encoder/utils';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode } from './types';
+import type { RegexElement, RegexNode } from '../types';
 
 export interface Repeat extends RegexElement {
   type: 'repeat';
@@ -30,18 +30,18 @@ export function repeat(
   };
 }
 
-function encodeRepeat(this: Repeat): EncoderNode {
+function encodeRepeat(this: Repeat): EncodeOutput {
   const atomicChildren = toAtom(encodeSequence(this.children));
 
   if ('count' in this.config) {
     return {
-      precedence: EncoderPrecedence.Sequence,
+      precedence: 'sequence',
       pattern: `${atomicChildren}{${this.config.count}}`,
     };
   }
 
   return {
-    precedence: EncoderPrecedence.Sequence,
+    precedence: 'sequence',
     pattern: `${atomicChildren}{${this.config.min},${this.config?.max ?? ''}}`,
   };
 }

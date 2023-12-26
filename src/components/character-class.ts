@@ -1,4 +1,4 @@
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
+import type { EncodeOutput } from '../encoder/types';
 import { escapeText } from '../utils/text';
 
 export interface CharacterClass {
@@ -6,7 +6,7 @@ export interface CharacterClass {
   characters: string[];
   ranges: CharacterRange[];
   isInverted: boolean;
-  encode: () => EncoderNode;
+  encode: () => EncodeOutput;
 }
 
 /**
@@ -127,7 +127,7 @@ export function inverted({
   };
 }
 
-function encodeCharacterClass(this: CharacterClass): EncoderNode {
+function encodeCharacterClass(this: CharacterClass): EncodeOutput {
   if (this.characters.length === 0 && this.ranges.length === 0) {
     throw new Error(
       'Character class should contain at least one character or character range'
@@ -141,7 +141,7 @@ function encodeCharacterClass(this: CharacterClass): EncoderNode {
     !this.isInverted
   ) {
     return {
-      precedence: EncoderPrecedence.Atom,
+      precedence: 'atom',
       pattern: this.characters[0]!,
     };
   }
@@ -157,7 +157,7 @@ function encodeCharacterClass(this: CharacterClass): EncoderNode {
   const invertedString = this.isInverted ? '^' : '';
 
   return {
-    precedence: EncoderPrecedence.Atom,
+    precedence: 'atom',
     pattern: `[${invertedString}${hyphenString}${rangesString}${charactersString}]`,
   };
 }

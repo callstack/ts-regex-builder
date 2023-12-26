@@ -1,4 +1,4 @@
-import type { RegexElement, RegexNode } from '../components/types';
+import type { RegexElement, RegexNode } from '../types';
 
 export function isRegexElement(element: unknown): element is RegexElement {
   return (

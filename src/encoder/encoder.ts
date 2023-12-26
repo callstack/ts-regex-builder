@@ -1,14 +1,13 @@
-import type { RegexNode } from '../components/types';
+import type { RegexNode } from '../types';
 import { escapeText } from '../utils/text';
-
-import { type EncoderNode, EncoderPrecedence } from './types';
+import type { EncodeOutput } from './types';
 import { concatNodes } from './utils';
 
-export function encodeSequence(nodes: RegexNode[]): EncoderNode {
+export function encodeSequence(nodes: RegexNode[]): EncodeOutput {
   return concatNodes(nodes.map((n) => encodeNode(n)));
 }
 
-export function encodeNode(node: RegexNode): EncoderNode {
+export function encodeNode(node: RegexNode): EncodeOutput {
   if (typeof node === 'string') {
     return encodeText(node);
   }
@@ -20,20 +19,20 @@ export function encodeNode(node: RegexNode): EncoderNode {
   return node.encode();
 }
 
-function encodeText(text: string): EncoderNode {
+function encodeText(text: string): EncodeOutput {
   if (text.length === 0) {
     throw new Error('`encodeText`: received text should not be empty');
   }
 
   if (text.length === 1) {
     return {
-      precedence: EncoderPrecedence.Atom,
+      precedence: 'atom',
       pattern: escapeText(text),
     };
   }
 
   return {
-    precedence: EncoderPrecedence.Sequence,
+    precedence: 'sequence',
     pattern: escapeText(text),
   };
 }
