@@ -17,7 +17,7 @@ function encodeNode(node: RegexNode): EncodeOutput {
   }
 
   if (typeof node.encode !== 'function') {
-    throw new Error('`encodeNode`: Unknown element type unknown');
+    throw new Error(`\`encodeNode\`: unknown element type ${node.type}`);
   }
 
   return node.encode();
@@ -28,6 +28,7 @@ function encodeText(text: string): EncodeOutput {
     throw new Error('`encodeText`: received text should not be empty');
   }
 
+  // Optimize for single character case
   if (text.length === 1) {
     return {
       precedence: 'atom',
@@ -48,7 +49,9 @@ function concatSequence(encoded: EncodeOutput[]): EncodeOutput {
 
   return {
     precedence: 'sequence',
-    pattern: encoded.map((n) => asSequence(n).pattern).join(''),
+    pattern: encoded
+      .map((n) => (n.precedence === 'alternation' ? asAtom(n) : n).pattern)
+      .join(''),
   };
 }
 
@@ -61,12 +64,4 @@ function asAtom(encoded: EncodeOutput): EncodeOutput {
     precedence: 'atom',
     pattern: `(?:${encoded.pattern})`,
   };
-}
-
-function asSequence(encoded: EncodeOutput): EncodeOutput {
-  if (encoded.precedence === 'alternation') {
-    return asAtom(encoded);
-  }
-
-  return encoded;
 }

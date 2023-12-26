@@ -81,7 +81,7 @@ export function characterRange(start: string, end: string): CharacterClass {
   }
 
   if (start > end) {
-    throw new Error('`start` should be less or equal to `end`');
+    throw new Error('`start` should be before or equal to `end`');
   }
 
   const range = {
@@ -113,16 +113,12 @@ export function anyOf(characters: string): CharacterClass {
   };
 }
 
-export function inverted({
-  characters,
-  ranges,
-  isInverted,
-}: CharacterClass): CharacterClass {
+export function inverted(element: CharacterClass): CharacterClass {
   return {
     type: 'characterClass',
-    characters: characters,
-    ranges: ranges,
-    isInverted: !isInverted,
+    characters: element.characters,
+    ranges: element.ranges,
+    isInverted: !element.isInverted,
     encode: encodeCharacterClass,
   };
 }
@@ -149,15 +145,15 @@ function encodeCharacterClass(this: CharacterClass): EncodeOutput {
   // If passed characters includes hyphen (`-`) it need to be moved to
   // first (or last) place in order to treat it as hyphen character and not a range.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
-  const hyphenString = this.characters.includes('-') ? '-' : '';
-  const charactersString = this.characters.filter((c) => c !== '-').join('');
-  const rangesString = this.ranges
+  const hyphen = this.characters.includes('-') ? '-' : '';
+  const otherCharacters = this.characters.filter((c) => c !== '-').join('');
+  const ranges = this.ranges
     .map(({ start, end }) => `${start}-${end}`)
     .join('');
-  const invertedString = this.isInverted ? '^' : '';
+  const isInverted = this.isInverted ? '^' : '';
 
   return {
     precedence: 'atom',
-    pattern: `[${invertedString}${hyphenString}${rangesString}${charactersString}]`,
+    pattern: `[${isInverted}${hyphen}${ranges}${otherCharacters}]`,
   };
 }

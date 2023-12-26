@@ -64,7 +64,7 @@ test('`characterRange` base cases', () => {
 
 test('`characterRange` throws on incorrect arguments', () => {
   expect(() => characterRange('z', 'a')).toThrowErrorMatchingInlineSnapshot(
-    `"\`start\` should be less or equal to \`end\`"`
+    `"\`start\` should be before or equal to \`end\`"`
   );
   expect(() => characterRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
     `"\`characterRange\` should receive only single character \`start\` string"`

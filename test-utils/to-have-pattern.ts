@@ -1,17 +1,16 @@
 import { buildPattern } from '../src/builders';
 import type { RegexNode } from '../src/types';
-import { isRegexNode } from '../src/utils/nodes';
+import { asNodeArray } from '../src/utils/nodes';
+import { isRegexNode } from './utils';
 
 export function toHavePattern(
   this: jest.MatcherContext,
-  elements: RegexNode | RegexNode[],
+  nodes: RegexNode | RegexNode[],
   expected: string
 ) {
-  if (!Array.isArray(elements)) {
-    elements = [elements];
-  }
+  nodes = asNodeArray(nodes);
 
-  elements.forEach((e) => {
+  nodes.forEach((e) => {
     if (!isRegexNode(e)) {
       throw new Error(
         `\`toHavePattern()\` received an array of RegexElements and strings.`
@@ -19,8 +18,7 @@ export function toHavePattern(
     }
   });
 
-  const received = buildPattern(elements);
-
+  const received = buildPattern(nodes);
   const options = {
     isNot: this.isNot,
   };

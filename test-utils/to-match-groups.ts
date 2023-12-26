@@ -1,18 +1,17 @@
 import { buildRegex } from '../src/builders';
 import type { RegexNode } from '../src/types';
-import { isRegexNode } from '../src/utils/nodes';
+import { asNodeArray } from '../src/utils/nodes';
+import { isRegexNode } from './utils';
 
 export function toMatchGroups(
   this: jest.MatcherContext,
-  elements: RegexNode | RegexNode[],
+  nodes: RegexNode | RegexNode[],
   input: string,
   expected: string[]
 ) {
-  if (!Array.isArray(elements)) {
-    elements = [elements];
-  }
+  nodes = asNodeArray(nodes);
 
-  elements.forEach((e) => {
+  nodes.forEach((e) => {
     if (!isRegexNode(e)) {
       throw new Error(
         `\`toMatchGroups()\` received an array of RegexElements and strings.`
@@ -20,7 +19,7 @@ export function toMatchGroups(
     }
   });
 
-  const regex = buildRegex(elements);
+  const regex = buildRegex(nodes);
   const options = {
     isNot: this.isNot,
   };

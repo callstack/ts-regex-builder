@@ -1,6 +1,6 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
-import { asArray } from '../utils/nodes';
+import { asNodeArray } from '../utils/nodes';
 import type { RegexElement, RegexNode } from '../types';
 
 export interface ChoiceOf extends RegexElement {
@@ -17,7 +17,7 @@ export function choiceOf(
 
   return {
     type: 'choiceOf',
-    alternatives: alternatives.map((c) => asArray(c)),
+    alternatives: alternatives.map((c) => asNodeArray(c)),
     encode: encodeChoiceOf,
   };
 }
