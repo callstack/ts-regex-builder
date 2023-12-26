@@ -19,11 +19,15 @@ const hexDigit = characterClass(
   characterRange('0', '9')
 );
 
+// prettier-ignore
 const hexColor = buildRegex(
   startOfString,
   optionally('#'),
   capture(
-    choiceOf(repeat({ count: 6 }, hexDigit), repeat({ count: 3 }, hexDigit))
+    choiceOf(
+      repeat({ count: 6 }, hexDigit),
+      repeat({ count: 3 }, hexDigit)
+    )
   ),
   endOfString
 );
@@ -43,6 +47,10 @@ import { buildRegex, capture, oneOrMore } from 'ts-regex-builder';
 // /Hello (\w+)/
 const regex = buildRegex(['Hello ', capture(oneOrMore(word))]);
 ```
+
+## Examples
+
+See [Examples document](./docs/Examples.md).
 
 ## Contributing
 
