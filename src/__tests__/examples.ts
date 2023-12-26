@@ -31,6 +31,7 @@ test('example: IPv4 address validator', () => {
   ]);
 
   expect(regex).toMatchGroups('0.0.0.0', ['0.0.0.0', '0', '0', '0', '0']);
+  expect(regex).toMatchGroups('192.168.0.1', ['192.168.0.1', '192', '168', '0', '1']);
   expect(regex).toMatchGroups('1.99.100.249', ['1.99.100.249', '1', '99', '100', '249']);
   expect(regex).toMatchGroups('255.255.255.255', ['255.255.255.255', '255', '255', '255', '255']);
   expect(regex).toMatchGroups('123.45.67.89', ['123.45.67.89', '123', '45', '67', '89']);
