@@ -1,83 +1,67 @@
-import type { RegexElement } from '../components/types';
-import { encodeAnchor } from '../components/anchors';
-import { encodeCapture } from '../components/capture';
-import { encodeCharacterClass } from '../components/character-class';
-import { encodeChoiceOf } from '../components/choice-of';
-import {
-  encodeOne,
-  encodeOneOrMore,
-  encodeOptionally,
-  encodeZeroOrMore,
-} from '../components/quantifiers';
-import { encodeRepeat } from '../components/repeat';
+import type { RegexNode } from '../types';
 import { escapeText } from '../utils/text';
+import type { EncodeOutput } from './types';
 
-import { type EncoderNode, EncoderPrecedence } from './types';
-import { concatNodes } from './utils';
-
-export function encodeSequence(elements: RegexElement[]): EncoderNode {
-  return concatNodes(elements.map((c) => encodeElement(c)));
+export function encodeSequence(nodes: RegexNode[]): EncodeOutput {
+  const encodedNodes = nodes.map((n) => encodeNode(n));
+  return concatSequence(encodedNodes);
 }
 
-export function encodeElement(element: RegexElement): EncoderNode {
-  if (typeof element === 'string') {
-    return encodeText(element);
-  }
-
-  if (element.type === 'characterClass') {
-    return encodeCharacterClass(element);
-  }
-
-  if (element.type === 'anchor') {
-    return encodeAnchor(element);
-  }
-
-  if (element.type === 'choiceOf') {
-    return encodeChoiceOf(element, encodeSequence);
-  }
-
-  if (element.type === 'repeat') {
-    return encodeRepeat(element.config, encodeSequence(element.children));
-  }
-
-  if (element.type === 'one') {
-    return encodeOne(encodeSequence(element.children));
-  }
-
-  if (element.type === 'oneOrMore') {
-    return encodeOneOrMore(encodeSequence(element.children));
-  }
-
-  if (element.type === 'optionally') {
-    return encodeOptionally(encodeSequence(element.children));
-  }
-
-  if (element.type === 'zeroOrMore') {
-    return encodeZeroOrMore(encodeSequence(element.children));
-  }
-
-  if (element.type === 'capture') {
-    return encodeCapture(encodeSequence(element.children));
-  }
-
-  // @ts-expect-error User passed incorrect type
-  throw new Error(`Unknown element type ${element.type}`);
+export function encodeAtom(nodes: RegexNode[]): EncodeOutput {
+  return asAtom(encodeSequence(nodes));
 }
 
-function encodeText(text: string): EncoderNode {
+function encodeNode(node: RegexNode): EncodeOutput {
+  if (typeof node === 'string') {
+    return encodeText(node);
+  }
+
+  if (typeof node.encode !== 'function') {
+    throw new Error(`\`encodeNode\`: unknown element type ${node.type}`);
+  }
+
+  return node.encode();
+}
+
+function encodeText(text: string): EncodeOutput {
   if (text.length === 0) {
     throw new Error('`encodeText`: received text should not be empty');
   }
 
+  // Optimize for single character case
   if (text.length === 1) {
     return {
-      precedence: EncoderPrecedence.Atom,
+      precedence: 'atom',
       pattern: escapeText(text),
     };
   }
 
   return {
-    precedence: EncoderPrecedence.Sequence,
+    precedence: 'sequence',
     pattern: escapeText(text),
+  };
+}
+
+function concatSequence(encoded: EncodeOutput[]): EncodeOutput {
+  if (encoded.length === 1) {
+    return encoded[0]!;
+  }
+
+  return {
+    precedence: 'sequence',
+    pattern: encoded
+      .map((n) => (n.precedence === 'alternation' ? asAtom(n) : n).pattern)
+      .join(''),
+  };
+}
+
+function asAtom(encoded: EncodeOutput): EncodeOutput {
+  if (encoded.precedence === 'atom') {
+    return encoded;
+  }
+
+  return {
+    precedence: 'atom',
+    pattern: `(?:${encoded.pattern})`,
   };
 }

@@ -5,11 +5,11 @@ import {
   characterClass,
   characterRange,
   digit,
-  encodeCharacterClass,
   inverted,
   whitespace,
   word,
 } from '../character-class';
+import { buildRegex } from '../../builders';
 
 test('`any` character class', () => {
   expect(any).toHavePattern('.');
@@ -64,7 +64,7 @@ test('`characterRange` base cases', () => {
 
 test('`characterRange` throws on incorrect arguments', () => {
   expect(() => characterRange('z', 'a')).toThrowErrorMatchingInlineSnapshot(
-    `"\`start\` should be less or equal to \`end\`"`
+    `"\`start\` should be before or equal to \`end\`"`
   );
   expect(() => characterRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
     `"\`characterRange\` should receive only single character \`start\` string"`
@@ -119,12 +119,15 @@ test('`inverted` character class execution', () => {
 
 test('`encodeCharacterClass` throws on empty text', () => {
   expect(() =>
-    encodeCharacterClass({
-      type: 'characterClass',
-      characters: [],
-      ranges: [],
-      isInverted: false,
-    })
+    buildRegex(
+      // @ts-expect-error
+      inverted({
+        type: 'characterClass',
+        characters: [],
+        ranges: [],
+        isInverted: false,
+      })
+    )
   ).toThrowErrorMatchingInlineSnapshot(
     `"Character class should contain at least one character or character range"`
   );

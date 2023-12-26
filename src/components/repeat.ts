@@ -1,13 +1,21 @@
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
-import { toAtom } from '../encoder/utils';
-import { asElementArray } from '../utils/elements';
-import type { RegexElement, Repeat, RepeatConfig } from './types';
+import { encodeAtom } from '../encoder/encoder';
+import type { EncodeOutput } from '../encoder/types';
+import { asNodeArray } from '../utils/nodes';
+import type { RegexElement, RegexNode } from '../types';
+
+export interface Repeat extends RegexElement {
+  type: 'repeat';
+  options: RepeatOptions;
+  children: RegexNode[];
+}
+
+export type RepeatOptions = { count: number } | { min: number; max?: number };
 
 export function repeat(
-  config: RepeatConfig,
-  children: RegexElement | RegexElement[]
+  options: RepeatOptions,
+  nodes: RegexNode | RegexNode[]
 ): Repeat {
-  children = asElementArray(children);
+  const children = asNodeArray(nodes);
 
   if (children.length === 0) {
     throw new Error('`repeat` should receive at least one element');
@@ -16,23 +24,25 @@ export function repeat(
   return {
     type: 'repeat',
     children,
-    config,
+    options,
+    encode: encodeRepeat,
   };
 }
 
-export function encodeRepeat(
-  config: RepeatConfig,
-  node: EncoderNode
-): EncoderNode {
-  if ('count' in config) {
+function encodeRepeat(this: Repeat): EncodeOutput {
+  const atomicNodes = encodeAtom(this.children);
+
+  if ('count' in this.options) {
     return {
-      precedence: EncoderPrecedence.Sequence,
-      pattern: `${toAtom(node)}{${config.count}}`,
+      precedence: 'sequence',
+      pattern: `${atomicNodes.pattern}{${this.options.count}}`,
     };
   }
 
   return {
-    precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(node)}{${config.min},${config?.max ?? ''}}`,
+    precedence: 'sequence',
+    pattern: `${atomicNodes.pattern}{${this.options.min},${
+      this.options?.max ?? ''
+    }}`,
   };
 }

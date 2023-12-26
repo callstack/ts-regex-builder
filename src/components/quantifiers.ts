@@ -1,67 +1,81 @@
-import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
-import { toAtom } from '../encoder/utils';
-import { asElementArray } from '../utils/elements';
-import type {
-  One,
-  OneOrMore,
-  Optionally,
-  RegexElement,
-  ZeroOrMore,
-} from './types';
+import { encodeAtom, encodeSequence } from '../encoder/encoder';
+import type { EncodeOutput } from '../encoder/types';
+import { asNodeArray } from '../utils/nodes';
+import type { RegexElement, RegexNode } from '../types';
 
-export function one(children: RegexElement | RegexElement[]): One {
+export interface One extends RegexElement {
+  type: 'one';
+  children: RegexNode[];
+}
+
+export interface OneOrMore extends RegexElement {
+  type: 'oneOrMore';
+  children: RegexNode[];
+}
+
+export interface Optionally extends RegexElement {
+  type: 'optionally';
+  children: RegexNode[];
+}
+
+export interface ZeroOrMore extends RegexElement {
+  type: 'zeroOrMore';
+  children: RegexNode[];
+}
+
+export function one(nodes: RegexNode | RegexNode[]): One {
   return {
     type: 'one',
-    children: asElementArray(children),
+    children: asNodeArray(nodes),
+    encode: encodeOne,
   };
 }
 
-export function oneOrMore(children: RegexElement | RegexElement[]): OneOrMore {
+export function oneOrMore(nodes: RegexNode | RegexNode[]): OneOrMore {
   return {
     type: 'oneOrMore',
-    children: asElementArray(children),
+    children: asNodeArray(nodes),
+    encode: encodeOneOrMore,
   };
 }
 
-export function optionally(
-  children: RegexElement | RegexElement[]
-): Optionally {
+export function optionally(nodes: RegexNode | RegexNode[]): Optionally {
   return {
     type: 'optionally',
-    children: asElementArray(children),
+    children: asNodeArray(nodes),
+    encode: encodeOptionally,
   };
 }
 
-export function zeroOrMore(
-  children: RegexElement | RegexElement[]
-): ZeroOrMore {
+export function zeroOrMore(nodes: RegexNode | RegexNode[]): ZeroOrMore {
   return {
     type: 'zeroOrMore',
-    children: asElementArray(children),
+    children: asNodeArray(nodes),
+    encode: encodeZeroOrMore,
   };
 }
 
-export function encodeOne(node: EncoderNode) {
-  return node;
+function encodeOne(this: One) {
+  return encodeSequence(this.children);
 }
 
-export function encodeOneOrMore(node: EncoderNode): EncoderNode {
+function encodeOneOrMore(this: OneOrMore): EncodeOutput {
   return {
-    precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(node)}+`,
+    precedence: 'sequence',
+    pattern: `${encodeAtom(this.children).pattern}+`,
   };
 }
 
-export function encodeOptionally(node: EncoderNode): EncoderNode {
+function encodeOptionally(this: Optionally): EncodeOutput {
   return {
-    precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(node)}?`,
+    precedence: 'sequence',
+    pattern: `${encodeAtom(this.children).pattern}?`,
   };
 }
 
-export function encodeZeroOrMore(node: EncoderNode): EncoderNode {
+function encodeZeroOrMore(this: ZeroOrMore): EncodeOutput {
   return {
-    precedence: EncoderPrecedence.Sequence,
-    pattern: `${toAtom(node)}*`,
+    precedence: 'sequence',
+    pattern: `${encodeAtom(this.children).pattern}*`,
   };
 }

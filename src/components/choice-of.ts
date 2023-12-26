@@ -1,35 +1,35 @@
-import {
-  type EncoderNode,
-  EncoderPrecedence,
-  type EncodeSequence,
-} from '../encoder/types';
-import { asElementArray } from '../utils/elements';
-import type { ChoiceOf, RegexElement } from './types';
+import { encodeSequence } from '../encoder/encoder';
+import type { EncodeOutput } from '../encoder/types';
+import { asNodeArray } from '../utils/nodes';
+import type { RegexElement, RegexNode } from '../types';
+
+export interface ChoiceOf extends RegexElement {
+  type: 'choiceOf';
+  alternatives: RegexNode[][];
+}
 
 export function choiceOf(
-  ...children: Array<RegexElement | RegexElement[]>
+  ...alternatives: Array<RegexNode | RegexNode[]>
 ): ChoiceOf {
-  if (children.length === 0) {
-    throw new Error('`choiceOf` should receive at least one option');
+  if (alternatives.length === 0) {
+    throw new Error('`choiceOf` should receive at least one alternative');
   }
 
   return {
     type: 'choiceOf',
-    children: children.map((c) => asElementArray(c)),
+    alternatives: alternatives.map((c) => asNodeArray(c)),
+    encode: encodeChoiceOf,
   };
 }
 
-export function encodeChoiceOf(
-  element: ChoiceOf,
-  encodeSequence: EncodeSequence
-): EncoderNode {
-  const encodedNodes = element.children.map((c) => encodeSequence(c));
-  if (encodedNodes.length === 1) {
-    return encodedNodes[0]!;
+function encodeChoiceOf(this: ChoiceOf): EncodeOutput {
+  const encodedAlternatives = this.alternatives.map((c) => encodeSequence(c));
+  if (encodedAlternatives.length === 1) {
+    return encodedAlternatives[0]!;
   }
 
   return {
-    precedence: EncoderPrecedence.Alternation,
-    pattern: encodedNodes.map((n) => n.pattern).join('|'),
+    precedence: 'alternation',
+    pattern: encodedAlternatives.map((n) => n.pattern).join('|'),
   };
 }

@@ -59,7 +59,9 @@ test('`buildRegex` throws error on unknown element', () => {
   expect(() =>
     // @ts-expect-error intentionally passing incorrect object
     buildRegex({ type: 'unknown' })
-  ).toThrowErrorMatchingInlineSnapshot(`"Unknown element type unknown"`);
+  ).toThrowErrorMatchingInlineSnapshot(
+    `"\`encodeNode\`: unknown element type unknown"`
+  );
 });
 
 test('`buildPattern` throws on empty text', () => {
