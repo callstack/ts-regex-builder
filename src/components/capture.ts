@@ -1,6 +1,6 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
-import { asNodeArray } from '../utils/nodes';
+import { asArray } from '../utils/nodes';
 import type { RegexElement, RegexNode } from '../types';
 
 export interface Capture extends RegexElement {
@@ -11,14 +11,16 @@ export interface Capture extends RegexElement {
 export function capture(children: RegexNode | RegexNode[]): Capture {
   return {
     type: 'capture',
-    children: asNodeArray(children),
+    children: asArray(children),
     encode: encodeCapture,
   };
 }
 
 function encodeCapture(this: Capture): EncodeOutput {
+  const encodedChildren = encodeSequence(this.children);
+
   return {
     precedence: 'atom',
-    pattern: `(${encodeSequence(this.children).pattern})`,
+    pattern: `(${encodedChildren.pattern})`,
   };
 }

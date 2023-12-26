@@ -1,6 +1,6 @@
 import type { RegexNode } from './types';
 import { encodeSequence } from './encoder/encoder';
-import { asNodeArray } from './utils/nodes';
+import { asArray } from './utils/nodes';
 import { optionalFirstArg } from './utils/optional-arg';
 
 export interface RegexFlags {
@@ -48,7 +48,7 @@ export function _buildRegex(
   flags: RegexFlags,
   elements: RegexNode | RegexNode[]
 ): RegExp {
-  const pattern = encodeSequence(asNodeArray(elements)).pattern;
+  const pattern = encodeSequence(asArray(elements)).pattern;
   const flagsString = encodeFlags(flags ?? {});
   return new RegExp(pattern, flagsString);
 }
@@ -59,7 +59,7 @@ export function _buildRegex(
  * @returns regex pattern string
  */
 export function buildPattern(elements: RegexNode | RegexNode[]): string {
-  return encodeSequence(asNodeArray(elements)).pattern;
+  return encodeSequence(asArray(elements)).pattern;
 }
 
 function encodeFlags(flags: RegexFlags): string {

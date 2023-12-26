@@ -13,6 +13,6 @@ export function isRegexNode(element: unknown): element is RegexNode {
   return typeof element === 'string' || isRegexElement(element);
 }
 
-export function asNodeArray(nodeOrArray: RegexNode | RegexNode[]): RegexNode[] {
-  return Array.isArray(nodeOrArray) ? nodeOrArray : [nodeOrArray];
+export function asArray<T>(elementOrArray: T | T[]): T[] {
+  return Array.isArray(elementOrArray) ? elementOrArray : [elementOrArray];
 }

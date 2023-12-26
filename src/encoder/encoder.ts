@@ -1,13 +1,17 @@
 import type { RegexNode } from '../types';
 import { escapeText } from '../utils/text';
 import type { EncodeOutput } from './types';
-import { concatNodes } from './utils';
 
 export function encodeSequence(nodes: RegexNode[]): EncodeOutput {
-  return concatNodes(nodes.map((n) => encodeNode(n)));
+  const encodedNodes = nodes.map((n) => encodeNode(n));
+  return concatSequence(encodedNodes);
 }
 
-export function encodeNode(node: RegexNode): EncodeOutput {
+export function encodeAtom(nodes: RegexNode[]): EncodeOutput {
+  return asAtom(encodeSequence(nodes));
+}
+
+function encodeNode(node: RegexNode): EncodeOutput {
   if (typeof node === 'string') {
     return encodeText(node);
   }
@@ -35,4 +39,34 @@ function encodeText(text: string): EncodeOutput {
     precedence: 'sequence',
     pattern: escapeText(text),
   };
+}
+
+function concatSequence(encoded: EncodeOutput[]): EncodeOutput {
+  if (encoded.length === 1) {
+    return encoded[0]!;
+  }
+
+  return {
+    precedence: 'sequence',
+    pattern: encoded.map((n) => asSequence(n).pattern).join(''),
+  };
+}
+
+function asAtom(encoded: EncodeOutput): EncodeOutput {
+  if (encoded.precedence === 'atom') {
+    return encoded;
+  }
+
+  return {
+    precedence: 'atom',
+    pattern: `(?:${encoded.pattern})`,
+  };
+}
+
+function asSequence(encoded: EncodeOutput): EncodeOutput {
+  if (encoded.precedence === 'alternation') {
+    return asAtom(encoded);
+  }
+
+  return encoded;
 }
