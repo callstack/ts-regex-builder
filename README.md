@@ -26,10 +26,10 @@ const hexColor = buildRegex(
   capture(
     choiceOf(
       repeat({ count: 6 }, hexDigit),
-      repeat({ count: 3 }, hexDigit)
+      repeat({ count: 3 }, hexDigit),
     )
   ),
-  endOfString
+  endOfString,
 );
 ```
 
