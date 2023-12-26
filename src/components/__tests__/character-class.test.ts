@@ -5,11 +5,11 @@ import {
   characterClass,
   characterRange,
   digit,
-  encodeCharacterClass,
   inverted,
   whitespace,
   word,
 } from '../character-class';
+import { buildRegex } from '../../builders';
 
 test('`any` character class', () => {
   expect(any).toHavePattern('.');
@@ -119,12 +119,15 @@ test('`inverted` character class execution', () => {
 
 test('`encodeCharacterClass` throws on empty text', () => {
   expect(() =>
-    encodeCharacterClass({
-      type: 'characterClass',
-      characters: [],
-      ranges: [],
-      isInverted: false,
-    })
+    buildRegex(
+      // @ts-expect-error
+      inverted({
+        type: 'characterClass',
+        characters: [],
+        ranges: [],
+        isInverted: false,
+      })
+    )
   ).toThrowErrorMatchingInlineSnapshot(
     `"Character class should contain at least one character or character range"`
   );

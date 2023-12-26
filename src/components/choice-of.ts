@@ -1,13 +1,15 @@
-import {
-  type EncoderNode,
-  EncoderPrecedence,
-  type EncodeSequence,
-} from '../encoder/types';
-import { asElementArray } from '../utils/elements';
-import type { ChoiceOf, RegexElement } from './types';
+import { encodeSequence } from '../encoder/encoder';
+import { type EncoderNode, EncoderPrecedence } from '../encoder/types';
+import { asNodeArray } from '../utils/nodes';
+import type { RegexElement, RegexNode } from './types';
+
+export interface ChoiceOf extends RegexElement {
+  type: 'choiceOf';
+  children: RegexNode[][];
+}
 
 export function choiceOf(
-  ...children: Array<RegexElement | RegexElement[]>
+  ...children: Array<RegexNode | RegexNode[]>
 ): ChoiceOf {
   if (children.length === 0) {
     throw new Error('`choiceOf` should receive at least one option');
@@ -15,15 +17,13 @@ export function choiceOf(
 
   return {
     type: 'choiceOf',
-    children: children.map((c) => asElementArray(c)),
+    children: children.map((c) => asNodeArray(c)),
+    encode: encodeChoiceOf,
   };
 }
 
-export function encodeChoiceOf(
-  element: ChoiceOf,
-  encodeSequence: EncodeSequence
-): EncoderNode {
-  const encodedNodes = element.children.map((c) => encodeSequence(c));
+function encodeChoiceOf(this: ChoiceOf): EncoderNode {
+  const encodedNodes = this.children.map((c) => encodeSequence(c));
   if (encodedNodes.length === 1) {
     return encodedNodes[0]!;
   }

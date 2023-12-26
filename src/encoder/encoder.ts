@@ -1,67 +1,23 @@
-import type { RegexElement } from '../components/types';
-import { encodeAnchor } from '../components/anchors';
-import { encodeCapture } from '../components/capture';
-import { encodeCharacterClass } from '../components/character-class';
-import { encodeChoiceOf } from '../components/choice-of';
-import {
-  encodeOne,
-  encodeOneOrMore,
-  encodeOptionally,
-  encodeZeroOrMore,
-} from '../components/quantifiers';
-import { encodeRepeat } from '../components/repeat';
+import type { RegexNode } from '../components/types';
 import { escapeText } from '../utils/text';
 
 import { type EncoderNode, EncoderPrecedence } from './types';
 import { concatNodes } from './utils';
 
-export function encodeSequence(elements: RegexElement[]): EncoderNode {
-  return concatNodes(elements.map((c) => encodeElement(c)));
+export function encodeSequence(nodes: RegexNode[]): EncoderNode {
+  return concatNodes(nodes.map((n) => encodeNode(n)));
 }
 
-export function encodeElement(element: RegexElement): EncoderNode {
-  if (typeof element === 'string') {
-    return encodeText(element);
+export function encodeNode(node: RegexNode): EncoderNode {
+  if (typeof node === 'string') {
+    return encodeText(node);
   }
 
-  if (element.type === 'characterClass') {
-    return encodeCharacterClass(element);
+  if (typeof node.encode !== 'function') {
+    throw new Error('`encodeNode`: Unknown element type unknown');
   }
 
-  if (element.type === 'anchor') {
-    return encodeAnchor(element);
-  }
-
-  if (element.type === 'choiceOf') {
-    return encodeChoiceOf(element, encodeSequence);
-  }
-
-  if (element.type === 'repeat') {
-    return encodeRepeat(element.config, encodeSequence(element.children));
-  }
-
-  if (element.type === 'one') {
-    return encodeOne(encodeSequence(element.children));
-  }
-
-  if (element.type === 'oneOrMore') {
-    return encodeOneOrMore(encodeSequence(element.children));
-  }
-
-  if (element.type === 'optionally') {
-    return encodeOptionally(encodeSequence(element.children));
-  }
-
-  if (element.type === 'zeroOrMore') {
-    return encodeZeroOrMore(encodeSequence(element.children));
-  }
-
-  if (element.type === 'capture') {
-    return encodeCapture(encodeSequence(element.children));
-  }
-
-  // @ts-expect-error User passed incorrect type
-  throw new Error(`Unknown element type ${element.type}`);
+  return node.encode();
 }
 
 function encodeText(text: string): EncoderNode {
