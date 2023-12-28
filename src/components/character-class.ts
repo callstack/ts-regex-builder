@@ -48,10 +48,10 @@ export const whitespace: CharacterClass = {
   encode: encodeCharacterClass,
 };
 
-export function characterClass(...elements: CharacterClass[]): CharacterClass {
+export function charClass(...elements: CharacterClass[]): CharacterClass {
   elements.forEach((element) => {
     if (element.isInverted) {
-      throw new Error('`characterClass` should receive only non-inverted character classes');
+      throw new Error('`charClass` should receive only non-inverted character classes');
     }
   });
 
@@ -64,13 +64,13 @@ export function characterClass(...elements: CharacterClass[]): CharacterClass {
   };
 }
 
-export function characterRange(start: string, end: string): CharacterClass {
+export function charRange(start: string, end: string): CharacterClass {
   if (start.length !== 1) {
-    throw new Error('`characterRange` should receive only single character `start` string');
+    throw new Error('`charRange` should receive only single character `start` string');
   }
 
   if (end.length !== 1) {
-    throw new Error('`characterRange` should receive only single character `end` string');
+    throw new Error('`charRange` should receive only single character `end` string');
   }
 
   if (start > end) {

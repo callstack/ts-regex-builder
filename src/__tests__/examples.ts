@@ -1,7 +1,7 @@
 import {
   buildRegex,
   capture,
-  characterRange,
+  charRange,
   choiceOf,
   digit,
   endOfString,
@@ -12,10 +12,10 @@ import {
 test('example: IPv4 address validator', () => {
   const octet = choiceOf(
     [digit],
-    [characterRange('1', '9'), digit],
+    [charRange('1', '9'), digit],
     ['1', repeat({ count: 2 }, digit)],
-    ['2', characterRange('0', '4'), digit],
-    ['25', characterRange('0', '5')]
+    ['2', charRange('0', '4'), digit],
+    ['25', charRange('0', '5')]
   );
 
   const regex = buildRegex([
