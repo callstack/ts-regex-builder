@@ -1,6 +1,6 @@
 # TS Regex Builder
 
-A User-friendly regular expression builder for TypeScript and JavaScript.
+A user-friendly regular expression builder for TypeScript and JavaScript.
 
 ## Goal
 
