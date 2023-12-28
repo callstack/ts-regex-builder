@@ -1,38 +1,35 @@
 import { buildRegex } from '../src/builders';
 import type { RegexNode } from '../src/types';
 
-export function toMatchGroups(
+export function toMatchString(
   this: jest.MatcherContext,
   received: RegExp | RegexNode | RegexNode[],
-  expectedString: string,
-  expectedGroups: string[]
+  expected: string
 ) {
   const receivedRegex = received instanceof RegExp ? received : buildRegex(received);
-
   const options = {
     isNot: this.isNot,
   };
 
-  const matchResult = expectedString.match(receivedRegex);
-  const actual = matchResult ? [...matchResult] : null;
+  const matchResult = expected.match(receivedRegex);
 
   return {
-    pass: this.equals(actual, expectedGroups),
+    pass: matchResult !== null,
     message: () =>
       this.utils.matcherHint('toMatchGroups', undefined, undefined, options) +
       '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedGroups)}\n` +
-      `Received: ${this.utils.printReceived(actual)}`,
+      `Expected string: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n` +
+      `Received pattern: ${this.utils.printReceived(receivedRegex.source)}`,
   };
 }
 
-expect.extend({ toMatchGroups });
+expect.extend({ toMatchString });
 
 declare global {
   namespace jest {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Matchers<R, T = {}> {
-      toMatchGroups(input: string, expected: string[]): R;
+      toMatchString(expected: string): R;
     }
   }
 }

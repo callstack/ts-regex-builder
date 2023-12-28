@@ -1,4 +1,3 @@
-import { buildRegex } from '../../builders';
 import { digit } from '../character-class';
 import { oneOrMore, optionally, zeroOrMore } from '../quantifiers';
 
@@ -18,21 +17,15 @@ test('`zeroOrMore` quantifier', () => {
 });
 
 test('`oneOrMore` does not generate capture when grouping', () => {
-  const regex = buildRegex(oneOrMore('aa'));
-  const groups = [...'aa'.match(regex)!];
-  expect(groups).toEqual(['aa']);
+  expect(oneOrMore('aa')).toMatchGroups('aa', ['aa']);
 });
 
 test('`optionally` does not generate capture when grouping', () => {
-  const regex = buildRegex(optionally('aa'));
-  const groups = [...'aa'.match(regex)!];
-  expect(groups).toEqual(['aa']);
+  expect(optionally('aa')).toMatchGroups('aa', ['aa']);
 });
 
 test('`zeroOrMore` does not generate capture when grouping', () => {
-  const regex = buildRegex(zeroOrMore('aa'));
-  const groups = [...'aa'.match(regex)!];
-  expect(groups).toEqual(['aa']);
+  expect(zeroOrMore('aa')).toMatchGroups('aa', ['aa']);
 });
 
 test('base quantifiers optimize grouping for atoms', () => {

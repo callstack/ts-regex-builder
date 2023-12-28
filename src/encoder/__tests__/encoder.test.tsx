@@ -24,11 +24,6 @@ test('basic quantifies', () => {
   expect([optionally('a'), 'b', oneOrMore('d')]).toHavePattern(/a?bd+/);
 });
 
-test('regex constructor', () => {
-  expect(buildRegex('a').test('a')).toBeTruthy();
-  expect(buildRegex('a').test('b')).toBeFalsy();
-});
-
 test('`buildPattern` escapes special characters', () => {
   expect('.').toHavePattern(/\./);
   expect('*').toHavePattern(/\*/);

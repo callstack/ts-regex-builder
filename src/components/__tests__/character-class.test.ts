@@ -109,7 +109,7 @@ test('`inverted` character class double inversion', () => {
 });
 
 test('`inverted` character class execution', () => {
-  expect(inverted(anyOf('a'))).toMatchGroups('aa', []);
+  expect(inverted(anyOf('a'))).not.toMatchString('aa');
   expect(inverted(anyOf('a'))).toMatchGroups('aba', ['b']);
 });
 
