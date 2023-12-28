@@ -61,10 +61,10 @@ TS Regex Builder allows you to build complex regular expressions using domain-sp
 Terminology:
 * regex component (e.g., `capture()`, `oneOrMore()`, `word`) - function or object representing a regex construct
 * regex element (`RegexElement`) - object returned by regex components
-* regex sequence - single regex element or string (`RegexElement | string`) or array of such elements and strings (`Array<RegexElement | string>`)
+* regex sequence (`RegexSequence`) - single regex element or string (`RegexElement | string`) or array of such elements and strings (`Array<RegexElement | string>`)
 
 Most of the regex components accept a regex sequence. Examples of sequences:
-* single string: `'a'`, `'Hello World'`, `.` - note all characters will be automatically escaped in the resulting regex
+* single string: `'Hello World'` - note all characters will be automatically escaped in the resulting regex
 * single element: `capture('abc')`
 * array of elements and strings: `['$', oneOrMore(digit)]`
 
@@ -84,17 +84,17 @@ const currencyAmount = buildRegex([
 
 ### Building regex
 
-| Regex Component                         | Regex construct | Type                                                | Description                         |
-| --------------------------------------- | --------------- | --------------------------------------------------- | ----------------------------------- |
-| `buildRegex(...)`                       | `/.../`         | `(seq: RegexSequence) => RegExp`                    | Create `RegExp` instance            |
-| `buildRegex({ ignoreCase: true }, ...)` | `/.../i`        | `(flags: RegexFlags, seq: RegexSequence) => RegExp` | Create `RegExp` instance with flags |
+| Regex Component                         | Regex Pattern | Type                                                | Description                         |
+| --------------------------------------- | ------------- | --------------------------------------------------- | ----------------------------------- |
+| `buildRegex(...)`                       | `/.../`       | `(seq: RegexSequence) => RegExp`                    | Create `RegExp` instance            |
+| `buildRegex({ ignoreCase: true }, ...)` | `/.../i`      | `(flags: RegexFlags, seq: RegexSequence) => RegExp` | Create `RegExp` instance with flags |
 
 ### Components
 
-| Regex Component     | Regex construct | Type                                                 | Notes                       |
-| ------------------- | --------------- | ---------------------------------------------------- | --------------------------- |
-| `capture(...)`      | `(...)`         | `(seq: RegexSequence) => RegexElement`               | Capture group               |
-| `choiceOf(x, y, z)` | `x\|y\|z`       | `(...alternatives: RegexSequence[]) => RegexElement` | Either of provided patterns |
+| Regex Component     | Regex Pattern | Type                                                 | Notes                       |
+| ------------------- | ------------- | ---------------------------------------------------- | --------------------------- |
+| `capture(...)`      | `(...)`       | `(seq: RegexSequence) => RegexElement`               | Capture group               |
+| `choiceOf(x, y, z)` | `x\|y\|z`     | `(...alternatives: RegexSequence[]) => RegexElement` | Either of provided patterns |
 
 Notes:
 * `choiceOf()` accepts a variable number of sequences.
@@ -102,27 +102,27 @@ Notes:
 
 ### Quantifiers
 
-| Regex Component                    | Regex construct | Type                                                                 | Description                                       |
-| ---------------------------------- | --------------- | -------------------------------------------------------------------- | ------------------------------------------------- |
-| `zeroOrMore(x)`                    | `x*`            | `(seq: RegexSequence) => RegexElement`                               | Zero or more occurence of a pattern               |
-| `oneOrMore(x)`                     | `x+`            | `(seq: RegexSequence) => RegexElement`                               | One or more occurence of a pattern                |
-| `optionally(x)`                    | `x?`            | `(seq: RegexSequence) => RegexElement`                               | Zero or one occurence of a pattern                |
-| `repeat({ count: n }, ...)`        | `x{n}`          | `({ count: number }, seq: RegexSequence) => RegexElement`            | Pattern repeats exact number of times             |
-| `repeat({ min: n, }, ...)`         | `x{n,}`         | `({ min: number }, seq: RegexSequence) => RegexElement`              | Pattern repeats at least given number of times    |
-| `repeat({ min: n, max: n2 }, ...)` | `x{n1,n2}`      | `({ min: number, max: number }, seq: RegexSequence) => RegexElement` | Pattern repeats between n1 and n2 number of times |
+| Regex Component                  | Regex Pattern | Type                                                                 | Description                                       |
+| -------------------------------- | ------------- | -------------------------------------------------------------------- | ------------------------------------------------- |
+| `zeroOrMore(x)`                  | `x*`          | `(seq: RegexSequence) => RegexElement`                               | Zero or more occurence of a pattern               |
+| `oneOrMore(x)`                   | `x+`          | `(seq: RegexSequence) => RegexElement`                               | One or more occurence of a pattern                |
+| `optionally(x)`                  | `x?`          | `(seq: RegexSequence) => RegexElement`                               | Zero or one occurence of a pattern                |
+| `repeat({ count: n }, x)`        | `x{n}`        | `({ count: number }, seq: RegexSequence) => RegexElement`            | Pattern repeats exact number of times             |
+| `repeat({ min: n, }, x)`         | `x{n,}`       | `({ min: number }, seq: RegexSequence) => RegexElement`              | Pattern repeats at least given number of times    |
+| `repeat({ min: n, max: n2 }, x)` | `x{n1,n2}`    | `({ min: number, max: number }, seq: RegexSequence) => RegexElement` | Pattern repeats between n1 and n2 number of times |
 
 ### Character classes
 
-| Regex Component            | Regex construct | Type                                                   | Description                                 |
-| -------------------------- | --------------- | ------------------------------------------------------ | ------------------------------------------- |
-| `any`                      | `.`             | `CharacterClass`                                       | Any character                               |
-| `word`                     | `\w`            | `CharacterClass`                                       | Word characters                             |
-| `digit`                    | `\d`            | `CharacterClass`                                       | Digit characters                            |
-| `whitespace`               | `\s`            | `CharacterClass`                                       | Whitespace characters                       |
-| `anyOf('abc')`             | `[abc]`         | `(chars: string) => CharacterClass`                    | Any of supplied characters                  |
-| `characterRange('a', 'z')` | `[a-z]`         | `(from: string, to: string) => CharacterClass`         | Range of characters                         |
-| `characterClass(...)`      | `[...]`         | `(...charClasses: CharacterClass[]) => CharacterClass` | Concatenation of multiple character classes |
-| `inverted(...)`            | `[^...]`        | `(charClass: CharacterClass) => CharacterClass`        | Inverts character class                     |
+| Regex Component            | Regex Pattern | Type                                                   | Description                                 |
+| -------------------------- | ------------- | ------------------------------------------------------ | ------------------------------------------- |
+| `any`                      | `.`           | `CharacterClass`                                       | Any character                               |
+| `word`                     | `\w`          | `CharacterClass`                                       | Word characters                             |
+| `digit`                    | `\d`          | `CharacterClass`                                       | Digit characters                            |
+| `whitespace`               | `\s`          | `CharacterClass`                                       | Whitespace characters                       |
+| `anyOf('abc')`             | `[abc]`       | `(chars: string) => CharacterClass`                    | Any of supplied characters                  |
+| `characterRange('a', 'z')` | `[a-z]`       | `(from: string, to: string) => CharacterClass`         | Range of characters                         |
+| `characterClass(...)`      | `[...]`       | `(...charClasses: CharacterClass[]) => CharacterClass` | Concatenation of multiple character classes |
+| `inverted(...)`            | `[^...]`      | `(charClass: CharacterClass) => CharacterClass`        | Inverts character class                     |
 
 Notes:
 * `any`, `word`, `digit`, `whitespace` - are objects, no need to call them.
@@ -134,10 +134,10 @@ Notes:
 
 ### Anchors
 
-| Regex Component | Regex construct | Type     | Notes                                                      |
-| --------------- | --------------- | -------- | ---------------------------------------------------------- |
-| `startOfString` | `^`             | `Anchor` | Start of the string (or start of a line in multiline mode) |
-| `endOfString`   | `$`             | `Anchor` | End of the string (or end of a line in multiline mode)     |
+| Regex Component | Regex Pattern | Type     | Notes                                                      |
+| --------------- | ------------- | -------- | ---------------------------------------------------------- |
+| `startOfString` | `^`           | `Anchor` | Start of the string (or start of a line in multiline mode) |
+| `endOfString`   | `$`           | `Anchor` | End of the string (or end of a line in multiline mode)     |
 
 Notes:
 * `startOfString`, `endOfString` - are objects, no need to call them.
