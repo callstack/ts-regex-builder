@@ -1,9 +1,9 @@
-import type { RegexNode } from '../src/types';
+import type { RegexSequence } from '../src/types';
 import { asRegExp } from './utils';
 
 export function toHavePattern(
   this: jest.MatcherContext,
-  received: RegExp | RegexNode | RegexNode[],
+  received: RegExp | RegexSequence,
   expected: RegExp
 ) {
   const receivedPattern = asRegExp(received).source;
