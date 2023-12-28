@@ -36,14 +36,14 @@ test('example: IPv4 address validator', () => {
   expect(regex).toMatchGroups('255.255.255.255', ['255.255.255.255', '255', '255', '255', '255']);
   expect(regex).toMatchGroups('123.45.67.89', ['123.45.67.89', '123', '45', '67', '89']);
 
-  expect(regex.test('0.0.0.')).toBe(false);
-  expect(regex.test('0.0.0.0.')).toBe(false);
-  expect(regex.test('0.-1.0.0')).toBe(false);
-  expect(regex.test('0.1000.0.0')).toBe(false);
-  expect(regex.test('0.0.300.0')).toBe(false);
-  expect(regex.test('255.255.255.256')).toBe(false);
+  expect('0.0.0.').not.toMatch(regex);
+  expect('0.0.0.0.').not.toMatch(regex);
+  expect('0.-1.0.0').not.toMatch(regex);
+  expect('0.1000.0.0').not.toMatch(regex);
+  expect('0.0.300.0').not.toMatch(regex);
+  expect('255.255.255.256').not.toMatch(regex);
 
-  expect(regex.source).toEqual(
-    '^(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])$'
+  expect(regex).toHavePattern(
+    /^(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/
   );
 });
