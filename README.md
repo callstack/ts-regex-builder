@@ -1,12 +1,12 @@
 # TS Regex Builder
 
-Structured Regular Expression builder for TypeScript and JavaScript.
+A User-friendly regular expression builder for TypeScript and JavaScript.
 
 ## Goal
 
 Regular expressions are a powerful tool for matching simple and complex text patterns, yet they are notorious for their hard-to-understand syntax.
 
-Inspired by Swift's Regex Builder, this library allows users to write easily and understand regular expressions.
+Inspired by Swift's Regex Builder, this library allows users to write and understand regular expressions easily.
 
 ```ts
 // Before
@@ -82,7 +82,7 @@ Builders accept either a single element (`oneOrMore('a')`) or string (`'a'`)  or
 
 Notes:
 * `capture()` accepts either a single element (`oneOrMore('a')`) or string (`'a'`)  or array of multiple elements and strings (`[oneOrMore('a'), 'b']`).
-* `choiceOf()` accepts variable number of elements or sequences.
+* `choiceOf()` accepts a variable number of elements or sequences.
 
 
 ### Quantifiers
@@ -123,8 +123,8 @@ Notes:
 
 | Regex Component | Regex construct | Type     | Notes                                                 |
 | --------------- | --------------- | -------- | ----------------------------------------------------- |
-| `startOfString` | `^`             | `Anchor` | Start of string (or start of  line in multiline mode) |
-| `endOfString`   | `$`             | `Anchor` | End of string (or end of line in multiline mode)      |
+| `startOfString` | `^`             | `Anchor` | Start of the string (or start of a line in multiline mode) |
+| `endOfString`   | `$`             | `Anchor` | End of the string (or end of a line in multiline mode)      |
 
 Notes:
 * `startOfString`, `endOfString` - are objects, no need to call them.
