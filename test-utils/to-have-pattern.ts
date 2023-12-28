@@ -1,33 +1,25 @@
-import { buildPattern } from '../src/builders';
 import type { RegexNode } from '../src/types';
-import { asNodeArray } from '../src/utils/nodes';
-import { isRegexNode } from './utils';
+import { asRegExp } from './utils';
 
 export function toHavePattern(
   this: jest.MatcherContext,
-  nodes: RegexNode | RegexNode[],
-  expected: string
+  received: RegExp | RegexNode | RegexNode[],
+  expected: RegExp
 ) {
-  nodes = asNodeArray(nodes);
+  const receivedPattern = asRegExp(received).source;
+  const expectedPattern = expected.source;
 
-  nodes.forEach((e) => {
-    if (!isRegexNode(e)) {
-      throw new Error(`\`toHavePattern()\` received an array of RegexElements and strings.`);
-    }
-  });
-
-  const received = buildPattern(nodes);
   const options = {
     isNot: this.isNot,
   };
 
   return {
-    pass: expected === received,
+    pass: expectedPattern === receivedPattern,
     message: () =>
       this.utils.matcherHint('toHavePattern', undefined, undefined, options) +
       '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n` +
-      `Received: ${this.utils.printReceived(received)}`,
+      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedPattern)}\n` +
+      `Received: ${this.utils.printReceived(receivedPattern)}`,
   };
 }
 
@@ -37,7 +29,7 @@ declare global {
   namespace jest {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Matchers<R, T = {}> {
-      toHavePattern(expected: string): R;
+      toHavePattern(expected: RegExp): R;
     }
   }
 }
