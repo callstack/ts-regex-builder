@@ -1,19 +1,12 @@
-import { buildRegex } from '../src/builders';
 import type { RegexNode } from '../src/types';
+import { asRegExp } from './utils';
 
 export function toHavePattern(
   this: jest.MatcherContext,
   received: RegExp | RegexNode | RegexNode[],
   expected: RegExp
 ) {
-  let regex;
-  if (received instanceof RegExp) {
-    regex = received;
-  } else {
-    regex = buildRegex(received);
-  }
-
-  const receivedPattern = regex.source;
+  const receivedPattern = asRegExp(received).source;
   const expectedPattern = expected.source;
 
   const options = {

@@ -1,17 +1,16 @@
-import { buildRegex } from '../src/builders';
 import type { RegexNode } from '../src/types';
+import { asRegExp } from './utils';
 
 export function toMatchString(
   this: jest.MatcherContext,
   received: RegExp | RegexNode | RegexNode[],
   expected: string
 ) {
-  const receivedRegex = received instanceof RegExp ? received : buildRegex(received);
+  const receivedRegex = asRegExp(received);
+  const matchResult = expected.match(receivedRegex);
   const options = {
     isNot: this.isNot,
   };
-
-  const matchResult = expected.match(receivedRegex);
 
   return {
     pass: matchResult !== null,

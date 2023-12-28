@@ -1,5 +1,5 @@
-import { buildRegex } from '../src/builders';
 import type { RegexNode } from '../src/types';
+import { asRegExp } from './utils';
 
 export function toMatchGroups(
   this: jest.MatcherContext,
@@ -7,22 +7,20 @@ export function toMatchGroups(
   expectedString: string,
   expectedGroups: string[]
 ) {
-  const receivedRegex = received instanceof RegExp ? received : buildRegex(received);
-
+  const receivedRegex = asRegExp(received);
+  const matchResult = expectedString.match(receivedRegex);
+  const receivedGroups = matchResult ? [...matchResult] : null;
   const options = {
     isNot: this.isNot,
   };
 
-  const matchResult = expectedString.match(receivedRegex);
-  const actual = matchResult ? [...matchResult] : null;
-
   return {
-    pass: this.equals(actual, expectedGroups),
+    pass: this.equals(receivedGroups, expectedGroups),
     message: () =>
       this.utils.matcherHint('toMatchGroups', undefined, undefined, options) +
       '\n\n' +
       `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedGroups)}\n` +
-      `Received: ${this.utils.printReceived(actual)}`,
+      `Received: ${this.utils.printReceived(receivedGroups)}`,
   };
 }
 

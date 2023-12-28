@@ -1,3 +1,4 @@
+import { buildRegex } from '../src/builders';
 import type { RegexElement, RegexNode } from '../src/types';
 
 export function isRegexNode(node: unknown): node is RegexNode {
@@ -11,4 +12,12 @@ export function isRegexElement(element: unknown): element is RegexElement {
     'encode' in element &&
     typeof element.encode === 'function'
   );
+}
+
+export function asRegExp(regex: RegExp | RegexNode | RegexNode[]) {
+  if (regex instanceof RegExp) {
+    return regex;
+  }
+
+  return buildRegex(regex);
 }
