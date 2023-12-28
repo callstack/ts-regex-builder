@@ -1,14 +1,14 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode } from '../types';
+import type { RegexElement, RegexNode, RegexSequence } from '../types';
 
 export interface ChoiceOf extends RegexElement {
   type: 'choiceOf';
   alternatives: RegexNode[][];
 }
 
-export function choiceOf(...alternatives: Array<RegexNode | RegexNode[]>): ChoiceOf {
+export function choiceOf(...alternatives: RegexSequence[]): ChoiceOf {
   if (alternatives.length === 0) {
     throw new Error('`choiceOf` should receive at least one alternative');
   }

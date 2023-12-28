@@ -1,9 +1,9 @@
-import type { RegexNode } from '../src/types';
+import type { RegexSequence } from '../src/types';
 import { asRegExp } from './utils';
 
 export function toMatchString(
   this: jest.MatcherContext,
-  received: RegExp | RegexNode | RegexNode[],
+  received: RegExp | RegexSequence,
   expected: string
 ) {
   const receivedRegex = asRegExp(received);

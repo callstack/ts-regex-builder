@@ -1,7 +1,7 @@
 import { encodeAtom } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode } from '../types';
+import type { RegexElement, RegexNode, RegexSequence } from '../types';
 
 export interface OneOrMore extends RegexElement {
   type: 'oneOrMore';
@@ -18,26 +18,26 @@ export interface ZeroOrMore extends RegexElement {
   children: RegexNode[];
 }
 
-export function oneOrMore(nodes: RegexNode | RegexNode[]): OneOrMore {
+export function oneOrMore(sequence: RegexSequence): OneOrMore {
   return {
     type: 'oneOrMore',
-    children: asNodeArray(nodes),
+    children: asNodeArray(sequence),
     encode: encodeOneOrMore,
   };
 }
 
-export function optionally(nodes: RegexNode | RegexNode[]): Optionally {
+export function optionally(sequence: RegexSequence): Optionally {
   return {
     type: 'optionally',
-    children: asNodeArray(nodes),
+    children: asNodeArray(sequence),
     encode: encodeOptionally,
   };
 }
 
-export function zeroOrMore(nodes: RegexNode | RegexNode[]): ZeroOrMore {
+export function zeroOrMore(sequence: RegexSequence): ZeroOrMore {
   return {
     type: 'zeroOrMore',
-    children: asNodeArray(nodes),
+    children: asNodeArray(sequence),
     encode: encodeZeroOrMore,
   };
 }

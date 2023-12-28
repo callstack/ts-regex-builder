@@ -1,4 +1,4 @@
-import type { RegexNode } from './types';
+import type { RegexSequence } from './types';
 import { encodeSequence } from './encoder/encoder';
 import { asNodeArray } from './utils/nodes';
 import { optionalFirstArg } from './utils/optional-arg';
@@ -26,7 +26,7 @@ export interface RegexFlags {
  * @param elements Single regex element or array of elements
  * @returns
  */
-export function buildRegex(elements: RegexNode | RegexNode[]): RegExp;
+export function buildRegex(sequence: RegexSequence): RegExp;
 
 /**
  * Generate RegExp object from elements with passed flags.
@@ -35,14 +35,14 @@ export function buildRegex(elements: RegexNode | RegexNode[]): RegExp;
  * @param flags RegExp flags object
  * @returns RegExp object
  */
-export function buildRegex(flags: RegexFlags, elements: RegexNode | RegexNode[]): RegExp;
+export function buildRegex(flags: RegexFlags, sequence: RegexSequence): RegExp;
 
 export function buildRegex(first: any, second?: any): RegExp {
   return _buildRegex(...optionalFirstArg(first, second));
 }
 
-export function _buildRegex(flags: RegexFlags, elements: RegexNode | RegexNode[]): RegExp {
-  const pattern = encodeSequence(asNodeArray(elements)).pattern;
+export function _buildRegex(flags: RegexFlags, sequence: RegexSequence): RegExp {
+  const pattern = encodeSequence(asNodeArray(sequence)).pattern;
   const flagsString = encodeFlags(flags ?? {});
   return new RegExp(pattern, flagsString);
 }
@@ -52,8 +52,8 @@ export function _buildRegex(flags: RegexFlags, elements: RegexNode | RegexNode[]
  * @param elements Single regex element or array of elements
  * @returns regex pattern string
  */
-export function buildPattern(elements: RegexNode | RegexNode[]): string {
-  return encodeSequence(asNodeArray(elements)).pattern;
+export function buildPattern(sequence: RegexSequence): string {
+  return encodeSequence(asNodeArray(sequence)).pattern;
 }
 
 function encodeFlags(flags: RegexFlags): string {
