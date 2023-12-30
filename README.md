@@ -13,11 +13,7 @@ This library allows users to create regular expressions in a structured way, mak
 const hexColor = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 
 // After
-const hexDigit = characterClass(
-  characterRange('a', 'f'),
-  characterRange('A', 'F'),
-  characterRange('0', '9')
-);
+const hexDigit = charClass(charRange('a', 'f'), charRange('A', 'F'), charRange('0', '9'));
 
 // prettier-ignore
 const hexColor = buildRegex(
@@ -39,7 +35,7 @@ const hexColor = buildRegex(
 npm install ts-regex-builder
 ```
 
-or 
+or
 
 ```sh
 yarn add ts-regex-builder
@@ -59,14 +55,16 @@ const regex = buildRegex(['Hello ', capture(oneOrMore(word))]);
 TS Regex Builder allows you to build complex regular expressions using domain-specific language of regex components.
 
 Terminology:
-* regex component (e.g., `capture()`, `oneOrMore()`, `word`) - function or object representing a regex construct
-* regex element (`RegexElement`) - object returned by regex components
-* regex sequence (`RegexSequence`) - single regex element or string (`RegexElement | string`) or array of such elements and strings (`Array<RegexElement | string>`)
+
+- regex component (e.g., `capture()`, `oneOrMore()`, `word`) - function or object representing a regex construct
+- regex element (`RegexElement`) - object returned by regex components
+- regex sequence (`RegexSequence`) - single regex element or string (`RegexElement | string`) or array of such elements and strings (`Array<RegexElement | string>`)
 
 Most of the regex components accept a regex sequence. Examples of sequences:
-* single string: `'Hello World'`  (note: all characters will be automatically escaped in the resulting regex)
-* single element: `capture('abc')`
-* array of elements and strings: `['$', oneOrMore(digit)]`
+
+- single string: `'Hello World'` (note: all characters will be automatically escaped in the resulting regex)
+- single element: `capture('abc')`
+- array of elements and strings: `['$', oneOrMore(digit)]`
 
 Regex components can be composed into a complex tree:
 
@@ -75,15 +73,14 @@ const currencyAmount = buildRegex([
   choiceOf(
     '$',
     '€',
-    repeat({ count: 3 }, characterRange('A', 'Z')), // ISO currency code
+    repeat({ count: 3 }, charRange('A', 'Z')) // ISO currency code
   ),
   capture(
     oneOrMore(digit), // Integer part
-    optionally(['.', repeat({ count: 2}, digit)]), // Fractional part
+    optionally(['.', repeat({ count: 2 }, digit)]) // Fractional part
   ),
-])
+]);
 ```
-
 
 ### Regex Builders
 
@@ -100,9 +97,9 @@ const currencyAmount = buildRegex([
 | `choiceOf(x, y, z)` | `x\|y\|z`     | Match one of provided sequences |
 
 Notes:
-* `capture` accepts a sequence of elements
-* `choiceOf()` accepts a variable number of sequences
 
+- `capture` accepts a sequence of elements
+- `choiceOf()` accepts a variable number of sequences
 
 ### Quantifiers
 
@@ -119,24 +116,24 @@ All quantifiers accept sequence of elements
 
 ### Character classes
 
-| Regex Component            | Regex Pattern | Description                                 |
-| -------------------------- | ------------- | ------------------------------------------- |
-| `any`                      | `.`           | Any character                               |
-| `word`                     | `\w`          | Word characters                             |
-| `digit`                    | `\d`          | Digit characters                            |
-| `whitespace`               | `\s`          | Whitespace characters                       |
-| `anyOf('abc')`             | `[abc]`       | Any of supplied characters                  |
-| `characterRange('a', 'z')` | `[a-z]`       | Range of characters                         |
-| `characterClass(...)`      | `[...]`       | Concatenation of multiple character classes |
-| `inverted(...)`            | `[^...]`      | Negation of a given character class         |
+| Regex Component       | Regex Pattern | Description                                 |
+| --------------------- | ------------- | ------------------------------------------- |
+| `any`                 | `.`           | Any character                               |
+| `word`                | `\w`          | Word characters                             |
+| `digit`               | `\d`          | Digit characters                            |
+| `whitespace`          | `\s`          | Whitespace characters                       |
+| `anyOf('abc')`        | `[abc]`       | Any of supplied characters                  |
+| `charRange('a', 'z')` | `[a-z]`       | Range of characters                         |
+| `charClass(...)`      | `[...]`       | Concatenation of multiple character classes |
+| `inverted(...)`       | `[^...]`      | Negation of a given character class         |
 
 Notes:
-* `any`, `word`, `digit`, `whitespace` are objects, no need to call them
-* `anyof` accepts a single string of characters to match
-* `characterRange` accepts exactly **two single character** strings representing range start and end (inclusive)
-* `characterClass` accepts a variable number of character classes to join into a single class
-* `inverted` accepts a single character class to be inverted
 
+- `any`, `word`, `digit`, `whitespace` are objects, no need to call them
+- `anyof` accepts a single string of characters to match
+- `charRange` accepts exactly **two single character** strings representing range start and end (inclusive)
+- `charClass` accepts a variable number of character classes to join into a single class
+- `inverted` accepts a single character class to be inverted
 
 ### Anchors
 
@@ -146,7 +143,8 @@ Notes:
 | `endOfString`   | `$`           | Match end of the string (or end of a line in multiline mode)     |
 
 Notes:
-* `startOfString`, `endOfString` are objects, no need to call them.
+
+- `startOfString`, `endOfString` are objects, no need to call them.
 
 ## Examples
 

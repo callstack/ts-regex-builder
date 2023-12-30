@@ -10,8 +10,8 @@ export {
   whitespace,
   word,
   anyOf,
-  characterRange,
-  characterClass,
+  charRange,
+  charClass,
   inverted,
 } from './components/character-class';
 export { choiceOf } from './components/choice-of';

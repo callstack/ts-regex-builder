@@ -2,8 +2,8 @@ import { oneOrMore, optionally, zeroOrMore } from '../quantifiers';
 import {
   any,
   anyOf,
-  characterClass,
-  characterRange,
+  charClass,
+  charRange,
   digit,
   inverted,
   whitespace,
@@ -35,38 +35,34 @@ test('`whitespace` character class', () => {
   expect(['x', whitespace, 'x']).toHavePattern(/x\sx/);
 });
 
-test('`characterClass` base cases', () => {
-  expect(characterClass(characterRange('a', 'z'))).toHavePattern(/[a-z]/);
-  expect(characterClass(characterRange('a', 'z'), characterRange('A', 'Z'))).toHavePattern(
-    /[a-zA-Z]/
-  );
-  expect(characterClass(characterRange('a', 'z'), anyOf('05'))).toHavePattern(/[a-z05]/);
-  expect(characterClass(characterRange('a', 'z'), whitespace, anyOf('05'))).toHavePattern(
-    /[a-z\s05]/
-  );
+test('`charClass` base cases', () => {
+  expect(charClass(charRange('a', 'z'))).toHavePattern(/[a-z]/);
+  expect(charClass(charRange('a', 'z'), charRange('A', 'Z'))).toHavePattern(/[a-zA-Z]/);
+  expect(charClass(charRange('a', 'z'), anyOf('05'))).toHavePattern(/[a-z05]/);
+  expect(charClass(charRange('a', 'z'), whitespace, anyOf('05'))).toHavePattern(/[a-z\s05]/);
 });
 
-test('`characterClass` throws on inverted arguments', () => {
-  expect(() => characterClass(inverted(whitespace))).toThrowErrorMatchingInlineSnapshot(
-    `"\`characterClass\` should receive only non-inverted character classes"`
+test('`charClass` throws on inverted arguments', () => {
+  expect(() => charClass(inverted(whitespace))).toThrowErrorMatchingInlineSnapshot(
+    `"\`charClass\` should receive only non-inverted character classes"`
   );
 });
 
-test('`characterRange` base cases', () => {
-  expect(characterRange('a', 'z')).toHavePattern(/[a-z]/);
-  expect(['x', characterRange('0', '9')]).toHavePattern(/x[0-9]/);
-  expect([characterRange('A', 'F'), 'x']).toHavePattern(/[A-F]x/);
+test('`charRange` base cases', () => {
+  expect(charRange('a', 'z')).toHavePattern(/[a-z]/);
+  expect(['x', charRange('0', '9')]).toHavePattern(/x[0-9]/);
+  expect([charRange('A', 'F'), 'x']).toHavePattern(/[A-F]x/);
 });
 
-test('`characterRange` throws on incorrect arguments', () => {
-  expect(() => characterRange('z', 'a')).toThrowErrorMatchingInlineSnapshot(
+test('`charRange` throws on incorrect arguments', () => {
+  expect(() => charRange('z', 'a')).toThrowErrorMatchingInlineSnapshot(
     `"\`start\` should be before or equal to \`end\`"`
   );
-  expect(() => characterRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
-    `"\`characterRange\` should receive only single character \`start\` string"`
+  expect(() => charRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
+    `"\`charRange\` should receive only single character \`start\` string"`
   );
-  expect(() => characterRange('a', 'zz')).toThrowErrorMatchingInlineSnapshot(
-    `"\`characterRange\` should receive only single character \`end\` string"`
+  expect(() => charRange('a', 'zz')).toThrowErrorMatchingInlineSnapshot(
+    `"\`charRange\` should receive only single character \`end\` string"`
   );
 });
 
@@ -119,7 +115,7 @@ test('`encodeCharacterClass` throws on empty text', () => {
       // @ts-expect-error
       inverted({
         type: 'characterClass',
-        characters: [],
+        chars: [],
         ranges: [],
         isInverted: false,
       })
