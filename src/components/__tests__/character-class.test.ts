@@ -115,7 +115,7 @@ test('`encodeCharacterClass` throws on empty text', () => {
       // @ts-expect-error
       inverted({
         type: 'characterClass',
-        characters: [],
+        chars: [],
         ranges: [],
         isInverted: false,
       })

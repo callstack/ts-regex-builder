@@ -2,7 +2,7 @@ import type { EncodeOutput } from '../encoder/types';
 
 export interface CharacterClass {
   type: 'characterClass';
-  characters: string[];
+  chars: string[];
   ranges: CharacterRange[];
   isInverted: boolean;
   encode: () => EncodeOutput;
@@ -18,7 +18,7 @@ export interface CharacterRange {
 
 export const any: CharacterClass = {
   type: 'characterClass',
-  characters: ['.'],
+  chars: ['.'],
   ranges: [],
   isInverted: false,
   encode: encodeCharacterClass,
@@ -26,7 +26,7 @@ export const any: CharacterClass = {
 
 export const digit: CharacterClass = {
   type: 'characterClass',
-  characters: ['\\d'],
+  chars: ['\\d'],
   ranges: [],
   isInverted: false,
   encode: encodeCharacterClass,
@@ -34,7 +34,7 @@ export const digit: CharacterClass = {
 
 export const word: CharacterClass = {
   type: 'characterClass',
-  characters: ['\\w'],
+  chars: ['\\w'],
   ranges: [],
   isInverted: false,
   encode: encodeCharacterClass,
@@ -42,7 +42,7 @@ export const word: CharacterClass = {
 
 export const whitespace: CharacterClass = {
   type: 'characterClass',
-  characters: ['\\s'],
+  chars: ['\\s'],
   ranges: [],
   isInverted: false,
   encode: encodeCharacterClass,
@@ -57,7 +57,7 @@ export function charClass(...elements: CharacterClass[]): CharacterClass {
 
   return {
     type: 'characterClass',
-    characters: elements.map((c) => c.characters).flat(),
+    chars: elements.map((c) => c.chars).flat(),
     ranges: elements.map((c) => c.ranges).flat(),
     isInverted: false,
     encode: encodeCharacterClass,
@@ -79,7 +79,7 @@ export function charRange(start: string, end: string): CharacterClass {
 
   return {
     type: 'characterClass',
-    characters: [],
+    chars: [],
     ranges: [{ start, end }],
     isInverted: false,
     encode: encodeCharacterClass,
@@ -87,15 +87,15 @@ export function charRange(start: string, end: string): CharacterClass {
 }
 
 export function anyOf(characters: string): CharacterClass {
-  const charactersArray = characters.split('').map((c) => escapeForCharacterClass(c));
+  const chars = characters.split('').map((c) => escapeForCharacterClass(c));
 
-  if (charactersArray.length === 0) {
+  if (chars.length === 0) {
     throw new Error('`anyOf` should received at least one character');
   }
 
   return {
     type: 'characterClass',
-    characters: charactersArray,
+    chars,
     ranges: [],
     isInverted: false,
     encode: encodeCharacterClass,
@@ -105,7 +105,7 @@ export function anyOf(characters: string): CharacterClass {
 export function inverted(element: CharacterClass): CharacterClass {
   return {
     type: 'characterClass',
-    characters: element.characters,
+    chars: element.chars,
     ranges: element.ranges,
     isInverted: !element.isInverted,
     encode: encodeCharacterClass,
@@ -113,29 +113,29 @@ export function inverted(element: CharacterClass): CharacterClass {
 }
 
 function encodeCharacterClass(this: CharacterClass): EncodeOutput {
-  if (this.characters.length === 0 && this.ranges.length === 0) {
+  if (this.chars.length === 0 && this.ranges.length === 0) {
     throw new Error('Character class should contain at least one character or character range');
   }
 
   // Direct rendering for single-character class
-  if (this.characters.length === 1 && this.ranges?.length === 0 && !this.isInverted) {
+  if (this.chars.length === 1 && this.ranges?.length === 0 && !this.isInverted) {
     return {
       precedence: 'atom',
-      pattern: this.characters[0]!,
+      pattern: this.chars[0]!,
     };
   }
 
   // If passed characters includes hyphen (`-`) it need to be moved to
   // first (or last) place in order to treat it as hyphen character and not a range.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
-  const hyphen = this.characters.includes('-') ? '-' : '';
-  const otherCharacters = this.characters.filter((c) => c !== '-').join('');
+  const hyphen = this.chars.includes('-') ? '-' : '';
+  const otherChars = this.chars.filter((c) => c !== '-').join('');
   const ranges = this.ranges.map(({ start, end }) => `${start}-${end}`).join('');
   const isInverted = this.isInverted ? '^' : '';
 
   return {
     precedence: 'atom',
-    pattern: `[${isInverted}${ranges}${otherCharacters}${hyphen}]`,
+    pattern: `[${isInverted}${ranges}${otherChars}${hyphen}]`,
   };
 }
 
