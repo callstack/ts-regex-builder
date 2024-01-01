@@ -13,7 +13,7 @@ test('basic quantifies', () => {
   expect(['a', oneOrMore('bc')]).toHavePattern(/a(?:bc)+/);
   expect(['a', oneOrMore('bc')]).toHavePattern(/a(?:bc)+/);
 
-  expect(['a', repeat({ min: 1, max: 5 }, 'b')]).toHavePattern(/ab{1,5}/);
+  expect(['a', repeat('b', { min: 1, max: 5 })]).toHavePattern(/ab{1,5}/);
 
   expect(['a', zeroOrMore('b')]).toHavePattern(/ab*/);
   expect(['a', zeroOrMore('bc')]).toHavePattern(/a(?:bc)*/);

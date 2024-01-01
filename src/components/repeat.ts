@@ -11,7 +11,7 @@ export interface Repeat extends RegexElement {
 
 export type RepeatOptions = { count: number } | { min: number; max?: number };
 
-export function repeat(options: RepeatOptions, sequence: RegexSequence): Repeat {
+export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat {
   const children = asNodeArray(sequence);
 
   if (children.length === 0) {
