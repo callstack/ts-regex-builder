@@ -1,6 +1,5 @@
 import {
   buildRegex,
-  capture,
   charRange,
   choiceOf,
   digit,
@@ -19,22 +18,17 @@ test('example: IPv4 address validator', () => {
   );
 
   const regex = buildRegex([
-    startOfString,
-    capture(octet),
-    '.',
-    capture(octet),
-    '.',
-    capture(octet),
-    '.',
-    capture(octet),
+    startOfString, //
+    repeat([octet, '.'], { count: 3 }),
+    octet,
     endOfString,
   ]);
 
-  expect(regex).toMatchGroups('0.0.0.0', ['0.0.0.0', '0', '0', '0', '0']);
-  expect(regex).toMatchGroups('192.168.0.1', ['192.168.0.1', '192', '168', '0', '1']);
-  expect(regex).toMatchGroups('1.99.100.249', ['1.99.100.249', '1', '99', '100', '249']);
-  expect(regex).toMatchGroups('255.255.255.255', ['255.255.255.255', '255', '255', '255', '255']);
-  expect(regex).toMatchGroups('123.45.67.89', ['123.45.67.89', '123', '45', '67', '89']);
+  expect(regex).toMatchString('0.0.0.0');
+  expect(regex).toMatchString('192.168.0.1');
+  expect(regex).toMatchString('1.99.100.249');
+  expect(regex).toMatchString('255.255.255.255');
+  expect(regex).toMatchString('123.45.67.89');
 
   expect(regex).not.toMatchString('0.0.0.');
   expect(regex).not.toMatchString('0.0.0.0.');
@@ -44,6 +38,6 @@ test('example: IPv4 address validator', () => {
   expect(regex).not.toMatchString('255.255.255.256');
 
   expect(regex).toHavePattern(
-    /^(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/
+    /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/
   );
 });
