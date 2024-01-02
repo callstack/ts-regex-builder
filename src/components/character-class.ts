@@ -129,13 +129,17 @@ function encodeCharacterClass(this: CharacterClass): EncodeOutput {
   // first (or last) place in order to treat it as hyphen character and not a range.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
   const hyphen = this.chars.includes('-') ? '-' : '';
-  const otherChars = this.chars.filter((c) => c !== '-').join('');
+  const caret = this.chars.includes('^') ? '^' : '';
+  const otherChars = this.chars.filter((c) => c !== '-' && c !== '^').join('');
   const ranges = this.ranges.map(({ start, end }) => `${start}-${end}`).join('');
   const isInverted = this.isInverted ? '^' : '';
 
+  let pattern = `[${isInverted}${ranges}${otherChars}${caret}${hyphen}]`;
+  if (pattern === '[^-]') pattern = '[\\^-]';
+
   return {
     precedence: 'atom',
-    pattern: `[${isInverted}${ranges}${otherChars}${hyphen}]`,
+    pattern,
   };
 }
 

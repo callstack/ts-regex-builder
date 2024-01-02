@@ -88,6 +88,12 @@ test('`anyOf` moves hyphen to the last position', () => {
   expect(anyOf('a-bc')).toHavePattern(/[abc-]/);
 });
 
+test('`anyOf` edge case caret and  hyphen', () => {
+  expect(anyOf('^-')).toHavePattern(/[\^-]/);
+  expect(anyOf('-^')).toHavePattern(/[\^-]/);
+  expect(anyOf('-^a')).toHavePattern(/[a^-]/);
+});
+
 test('`anyOf` throws on empty text', () => {
   expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(
     `"\`anyOf\` should received at least one character"`
