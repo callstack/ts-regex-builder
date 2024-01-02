@@ -1,7 +1,6 @@
 import type { RegexSequence } from './types';
 import { encodeSequence } from './encoder/encoder';
 import { asNodeArray } from './utils/nodes';
-import { optionalFirstArg } from './utils/optional-arg';
 
 export interface RegexFlags {
   /** Global search. */
@@ -21,27 +20,13 @@ export interface RegexFlags {
 }
 
 /**
- * Generate RegExp object from elements.
- *
- * @param elements Single regex element or array of elements
- * @returns
- */
-export function buildRegex(sequence: RegexSequence): RegExp;
-
-/**
- * Generate RegExp object from elements with passed flags.
+ * Generate RegExp object from elements with optional flags.
  *
  * @param elements Single regex element or array of elements
  * @param flags RegExp flags object
  * @returns RegExp object
  */
-export function buildRegex(flags: RegexFlags, sequence: RegexSequence): RegExp;
-
-export function buildRegex(first: any, second?: any): RegExp {
-  return _buildRegex(...optionalFirstArg(first, second));
-}
-
-export function _buildRegex(flags: RegexFlags, sequence: RegexSequence): RegExp {
+export function buildRegex(sequence: RegexSequence, flags?: RegexFlags): RegExp {
   const pattern = encodeSequence(asNodeArray(sequence)).pattern;
   const flagsString = encodeFlags(flags ?? {});
   return new RegExp(pattern, flagsString);

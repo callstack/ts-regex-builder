@@ -14,14 +14,9 @@ const octet = choiceOf(
 
 // Match
 const regex = buildRegex([
-  startOfString,
-  capture(octet),
-  '.',
-  capture(octet),
-  '.',
-  capture(octet),
-  '.',
-  capture(octet),
+  startOfString, //
+  repeat([octet, '.'], { count: 3 }),
+  octet,
   endOfString,
 ]);
 ```
@@ -30,12 +25,5 @@ This code generates the following regex pattern:
 
 ```ts
 const regex =
-  /^(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
-```
-
-This pattern uses repetition of the `capture(octet)` elements to generate capture groups for each of the IPv4 octets:
-
-```ts
-// Matched groups ['192.168.0.1', '192', '168', '0', '1',]
-const match = regex.exec('192.168.0.1');
+  /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 ```
