@@ -13,17 +13,20 @@ This library allows users to create regular expressions in a structured way, mak
 const hexColor = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 
 // After
-const hexDigit = charClass(charRange('a', 'f'), charRange('A', 'F'), charRange('0', '9'));
+const hexDigit = charClass(
+  charRange('a', 'f'), //
+  charRange('A', 'F'),
+  charRange('0', '9'),
+);
 
-// prettier-ignore
 const hexColor = buildRegex(
   startOfString,
   optionally('#'),
   capture(
     choiceOf(
-      repeat({ count: 6 }, hexDigit),
-      repeat({ count: 3 }, hexDigit),
-    )
+      repeat({ count: 6 }, hexDigit), // #rrggbb
+      repeat({ count: 3 }, hexDigit), // #rgb
+    ),
   ),
   endOfString,
 );
@@ -73,11 +76,11 @@ const currencyAmount = buildRegex([
   choiceOf(
     '$',
     '€',
-    repeat({ count: 3 }, charRange('A', 'Z')) // ISO currency code
+    repeat({ count: 3 }, charRange('A', 'Z')), // ISO currency code
   ),
   capture(
     oneOrMore(digit), // Integer part
-    optionally(['.', repeat({ count: 2 }, digit)]) // Fractional part
+    optionally(['.', repeat({ count: 2 }, digit)]), // Fractional part
   ),
 ]);
 ```
