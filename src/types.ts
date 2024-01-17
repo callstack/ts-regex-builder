@@ -1,10 +1,10 @@
 import type { EncodeOutput } from './encoder/types';
 
-export type RegexSequence = RegexNode | RegexNode[];
+export type RegexSequence = RegexElement[] | RegexElement;
 
-export type RegexNode = RegexElement | string;
+export type RegexElement = RegexEncodable | string;
 
-export interface RegexElement {
+export interface RegexEncodable {
   type: string;
   encode(): EncodeOutput;
 }

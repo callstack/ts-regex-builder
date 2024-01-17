@@ -1,11 +1,11 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode, RegexSequence } from '../types';
+import type { RegexElement, RegexEncodable, RegexSequence } from '../types';
 
-export interface Capture extends RegexElement {
+export interface Capture extends RegexEncodable {
   type: 'capture';
-  children: RegexNode[];
+  children: RegexElement[];
 }
 
 export function capture(sequence: RegexSequence): Capture {

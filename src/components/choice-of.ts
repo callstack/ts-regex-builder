@@ -1,11 +1,11 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode, RegexSequence } from '../types';
+import type { RegexElement, RegexEncodable, RegexSequence } from '../types';
 
-export interface ChoiceOf extends RegexElement {
+export interface ChoiceOf extends RegexEncodable {
   type: 'choiceOf';
-  alternatives: RegexNode[][];
+  alternatives: RegexElement[][];
 }
 
 export function choiceOf(...alternatives: RegexSequence[]): ChoiceOf {

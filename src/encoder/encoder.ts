@@ -1,17 +1,17 @@
-import type { RegexNode } from '../types';
+import type { RegexElement } from '../types';
 import { escapeText } from '../utils/text';
 import type { EncodeOutput } from './types';
 
-export function encodeSequence(nodes: RegexNode[]): EncodeOutput {
+export function encodeSequence(nodes: RegexElement[]): EncodeOutput {
   const encodedNodes = nodes.map((n) => encodeNode(n));
   return concatSequence(encodedNodes);
 }
 
-export function encodeAtom(nodes: RegexNode[]): EncodeOutput {
+export function encodeAtom(nodes: RegexElement[]): EncodeOutput {
   return asAtom(encodeSequence(nodes));
 }
 
-function encodeNode(node: RegexNode): EncodeOutput {
+function encodeNode(node: RegexElement): EncodeOutput {
   if (typeof node === 'string') {
     return encodeText(node);
   }

@@ -1,21 +1,21 @@
 import { encodeAtom } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode, RegexSequence } from '../types';
+import type { RegexElement, RegexEncodable, RegexSequence } from '../types';
 
-export interface OneOrMore extends RegexElement {
+export interface OneOrMore extends RegexEncodable {
   type: 'oneOrMore';
-  children: RegexNode[];
+  children: RegexElement[];
 }
 
-export interface Optionally extends RegexElement {
+export interface Optionally extends RegexEncodable {
   type: 'optionally';
-  children: RegexNode[];
+  children: RegexElement[];
 }
 
-export interface ZeroOrMore extends RegexElement {
+export interface ZeroOrMore extends RegexEncodable {
   type: 'zeroOrMore';
-  children: RegexNode[];
+  children: RegexElement[];
 }
 
 export function oneOrMore(sequence: RegexSequence): OneOrMore {
