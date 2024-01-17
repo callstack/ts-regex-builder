@@ -7,7 +7,7 @@
 const octet = choiceOf(
   [digit],
   [charRange('1', '9'), digit],
-  ['1', repeat({ count: 2 }, digit)],
+  ['1', repeat(digit, 2)],
   ['2', charRange('0', '4'), digit],
   ['25', charRange('0', '5')]
 );
@@ -15,7 +15,7 @@ const octet = choiceOf(
 // Match
 const regex = buildRegExp([
   startOfString, //
-  repeat([octet, '.'], { count: 3 }),
+  repeat([octet, '.'], 3),
   octet,
   endOfString,
 ]);

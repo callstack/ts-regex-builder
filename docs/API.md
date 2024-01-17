@@ -73,7 +73,7 @@ function optionally(
 
 ```ts
 function repeat(
-    options: { count: number } | { min: number; max?: number },
+    options: number | { min: number; max?: number },
     sequence: RegexSequence,
 ): Repeat
 ```

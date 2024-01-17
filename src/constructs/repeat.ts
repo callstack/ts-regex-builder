@@ -9,7 +9,7 @@ export interface Repeat extends RegexConstruct {
   children: RegexElement[];
 }
 
-export type RepeatOptions = { count: number } | { min: number; max?: number };
+export type RepeatOptions = number | { min: number; max?: number };
 
 export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat {
   const children = ensureArray(sequence);
@@ -29,10 +29,10 @@ export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat 
 function encodeRepeat(this: Repeat): EncodeResult {
   const atomicNodes = encodeAtom(this.children);
 
-  if ('count' in this.options) {
+  if (typeof this.options === 'number') {
     return {
       precedence: 'sequence',
-      pattern: `${atomicNodes.pattern}{${this.options.count}}`,
+      pattern: `${atomicNodes.pattern}{${this.options}}`,
     };
   }
 
