@@ -1,17 +1,17 @@
 import type { RegexElement } from '../types';
 import { escapeText } from '../utils/text';
-import type { EncodeOutput } from './types';
+import type { EncodeResult } from './types';
 
-export function encodeSequence(nodes: RegexElement[]): EncodeOutput {
+export function encodeSequence(nodes: RegexElement[]): EncodeResult {
   const encodedNodes = nodes.map((n) => encodeNode(n));
   return concatSequence(encodedNodes);
 }
 
-export function encodeAtom(nodes: RegexElement[]): EncodeOutput {
+export function encodeAtom(nodes: RegexElement[]): EncodeResult {
   return asAtom(encodeSequence(nodes));
 }
 
-function encodeNode(node: RegexElement): EncodeOutput {
+function encodeNode(node: RegexElement): EncodeResult {
   if (typeof node === 'string') {
     return encodeText(node);
   }
@@ -23,7 +23,7 @@ function encodeNode(node: RegexElement): EncodeOutput {
   return node.encode();
 }
 
-function encodeText(text: string): EncodeOutput {
+function encodeText(text: string): EncodeResult {
   if (text.length === 0) {
     throw new Error('`encodeText`: received text should not be empty');
   }
@@ -42,7 +42,7 @@ function encodeText(text: string): EncodeOutput {
   };
 }
 
-function concatSequence(encoded: EncodeOutput[]): EncodeOutput {
+function concatSequence(encoded: EncodeResult[]): EncodeResult {
   if (encoded.length === 1) {
     return encoded[0]!;
   }
@@ -53,7 +53,7 @@ function concatSequence(encoded: EncodeOutput[]): EncodeOutput {
   };
 }
 
-function asAtom(encoded: EncodeOutput): EncodeOutput {
+function asAtom(encoded: EncodeResult): EncodeResult {
   if (encoded.precedence === 'atom') {
     return encoded;
   }

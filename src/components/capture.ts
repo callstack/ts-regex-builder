@@ -1,5 +1,5 @@
 import { encodeSequence } from '../encoder/encoder';
-import type { EncodeOutput } from '../encoder/types';
+import type { EncodeResult } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
 import type { RegexComponent, RegexElement, RegexSequence } from '../types';
 
@@ -16,7 +16,7 @@ export function capture(sequence: RegexSequence): Capture {
   };
 }
 
-function encodeCapture(this: Capture): EncodeOutput {
+function encodeCapture(this: Capture): EncodeResult {
   return {
     precedence: 'atom',
     pattern: `(${encodeSequence(this.children).pattern})`,

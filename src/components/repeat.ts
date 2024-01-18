@@ -1,5 +1,5 @@
 import { encodeAtom } from '../encoder/encoder';
-import type { EncodeOutput } from '../encoder/types';
+import type { EncodeResult } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
 import type { RegexComponent, RegexElement, RegexSequence } from '../types';
 
@@ -26,7 +26,7 @@ export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat 
   };
 }
 
-function encodeRepeat(this: Repeat): EncodeOutput {
+function encodeRepeat(this: Repeat): EncodeResult {
   const atomicNodes = encodeAtom(this.children);
 
   if ('count' in this.options) {

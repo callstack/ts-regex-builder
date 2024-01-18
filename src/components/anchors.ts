@@ -1,4 +1,4 @@
-import type { EncodeOutput } from '../encoder/types';
+import type { EncodeResult } from '../encoder/types';
 import type { RegexComponent } from '../types';
 
 export interface Anchor extends RegexComponent {
@@ -18,7 +18,7 @@ export const endOfString: Anchor = {
   encode: encodeAnchor,
 };
 
-function encodeAnchor(this: Anchor): EncodeOutput {
+function encodeAnchor(this: Anchor): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: this.symbol,

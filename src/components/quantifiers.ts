@@ -1,5 +1,5 @@
 import { encodeAtom } from '../encoder/encoder';
-import type { EncodeOutput } from '../encoder/types';
+import type { EncodeResult } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
 import type { RegexComponent, RegexElement, RegexSequence } from '../types';
 
@@ -42,21 +42,21 @@ export function zeroOrMore(sequence: RegexSequence): ZeroOrMore {
   };
 }
 
-function encodeOneOrMore(this: OneOrMore): EncodeOutput {
+function encodeOneOrMore(this: OneOrMore): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: `${encodeAtom(this.children).pattern}+`,
   };
 }
 
-function encodeOptionally(this: Optionally): EncodeOutput {
+function encodeOptionally(this: Optionally): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: `${encodeAtom(this.children).pattern}?`,
   };
 }
 
-function encodeZeroOrMore(this: ZeroOrMore): EncodeOutput {
+function encodeZeroOrMore(this: ZeroOrMore): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: `${encodeAtom(this.children).pattern}*`,

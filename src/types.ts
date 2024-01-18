@@ -1,4 +1,4 @@
-import type { EncodeOutput } from './encoder/types';
+import type { EncodeResult } from './encoder/types';
 
 /**
  * Sequence of regex elements that can be encoded into a regular expression.
@@ -15,9 +15,9 @@ export type RegexSequence = RegexElement[] | RegexElement;
 export type RegexElement = RegexComponent | string;
 
 /**
- * Represents result of calling a regex componen.
+ * Represents regex component.
  */
 export interface RegexComponent {
   type: string;
-  encode(): EncodeOutput;
+  encode(): EncodeResult;
 }
