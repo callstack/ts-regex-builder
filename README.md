@@ -19,7 +19,7 @@ const hexDigit = charClass(
   charRange('0', '9'),
 );
 
-const hexColor = buildRegex(
+const hexColor = buildRegExp(
   startOfString,
   optionally('#'),
   capture(
@@ -47,10 +47,10 @@ yarn add ts-regex-builder
 ## Basic usage
 
 ```js
-import { buildRegex, capture, oneOrMore } from 'ts-regex-builder';
+import { buildRegExp, capture, oneOrMore } from 'ts-regex-builder';
 
 // /Hello (\w+)/
-const regex = buildRegex(['Hello ', capture(oneOrMore(word))]);
+const regex = buildRegExp(['Hello ', capture(oneOrMore(word))]);
 ```
 
 ## Regex domain-specific language
@@ -72,7 +72,7 @@ Most of the regex components accept a regex sequence. Examples of sequences:
 Regex components can be composed into a complex tree:
 
 ```ts
-const currencyAmount = buildRegex([
+const currencyAmount = buildRegExp([
   choiceOf(
     '$',
     '€',
@@ -89,8 +89,8 @@ const currencyAmount = buildRegex([
 
 | Regex Component                         | Regex Pattern | Description                         |
 | --------------------------------------- | ------------- | ----------------------------------- |
-| `buildRegex(...)`                       | `/.../`       | Create `RegExp` instance            |
-| `buildRegex(..., { ignoreCase: true })` | `/.../i`      | Create `RegExp` instance with flags |
+| `buildRegExp(...)`                       | `/.../`       | Create `RegExp` instance            |
+| `buildRegExp(..., { ignoreCase: true })` | `/.../i`      | Create `RegExp` instance with flags |
 
 ### Components
 

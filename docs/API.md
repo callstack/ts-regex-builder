@@ -2,12 +2,12 @@
 
 ## Builder
 
-### `buildRegex()` function
+### `buildRegExp()` function
 
 ```ts
-function buildRegex(sequence: RegexSequence): RegExp;
+function buildRegExp(sequence: RegexSequence): RegExp;
 
-function buildRegex(
+function buildRegExp(
     flags: {
         global?: boolean;
         ignoreCase?: boolean;

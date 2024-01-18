@@ -1,6 +1,6 @@
 export type * from './types';
 
-export { buildPattern, buildRegex } from './builders';
+export { buildPattern, buildRegExp } from './builders';
 
 export { startOfString, endOfString } from './components/anchors';
 export { capture } from './components/capture';

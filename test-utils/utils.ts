@@ -1,4 +1,4 @@
-import { buildRegex } from '../src/builders';
+import { buildRegExp } from '../src/builders';
 import type { RegexComponentResult, RegexElement } from '../src/types';
 
 export function isRegexElement(node: unknown): node is RegexElement {
@@ -19,5 +19,5 @@ export function asRegExp(regex: RegExp | RegexElement | RegexElement[]) {
     return regex;
   }
 
-  return buildRegex(regex);
+  return buildRegExp(regex);
 }

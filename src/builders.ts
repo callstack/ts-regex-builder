@@ -26,7 +26,7 @@ export interface RegexFlags {
  * @param flags RegExp flags object
  * @returns RegExp object
  */
-export function buildRegex(sequence: RegexSequence, flags?: RegexFlags): RegExp {
+export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp {
   const pattern = encodeSequence(asNodeArray(sequence)).pattern;
   const flagsString = encodeFlags(flags ?? {});
   return new RegExp(pattern, flagsString);

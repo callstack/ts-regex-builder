@@ -1,5 +1,5 @@
 import {
-  buildRegex,
+  buildRegExp,
   charRange,
   choiceOf,
   digit,
@@ -14,10 +14,10 @@ test('example: IPv4 address validator', () => {
     [charRange('1', '9'), digit],
     ['1', repeat(digit, { count: 2 })],
     ['2', charRange('0', '4'), digit],
-    ['25', charRange('0', '5')]
+    ['25', charRange('0', '5')],
   );
 
-  const regex = buildRegex([
+  const regex = buildRegExp([
     startOfString, //
     repeat([octet, '.'], { count: 3 }),
     octet,
@@ -38,6 +38,6 @@ test('example: IPv4 address validator', () => {
   expect(regex).not.toMatchString('255.255.255.256');
 
   expect(regex).toHavePattern(
-    /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/
+    /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/,
   );
 });
