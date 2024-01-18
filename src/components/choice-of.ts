@@ -1,9 +1,9 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexEncodable, RegexSequence } from '../types';
+import type { RegexComponentResult, RegexElement, RegexSequence } from '../types';
 
-export interface ChoiceOf extends RegexEncodable {
+export interface ChoiceOf extends RegexComponentResult {
   type: 'choiceOf';
   alternatives: RegexElement[][];
 }
