@@ -2,25 +2,25 @@ import type { RegexElement } from '../types';
 import { escapeText } from '../utils/text';
 import type { EncodeResult } from './types';
 
-export function encodeSequence(nodes: RegexElement[]): EncodeResult {
-  const encodedNodes = nodes.map((n) => encodeNode(n));
+export function encodeSequence(elements: RegexElement[]): EncodeResult {
+  const encodedNodes = elements.map((n) => encodeNode(n));
   return concatSequence(encodedNodes);
 }
 
-export function encodeAtom(nodes: RegexElement[]): EncodeResult {
-  return asAtom(encodeSequence(nodes));
+export function encodeAtom(elements: RegexElement[]): EncodeResult {
+  return wrapAtom(encodeSequence(elements));
 }
 
-function encodeNode(node: RegexElement): EncodeResult {
-  if (typeof node === 'string') {
-    return encodeText(node);
+function encodeNode(element: RegexElement): EncodeResult {
+  if (typeof element === 'string') {
+    return encodeText(element);
   }
 
-  if (typeof node.encode !== 'function') {
-    throw new Error(`\`encodeNode\`: unknown element type ${node.type}`);
+  if (typeof element.encode !== 'function') {
+    throw new Error(`\`encodeNode\`: unknown element type ${element.type}`);
   }
 
-  return node.encode();
+  return element.encode();
 }
 
 function encodeText(text: string): EncodeResult {
@@ -49,11 +49,13 @@ function concatSequence(encoded: EncodeResult[]): EncodeResult {
 
   return {
     precedence: 'sequence',
-    pattern: encoded.map((n) => (n.precedence === 'alternation' ? asAtom(n) : n).pattern).join(''),
+    pattern: encoded
+      .map((n) => (n.precedence === 'disjunction' ? wrapAtom(n) : n).pattern)
+      .join(''),
   };
 }
 
-function asAtom(encoded: EncodeResult): EncodeResult {
+function wrapAtom(encoded: EncodeResult): EncodeResult {
   if (encoded.precedence === 'atom') {
     return encoded;
   }

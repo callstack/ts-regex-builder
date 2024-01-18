@@ -27,7 +27,7 @@ function encodeChoiceOf(this: ChoiceOf): EncodeResult {
   }
 
   return {
-    precedence: 'alternation',
+    precedence: 'disjunction',
     pattern: encodedAlternatives.map((n) => n.pattern).join('|'),
   };
 }

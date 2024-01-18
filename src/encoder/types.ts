@@ -6,4 +6,4 @@ export interface EncodeResult {
   pattern: string;
 }
 
-export type EncodePrecedence = 'atom' | 'sequence' | 'alternation';
+export type EncodePrecedence = 'atom' | 'sequence' | 'disjunction';

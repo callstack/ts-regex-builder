@@ -1,12 +1,12 @@
 import type { EncodeResult } from './encoder/types';
 
 /**
- * Sequence of regex elements that can be encoded into a regular expression.
+ * Sequence of regex elements (= regex operators or strings to be matched
+ * literally) that can be encoded into a regular expression.
  *
- * Typically passed as an array of elements but can be a single element to
- * improve readability.
+ * This can be either a single element or an array of elements.
  */
-export type RegexSequence = RegexElement[] | RegexElement;
+export type RegexSequence = RegexElement | RegexElement[];
 
 /**
  * Represents a regex operator or a string to be matched literally.
