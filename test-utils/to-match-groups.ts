@@ -5,7 +5,7 @@ export function toMatchGroups(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
   expectedString: string,
-  expectedGroups: string[]
+  expectedGroups: string[],
 ) {
   const receivedRegex = asRegExp(received);
   const matchResult = expectedString.match(receivedRegex);

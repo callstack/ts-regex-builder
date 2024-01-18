@@ -1,7 +1,7 @@
 import type { EncodeResult } from '../encoder/types';
-import type { RegexComponent } from '../types';
+import type { RegexOperator } from '../types';
 
-export interface CharacterClass extends RegexComponent {
+export interface CharacterClass extends RegexOperator {
   type: 'characterClass';
   chars: string[];
   ranges: CharacterRange[];

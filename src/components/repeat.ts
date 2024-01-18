@@ -1,9 +1,9 @@
 import { encodeAtom } from '../encoder/encoder';
 import type { EncodeResult } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexComponent, RegexElement, RegexSequence } from '../types';
+import type { RegexElement, RegexOperator, RegexSequence } from '../types';
 
-export interface Repeat extends RegexComponent {
+export interface Repeat extends RegexOperator {
   type: 'repeat';
   options: RepeatOptions;
   children: RegexElement[];

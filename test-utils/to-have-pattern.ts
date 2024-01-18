@@ -4,7 +4,7 @@ import { asRegExp } from './utils';
 export function toHavePattern(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
-  expected: RegExp
+  expected: RegExp,
 ) {
   const receivedPattern = asRegExp(received).source;
   const expectedPattern = expected.source;

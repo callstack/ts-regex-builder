@@ -4,7 +4,7 @@ import { asRegExp } from './utils';
 export function toMatchString(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
-  expected: string
+  expected: string,
 ) {
   const receivedRegex = asRegExp(received);
   const matchResult = expected.match(receivedRegex);

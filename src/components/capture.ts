@@ -1,9 +1,9 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeResult } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexComponent, RegexElement, RegexSequence } from '../types';
+import type { RegexElement, RegexOperator, RegexSequence } from '../types';
 
-export interface Capture extends RegexComponent {
+export interface Capture extends RegexOperator {
   type: 'capture';
   children: RegexElement[];
 }

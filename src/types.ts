@@ -9,15 +9,14 @@ import type { EncodeResult } from './encoder/types';
 export type RegexSequence = RegexElement[] | RegexElement;
 
 /**
- * Represents a result of calling a regex component or a string to be matched
- * literally.
+ * Represents a regex operator or a string to be matched literally.
  */
-export type RegexElement = RegexComponent | string;
+export type RegexElement = RegexOperator | string;
 
 /**
- * Represents regex component.
+ * Represents regex operator.
  */
-export interface RegexComponent {
+export interface RegexOperator {
   type: string;
   encode(): EncodeResult;
 }
