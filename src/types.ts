@@ -12,12 +12,12 @@ export type RegexSequence = RegexElement[] | RegexElement;
  * Represents a result of calling a regex component or a string to be matched
  * literally.
  */
-export type RegexElement = RegexComponentResult | string;
+export type RegexElement = RegexComponent | string;
 
 /**
  * Represents result of calling a regex componen.
  */
-export interface RegexComponentResult {
+export interface RegexComponent {
   type: string;
   encode(): EncodeOutput;
 }
