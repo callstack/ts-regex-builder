@@ -1,6 +1,6 @@
 import { encodeAtom } from '../encoder/encoder';
 import type { EncodeResult } from '../encoder/types';
-import { asNodeArray } from '../utils/nodes';
+import { wrapSequence } from '../utils/elements';
 import type { RegexElement, RegexOperator, RegexSequence } from '../types';
 
 export interface OneOrMore extends RegexOperator {
@@ -21,7 +21,7 @@ export interface ZeroOrMore extends RegexOperator {
 export function oneOrMore(sequence: RegexSequence): OneOrMore {
   return {
     type: 'oneOrMore',
-    children: asNodeArray(sequence),
+    children: wrapSequence(sequence),
     encode: encodeOneOrMore,
   };
 }
@@ -29,7 +29,7 @@ export function oneOrMore(sequence: RegexSequence): OneOrMore {
 export function optionally(sequence: RegexSequence): Optionally {
   return {
     type: 'optionally',
-    children: asNodeArray(sequence),
+    children: wrapSequence(sequence),
     encode: encodeOptionally,
   };
 }
@@ -37,7 +37,7 @@ export function optionally(sequence: RegexSequence): Optionally {
 export function zeroOrMore(sequence: RegexSequence): ZeroOrMore {
   return {
     type: 'zeroOrMore',
-    children: asNodeArray(sequence),
+    children: wrapSequence(sequence),
     encode: encodeZeroOrMore,
   };
 }

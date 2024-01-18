@@ -1,6 +1,6 @@
 import { encodeAtom } from '../encoder/encoder';
 import type { EncodeResult } from '../encoder/types';
-import { asNodeArray } from '../utils/nodes';
+import { wrapSequence } from '../utils/elements';
 import type { RegexElement, RegexOperator, RegexSequence } from '../types';
 
 export interface Repeat extends RegexOperator {
@@ -12,7 +12,7 @@ export interface Repeat extends RegexOperator {
 export type RepeatOptions = { count: number } | { min: number; max?: number };
 
 export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat {
-  const children = asNodeArray(sequence);
+  const children = wrapSequence(sequence);
 
   if (children.length === 0) {
     throw new Error('`repeat` should receive at least one element');
