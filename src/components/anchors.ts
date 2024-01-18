@@ -1,7 +1,7 @@
 import type { EncodeOutput } from '../encoder/types';
-import type { RegexElement } from '../types';
+import type { RegexEncodable } from '../types';
 
-export interface Anchor extends RegexElement {
+export interface Anchor extends RegexEncodable {
   type: 'anchor';
   symbol: string;
 }

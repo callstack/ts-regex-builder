@@ -1,10 +1,19 @@
 import type { EncodeOutput } from './encoder/types';
 
-export type RegexSequence = RegexNode | RegexNode[];
+/**
+ * Sequence of `RegexElements` that can be encoded into a regular expression.
+ */
+export type RegexSequence = RegexElement[] | RegexElement;
 
-export type RegexNode = RegexElement | string;
+/**
+ * Represents a result of calling a regex component (`RegexEncodable`) or a string to be matched literally.
+ */
+export type RegexElement = RegexEncodable | string;
 
-export interface RegexElement {
+/**
+ * Represents result of calling a regex componen.
+ */
+export interface RegexEncodable {
   type: string;
   encode(): EncodeOutput;
 }

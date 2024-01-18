@@ -1,12 +1,12 @@
 import { encodeAtom } from '../encoder/encoder';
 import type { EncodeOutput } from '../encoder/types';
 import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexNode, RegexSequence } from '../types';
+import type { RegexElement, RegexEncodable, RegexSequence } from '../types';
 
-export interface Repeat extends RegexElement {
+export interface Repeat extends RegexEncodable {
   type: 'repeat';
   options: RepeatOptions;
-  children: RegexNode[];
+  children: RegexElement[];
 }
 
 export type RepeatOptions = { count: number } | { min: number; max?: number };

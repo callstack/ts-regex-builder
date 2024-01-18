@@ -1,5 +1,5 @@
-import type { RegexNode, RegexSequence } from '../types';
+import type { RegexElement, RegexSequence } from '../types';
 
-export function asNodeArray(sequence: RegexSequence): RegexNode[] {
+export function asNodeArray(sequence: RegexSequence): RegexElement[] {
   return Array.isArray(sequence) ? sequence : [sequence];
 }
