@@ -1,11 +1,11 @@
-import { buildRegex } from '../src/builders';
-import type { RegexElement, RegexEncodable } from '../src/types';
+import { buildRegExp } from '../src/builders';
+import type { RegexConstruct, RegexElement, RegexSequence } from '../src/types';
 
 export function isRegexElement(node: unknown): node is RegexElement {
-  return typeof node === 'string' || isRegexEncodable(node);
+  return typeof node === 'string' || isRegexConstruct(node);
 }
 
-export function isRegexEncodable(element: unknown): element is RegexEncodable {
+export function isRegexConstruct(element: unknown): element is RegexConstruct {
   return (
     typeof element === 'object' &&
     element !== null &&
@@ -14,10 +14,10 @@ export function isRegexEncodable(element: unknown): element is RegexEncodable {
   );
 }
 
-export function asRegExp(regex: RegExp | RegexElement | RegexElement[]) {
+export function wrapRegExp(regex: RegExp | RegexSequence) {
   if (regex instanceof RegExp) {
     return regex;
   }
 
-  return buildRegex(regex);
+  return buildRegExp(regex);
 }

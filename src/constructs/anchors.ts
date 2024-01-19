@@ -1,7 +1,7 @@
-import type { EncodeOutput } from '../encoder/types';
-import type { RegexEncodable } from '../types';
+import type { EncodeResult } from '../encoder/types';
+import type { RegexConstruct } from '../types';
 
-export interface Anchor extends RegexEncodable {
+export interface Anchor extends RegexConstruct {
   type: 'anchor';
   symbol: string;
 }
@@ -18,7 +18,7 @@ export const endOfString: Anchor = {
   encode: encodeAnchor,
 };
 
-function encodeAnchor(this: Anchor): EncodeOutput {
+function encodeAnchor(this: Anchor): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: this.symbol,

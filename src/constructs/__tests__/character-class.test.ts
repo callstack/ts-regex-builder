@@ -9,7 +9,7 @@ import {
   whitespace,
   word,
 } from '../character-class';
-import { buildRegex } from '../../builders';
+import { buildRegExp } from '../../builders';
 
 test('`any` character class', () => {
   expect(any).toHavePattern(/./);
@@ -44,7 +44,7 @@ test('`charClass` base cases', () => {
 
 test('`charClass` throws on inverted arguments', () => {
   expect(() => charClass(inverted(whitespace))).toThrowErrorMatchingInlineSnapshot(
-    `"\`charClass\` should receive only non-inverted character classes"`
+    `"\`charClass\` should receive only non-inverted character classes"`,
   );
 });
 
@@ -56,13 +56,13 @@ test('`charRange` base cases', () => {
 
 test('`charRange` throws on incorrect arguments', () => {
   expect(() => charRange('z', 'a')).toThrowErrorMatchingInlineSnapshot(
-    `"\`start\` should be before or equal to \`end\`"`
+    `"\`start\` should be before or equal to \`end\`"`,
   );
   expect(() => charRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
-    `"\`charRange\` should receive only single character \`start\` string"`
+    `"\`charRange\` should receive only single character \`start\` string"`,
   );
   expect(() => charRange('a', 'zz')).toThrowErrorMatchingInlineSnapshot(
-    `"\`charRange\` should receive only single character \`end\` string"`
+    `"\`charRange\` should receive only single character \`end\` string"`,
   );
 });
 
@@ -96,7 +96,7 @@ test('`anyOf` edge case caret and  hyphen', () => {
 
 test('`anyOf` throws on empty text', () => {
   expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(
-    `"\`anyOf\` should received at least one character"`
+    `"\`anyOf\` should received at least one character"`,
   );
 });
 
@@ -117,16 +117,16 @@ test('`inverted` character class execution', () => {
 
 test('`encodeCharacterClass` throws on empty text', () => {
   expect(() =>
-    buildRegex(
+    buildRegExp(
       // @ts-expect-error
       inverted({
         type: 'characterClass',
         chars: [],
         ranges: [],
         isInverted: false,
-      })
-    )
+      }),
+    ),
   ).toThrowErrorMatchingInlineSnapshot(
-    `"Character class should contain at least one character or character range"`
+    `"Character class should contain at least one character or character range"`,
   );
 });

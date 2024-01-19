@@ -2,12 +2,13 @@
 
 ## Builder
 
-### `buildRegex()` function
+### `buildRegExp()` function
 
 ```ts
-function buildRegex(sequence: RegexSequence): RegExp;
+function buildRegExp(sequence: RegexSequence): RegExp;
 
-function buildRegex(
+function buildRegExp(
+    sequence: RegexSequence,
     flags: {
         global?: boolean;
         ignoreCase?: boolean;
@@ -15,13 +16,12 @@ function buildRegex(
         hasIndices?: boolean;
         sticky?: boolean;
     },
-    sequence: RegexSequence
 ): RegExp;
 ```
 
-## Components
+## Constructs
 
-### `capture()` component
+### `capture()`
 
 Captures, also known as capturing groups, are used to extract and store parts of the matched string for later use. 
 
@@ -31,7 +31,7 @@ function capture(
 ): Capture
 ```
 
-### `choiceOf()` component
+### `choiceOf()`
 
 ```ts
 function choiceOf(
@@ -45,7 +45,7 @@ Example: `choiceOf("color", "colour")` matches either `color` or `colour` patter
 
 ## Quantifiers
 
-### `zeroOrMore()` component
+### `zeroOrMore()`
 
 ```ts
 function zeroOrMore(
@@ -53,7 +53,7 @@ function zeroOrMore(
 ): ZeroOrMore
 ```
 
-### `oneOrMore()` component
+### `oneOrMore()`
 
 ```ts
 function oneOrMore(
@@ -61,7 +61,7 @@ function oneOrMore(
 ): OneOrMore
 ```
 
-### `optionally()` component
+### `optionally()`
 
 ```ts
 function optionally(
@@ -69,7 +69,7 @@ function optionally(
 ): Optionally
 ```
 
-### `repeat()` component
+### `repeat()`
 
 ```ts
 function repeat(
@@ -96,7 +96,7 @@ const whitespace: CharacterClass;
 * `digit` matches any digit.
 * `whitespace` matches any whitespace character (spaces, tabs, line breaks).
 
-### `anyOf()` component
+### `anyOf()`
 
 ```ts
 function anyOf(
@@ -108,7 +108,7 @@ The `anyOf` class matches any character present in the `character` string.
 
 Example: `anyOf('aeiou')` will match either `a`, `e`, `i` `o` or `u` characters.
 
-### `characterRange()` component
+### `characterRange()`
 
 ```ts
 function characterRange(
@@ -124,7 +124,7 @@ Examples:
 * `characterRange('A', 'Z')` will match all uppercase characters from `a` to `z`.
 * `characterRange('0', '9')` will match all digit characters from `0` to `9`.
 
-### `characterClass()` component
+### `characterClass()`
 
 ```ts
 function characterClass(
@@ -132,13 +132,13 @@ function characterClass(
 ): CharacterClass
 ```
 
-The `characterClass` component creates a new character class that includes all passed character classes.
+The `characterClass` construct creates a new character class that includes all passed character classes.
 
 Example:
 * `characterClass(characterRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
 * `characterClass(characterRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase latin lettet from `a` to `z`, and either of `.`, `_`, and `-` characters.
 
-### `inverted()` component
+### `inverted()`
 
 ```ts
 function inverted(
@@ -146,7 +146,7 @@ function inverted(
 ): CharacterClass
 ```
 
-The `inverted` component creates a new character class that matches any character that is not present in the passed character class.
+The `inverted` construct creates a new character class that matches any character that is not present in the passed character class.
 
 Examples:
 * `inverted(digit)` matches any character that is not a digit

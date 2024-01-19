@@ -1,11 +1,12 @@
-import type { EncodeOutput } from '../encoder/types';
+import type { EncodeResult } from '../encoder/types';
+import type { RegexConstruct } from '../types';
 
-export interface CharacterClass {
+export interface CharacterClass extends RegexConstruct {
   type: 'characterClass';
   chars: string[];
   ranges: CharacterRange[];
   isInverted: boolean;
-  encode: () => EncodeOutput;
+  encode: () => EncodeResult;
 }
 
 /**
@@ -112,7 +113,7 @@ export function inverted(element: CharacterClass): CharacterClass {
   };
 }
 
-function encodeCharacterClass(this: CharacterClass): EncodeOutput {
+function encodeCharacterClass(this: CharacterClass): EncodeResult {
   if (this.chars.length === 0 && this.ranges.length === 0) {
     throw new Error('Character class should contain at least one character or character range');
   }

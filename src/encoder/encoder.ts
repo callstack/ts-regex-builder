@@ -1,29 +1,29 @@
 import type { RegexElement } from '../types';
 import { escapeText } from '../utils/text';
-import type { EncodeOutput } from './types';
+import type { EncodeResult } from './types';
 
-export function encodeSequence(nodes: RegexElement[]): EncodeOutput {
-  const encodedNodes = nodes.map((n) => encodeNode(n));
+export function encodeSequence(elements: RegexElement[]): EncodeResult {
+  const encodedNodes = elements.map((n) => encodeNode(n));
   return concatSequence(encodedNodes);
 }
 
-export function encodeAtom(nodes: RegexElement[]): EncodeOutput {
-  return asAtom(encodeSequence(nodes));
+export function encodeAtom(elements: RegexElement[]): EncodeResult {
+  return wrapAtom(encodeSequence(elements));
 }
 
-function encodeNode(node: RegexElement): EncodeOutput {
-  if (typeof node === 'string') {
-    return encodeText(node);
+function encodeNode(element: RegexElement): EncodeResult {
+  if (typeof element === 'string') {
+    return encodeText(element);
   }
 
-  if (typeof node.encode !== 'function') {
-    throw new Error(`\`encodeNode\`: unknown element type ${node.type}`);
+  if (typeof element.encode !== 'function') {
+    throw new Error(`\`encodeNode\`: unknown element type ${element.type}`);
   }
 
-  return node.encode();
+  return element.encode();
 }
 
-function encodeText(text: string): EncodeOutput {
+function encodeText(text: string): EncodeResult {
   if (text.length === 0) {
     throw new Error('`encodeText`: received text should not be empty');
   }
@@ -42,18 +42,20 @@ function encodeText(text: string): EncodeOutput {
   };
 }
 
-function concatSequence(encoded: EncodeOutput[]): EncodeOutput {
+function concatSequence(encoded: EncodeResult[]): EncodeResult {
   if (encoded.length === 1) {
     return encoded[0]!;
   }
 
   return {
     precedence: 'sequence',
-    pattern: encoded.map((n) => (n.precedence === 'alternation' ? asAtom(n) : n).pattern).join(''),
+    pattern: encoded
+      .map((n) => (n.precedence === 'disjunction' ? wrapAtom(n) : n).pattern)
+      .join(''),
   };
 }
 
-function asAtom(encoded: EncodeOutput): EncodeOutput {
+function wrapAtom(encoded: EncodeResult): EncodeResult {
   if (encoded.precedence === 'atom') {
     return encoded;
   }

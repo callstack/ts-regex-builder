@@ -1,19 +1,19 @@
 import { encodeAtom } from '../encoder/encoder';
-import type { EncodeOutput } from '../encoder/types';
-import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexEncodable, RegexSequence } from '../types';
+import type { EncodeResult } from '../encoder/types';
+import { ensureArray } from '../utils/elements';
+import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
-export interface OneOrMore extends RegexEncodable {
+export interface OneOrMore extends RegexConstruct {
   type: 'oneOrMore';
   children: RegexElement[];
 }
 
-export interface Optionally extends RegexEncodable {
+export interface Optionally extends RegexConstruct {
   type: 'optionally';
   children: RegexElement[];
 }
 
-export interface ZeroOrMore extends RegexEncodable {
+export interface ZeroOrMore extends RegexConstruct {
   type: 'zeroOrMore';
   children: RegexElement[];
 }
@@ -21,7 +21,7 @@ export interface ZeroOrMore extends RegexEncodable {
 export function oneOrMore(sequence: RegexSequence): OneOrMore {
   return {
     type: 'oneOrMore',
-    children: asNodeArray(sequence),
+    children: ensureArray(sequence),
     encode: encodeOneOrMore,
   };
 }
@@ -29,7 +29,7 @@ export function oneOrMore(sequence: RegexSequence): OneOrMore {
 export function optionally(sequence: RegexSequence): Optionally {
   return {
     type: 'optionally',
-    children: asNodeArray(sequence),
+    children: ensureArray(sequence),
     encode: encodeOptionally,
   };
 }
@@ -37,26 +37,26 @@ export function optionally(sequence: RegexSequence): Optionally {
 export function zeroOrMore(sequence: RegexSequence): ZeroOrMore {
   return {
     type: 'zeroOrMore',
-    children: asNodeArray(sequence),
+    children: ensureArray(sequence),
     encode: encodeZeroOrMore,
   };
 }
 
-function encodeOneOrMore(this: OneOrMore): EncodeOutput {
+function encodeOneOrMore(this: OneOrMore): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: `${encodeAtom(this.children).pattern}+`,
   };
 }
 
-function encodeOptionally(this: Optionally): EncodeOutput {
+function encodeOptionally(this: Optionally): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: `${encodeAtom(this.children).pattern}?`,
   };
 }
 
-function encodeZeroOrMore(this: ZeroOrMore): EncodeOutput {
+function encodeZeroOrMore(this: ZeroOrMore): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: `${encodeAtom(this.children).pattern}*`,

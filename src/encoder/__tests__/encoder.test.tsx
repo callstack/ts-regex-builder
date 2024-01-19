@@ -1,6 +1,6 @@
-import { buildPattern, buildRegex } from '../../builders';
-import { oneOrMore, optionally, zeroOrMore } from '../../components/quantifiers';
-import { repeat } from '../../components/repeat';
+import { buildPattern, buildRegExp } from '../../builders';
+import { oneOrMore, optionally, zeroOrMore } from '../../constructs/quantifiers';
+import { repeat } from '../../constructs/repeat';
 
 test('basic quantifies', () => {
   expect('a').toHavePattern(/a/);
@@ -43,15 +43,15 @@ test('`buildPattern` escapes special characters', () => {
   expect([oneOrMore('.*'), zeroOrMore('[]{}')]).toHavePattern(/(?:\.\*)+(?:\[\]\{\})*/);
 });
 
-test('`buildRegex` throws error on unknown element', () => {
+test('`buildRegExp` throws error on unknown element', () => {
   expect(() =>
     // @ts-expect-error intentionally passing incorrect object
-    buildRegex({ type: 'unknown' })
+    buildRegExp({ type: 'unknown' }),
   ).toThrowErrorMatchingInlineSnapshot(`"\`encodeNode\`: unknown element type unknown"`);
 });
 
 test('`buildPattern` throws on empty text', () => {
   expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
-    `"\`encodeText\`: received text should not be empty"`
+    `"\`encodeText\`: received text should not be empty"`,
   );
 });

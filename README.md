@@ -19,7 +19,7 @@ const hexDigit = charClass(
   charRange('0', '9'),
 );
 
-const hexColor = buildRegex(
+const hexColor = buildRegExp(
   startOfString,
   optionally('#'),
   capture(
@@ -47,32 +47,35 @@ yarn add ts-regex-builder
 ## Basic usage
 
 ```js
-import { buildRegex, capture, oneOrMore } from 'ts-regex-builder';
+import { buildRegExp, capture, oneOrMore } from 'ts-regex-builder';
 
 // /Hello (\w+)/
-const regex = buildRegex(['Hello ', capture(oneOrMore(word))]);
+const regex = buildRegExp(['Hello ', capture(oneOrMore(word))]);
 ```
 
 ## Regex domain-specific language
 
-TS Regex Builder allows you to build complex regular expressions using domain-specific language of regex components.
+TS Regex Builder allows you to build complex regular expressions using domain-specific language.
 
 Terminology:
 
-- regex component (e.g., `capture()`, `oneOrMore()`, `word`) - function or object representing a regex construct
-- regex element (`RegexElement`) - object returned by regex components
-- regex sequence (`RegexSequence`) - single regex element or string (`RegexElement | string`) or array of such elements and strings (`Array<RegexElement | string>`)
+- regex construct (`RegexConstruct`) - common name for all regex constructs like character classes, quantifiers, and anchors.
 
-Most of the regex components accept a regex sequence. Examples of sequences:
+- regex element (`RegexElement`) - fundamental building block of a regular expression, defined as either a regex construct or a string.
 
-- single string: `'Hello World'` (note: all characters will be automatically escaped in the resulting regex)
-- single element: `capture('abc')`
-- array of elements and strings: `['$', oneOrMore(digit)]`
+- regex sequence (`RegexSequence`) - a sequence of regex elements forming a regular expression. For developer convenience it also accepts a single element instead of array.
 
-Regex components can be composed into a complex tree:
+Most of the regex constructs accept a regex sequence as their argument.
+
+Examples of sequences:
+- array of elements: `['USD', oneOrMore(digit)]`
+- single construct: `capture('abc')`
+- single string: `'Hello'`
+
+Regex constructs can be composed into a tree:
 
 ```ts
-const currencyAmount = buildRegex([
+const currencyAmount = buildRegExp([
   choiceOf(
     '$',
     '€',
@@ -87,14 +90,14 @@ const currencyAmount = buildRegex([
 
 ### Regex Builders
 
-| Regex Component                         | Regex Pattern | Description                         |
-| --------------------------------------- | ------------- | ----------------------------------- |
-| `buildRegex(...)`                       | `/.../`       | Create `RegExp` instance            |
-| `buildRegex(..., { ignoreCase: true })` | `/.../i`      | Create `RegExp` instance with flags |
+| Builder                                  | Regex Pattern | Description                         |
+| ---------------------------------------- | ------------- | ----------------------------------- |
+| `buildRegExp(...)`                       | `/.../`       | Create `RegExp` instance            |
+| `buildRegExp(..., { ignoreCase: true })` | `/.../i`      | Create `RegExp` instance with flags |
 
-### Components
+### Regex Constructs
 
-| Regex Component     | Regex Pattern | Notes                           |
+| Regex Construct     | Regex Pattern | Notes                           |
 | ------------------- | ------------- | ------------------------------- |
 | `capture(...)`      | `(...)`       | Create a capture group          |
 | `choiceOf(x, y, z)` | `x\|y\|z`     | Match one of provided sequences |
@@ -106,7 +109,7 @@ Notes:
 
 ### Quantifiers
 
-| Regex Component                  | Regex Pattern | Description                                       |
+| Regex Construct                  | Regex Pattern | Description                                       |
 | -------------------------------- | ------------- | ------------------------------------------------- |
 | `zeroOrMore(x)`                  | `x*`          | Zero or more occurence of a pattern               |
 | `oneOrMore(x)`                   | `x+`          | One or more occurence of a pattern                |
@@ -119,7 +122,7 @@ All quantifiers accept sequence of elements
 
 ### Character classes
 
-| Regex Component       | Regex Pattern | Description                                 |
+| Regex Construct       | Regex Pattern | Description                                 |
 | --------------------- | ------------- | ------------------------------------------- |
 | `any`                 | `.`           | Any character                               |
 | `word`                | `\w`          | Word characters                             |
@@ -140,7 +143,7 @@ Notes:
 
 ### Anchors
 
-| Regex Component | Regex Pattern | Description                                                      |
+| Regex Construct | Regex Pattern | Description                                                      |
 | --------------- | ------------- | ---------------------------------------------------------------- |
 | `startOfString` | `^`           | Match start of the string (or start of a line in multiline mode) |
 | `endOfString`   | `$`           | Match end of the string (or end of a line in multiline mode)     |

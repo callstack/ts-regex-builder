@@ -1,9 +1,9 @@
 /**
  * Encoded regex pattern with information about its type (atom, sequence)
  */
-export interface EncodeOutput {
+export interface EncodeResult {
   precedence: EncodePrecedence;
   pattern: string;
 }
 
-export type EncodePrecedence = 'atom' | 'sequence' | 'alternation';
+export type EncodePrecedence = 'atom' | 'sequence' | 'disjunction';

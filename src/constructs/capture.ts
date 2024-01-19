@@ -1,9 +1,9 @@
 import { encodeSequence } from '../encoder/encoder';
-import type { EncodeOutput } from '../encoder/types';
-import { asNodeArray } from '../utils/nodes';
-import type { RegexElement, RegexEncodable, RegexSequence } from '../types';
+import type { EncodeResult } from '../encoder/types';
+import { ensureArray } from '../utils/elements';
+import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
-export interface Capture extends RegexEncodable {
+export interface Capture extends RegexConstruct {
   type: 'capture';
   children: RegexElement[];
 }
@@ -11,12 +11,12 @@ export interface Capture extends RegexEncodable {
 export function capture(sequence: RegexSequence): Capture {
   return {
     type: 'capture',
-    children: asNodeArray(sequence),
+    children: ensureArray(sequence),
     encode: encodeCapture,
   };
 }
 
-function encodeCapture(this: Capture): EncodeOutput {
+function encodeCapture(this: Capture): EncodeResult {
   return {
     precedence: 'atom',
     pattern: `(${encodeSequence(this.children).pattern})`,

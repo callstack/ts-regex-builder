@@ -13,7 +13,7 @@ const octet = choiceOf(
 );
 
 // Match
-const regex = buildRegex([
+const regex = buildRegExp([
   startOfString, //
   repeat([octet, '.'], { count: 3 }),
   octet,

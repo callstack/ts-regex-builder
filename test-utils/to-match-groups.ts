@@ -1,13 +1,13 @@
 import type { RegexSequence } from '../src/types';
-import { asRegExp } from './utils';
+import { wrapRegExp } from './utils';
 
 export function toMatchGroups(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
   expectedString: string,
-  expectedGroups: string[]
+  expectedGroups: string[],
 ) {
-  const receivedRegex = asRegExp(received);
+  const receivedRegex = wrapRegExp(received);
   const matchResult = expectedString.match(receivedRegex);
   const receivedGroups = matchResult ? [...matchResult] : null;
   const options = {

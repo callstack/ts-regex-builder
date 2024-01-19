@@ -1,12 +1,12 @@
 import type { RegexSequence } from '../src/types';
-import { asRegExp } from './utils';
+import { wrapRegExp } from './utils';
 
 export function toHavePattern(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
-  expected: RegExp
+  expected: RegExp,
 ) {
-  const receivedPattern = asRegExp(received).source;
+  const receivedPattern = wrapRegExp(received).source;
   const expectedPattern = expected.source;
 
   const options = {
