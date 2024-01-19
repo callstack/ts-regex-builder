@@ -1,6 +1,6 @@
 import { buildPattern, buildRegExp } from '../../builders';
-import { oneOrMore, optionally, zeroOrMore } from '../../components/quantifiers';
-import { repeat } from '../../components/repeat';
+import { oneOrMore, optionally, zeroOrMore } from '../../constructs/quantifiers';
+import { repeat } from '../../constructs/repeat';
 
 test('basic quantifies', () => {
   expect('a').toHavePattern(/a/);

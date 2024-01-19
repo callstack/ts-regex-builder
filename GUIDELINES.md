@@ -8,4 +8,4 @@
 
 ## Implementation guidelines
 
-1. When the user passes the text to any regex component, it should be treated as an exact string to match and not as a regex string. We might provide an escape hatch for providing raw regex string through, but the user should use it explicitly.
+1. When the user passes the text to any regex construct, it should be treated as an exact string to match and not as a regex string. We might provide an escape hatch for providing raw regex string through, but the user should use it explicitly.

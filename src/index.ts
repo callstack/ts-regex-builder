@@ -2,8 +2,8 @@ export type * from './types';
 
 export { buildPattern, buildRegExp } from './builders';
 
-export { startOfString, endOfString } from './components/anchors';
-export { capture } from './components/capture';
+export { startOfString, endOfString } from './constructs/anchors';
+export { capture } from './constructs/capture';
 export {
   any,
   digit,
@@ -13,7 +13,7 @@ export {
   charRange,
   charClass,
   inverted,
-} from './components/character-class';
-export { choiceOf } from './components/choice-of';
-export { oneOrMore, optionally, zeroOrMore } from './components/quantifiers';
-export { repeat } from './components/repeat';
+} from './constructs/character-class';
+export { choiceOf } from './constructs/choice-of';
+export { oneOrMore, optionally, zeroOrMore } from './constructs/quantifiers';
+export { repeat } from './constructs/repeat';

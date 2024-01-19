@@ -3,20 +3,19 @@ import type { EncodeResult } from './encoder/types';
 export type ArrayOrSingle<T> = T[] | T;
 
 /**
- * Sequence of regex elements that can be encoded as a regular expression.
+ * Sequence of regex elements forming a regular expression.
  *
- * This can be either an array of elements or a single element.
+ * For developer convenience it also accepts a single element instead of array.
  */
 export type RegexSequence = RegexElement[] | RegexElement;
 
 /**
- * Represents a part of regex. Can be either a regex construct or a string to be
- * matched literally.
+ * Fundamental building block of a regular expression, defined as either a regex construct or a string.
  */
 export type RegexElement = RegexConstruct | string;
 
 /**
- * Represents regex components such as character classes, quantifiers, anchors, etc.
+ * Common interface for all regex constructs like character classes, quantifiers, and anchors.
  */
 export interface RegexConstruct {
   type: string;

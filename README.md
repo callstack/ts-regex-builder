@@ -72,7 +72,7 @@ Examples of sequences:
 - single construct: `capture('abc')`
 - single string: `'Hello'`
 
-Regex components can be composed into a tree:
+Regex constructs can be composed into a tree:
 
 ```ts
 const currencyAmount = buildRegExp([
@@ -90,14 +90,14 @@ const currencyAmount = buildRegExp([
 
 ### Regex Builders
 
-| Regex Component                         | Regex Pattern | Description                         |
-| --------------------------------------- | ------------- | ----------------------------------- |
+| Builder                                  | Regex Pattern | Description                         |
+| ---------------------------------------- | ------------- | ----------------------------------- |
 | `buildRegExp(...)`                       | `/.../`       | Create `RegExp` instance            |
 | `buildRegExp(..., { ignoreCase: true })` | `/.../i`      | Create `RegExp` instance with flags |
 
-### Components
+### Regex Constructs
 
-| Regex Component     | Regex Pattern | Notes                           |
+| Regex Construct     | Regex Pattern | Notes                           |
 | ------------------- | ------------- | ------------------------------- |
 | `capture(...)`      | `(...)`       | Create a capture group          |
 | `choiceOf(x, y, z)` | `x\|y\|z`     | Match one of provided sequences |
@@ -109,7 +109,7 @@ Notes:
 
 ### Quantifiers
 
-| Regex Component                  | Regex Pattern | Description                                       |
+| Regex Construct                  | Regex Pattern | Description                                       |
 | -------------------------------- | ------------- | ------------------------------------------------- |
 | `zeroOrMore(x)`                  | `x*`          | Zero or more occurence of a pattern               |
 | `oneOrMore(x)`                   | `x+`          | One or more occurence of a pattern                |
@@ -122,7 +122,7 @@ All quantifiers accept sequence of elements
 
 ### Character classes
 
-| Regex Component       | Regex Pattern | Description                                 |
+| Regex Construct       | Regex Pattern | Description                                 |
 | --------------------- | ------------- | ------------------------------------------- |
 | `any`                 | `.`           | Any character                               |
 | `word`                | `\w`          | Word characters                             |
@@ -143,7 +143,7 @@ Notes:
 
 ### Anchors
 
-| Regex Component | Regex Pattern | Description                                                      |
+| Regex Construct | Regex Pattern | Description                                                      |
 | --------------- | ------------- | ---------------------------------------------------------------- |
 | `startOfString` | `^`           | Match start of the string (or start of a line in multiline mode) |
 | `endOfString`   | `$`           | Match end of the string (or end of a line in multiline mode)     |
