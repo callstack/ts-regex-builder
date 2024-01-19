@@ -55,21 +55,24 @@ const regex = buildRegExp(['Hello ', capture(oneOrMore(word))]);
 
 ## Regex domain-specific language
 
-TS Regex Builder allows you to build complex regular expressions using domain-specific language of regex components.
+TS Regex Builder allows you to build complex regular expressions using domain-specific language.
 
 Terminology:
 
-- regex component (e.g., `capture()`, `oneOrMore()`, `word`) - function or object representing a regex construct
-- regex element (`RegexElement`) - object returned by regex components
-- regex sequence (`RegexSequence`) - single regex element or string (`RegexElement | string`) or array of such elements and strings (`Array<RegexElement | string>`)
+- regex construct (`RegexConstruct`) - common name for all regex constructs like character classes, quantifiers, and anchors.
 
-Most of the regex components accept a regex sequence. Examples of sequences:
+- regex element (`RegexElement`) - fundamental building block of a regular expression, defined as either a regex construct or a string.
 
-- single string: `'Hello World'` (note: all characters will be automatically escaped in the resulting regex)
-- single element: `capture('abc')`
-- array of elements and strings: `['$', oneOrMore(digit)]`
+- regex sequence (`RegexSequence`) - a sequence of regex elements forming a regular expression. For developer convenience it also accepts a single element instead of array.
 
-Regex components can be composed into a complex tree:
+Most of the regex constructs accept a regex sequence as their argument.
+
+Examples of sequences:
+- array of elements: `['USD', oneOrMore(digit)]`
+- single construct: `capture('abc')`
+- single string: `'Hello'`
+
+Regex components can be composed into a tree:
 
 ```ts
 const currencyAmount = buildRegExp([

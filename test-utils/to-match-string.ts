@@ -1,12 +1,12 @@
 import type { RegexSequence } from '../src/types';
-import { asRegExp } from './utils';
+import { wrapRegExp } from './utils';
 
 export function toMatchString(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
   expected: string,
 ) {
-  const receivedRegex = asRegExp(received);
+  const receivedRegex = wrapRegExp(received);
   const matchResult = expected.match(receivedRegex);
   const options = {
     isNot: this.isNot,

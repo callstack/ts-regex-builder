@@ -1,11 +1,11 @@
 import { buildRegExp } from '../src/builders';
-import type { RegexElement, RegexOperator } from '../src/types';
+import type { RegexConstruct, RegexElement, RegexSequence } from '../src/types';
 
 export function isRegexElement(node: unknown): node is RegexElement {
-  return typeof node === 'string' || isRegexOperator(node);
+  return typeof node === 'string' || isRegexConstruct(node);
 }
 
-export function isRegexOperator(element: unknown): element is RegexOperator {
+export function isRegexConstruct(element: unknown): element is RegexConstruct {
   return (
     typeof element === 'object' &&
     element !== null &&
@@ -14,7 +14,7 @@ export function isRegexOperator(element: unknown): element is RegexOperator {
   );
 }
 
-export function asRegExp(regex: RegExp | RegexElement | RegexElement[]) {
+export function wrapRegExp(regex: RegExp | RegexSequence) {
   if (regex instanceof RegExp) {
     return regex;
   }

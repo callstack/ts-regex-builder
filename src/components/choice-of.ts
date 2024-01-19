@@ -1,9 +1,9 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeResult } from '../encoder/types';
-import { wrapSequence } from '../utils/elements';
-import type { RegexElement, RegexOperator, RegexSequence } from '../types';
+import { ensureArray } from '../utils/elements';
+import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
-export interface ChoiceOf extends RegexOperator {
+export interface ChoiceOf extends RegexConstruct {
   type: 'choiceOf';
   alternatives: RegexElement[][];
 }
@@ -15,7 +15,7 @@ export function choiceOf(...alternatives: RegexSequence[]): ChoiceOf {
 
   return {
     type: 'choiceOf',
-    alternatives: alternatives.map((c) => wrapSequence(c)),
+    alternatives: alternatives.map((c) => ensureArray(c)),
     encode: encodeChoiceOf,
   };
 }

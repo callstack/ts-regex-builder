@@ -1,9 +1,9 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodeResult } from '../encoder/types';
-import { wrapSequence } from '../utils/elements';
-import type { RegexElement, RegexOperator, RegexSequence } from '../types';
+import { ensureArray } from '../utils/elements';
+import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
-export interface Capture extends RegexOperator {
+export interface Capture extends RegexConstruct {
   type: 'capture';
   children: RegexElement[];
 }
@@ -11,7 +11,7 @@ export interface Capture extends RegexOperator {
 export function capture(sequence: RegexSequence): Capture {
   return {
     type: 'capture',
-    children: wrapSequence(sequence),
+    children: ensureArray(sequence),
     encode: encodeCapture,
   };
 }
