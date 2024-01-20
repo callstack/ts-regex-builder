@@ -29,7 +29,6 @@ function buildRegExp(
     ignoreCase?: boolean;
     multiline?: boolean;
     hasIndices?: boolean;
-    sticky?: boolean;
   },
 ): RegExp;
 ```

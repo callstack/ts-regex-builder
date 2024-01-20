@@ -31,7 +31,6 @@ function encodeFlags(flags: RegexFlags): string {
   if (flags.ignoreCase) result += 'i';
   if (flags.multiline) result += 'm';
   if (flags.hasIndices) result += 'd';
-  if (flags.sticky) result += 'y';
 
   return result;
 }
