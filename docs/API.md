@@ -29,13 +29,15 @@ It optionally accepts a list of regex flags:
 
 ### `capture()`
 
-Captures, also known as capturing groups, are used to extract and store parts of the matched string for later use. 
-
 ```ts
 function capture(
     sequence: RegexSequence
 ): Capture
 ```
+
+Regex syntax: `(...)`.
+
+Captures, also known as capturing groups, are used to extract and store parts of the matched string for later use. 
 
 ### `choiceOf()`
 
@@ -45,11 +47,15 @@ function choiceOf(
 ): ChoiceOf {
 ```
 
-The `choiceOf` (alternation) construct is used to match one out of several possible sequences. It functions similarly to a logical OR operator in programming. It can match simple string options as well as complex patterns.
+Regex syntax: `a|b|c`.
+
+The `choiceOf` (disjunction) construct is used to match one out of several possible sequences. It functions similarly to a logical OR operator in programming. It can match simple string options as well as complex patterns.
 
 Example: `choiceOf("color", "colour")` matches either `color` or `colour` pattern.
 
 ## Quantifiers
+
+Quantifiers in regex define the number of occurrences to match for a pattern. 
 
 ### `zeroOrMore()`
 
@@ -59,6 +65,10 @@ function zeroOrMore(
 ): ZeroOrMore
 ```
 
+Regex syntax: `x*`;
+
+The `zeroOrMore` quantifier matches zero or more occurrences of given pattern, allowing a flexible number of repetitions of that element.
+
 ### `oneOrMore()`
 
 ```ts
@@ -66,6 +76,10 @@ function oneOrMore(
     sequence: RegexSequence,
 ): OneOrMore
 ```
+
+Regex syntax: `x+`;
+
+The `oneOrMore` quantifier matches one or more occurrences of given pattern, allowing a flexible number of repetitions of that element.
 
 ### `optionally()`
 
@@ -75,6 +89,10 @@ function optionally(
 ): Optionally
 ```
 
+Regex syntax: `x?`;
+
+The `optionally` quantifier matches zero or one occurrence of given pattern, making it optional.
+
 ### `repeat()`
 
 ```ts
@@ -83,6 +101,11 @@ function repeat(
     sequence: RegexSequence,
 ): Repeat
 ```
+
+Regex syntax: `{n}`, `{min,}`, `{min, max}`.
+
+The `repeat` quantifier in regex matches either exactly `options` count or between `min` and `max` count. If only `min` is provided it matches at least `min` count.
+
 
 ## Character classes
 
