@@ -88,6 +88,10 @@ const currencyAmount = buildRegExp([
 ]);
 ```
 
+## API
+
+Comprehensive API document is available [here](./API.md).
+
 ### Regex Builders
 
 | Builder                                  | Regex Pattern | Description                         |
@@ -102,11 +106,6 @@ const currencyAmount = buildRegExp([
 | `capture(...)`      | `(...)`       | Create a capture group          |
 | `choiceOf(x, y, z)` | `x\|y\|z`     | Match one of provided sequences |
 
-Notes:
-
-- `capture` accepts a sequence of elements
-- `choiceOf()` accepts a variable number of sequences
-
 ### Quantifiers
 
 | Regex Construct                  | Regex Pattern | Description                                       |
@@ -117,8 +116,6 @@ Notes:
 | `repeat(x, n)`                   | `x{n}`        | Pattern repeats exact number of times             |
 | `repeat(x, { min: n, })`         | `x{n,}`       | Pattern repeats at least given number of times    |
 | `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`    | Pattern repeats between n1 and n2 number of times |
-
-All quantifiers accept sequence of elements
 
 ### Character classes
 
@@ -133,24 +130,12 @@ All quantifiers accept sequence of elements
 | `charClass(...)`      | `[...]`       | Concatenation of multiple character classes |
 | `inverted(...)`       | `[^...]`      | Negation of a given character class         |
 
-Notes:
-
-- `any`, `word`, `digit`, `whitespace` are objects, no need to call them
-- `anyOf` accepts a single string of characters to match
-- `charRange` accepts exactly **two single character** strings representing range start and end (inclusive)
-- `charClass` accepts a variable number of character classes to join into a single class
-- `inverted` accepts a single character class to be inverted
-
 ### Anchors
 
 | Regex Construct | Regex Pattern | Description                                                      |
 | --------------- | ------------- | ---------------------------------------------------------------- |
 | `startOfString` | `^`           | Match start of the string (or start of a line in multiline mode) |
 | `endOfString`   | `$`           | Match end of the string (or end of a line in multiline mode)     |
-
-Notes:
-
-- `startOfString`, `endOfString` are objects, no need to call them.
 
 ## Examples
 

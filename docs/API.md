@@ -1,5 +1,22 @@
 # API
 
+## Types
+
+### `RegexSequence`
+
+The sequence of regex elements forming a regular expression. For developer convenience it also accepts a single element instead of array.
+
+### `RegexElement`
+
+Fundamental building blocks of a regular expression, defined as either a regex construct or a string.
+
+### `RegexConstruct`
+
+The common type for all regex constructs like character classes, quantifiers, and anchors. You should not need to use this type directly, it is returned by all regex construct functions.
+
+Note: the shape of the `RegexConstruct` is considered private, and may change in a breaking way without a major release. We will focus on maintaining the compatibility of regexes built with 
+
+
 ## Builder
 
 ### `buildRegExp()`
@@ -28,11 +45,13 @@ It optionally accepts a list of regex flags:
 
 ## Constructs
 
+These functions and objects represent available regex constructs.
+
 ### `capture()`
 
 ```ts
 function capture(
-    sequence: RegexSequence
+  sequence: RegexSequence
 ): Capture
 ```
 
@@ -44,7 +63,7 @@ Captures, also known as capturing groups, are used to extract and store parts of
 
 ```ts
 function choiceOf(
-    ...alternatives: RegexSequence[]
+  ...alternatives: RegexSequence[]
 ): ChoiceOf {
 ```
 
@@ -62,7 +81,7 @@ Quantifiers in regex define the number of occurrences to match for a pattern.
 
 ```ts
 function zeroOrMore(
-    sequence: RegexSequence,
+  sequence: RegexSequence,
 ): ZeroOrMore
 ```
 
@@ -74,7 +93,7 @@ The `zeroOrMore` quantifier matches zero or more occurrences of given pattern, a
 
 ```ts
 function oneOrMore(
-    sequence: RegexSequence,
+  sequence: RegexSequence,
 ): OneOrMore
 ```
 
@@ -86,7 +105,7 @@ The `oneOrMore` quantifier matches one or more occurrences of given pattern, all
 
 ```ts
 function optionally(
-    sequence: RegexSequence,
+  sequence: RegexSequence,
 ): Optionally
 ```
 
@@ -98,14 +117,14 @@ The `optionally` quantifier matches zero or one occurrence of given pattern, mak
 
 ```ts
 function repeat(
-    options: number | { min: number; max?: number },
-    sequence: RegexSequence,
+  sequence: RegexSequence,
+  count: number | { min: number; max?: number },
 ): Repeat
 ```
 
 Regex syntax: `{n}`, `{min,}`, `{min, max}`.
 
-The `repeat` quantifier in regex matches either exactly `options` count or between `min` and `max` count. If only `min` is provided it matches at least `min` count.
+The `repeat` quantifier in regex matches either exactly `count` or between `min` and `max` count. If only `min` is provided it matches at least `min` count.
 
 ## Character classes
 
@@ -129,7 +148,7 @@ const whitespace: CharacterClass;
 
 ```ts
 function anyOf(
-    characters: string,
+  characters: string,
 ): CharacterClass
 ```
 
@@ -143,8 +162,8 @@ Example: `anyOf('aeiou')` will match either `a`, `e`, `i` `o` or `u` characters.
 
 ```ts
 function charRange(
-    start: string,
-    end: string,
+  start: string,
+  end: string,
 ): CharacterClass
 ```
 
@@ -162,7 +181,7 @@ Examples:
 
 ```ts
 function charClass(
-    ...elements: CharacterClass[],
+  ...elements: CharacterClass[],
 ): CharacterClass
 ```
 
@@ -179,7 +198,7 @@ Examples:
 
 ```ts
 function inverted(
-    element: CharacterClass,
+  element: CharacterClass,
 ): CharacterClass
 ```
 
