@@ -120,10 +120,10 @@ const digit: CharacterClass;
 const whitespace: CharacterClass;
 ```
 
-* `any` matches any character except newline characters.
-* `word` matches any word character (alphanumeric & underscore).
-* `digit` matches any digit.
-* `whitespace` matches any whitespace character (spaces, tabs, line breaks).
+* `any` matches any character except newline characters. Regex syntax: `*`.
+* `word` matches any word character (alphanumeric & underscore). Regex syntax: `\w`.
+* `digit` matches any digit. Regex syntax: `\d`.
+* `whitespace` matches any whitespace character (spaces, tabs, line breaks). Regex syntax: `\s`.
 
 ### `anyOf()`
 
@@ -133,39 +133,45 @@ function anyOf(
 ): CharacterClass
 ```
 
+Regex syntax: `[abc]`.
+
 The `anyOf` class matches any character present in the `character` string.
 
 Example: `anyOf('aeiou')` will match either `a`, `e`, `i` `o` or `u` characters.
 
-### `characterRange()`
+### `charRange()`
 
 ```ts
-function characterRange(
+function charRange(
     start: string,
     end: string,
 ): CharacterClass
 ```
 
-The `characterRange` class matches any character present in the range from `start` to `end` (inclusive).
+Regex syntax: `[a-z]`.
+
+The `charRange` class matches any character present in the range from `start` to `end` (inclusive).
 
 Examples:
-* `characterRange('a', 'z')` will match all lowercase characters from `a` to `z`.
-* `characterRange('A', 'Z')` will match all uppercase characters from `a` to `z`.
-* `characterRange('0', '9')` will match all digit characters from `0` to `9`.
+* `charRange('a', 'z')` will match all lowercase characters from `a` to `z`.
+* `charRange('A', 'Z')` will match all uppercase characters from `A` to `Z`.
+* `charRange('0', '9')` will match all digit characters from `0` to `9`.
 
-### `characterClass()`
+### `charClass()`
 
 ```ts
-function characterClass(
+function charClass(
     ...elements: CharacterClass[],
 ): CharacterClass
 ```
 
-The `characterClass` construct creates a new character class that includes all passed character classes.
+Regex syntax: `[...]`.
 
-Example:
-* `characterClass(characterRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
-* `characterClass(characterRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase latin lettet from `a` to `z`, and either of `.`, `_`, and `-` characters.
+The `charClass` construct creates a new character class that includes all passed character classes.
+
+Examples:
+* `charClass(charRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
+* `charClass(charRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase latin lettet from `a` to `z`, and either of `.`, `_`, and `-` characters.
 
 ### `inverted()`
 
@@ -175,25 +181,26 @@ function inverted(
 ): CharacterClass
 ```
 
+Regex syntax: `[^...]`.
+
 The `inverted` construct creates a new character class that matches any character that is not present in the passed character class.
 
 Examples:
 * `inverted(digit)` matches any character that is not a digit
 * `inverted(anyOf('aeiou'))` matches any character that is not a lowercase vowel.
 
-
-
 ## Anchors
 
 Anchors are special characters or sequences that specify positions in the input string, rather than matching specific characters.
 
-### Line start and end
+### Start and end of string
 
 ```ts
-const startOfString: Anchor; // Regex: ^
-const endOfString: Anchor; // Regex: $
+const startOfString: Anchor;
+const endOfString: Anchor;
 ```
 
-The `startOfString` (regex: `^`) matches the start of a string (or line, if multiline mode is enabled).
+* `startOfString` anchor matches the start of a string (or line, if multiline mode is enabled). Regex syntax: `^`.
+* `endOfString` anchor matches the end of a string (or line, if multiline mode is enabled). Regex syntax: `$`.
 
-The `endOfString` (regex: `$`)  matches the end of a string (or line, if multiline mode is enabled).
+
