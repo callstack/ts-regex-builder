@@ -6,20 +6,21 @@
 
 ```ts
 function buildRegExp(
-    sequence: RegexSequence,
-    flags?: {
-        global?: boolean;
-        ignoreCase?: boolean;
-        multiline?: boolean;
-        hasIndices?: boolean;
-        sticky?: boolean;
-    },
+  sequence: RegexSequence,
+  flags?: {
+    global?: boolean;
+    ignoreCase?: boolean;
+    multiline?: boolean;
+    hasIndices?: boolean;
+    sticky?: boolean;
+  },
 ): RegExp;
 ```
 
 The `buildRegExp` is a top-level function responsible for build JavaScript-native `RegExp` object from passed regex sequence.
 
 It optionally accepts a list of regex flags:
+
 - `global` - find all matches in a string, instead of just the first one.
 - `ignoreCase` - perform case-insensitive matching.
 - `multiline` - treat the start and end of each line in a string as the beginning and end of the string.
@@ -37,7 +38,7 @@ function capture(
 
 Regex syntax: `(...)`.
 
-Captures, also known as capturing groups, are used to extract and store parts of the matched string for later use. 
+Captures, also known as capturing groups, are used to extract and store parts of the matched string for later use.
 
 ### `choiceOf()`
 
@@ -55,7 +56,7 @@ Example: `choiceOf("color", "colour")` matches either `color` or `colour` patter
 
 ## Quantifiers
 
-Quantifiers in regex define the number of occurrences to match for a pattern. 
+Quantifiers in regex define the number of occurrences to match for a pattern.
 
 ### `zeroOrMore()`
 
@@ -106,10 +107,9 @@ Regex syntax: `{n}`, `{min,}`, `{min, max}`.
 
 The `repeat` quantifier in regex matches either exactly `options` count or between `min` and `max` count. If only `min` is provided it matches at least `min` count.
 
-
 ## Character classes
 
-Character classes are a set of characters that match any one of the characters in the set. 
+Character classes are a set of characters that match any one of the characters in the set.
 
 ### Common character classess
 
@@ -120,10 +120,10 @@ const digit: CharacterClass;
 const whitespace: CharacterClass;
 ```
 
-* `any` matches any character except newline characters. Regex syntax: `*`.
-* `word` matches any word character (alphanumeric & underscore). Regex syntax: `\w`.
-* `digit` matches any digit. Regex syntax: `\d`.
-* `whitespace` matches any whitespace character (spaces, tabs, line breaks). Regex syntax: `\s`.
+- `any` matches any character except newline characters. Regex syntax: `*`.
+- `word` matches any word character (alphanumeric & underscore). Regex syntax: `\w`.
+- `digit` matches any digit. Regex syntax: `\d`.
+- `whitespace` matches any whitespace character (spaces, tabs, line breaks). Regex syntax: `\s`.
 
 ### `anyOf()`
 
@@ -153,9 +153,10 @@ Regex syntax: `[a-z]`.
 The `charRange` class matches any character present in the range from `start` to `end` (inclusive).
 
 Examples:
-* `charRange('a', 'z')` will match all lowercase characters from `a` to `z`.
-* `charRange('A', 'Z')` will match all uppercase characters from `A` to `Z`.
-* `charRange('0', '9')` will match all digit characters from `0` to `9`.
+
+- `charRange('a', 'z')` will match all lowercase characters from `a` to `z`.
+- `charRange('A', 'Z')` will match all uppercase characters from `A` to `Z`.
+- `charRange('0', '9')` will match all digit characters from `0` to `9`.
 
 ### `charClass()`
 
@@ -170,8 +171,9 @@ Regex syntax: `[...]`.
 The `charClass` construct creates a new character class that includes all passed character classes.
 
 Examples:
-* `charClass(charRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
-* `charClass(charRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase latin lettet from `a` to `z`, and either of `.`, `_`, and `-` characters.
+
+- `charClass(charRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
+- `charClass(charRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase latin lettet from `a` to `z`, and either of `.`, `_`, and `-` characters.
 
 ### `inverted()`
 
@@ -186,8 +188,9 @@ Regex syntax: `[^...]`.
 The `inverted` construct creates a new character class that matches any character that is not present in the passed character class.
 
 Examples:
-* `inverted(digit)` matches any character that is not a digit
-* `inverted(anyOf('aeiou'))` matches any character that is not a lowercase vowel.
+
+- `inverted(digit)` matches any character that is not a digit
+- `inverted(anyOf('aeiou'))` matches any character that is not a lowercase vowel.
 
 ## Anchors
 
@@ -200,7 +203,5 @@ const startOfString: Anchor;
 const endOfString: Anchor;
 ```
 
-* `startOfString` anchor matches the start of a string (or line, if multiline mode is enabled). Regex syntax: `^`.
-* `endOfString` anchor matches the end of a string (or line, if multiline mode is enabled). Regex syntax: `$`.
-
-
+- `startOfString` anchor matches the start of a string (or line, if multiline mode is enabled). Regex syntax: `^`.
+- `endOfString` anchor matches the end of a string (or line, if multiline mode is enabled). Regex syntax: `$`.

@@ -9,7 +9,7 @@ const octet = choiceOf(
   [charRange('1', '9'), digit],
   ['1', repeat(digit, 2)],
   ['2', charRange('0', '4'), digit],
-  ['25', charRange('0', '5')]
+  ['25', charRange('0', '5')],
 );
 
 // Match
