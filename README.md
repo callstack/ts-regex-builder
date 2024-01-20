@@ -24,8 +24,8 @@ const hexColor = buildRegExp(
   optionally('#'),
   capture(
     choiceOf(
-      repeat(hexDigit, { count: 6 }), // #rrggbb
-      repeat(hexDigit, { count: 3 }), // #rgb
+      repeat(hexDigit, 6), // #rrggbb
+      repeat(hexDigit, 3), // #rgb
     ),
   ),
   endOfString,
@@ -79,11 +79,11 @@ const currencyAmount = buildRegExp([
   choiceOf(
     '$',
     '€',
-    repeat({ count: 3 }, charRange('A', 'Z')), // ISO currency code
+    repeat(charRange('A', 'Z'), 3), // ISO currency code
   ),
   capture(
     oneOrMore(digit), // Integer part
-    optionally(['.', repeat({ count: 2 }, digit)]), // Fractional part
+    optionally(['.', repeat(digit, 2)]), // Fractional part
   ),
 ]);
 ```
@@ -114,7 +114,7 @@ Notes:
 | `zeroOrMore(x)`                  | `x*`          | Zero or more occurence of a pattern               |
 | `oneOrMore(x)`                   | `x+`          | One or more occurence of a pattern                |
 | `optionally(x)`                  | `x?`          | Zero or one occurence of a pattern                |
-| `repeat(x, { count: n })`        | `x{n}`        | Pattern repeats exact number of times             |
+| `repeat(x, n)`                   | `x{n}`        | Pattern repeats exact number of times             |
 | `repeat(x, { min: n, })`         | `x{n,}`       | Pattern repeats at least given number of times    |
 | `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`    | Pattern repeats between n1 and n2 number of times |
 

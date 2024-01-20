@@ -29,7 +29,7 @@ test('`choiceOf` with sequence options', () => {
 
 test('`choiceOf` using nested regex', () => {
   expect(choiceOf(oneOrMore('a'), zeroOrMore('b'))).toHavePattern(/a+|b*/);
-  expect(choiceOf(repeat('a', { min: 1, max: 3 }), repeat('bx', { count: 5 }))).toHavePattern(
+  expect(choiceOf(repeat('a', { min: 1, max: 3 }), repeat('bx', 5))).toHavePattern(
     /a{1,3}|(?:bx){5}/,
   );
 });
