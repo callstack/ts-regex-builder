@@ -2,6 +2,8 @@
 
 A user-friendly regular expression builder for TypeScript and JavaScript.
 
+[API docs](./API.md)
+
 ## Goal
 
 Regular expressions are a powerful tool for matching simple and complex text patterns, yet they are notorious for their hard-to-parse syntax.
@@ -72,7 +74,7 @@ Examples of sequences:
 - single construct: `capture('abc')`
 - single string: `'Hello'`
 
-Regex constructs can be composed into a tree:
+Regex constructs can be composed into a tree structure:
 
 ```ts
 const currencyAmount = buildRegExp([
@@ -87,8 +89,6 @@ const currencyAmount = buildRegExp([
   ),
 ]);
 ```
-
-## API
 
 Comprehensive API document is available [here](./API.md).
 
