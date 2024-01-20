@@ -121,9 +121,9 @@ function repeat(
 ): Repeat
 ```
 
-Regex syntax: `{n}`, `{min,}`, `{min, max}`.
+Regex syntax: `x{n}`, `x{min,}`, `x{min, max}`.
 
-The `repeat` quantifier in regex matches either exactly `count` or between `min` and `max` count. If only `min` is provided it matches at least `min` count.
+The `repeat` quantifier in regex matches either exactly `count` times or between `min` and `max` times. If only `min` is provided it matches at least `min` times.
 
 ## Character classes
 
