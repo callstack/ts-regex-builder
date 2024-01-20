@@ -2,14 +2,12 @@
 
 ## Builder
 
-### `buildRegExp()` function
+### `buildRegExp()`
 
 ```ts
-function buildRegExp(sequence: RegexSequence): RegExp;
-
 function buildRegExp(
     sequence: RegexSequence,
-    flags: {
+    flags?: {
         global?: boolean;
         ignoreCase?: boolean;
         multiline?: boolean;
@@ -18,6 +16,14 @@ function buildRegExp(
     },
 ): RegExp;
 ```
+
+The `buildRegExp` is a top-level function responsible for build JavaScript-native `RegExp` object from passed regex sequence.
+
+It optionally accepts a list of regex flags:
+- `global` - find all matches in a string, instead of just the first one.
+- `ignoreCase` - perform case-insensitive matching.
+- `multiline` - treat the start and end of each line in a string as the beginning and end of the string.
+- `hasIndices` - provide the start and end indices of each captured group in a match.
 
 ## Constructs
 

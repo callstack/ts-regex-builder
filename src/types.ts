@@ -23,18 +23,15 @@ export interface RegexConstruct {
 }
 
 export interface RegexFlags {
-  /** Global search. */
+  /** Find all matches in a string, instead of just the first one. */
   global?: boolean;
 
-  /** Case-insensitive search. */
+  /** Perform case-insensitive matching. */
   ignoreCase?: boolean;
 
-  /** Allows ^ and $ to match newline characters. */
+  /** Treat the start and end of each line in a string as the beginning and end of the string. */
   multiline?: boolean;
 
-  /** Generate indices for substring matches. */
+  /** Penerate the start and end indices of each captured group in a match. */
   hasIndices?: boolean;
-
-  /** Perform a "sticky" search that matches starting at the current position in the target string. */
-  sticky?: boolean;
 }
