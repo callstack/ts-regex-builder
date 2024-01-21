@@ -1,5 +1,21 @@
 # Regex Examples
 
+## JavaScript number
+
+```ts
+const optionalSign = optionally(anyOf('+-'));
+const exponent = [anyOf('eE'), optionalSign, oneOrMore(digit)];
+
+const regex = buildRegExp([
+  optionalSign,
+  choiceOf(
+    [oneOrMore(digit), optionally(['.', zeroOrMore(digit)])], // leading digit
+    ['.', oneOrMore(digit)], // leading dot
+  ),
+  optionally(exponent), // exponent
+]);
+```
+
 ## IPv4 address validation
 
 ```ts

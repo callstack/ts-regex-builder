@@ -1,12 +1,55 @@
 import {
+  anyOf,
   buildRegExp,
   charRange,
   choiceOf,
   digit,
   endOfString,
+  oneOrMore,
+  optionally,
   repeat,
   startOfString,
+  zeroOrMore,
 } from '../index';
+
+test('example: validate JavaScript number', () => {
+  const optionalSign = optionally(anyOf('+-'));
+  const exponent = [anyOf('eE'), optionalSign, oneOrMore(digit)];
+
+  const regex = buildRegExp([
+    startOfString,
+    optionalSign,
+    choiceOf(
+      [oneOrMore(digit), optionally(['.', zeroOrMore(digit)])], // leading digit
+      ['.', oneOrMore(digit)], // leading dot
+    ),
+    optionally(exponent), // exponent
+    endOfString,
+  ]);
+
+  expect(regex).toMatchString('0');
+  expect(regex).toMatchString('-1');
+  expect(regex).toMatchString('+1');
+  expect(regex).toMatchString('1.0');
+  expect(regex).toMatchString('1.1234');
+  expect(regex).toMatchString('1.');
+  expect(regex).toMatchString('.1');
+  expect(regex).toMatchString('-.1234');
+  expect(regex).toMatchString('+.5');
+  expect(regex).toMatchString('1e21');
+  expect(regex).toMatchString('1e-21');
+  expect(regex).toMatchString('+1e+42');
+  expect(regex).toMatchString('-1e-42');
+
+  expect(regex).not.toMatchString('');
+  expect(regex).not.toMatchString('a');
+  expect(regex).not.toMatchString('1a');
+  expect(regex).not.toMatchString('1.0.');
+  expect(regex).not.toMatchString('.1.1');
+  expect(regex).not.toMatchString('.');
+
+  expect(regex).toHavePattern(/a/);
+});
 
 test('example: IPv4 address validator', () => {
   const octet = choiceOf(
