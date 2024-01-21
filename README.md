@@ -2,6 +2,8 @@
 
 A user-friendly regular expression builder for TypeScript and JavaScript.
 
+[API docs](./API.md) | [Examples](./Examples.md)
+
 ## Goal
 
 Regular expressions are a powerful tool for matching simple and complex text patterns, yet they are notorious for their hard-to-parse syntax.
@@ -68,11 +70,11 @@ Terminology:
 Most of the regex constructs accept a regex sequence as their argument.
 
 Examples of sequences:
+- single element (construct): `capture('abc')`
+- single element (string): `'Hello'`
 - array of elements: `['USD', oneOrMore(digit)]`
-- single construct: `capture('abc')`
-- single string: `'Hello'`
 
-Regex constructs can be composed into a tree:
+Regex constructs can be composed into a tree structure:
 
 ```ts
 const currencyAmount = buildRegExp([
@@ -88,28 +90,25 @@ const currencyAmount = buildRegExp([
 ]);
 ```
 
+Comprehensive API document is available [here](./API.md).
+
 ### Regex Builders
 
-| Builder                                  | Regex Pattern | Description                         |
+| Builder                                  | Regex Syntax | Description                         |
 | ---------------------------------------- | ------------- | ----------------------------------- |
 | `buildRegExp(...)`                       | `/.../`       | Create `RegExp` instance            |
 | `buildRegExp(..., { ignoreCase: true })` | `/.../i`      | Create `RegExp` instance with flags |
 
 ### Regex Constructs
 
-| Regex Construct     | Regex Pattern | Notes                           |
+| Construct           | Regex Syntax  | Notes                           |
 | ------------------- | ------------- | ------------------------------- |
 | `capture(...)`      | `(...)`       | Create a capture group          |
 | `choiceOf(x, y, z)` | `x\|y\|z`     | Match one of provided sequences |
 
-Notes:
-
-- `capture` accepts a sequence of elements
-- `choiceOf()` accepts a variable number of sequences
-
 ### Quantifiers
 
-| Regex Construct                  | Regex Pattern | Description                                       |
+| Quantifier                       | Regex Syntax  | Description                                       |
 | -------------------------------- | ------------- | ------------------------------------------------- |
 | `zeroOrMore(x)`                  | `x*`          | Zero or more occurence of a pattern               |
 | `oneOrMore(x)`                   | `x+`          | One or more occurence of a pattern                |
@@ -118,11 +117,9 @@ Notes:
 | `repeat(x, { min: n, })`         | `x{n,}`       | Pattern repeats at least given number of times    |
 | `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`    | Pattern repeats between n1 and n2 number of times |
 
-All quantifiers accept sequence of elements
-
 ### Character classes
 
-| Regex Construct       | Regex Pattern | Description                                 |
+| Character class       | Regex Syntax  | Description                                 |
 | --------------------- | ------------- | ------------------------------------------- |
 | `any`                 | `.`           | Any character                               |
 | `word`                | `\w`          | Word characters                             |
@@ -133,24 +130,12 @@ All quantifiers accept sequence of elements
 | `charClass(...)`      | `[...]`       | Concatenation of multiple character classes |
 | `inverted(...)`       | `[^...]`      | Negation of a given character class         |
 
-Notes:
-
-- `any`, `word`, `digit`, `whitespace` are objects, no need to call them
-- `anyOf` accepts a single string of characters to match
-- `charRange` accepts exactly **two single character** strings representing range start and end (inclusive)
-- `charClass` accepts a variable number of character classes to join into a single class
-- `inverted` accepts a single character class to be inverted
-
 ### Anchors
 
-| Regex Construct | Regex Pattern | Description                                                      |
+| Anchor          | Regex Syntax  | Description                                                      |
 | --------------- | ------------- | ---------------------------------------------------------------- |
 | `startOfString` | `^`           | Match start of the string (or start of a line in multiline mode) |
 | `endOfString`   | `$`           | Match end of the string (or end of a line in multiline mode)     |
-
-Notes:
-
-- `startOfString`, `endOfString` are objects, no need to call them.
 
 ## Examples
 

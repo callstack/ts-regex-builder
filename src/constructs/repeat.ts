@@ -5,13 +5,13 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
 export interface Repeat extends RegexConstruct {
   type: 'repeat';
-  options: RepeatOptions;
+  count: RepeatCount;
   children: RegexElement[];
 }
 
-export type RepeatOptions = number | { min: number; max?: number };
+export type RepeatCount = number | { min: number; max?: number };
 
-export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat {
+export function repeat(sequence: RegexSequence, count: RepeatCount): Repeat {
   const children = ensureArray(sequence);
 
   if (children.length === 0) {
@@ -21,7 +21,7 @@ export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat 
   return {
     type: 'repeat',
     children,
-    options,
+    count: count,
     encode: encodeRepeat,
   };
 }
@@ -29,15 +29,15 @@ export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat 
 function encodeRepeat(this: Repeat): EncodeResult {
   const atomicNodes = encodeAtom(this.children);
 
-  if (typeof this.options === 'number') {
+  if (typeof this.count === 'number') {
     return {
       precedence: 'sequence',
-      pattern: `${atomicNodes.pattern}{${this.options}}`,
+      pattern: `${atomicNodes.pattern}{${this.count}}`,
     };
   }
 
   return {
     precedence: 'sequence',
-    pattern: `${atomicNodes.pattern}{${this.options.min},${this.options?.max ?? ''}}`,
+    pattern: `${atomicNodes.pattern}{${this.count.min},${this.count?.max ?? ''}}`,
   };
 }

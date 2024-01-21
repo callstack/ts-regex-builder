@@ -1,86 +1,133 @@
 # API
 
+## Types
+
+### `RegexSequence`
+
+The sequence of regex elements forming a regular expression. For developer convenience it also accepts a single element instead of array.
+
+### `RegexElement`
+
+Fundamental building blocks of a regular expression, defined as either a regex construct or a string.
+
+### `RegexConstruct`
+
+The common type for all regex constructs like character classes, quantifiers, and anchors. You should not need to use this type directly, it is returned by all regex construct functions.
+
+Note: the shape of the `RegexConstruct` is considered private, and may change in a breaking way without a major release. We will focus on maintaining the compatibility of regexes built with 
+
+
 ## Builder
 
-### `buildRegExp()` function
+### `buildRegExp()`
 
 ```ts
-function buildRegExp(sequence: RegexSequence): RegExp;
-
 function buildRegExp(
-    sequence: RegexSequence,
-    flags: {
-        global?: boolean;
-        ignoreCase?: boolean;
-        multiline?: boolean;
-        hasIndices?: boolean;
-        sticky?: boolean;
-    },
+  sequence: RegexSequence,
+  flags?: {
+    global?: boolean;
+    ignoreCase?: boolean;
+    multiline?: boolean;
+    hasIndices?: boolean;
+  },
 ): RegExp;
 ```
 
+The `buildRegExp` is a top-level function responsible for build JavaScript-native `RegExp` object from passed regex sequence.
+
+It optionally accepts a list of regex flags:
+
+- `global` - find all matches in a string, instead of just the first one.
+- `ignoreCase` - perform case-insensitive matching.
+- `multiline` - treat the start and end of each line in a string as the beginning and end of the string.
+- `hasIndices` - provide the start and end indices of each captured group in a match.
+
 ## Constructs
+
+These functions and objects represent available regex constructs.
 
 ### `capture()`
 
-Captures, also known as capturing groups, are used to extract and store parts of the matched string for later use. 
-
 ```ts
 function capture(
-    sequence: RegexSequence
+  sequence: RegexSequence
 ): Capture
 ```
+
+Regex syntax: `(...)`.
+
+Captures, also known as capturing groups, are used to extract and store parts of the matched string for later use.
 
 ### `choiceOf()`
 
 ```ts
 function choiceOf(
-    ...alternatives: RegexSequence[]
+  ...alternatives: RegexSequence[]
 ): ChoiceOf {
 ```
 
-The `choiceOf` (alternation) construct is used to match one out of several possible sequences. It functions similarly to a logical OR operator in programming. It can match simple string options as well as complex patterns.
+Regex syntax: `a|b|c`.
+
+The `choiceOf` (disjunction) construct is used to match one out of several possible sequences. It functions similarly to a logical OR operator in programming. It can match simple string options as well as complex patterns.
 
 Example: `choiceOf("color", "colour")` matches either `color` or `colour` pattern.
 
 ## Quantifiers
 
+Quantifiers in regex define the number of occurrences to match for a pattern.
+
 ### `zeroOrMore()`
 
 ```ts
 function zeroOrMore(
-    sequence: RegexSequence,
+  sequence: RegexSequence,
 ): ZeroOrMore
 ```
+
+Regex syntax: `x*`;
+
+The `zeroOrMore` quantifier matches zero or more occurrences of given pattern, allowing a flexible number of repetitions of that element.
 
 ### `oneOrMore()`
 
 ```ts
 function oneOrMore(
-    sequence: RegexSequence,
+  sequence: RegexSequence,
 ): OneOrMore
 ```
+
+Regex syntax: `x+`;
+
+The `oneOrMore` quantifier matches one or more occurrences of given pattern, allowing a flexible number of repetitions of that element.
 
 ### `optionally()`
 
 ```ts
 function optionally(
-    sequence: RegexSequence,
+  sequence: RegexSequence,
 ): Optionally
 ```
+
+Regex syntax: `x?`;
+
+The `optionally` quantifier matches zero or one occurrence of given pattern, making it optional.
 
 ### `repeat()`
 
 ```ts
 function repeat(
-    options: number | { min: number; max?: number },
-    sequence: RegexSequence,
+  sequence: RegexSequence,
+  count: number | { min: number; max?: number },
 ): Repeat
 ```
 
+Regex syntax: `x{n}`, `x{min,}`, `x{min, max}`.
+
+The `repeat` quantifier in regex matches either exactly `count` times or between `min` and `max` times. If only `min` is provided it matches at least `min` times.
+
 ## Character classes
 
-Character classes are a set of characters that match any one of the characters in the set. 
+Character classes are a set of characters that match any one of the characters in the set.
 
 ### Common character classess
 
@@ -91,80 +138,88 @@ const digit: CharacterClass;
 const whitespace: CharacterClass;
 ```
 
-* `any` matches any character except newline characters.
-* `word` matches any word character (alphanumeric & underscore).
-* `digit` matches any digit.
-* `whitespace` matches any whitespace character (spaces, tabs, line breaks).
+- `any` matches any character except newline characters. Regex syntax: `*`.
+- `word` matches any word character (alphanumeric & underscore). Regex syntax: `\w`.
+- `digit` matches any digit. Regex syntax: `\d`.
+- `whitespace` matches any whitespace character (spaces, tabs, line breaks). Regex syntax: `\s`.
 
 ### `anyOf()`
 
 ```ts
 function anyOf(
-    characters: string,
+  characters: string,
 ): CharacterClass
 ```
+
+Regex syntax: `[abc]`.
 
 The `anyOf` class matches any character present in the `character` string.
 
 Example: `anyOf('aeiou')` will match either `a`, `e`, `i` `o` or `u` characters.
 
-### `characterRange()`
+### `charRange()`
 
 ```ts
-function characterRange(
-    start: string,
-    end: string,
+function charRange(
+  start: string,
+  end: string,
 ): CharacterClass
 ```
 
-The `characterRange` class matches any character present in the range from `start` to `end` (inclusive).
+Regex syntax: `[a-z]`.
+
+The `charRange` class matches any character present in the range from `start` to `end` (inclusive).
 
 Examples:
-* `characterRange('a', 'z')` will match all lowercase characters from `a` to `z`.
-* `characterRange('A', 'Z')` will match all uppercase characters from `a` to `z`.
-* `characterRange('0', '9')` will match all digit characters from `0` to `9`.
 
-### `characterClass()`
+- `charRange('a', 'z')` will match all lowercase characters from `a` to `z`.
+- `charRange('A', 'Z')` will match all uppercase characters from `A` to `Z`.
+- `charRange('0', '9')` will match all digit characters from `0` to `9`.
+
+### `charClass()`
 
 ```ts
-function characterClass(
-    ...elements: CharacterClass[],
+function charClass(
+  ...elements: CharacterClass[],
 ): CharacterClass
 ```
 
-The `characterClass` construct creates a new character class that includes all passed character classes.
+Regex syntax: `[...]`.
 
-Example:
-* `characterClass(characterRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
-* `characterClass(characterRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase latin lettet from `a` to `z`, and either of `.`, `_`, and `-` characters.
+The `charClass` construct creates a new character class that includes all passed character classes.
+
+Examples:
+
+- `charClass(charRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
+- `charClass(charRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase latin lettet from `a` to `z`, and either of `.`, `_`, and `-` characters.
 
 ### `inverted()`
 
 ```ts
 function inverted(
-    element: CharacterClass,
+  element: CharacterClass,
 ): CharacterClass
 ```
+
+Regex syntax: `[^...]`.
 
 The `inverted` construct creates a new character class that matches any character that is not present in the passed character class.
 
 Examples:
-* `inverted(digit)` matches any character that is not a digit
-* `inverted(anyOf('aeiou'))` matches any character that is not a lowercase vowel.
 
-
+- `inverted(digit)` matches any character that is not a digit
+- `inverted(anyOf('aeiou'))` matches any character that is not a lowercase vowel.
 
 ## Anchors
 
 Anchors are special characters or sequences that specify positions in the input string, rather than matching specific characters.
 
-### Line start and end
+### Start and end of string
 
 ```ts
-const startOfString: Anchor; // Regex: ^
-const endOfString: Anchor; // Regex: $
+const startOfString: Anchor;
+const endOfString: Anchor;
 ```
 
-The `startOfString` (regex: `^`) matches the start of a string (or line, if multiline mode is enabled).
-
-The `endOfString` (regex: `$`)  matches the end of a string (or line, if multiline mode is enabled).
+- `startOfString` anchor matches the start of a string (or line, if multiline mode is enabled). Regex syntax: `^`.
+- `endOfString` anchor matches the end of a string (or line, if multiline mode is enabled). Regex syntax: `$`.
