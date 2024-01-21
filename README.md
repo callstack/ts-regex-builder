@@ -21,7 +21,7 @@ const hexDigit = charClass(
   charRange('0', '9'),
 );
 
-const hexColor = buildRegExp(
+const hexColor = buildRegExp([
   startOfString,
   optional('#'),
   capture(
@@ -31,7 +31,7 @@ const hexColor = buildRegExp(
     ),
   ),
   endOfString,
-);
+]);
 ```
 
 ## Installation

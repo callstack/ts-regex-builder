@@ -2,23 +2,112 @@
 
 ## Match hashtags
 
+This regex matches and captures all hashtags in a given string.
+
 ```ts
 const hashtags = buildRegExp(
-    [
-      '#',
-      capture(oneOrMore(word)),
-    ],
-    { global: true },
-  );
+  [
+    '#',
+    capture(oneOrMore(word)),
+  ],
+  { global: true },
+);
 
 const hashtagMatches = '#hello #world'.matchAll(hashtags);
 ```
 
-It matches and captures all hashtags in a given string.
+Encoded regex: `/#(\w+)/g`.
 
-See tests: [exampple-hashtags.ts](../src/__tests__/example-hashtags.ts).
+See tests: [example-hashtags.ts](../src/__tests__/example-hashtags.ts).
+
+## Hex color validation
+
+This regex validate whether given string is a valid hex color, with 6 or 3 hex digits.
+
+```ts
+const hexDigit = charClass(
+  charRange('a', 'f'), //
+  charRange('A', 'F'),
+  charRange('0', '9'),
+);
+
+const hexColor = buildRegExp(
+  startOfString,
+  optional('#'),
+  capture(
+    choiceOf(
+      repeat(hexDigit, 6), // #rrggbb
+      repeat(hexDigit, 3), // #rgb
+    ),
+  ),
+  endOfString,
+);
+```
+
+Encoded regex: `/^#?(?:[a-f\d]{6}|[a-f\d]{3})$/i`.
+
+See tests: [example-hex-color.ts](../src/__tests__/example-hex-color.ts).
+
+## Simple URL validation
+
+This regex validates (in simplified way) whether given string is a URL.
+
+```ts
+const protocol = [choiceOf('http', 'https'), '://'];
+const domainChars = charClass(charRange('a', 'z'), digit);
+const domainCharsHypen = charClass(domainChars, anyOf('-'));
+
+const domainSegment = choiceOf(
+  domainChars, // single char
+  [domainChars, zeroOrMore(domainCharsHypen), domainChars], // multi char
+);
+
+const regex = buildRegExp([
+  startOfString,
+  optional(protocol),
+  oneOrMore([domainSegment, '.']), // domain segment
+  charRange('a', 'z'), // TLD first char
+  oneOrMore(domainChars), // TLD remaining chars
+  endOfString,
+]);
+```
+
+Encoded regex: `/^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d-]*[a-z\d])\.)+[a-z][a-z\d]+$/`.
+
+See tests: [example-url.ts](../src/__tests__/example-url.ts).
+
+## Email address validation
+
+This regex validates whether given string is a properly formatted email address.
+
+```ts
+const hostnameChars = charClass(charRange('a', 'z'), digit, anyOf('-.'));
+const domainChars = charRange('a', 'z');
+
+const regex = buildRegExp(
+  [
+    startOfString,
+    oneOrMore(usernameChars),
+    '@',
+    oneOrMore(hostnameChars),
+    '.',
+    repeat(domainChars, { min: 2 }),
+    endOfString,
+  ],
+  { ignoreCase: true },
+);
+
+const isValid = regex.test("user@example.com");
+```
+
+Encoded regex: `/^[a-z\d._%+-]+@[a-z\d.-]+\.[a-z]{2,}$/i`.
+
+See tests: [example-email.ts](../src/__tests__/example-email.ts).
 
 ## JavaScript number validation
+
+This regex validates if given string is a valid JavaScript number.
+
 
 ```ts
 const sign = anyOf('+-');
@@ -38,9 +127,9 @@ const regex = buildRegExp([
 const isValid = regex.test("1.0e+27");
 ```
 
-It validates if given string is a valid JavaScript number.
+Encoded regex: `/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/`.
 
-See tests: [exampple-hashtags.ts](../src/__tests__/example-js-number.ts).
+See tests: [example-js-number.ts](../src/__tests__/example-js-number.ts).
 
 ## IPv4 address validation
 
@@ -63,11 +152,6 @@ const regex = buildRegExp([
 ]);
 ```
 
-This code generates the following regex pattern:
+Encoded regex: `/^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/`.
 
-```ts
-const regex =
-  /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
-```
-
-See tests: [exampple-hashtags.ts](../src/__tests__/example-ipv4.ts).
+See tests: [example-ipv4.ts](../src/__tests__/example-ipv4.ts).
