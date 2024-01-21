@@ -37,7 +37,7 @@ test('example: IPv4 address validator', () => {
   expect(regex).not.toMatchString('0.0.300.0');
   expect(regex).not.toMatchString('255.255.255.256');
 
-  expect(regex).toHavePattern(
+  expect(regex).toEqualRegex(
     /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/,
   );
 });

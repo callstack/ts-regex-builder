@@ -20,5 +20,5 @@ test('example: extracting hashtags', () => {
   expect(regex).not.toMatchString('#');
   expect(regex).not.toMatchString('a# ');
 
-  expect(regex).toHavePattern(/#(\w+)/g);
+  expect(regex).toEqualRegex(/#(\w+)/g);
 });

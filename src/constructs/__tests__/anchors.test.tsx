@@ -2,8 +2,8 @@ import { endOfString, startOfString } from '../anchors';
 import { oneOrMore } from '../quantifiers';
 
 test('`startOfString` basic cases', () => {
-  expect(startOfString).toHavePattern(/^/);
-  expect([startOfString, 'a', 'b']).toHavePattern(/^ab/);
+  expect(startOfString).toEqualRegex(/^/);
+  expect([startOfString, 'a', 'b']).toEqualRegex(/^ab/);
 });
 
 test('`startOfString` regex tests', () => {
@@ -11,8 +11,8 @@ test('`startOfString` regex tests', () => {
 });
 
 test('`endOfString` basic cases', () => {
-  expect(endOfString).toHavePattern(/$/);
-  expect(['a', 'b', endOfString]).toHavePattern(/ab$/);
+  expect(endOfString).toEqualRegex(/$/);
+  expect(['a', 'b', endOfString]).toEqualRegex(/ab$/);
 });
 
 test('`endOfString` regex tests', () => {

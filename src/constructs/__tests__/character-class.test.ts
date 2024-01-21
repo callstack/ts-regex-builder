@@ -12,34 +12,34 @@ import {
 import { buildRegExp } from '../../builders';
 
 test('`any` character class', () => {
-  expect(any).toHavePattern(/./);
-  expect(['x', any]).toHavePattern(/x./);
-  expect(['x', any, 'x']).toHavePattern(/x.x/);
+  expect(any).toEqualRegex(/./);
+  expect(['x', any]).toEqualRegex(/x./);
+  expect(['x', any, 'x']).toEqualRegex(/x.x/);
 });
 
 test('`digit` character class', () => {
-  expect(digit).toHavePattern(/\d/);
-  expect(['x', digit]).toHavePattern(/x\d/);
-  expect(['x', digit, 'x']).toHavePattern(/x\dx/);
+  expect(digit).toEqualRegex(/\d/);
+  expect(['x', digit]).toEqualRegex(/x\d/);
+  expect(['x', digit, 'x']).toEqualRegex(/x\dx/);
 });
 
 test('`word` character class', () => {
-  expect(word).toHavePattern(/\w/);
-  expect(['x', word]).toHavePattern(/x\w/);
-  expect(['x', word, 'x']).toHavePattern(/x\wx/);
+  expect(word).toEqualRegex(/\w/);
+  expect(['x', word]).toEqualRegex(/x\w/);
+  expect(['x', word, 'x']).toEqualRegex(/x\wx/);
 });
 
 test('`whitespace` character class', () => {
-  expect(whitespace).toHavePattern(/\s/);
-  expect(['x', whitespace]).toHavePattern(/x\s/);
-  expect(['x', whitespace, 'x']).toHavePattern(/x\sx/);
+  expect(whitespace).toEqualRegex(/\s/);
+  expect(['x', whitespace]).toEqualRegex(/x\s/);
+  expect(['x', whitespace, 'x']).toEqualRegex(/x\sx/);
 });
 
 test('`charClass` base cases', () => {
-  expect(charClass(charRange('a', 'z'))).toHavePattern(/[a-z]/);
-  expect(charClass(charRange('a', 'z'), charRange('A', 'Z'))).toHavePattern(/[a-zA-Z]/);
-  expect(charClass(charRange('a', 'z'), anyOf('05'))).toHavePattern(/[a-z05]/);
-  expect(charClass(charRange('a', 'z'), whitespace, anyOf('05'))).toHavePattern(/[a-z\s05]/);
+  expect(charClass(charRange('a', 'z'))).toEqualRegex(/[a-z]/);
+  expect(charClass(charRange('a', 'z'), charRange('A', 'Z'))).toEqualRegex(/[a-zA-Z]/);
+  expect(charClass(charRange('a', 'z'), anyOf('05'))).toEqualRegex(/[a-z05]/);
+  expect(charClass(charRange('a', 'z'), whitespace, anyOf('05'))).toEqualRegex(/[a-z\s05]/);
 });
 
 test('`charClass` throws on inverted arguments', () => {
@@ -49,9 +49,9 @@ test('`charClass` throws on inverted arguments', () => {
 });
 
 test('`charRange` base cases', () => {
-  expect(charRange('a', 'z')).toHavePattern(/[a-z]/);
-  expect(['x', charRange('0', '9')]).toHavePattern(/x[0-9]/);
-  expect([charRange('A', 'F'), 'x']).toHavePattern(/[A-F]x/);
+  expect(charRange('a', 'z')).toEqualRegex(/[a-z]/);
+  expect(['x', charRange('0', '9')]).toEqualRegex(/x[0-9]/);
+  expect([charRange('A', 'F'), 'x']).toEqualRegex(/[A-F]x/);
 });
 
 test('`charRange` throws on incorrect arguments', () => {
@@ -67,31 +67,31 @@ test('`charRange` throws on incorrect arguments', () => {
 });
 
 test('`anyOf` base cases', () => {
-  expect(anyOf('a')).toHavePattern(/a/);
-  expect(['x', anyOf('a'), 'x']).toHavePattern(/xax/);
-  expect(anyOf('ab')).toHavePattern(/[ab]/);
-  expect(['x', anyOf('ab')]).toHavePattern(/x[ab]/);
-  expect(['x', anyOf('ab'), 'x']).toHavePattern(/x[ab]x/);
+  expect(anyOf('a')).toEqualRegex(/a/);
+  expect(['x', anyOf('a'), 'x']).toEqualRegex(/xax/);
+  expect(anyOf('ab')).toEqualRegex(/[ab]/);
+  expect(['x', anyOf('ab')]).toEqualRegex(/x[ab]/);
+  expect(['x', anyOf('ab'), 'x']).toEqualRegex(/x[ab]x/);
 });
 
 test('`anyOf` with quantifiers', () => {
-  expect(['x', oneOrMore(anyOf('abc')), 'x']).toHavePattern(/x[abc]+x/);
-  expect(['x', optional(anyOf('abc')), 'x']).toHavePattern(/x[abc]?x/);
-  expect(['x', zeroOrMore(anyOf('abc')), 'x']).toHavePattern(/x[abc]*x/);
+  expect(['x', oneOrMore(anyOf('abc')), 'x']).toEqualRegex(/x[abc]+x/);
+  expect(['x', optional(anyOf('abc')), 'x']).toEqualRegex(/x[abc]?x/);
+  expect(['x', zeroOrMore(anyOf('abc')), 'x']).toEqualRegex(/x[abc]*x/);
 });
 
 test('`anyOf` escapes special characters', () => {
-  expect(anyOf('abc-+.]\\')).toHavePattern(/[abc+.\]\\-]/);
+  expect(anyOf('abc-+.]\\')).toEqualRegex(/[abc+.\]\\-]/);
 });
 
 test('`anyOf` moves hyphen to the last position', () => {
-  expect(anyOf('a-bc')).toHavePattern(/[abc-]/);
+  expect(anyOf('a-bc')).toEqualRegex(/[abc-]/);
 });
 
 test('`anyOf` edge case caret and  hyphen', () => {
-  expect(anyOf('^-')).toHavePattern(/[\^-]/);
-  expect(anyOf('-^')).toHavePattern(/[\^-]/);
-  expect(anyOf('-^a')).toHavePattern(/[a^-]/);
+  expect(anyOf('^-')).toEqualRegex(/[\^-]/);
+  expect(anyOf('-^')).toEqualRegex(/[\^-]/);
+  expect(anyOf('-^a')).toEqualRegex(/[a^-]/);
 });
 
 test('`anyOf` throws on empty text', () => {
@@ -101,13 +101,13 @@ test('`anyOf` throws on empty text', () => {
 });
 
 test('`inverted` character class', () => {
-  expect(inverted(anyOf('a'))).toHavePattern(/[^a]/);
-  expect(inverted(anyOf('abc'))).toHavePattern(/[^abc]/);
+  expect(inverted(anyOf('a'))).toEqualRegex(/[^a]/);
+  expect(inverted(anyOf('abc'))).toEqualRegex(/[^abc]/);
 });
 
 test('`inverted` character class double inversion', () => {
-  expect(inverted(inverted(anyOf('a')))).toHavePattern(/a/);
-  expect(inverted(inverted(anyOf('abc')))).toHavePattern(/[abc]/);
+  expect(inverted(inverted(anyOf('a')))).toEqualRegex(/a/);
+  expect(inverted(inverted(anyOf('abc')))).toEqualRegex(/[abc]/);
 });
 
 test('`inverted` character class execution', () => {
