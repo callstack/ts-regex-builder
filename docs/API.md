@@ -100,17 +100,17 @@ Regex syntax: `x+`;
 
 The `oneOrMore` quantifier matches one or more occurrences of given pattern, allowing a flexible number of repetitions of that element.
 
-### `optionally()`
+### `optional()`
 
 ```ts
-function optionally(
+function optional(
   sequence: RegexSequence,
 ): Optionally
 ```
 
 Regex syntax: `x?`;
 
-The `optionally` quantifier matches zero or one occurrence of given pattern, making it optional.
+The `optional` quantifier matches zero or one occurrence of given pattern, making it optional.
 
 ### `repeat()`
 

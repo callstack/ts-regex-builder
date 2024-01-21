@@ -23,7 +23,7 @@ const hexDigit = charClass(
 
 const hexColor = buildRegExp(
   startOfString,
-  optionally('#'),
+  optional('#'),
   capture(
     choiceOf(
       repeat(hexDigit, 6), // #rrggbb
@@ -85,7 +85,7 @@ const currencyAmount = buildRegExp([
   ),
   capture(
     oneOrMore(digit), // Integer part
-    optionally(['.', repeat(digit, 2)]), // Fractional part
+    optional(['.', repeat(digit, 2)]), // Fractional part
   ),
 ]);
 ```
@@ -112,7 +112,7 @@ Comprehensive API document is available [here](./API.md).
 | -------------------------------- | ------------- | ------------------------------------------------- |
 | `zeroOrMore(x)`                  | `x*`          | Zero or more occurence of a pattern               |
 | `oneOrMore(x)`                   | `x+`          | One or more occurence of a pattern                |
-| `optionally(x)`                  | `x?`          | Zero or one occurence of a pattern                |
+| `optional(x)`                    | `x?`          | Zero or one occurence of a pattern                |
 | `repeat(x, n)`                   | `x{n}`        | Pattern repeats exact number of times             |
 | `repeat(x, { min: n, })`         | `x{n,}`       | Pattern repeats at least given number of times    |
 | `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`    | Pattern repeats between n1 and n2 number of times |

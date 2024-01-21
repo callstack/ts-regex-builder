@@ -1,4 +1,4 @@
-import { oneOrMore, optionally, zeroOrMore } from '../quantifiers';
+import { oneOrMore, optional, zeroOrMore } from '../quantifiers';
 import {
   any,
   anyOf,
@@ -76,7 +76,7 @@ test('`anyOf` base cases', () => {
 
 test('`anyOf` with quantifiers', () => {
   expect(['x', oneOrMore(anyOf('abc')), 'x']).toHavePattern(/x[abc]+x/);
-  expect(['x', optionally(anyOf('abc')), 'x']).toHavePattern(/x[abc]?x/);
+  expect(['x', optional(anyOf('abc')), 'x']).toHavePattern(/x[abc]?x/);
   expect(['x', zeroOrMore(anyOf('abc')), 'x']).toHavePattern(/x[abc]*x/);
 });
 

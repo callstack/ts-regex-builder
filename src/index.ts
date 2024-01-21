@@ -15,5 +15,5 @@ export {
   inverted,
 } from './constructs/character-class';
 export { choiceOf } from './constructs/choice-of';
-export { oneOrMore, optionally, zeroOrMore } from './constructs/quantifiers';
+export { oneOrMore, optional, zeroOrMore } from './constructs/quantifiers';
 export { repeat } from './constructs/repeat';

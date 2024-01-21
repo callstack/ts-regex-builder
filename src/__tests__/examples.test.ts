@@ -6,24 +6,24 @@ import {
   digit,
   endOfString,
   oneOrMore,
-  optionally,
+  optional,
   repeat,
   startOfString,
   zeroOrMore,
 } from '../index';
 
 test('example: validate JavaScript number', () => {
-  const optionalSign = optionally(anyOf('+-'));
-  const exponent = [anyOf('eE'), optionalSign, oneOrMore(digit)];
+  const sign = anyOf('+-');
+  const exponent = [anyOf('eE'), optional(sign), oneOrMore(digit)];
 
   const regex = buildRegExp([
     startOfString,
-    optionalSign,
+    optional(sign),
     choiceOf(
-      [oneOrMore(digit), optionally(['.', zeroOrMore(digit)])], // leading digit
+      [oneOrMore(digit), optional(['.', zeroOrMore(digit)])], // leading digit
       ['.', oneOrMore(digit)], // leading dot
     ),
-    optionally(exponent), // exponent
+    optional(exponent), // exponent
     endOfString,
   ]);
 

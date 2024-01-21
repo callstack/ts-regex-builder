@@ -1,5 +1,5 @@
 import { buildPattern, buildRegExp } from '../../builders';
-import { oneOrMore, optionally, zeroOrMore } from '../../constructs/quantifiers';
+import { oneOrMore, optional, zeroOrMore } from '../../constructs/quantifiers';
 import { repeat } from '../../constructs/repeat';
 
 test('basic quantifies', () => {
@@ -7,7 +7,7 @@ test('basic quantifies', () => {
   expect(['a', 'b']).toHavePattern(/ab/);
 
   expect(oneOrMore('a')).toHavePattern(/a+/);
-  expect(optionally('a')).toHavePattern(/a?/);
+  expect(optional('a')).toHavePattern(/a?/);
 
   expect(['a', oneOrMore('b')]).toHavePattern(/ab+/);
   expect(['a', oneOrMore('bc')]).toHavePattern(/a(?:bc)+/);
@@ -19,9 +19,9 @@ test('basic quantifies', () => {
   expect(['a', zeroOrMore('bc')]).toHavePattern(/a(?:bc)*/);
   expect(['a', zeroOrMore('bc')]).toHavePattern(/a(?:bc)*/);
 
-  expect([optionally('a'), 'b']).toHavePattern(/a?b/);
+  expect([optional('a'), 'b']).toHavePattern(/a?b/);
 
-  expect([optionally('a'), 'b', oneOrMore('d')]).toHavePattern(/a?bd+/);
+  expect([optional('a'), 'b', oneOrMore('d')]).toHavePattern(/a?bd+/);
 });
 
 test('`buildPattern` escapes special characters', () => {
