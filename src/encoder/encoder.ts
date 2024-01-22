@@ -16,6 +16,10 @@ function encodeNode(element: RegexElement): EncodeResult {
     return encodeText(element);
   }
 
+  if (typeof element === 'object' && element instanceof RegExp) {
+    return encodeRegExp(element);
+  }
+
   if (typeof element.encode !== 'function') {
     throw new Error(`\`encodeNode\`: unknown element type ${element.type}`);
   }
@@ -39,6 +43,20 @@ function encodeText(text: string): EncodeResult {
   return {
     precedence: 'sequence',
     pattern: escapeText(text),
+  };
+}
+
+function encodeRegExp(regexp: RegExp): EncodeResult {
+  const pattern = regexp.source;
+
+  if (pattern.length === 0) {
+    throw new Error('`encodeRegExp`: received regexp should not be empty');
+  }
+
+  // Encode as lowest priority
+  return {
+    precedence: 'disjunction',
+    pattern,
   };
 }
 

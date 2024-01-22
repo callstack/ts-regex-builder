@@ -1,4 +1,6 @@
 import { buildPattern, buildRegExp } from '../../builders';
+import { capture } from '../../constructs/capture';
+import { choiceOf } from '../../constructs/choice-of';
 import { oneOrMore, optional, zeroOrMore } from '../../constructs/quantifiers';
 import { repeat } from '../../constructs/repeat';
 
@@ -41,6 +43,15 @@ test('`buildPattern` escapes special characters', () => {
   expect('*.*').toEqualRegex(/\*\.\*/);
 
   expect([oneOrMore('.*'), zeroOrMore('[]{}')]).toEqualRegex(/(?:\.\*)+(?:\[\]\{\})*/);
+});
+
+test('`buildRegExp` accepts RegExp object', () => {
+  expect(buildRegExp(/a/)).toEqual(/a/);
+  expect(buildRegExp(oneOrMore(/a/))).toEqual(/(?:a)+/);
+  expect(buildRegExp(repeat(/a/, 5))).toEqual(/(?:a){5}/);
+  expect(buildRegExp(capture(/a/))).toEqual(/(a)/);
+  expect(buildRegExp(choiceOf(/a/, /b/))).toEqual(/a|b/);
+  expect(buildRegExp(choiceOf(/a|b/, /c/))).toEqual(/a|b|c/);
 });
 
 test('`buildRegExp` throws error on unknown element', () => {
