@@ -1,35 +1,34 @@
 import type { RegexSequence } from '../src/types';
 import { wrapRegExp } from './utils';
 
-export function toHavePattern(
+export function toEqualRegex(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
   expected: RegExp,
 ) {
-  const receivedPattern = wrapRegExp(received).source;
-  const expectedPattern = expected.source;
+  received = wrapRegExp(received);
 
   const options = {
     isNot: this.isNot,
   };
 
   return {
-    pass: expectedPattern === receivedPattern,
+    pass: expected.source === received.source && expected.flags === received.flags,
     message: () =>
       this.utils.matcherHint('toHavePattern', undefined, undefined, options) +
       '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedPattern)}\n` +
-      `Received: ${this.utils.printReceived(receivedPattern)}`,
+      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n` +
+      `Received: ${this.utils.printReceived(received)}`,
   };
 }
 
-expect.extend({ toHavePattern });
+expect.extend({ toEqualRegex });
 
 declare global {
   namespace jest {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Matchers<R, T = {}> {
-      toHavePattern(expected: RegExp): R;
+      toEqualRegex(expected: RegExp): R;
     }
   }
 }

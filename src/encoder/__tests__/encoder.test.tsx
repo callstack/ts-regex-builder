@@ -3,44 +3,44 @@ import { oneOrMore, optional, zeroOrMore } from '../../constructs/quantifiers';
 import { repeat } from '../../constructs/repeat';
 
 test('basic quantifies', () => {
-  expect('a').toHavePattern(/a/);
-  expect(['a', 'b']).toHavePattern(/ab/);
+  expect('a').toEqualRegex(/a/);
+  expect(['a', 'b']).toEqualRegex(/ab/);
 
-  expect(oneOrMore('a')).toHavePattern(/a+/);
-  expect(optional('a')).toHavePattern(/a?/);
+  expect(oneOrMore('a')).toEqualRegex(/a+/);
+  expect(optional('a')).toEqualRegex(/a?/);
 
-  expect(['a', oneOrMore('b')]).toHavePattern(/ab+/);
-  expect(['a', oneOrMore('bc')]).toHavePattern(/a(?:bc)+/);
-  expect(['a', oneOrMore('bc')]).toHavePattern(/a(?:bc)+/);
+  expect(['a', oneOrMore('b')]).toEqualRegex(/ab+/);
+  expect(['a', oneOrMore('bc')]).toEqualRegex(/a(?:bc)+/);
+  expect(['a', oneOrMore('bc')]).toEqualRegex(/a(?:bc)+/);
 
-  expect(['a', repeat('b', { min: 1, max: 5 })]).toHavePattern(/ab{1,5}/);
+  expect(['a', repeat('b', { min: 1, max: 5 })]).toEqualRegex(/ab{1,5}/);
 
-  expect(['a', zeroOrMore('b')]).toHavePattern(/ab*/);
-  expect(['a', zeroOrMore('bc')]).toHavePattern(/a(?:bc)*/);
-  expect(['a', zeroOrMore('bc')]).toHavePattern(/a(?:bc)*/);
+  expect(['a', zeroOrMore('b')]).toEqualRegex(/ab*/);
+  expect(['a', zeroOrMore('bc')]).toEqualRegex(/a(?:bc)*/);
+  expect(['a', zeroOrMore('bc')]).toEqualRegex(/a(?:bc)*/);
 
-  expect([optional('a'), 'b']).toHavePattern(/a?b/);
+  expect([optional('a'), 'b']).toEqualRegex(/a?b/);
 
-  expect([optional('a'), 'b', oneOrMore('d')]).toHavePattern(/a?bd+/);
+  expect([optional('a'), 'b', oneOrMore('d')]).toEqualRegex(/a?bd+/);
 });
 
 test('`buildPattern` escapes special characters', () => {
-  expect('.').toHavePattern(/\./);
-  expect('*').toHavePattern(/\*/);
-  expect('+').toHavePattern(/\+/);
-  expect('?').toHavePattern(/\?/);
-  expect('^').toHavePattern(/\^/);
-  expect('$').toHavePattern(/\$/);
-  expect('{').toHavePattern(/\{/);
-  expect('}').toHavePattern(/\}/);
-  expect('|').toHavePattern(/\|/);
-  expect('[').toHavePattern(/\[/);
-  expect(']').toHavePattern(/\]/);
-  expect('\\').toHavePattern(/\\/);
+  expect('.').toEqualRegex(/\./);
+  expect('*').toEqualRegex(/\*/);
+  expect('+').toEqualRegex(/\+/);
+  expect('?').toEqualRegex(/\?/);
+  expect('^').toEqualRegex(/\^/);
+  expect('$').toEqualRegex(/\$/);
+  expect('{').toEqualRegex(/\{/);
+  expect('}').toEqualRegex(/\}/);
+  expect('|').toEqualRegex(/\|/);
+  expect('[').toEqualRegex(/\[/);
+  expect(']').toEqualRegex(/\]/);
+  expect('\\').toEqualRegex(/\\/);
 
-  expect('*.*').toHavePattern(/\*\.\*/);
+  expect('*.*').toEqualRegex(/\*\.\*/);
 
-  expect([oneOrMore('.*'), zeroOrMore('[]{}')]).toHavePattern(/(?:\.\*)+(?:\[\]\{\})*/);
+  expect([oneOrMore('.*'), zeroOrMore('[]{}')]).toEqualRegex(/(?:\.\*)+(?:\[\]\{\})*/);
 });
 
 test('`buildRegExp` throws error on unknown element', () => {

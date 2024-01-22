@@ -2,10 +2,10 @@ import { capture } from '../capture';
 import { oneOrMore } from '../quantifiers';
 
 test('`capture` base cases', () => {
-  expect(capture('a')).toHavePattern(/(a)/);
-  expect(capture('abc')).toHavePattern(/(abc)/);
-  expect(capture(oneOrMore('abc'))).toHavePattern(/((?:abc)+)/);
-  expect(oneOrMore(capture('abc'))).toHavePattern(/(abc)+/);
+  expect(capture('a')).toEqualRegex(/(a)/);
+  expect(capture('abc')).toEqualRegex(/(abc)/);
+  expect(capture(oneOrMore('abc'))).toEqualRegex(/((?:abc)+)/);
+  expect(oneOrMore(capture('abc'))).toEqualRegex(/(abc)+/);
 });
 
 test('`capture` captures group', () => {
