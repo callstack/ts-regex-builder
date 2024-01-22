@@ -25,22 +25,19 @@ See tests: [example-hashtags.ts](../src/__tests__/example-hashtags.ts).
 This regex validate whether given string is a valid hex color, with 6 or 3 hex digits.
 
 ```ts
-const hexDigit = charClass(
-  charRange('a', 'f'), //
-  charRange('A', 'F'),
-  charRange('0', '9'),
-);
+const hexDigit = charClass(digit, charRange('a', 'f'));
 
-const hexColor = buildRegExp(
-  startOfString,
-  optional('#'),
-  capture(
+const regex = buildRegExp(
+  [
+    startOfString,
+    optional('#'),
     choiceOf(
       repeat(hexDigit, 6), // #rrggbb
       repeat(hexDigit, 3), // #rgb
     ),
-  ),
-  endOfString,
+    endOfString,
+  ],
+  { ignoreCase: true },
 );
 ```
 
