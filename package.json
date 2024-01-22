@@ -1,6 +1,6 @@
 {
   "name": "ts-regex-builder",
-  "version": "0.8.2",
+  "version": "1.0.0",
   "description": "TypeScript adaptation of Swift Regex Builder API",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
