@@ -63,10 +63,6 @@
   "resolutions": {
     "@types/react": "17.0.21"
   },
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
-  },
   "packageManager": "yarn@3.6.1",
   "engines": {
     "node": ">= 18.0.0"
