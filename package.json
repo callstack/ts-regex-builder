@@ -28,13 +28,13 @@
     "regex",
     "typescript"
   ],
-  "repository": "https://github.com/mdjastrzebski/swift-regex",
+  "repository": "https://github.com/callstack/ts-regex-builder",
   "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/callstack/ts-regex/issues"
+    "url": "https://github.com/callstack/ts-regex-builder/issues"
   },
-  "homepage": "https://github.com/callstack/ts-regex#readme",
+  "homepage": "https://github.com/callstack/ts-regex-builder#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
