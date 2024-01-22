@@ -6,9 +6,9 @@ A user-friendly regular expression builder for TypeScript and JavaScript.
 
 ## Goal
 
-Regular expressions are a powerful tool for matching simple and complex text patterns, yet they are notorious for their hard-to-parse syntax.
+Regular expressions are a powerful tool for matching text patterns, yet they are notorious for their hard-to-parse syntax, especially in the case of more complex patterns.
 
-This library allows users to create regular expressions in a structured way, making them ease to understand.
+This library allows users to create regular expressions in a structured way, making them easy to write and review. It provides a domain-specific langauge for defining regular expressions, which are finally turned into JavaScript-native `RegExp` objects for fast execution.
 
 ```ts
 // Before
@@ -61,8 +61,8 @@ TS Regex Builder allows you to build complex regular expressions using domain-sp
 
 Terminology:
 - regex construct (`RegexConstruct`) - common name for all regex constructs like character classes, quantifiers, and anchors.
-- regex element (`RegexElement`) - fundamental building block of a regular expression, defined as either a regex construct or a string.
-- regex sequence (`RegexSequence`) - a sequence of regex elements forming a regular expression. For developer convenience it also accepts a single element instead of array.
+- regex element (`RegexElement`) - a fundamental building block of a regular expression, defined as either a regex construct or a string.
+- regex sequence (`RegexSequence`) - a sequence of regex elements forming a regular expression. For developer convenience, it also accepts a single element instead of an array.
 
 Most of the regex constructs accept a regex sequence as their argument.
 
@@ -87,7 +87,7 @@ const currencyAmount = buildRegExp([
 ]);
 ```
 
-Comprehensive API document is available [here](./API.md).
+See [API document](./docs/API.md).
 
 ### Regex Builders
 
@@ -129,14 +129,18 @@ Comprehensive API document is available [here](./API.md).
 
 ### Anchors
 
-| Anchor          | Regex Syntax  | Description                                                      |
-| --------------- | ------------- | ---------------------------------------------------------------- |
-| `startOfString` | `^`           | Match start of the string (or start of a line in multiline mode) |
-| `endOfString`   | `$`           | Match end of the string (or end of a line in multiline mode)     |
+| Anchor          | Regex Syntax  | Description                                                              |
+| --------------- | ------------- | ------------------------------------------------------------------------ |
+| `startOfString` | `^`           | Match the start of the string (or the start of a line in multiline mode) |
+| `endOfString`   | `$`           | Match the end of the string (or the end of a line in multiline mode)     |
 
 ## Examples
 
 See [Examples document](./docs/Examples.md).
+
+## Performance
+
+Regular expressions created with this library are executed at runtime, so you should avoid creating them in a context where they would need to be executed multiple times, e.g., inside loops or functions. We recommend that you create a top-level object for each required regex.
 
 ## Contributing
 

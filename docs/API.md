@@ -4,7 +4,7 @@
 
 ### `RegexSequence`
 
-The sequence of regex elements forming a regular expression. For developer convenience it also accepts a single element instead of array.
+The sequence of regex elements forming a regular expression. For developer convenience, it also accepts a single element instead of an array.
 
 ### `RegexElement`
 
@@ -14,7 +14,7 @@ Fundamental building blocks of a regular expression, defined as either a regex c
 
 The common type for all regex constructs like character classes, quantifiers, and anchors. You should not need to use this type directly, it is returned by all regex construct functions.
 
-Note: the shape of the `RegexConstruct` is considered private, and may change in a breaking way without a major release. We will focus on maintaining the compatibility of regexes built with 
+Note: the shape of the `RegexConstruct` is considered private and may change in a breaking way without a major release. We will focus on maintaining the compatibility of regexes built with 
 
 
 ## Builder
@@ -33,14 +33,14 @@ function buildRegExp(
 ): RegExp;
 ```
 
-The `buildRegExp` is a top-level function responsible for build JavaScript-native `RegExp` object from passed regex sequence.
+The `buildRegExp` is a top-level function responsible for building a JavaScript-native `RegExp` object from passed regex sequence.
 
 It optionally accepts a list of regex flags:
 
-- `global` - find all matches in a string, instead of just the first one.
+- `global` - find all matches in a string instead of just the first one.
 - `ignoreCase` - perform case-insensitive matching.
 - `multiline` - treat the start and end of each line in a string as the beginning and end of the string.
-- `hasIndices` - provide the start and end indices of each captured group in a match.
+- `hasIndices` - provide each captured group's start and end indices in a match.
 
 ## Constructs
 
@@ -56,7 +56,7 @@ function capture(
 
 Regex syntax: `(...)`.
 
-Captures, also known as capturing groups, are used to extract and store parts of the matched string for later use.
+Captures, also known as capturing groups, extract and store parts of the matched string for later use.
 
 ### `choiceOf()`
 
@@ -68,7 +68,7 @@ function choiceOf(
 
 Regex syntax: `a|b|c`.
 
-The `choiceOf` (disjunction) construct is used to match one out of several possible sequences. It functions similarly to a logical OR operator in programming. It can match simple string options as well as complex patterns.
+The `choiceOf` (disjunction) construct matches one out of several possible sequences. It functions similarly to a logical OR operator in programming. It can match simple string options as well as complex patterns.
 
 Example: `choiceOf("color", "colour")` matches either `color` or `colour` pattern.
 
@@ -86,7 +86,7 @@ function zeroOrMore(
 
 Regex syntax: `x*`;
 
-The `zeroOrMore` quantifier matches zero or more occurrences of given pattern, allowing a flexible number of repetitions of that element.
+The `zeroOrMore` quantifier matches zero or more occurrences of a given pattern, allowing a flexible number of repetitions of that element.
 
 ### `oneOrMore()`
 
@@ -98,7 +98,7 @@ function oneOrMore(
 
 Regex syntax: `x+`;
 
-The `oneOrMore` quantifier matches one or more occurrences of given pattern, allowing a flexible number of repetitions of that element.
+The `oneOrMore` quantifier matches one or more occurrences of a given pattern, allowing a flexible number of repetitions of that element.
 
 ### `optional()`
 
@@ -110,7 +110,7 @@ function optional(
 
 Regex syntax: `x?`;
 
-The `optional` quantifier matches zero or one occurrence of given pattern, making it optional.
+The `optional` quantifier matches zero or one occurrence of a given pattern, making it optional.
 
 ### `repeat()`
 
@@ -123,13 +123,13 @@ function repeat(
 
 Regex syntax: `x{n}`, `x{min,}`, `x{min, max}`.
 
-The `repeat` quantifier in regex matches either exactly `count` times or between `min` and `max` times. If only `min` is provided it matches at least `min` times.
+The `repeat` quantifier in regex matches either exactly `count` times or between `min` and `max` times. If only `min` is provided, it matches at least `min` times.
 
 ## Character classes
 
 Character classes are a set of characters that match any one of the characters in the set.
 
-### Common character classess
+### Common character classes
 
 ```ts
 const any: CharacterClass;
@@ -153,7 +153,7 @@ function anyOf(
 
 Regex syntax: `[abc]`.
 
-The `anyOf` class matches any character present in the `character` string.
+The `anyOf` class matches any character in the `character` string.
 
 Example: `anyOf('aeiou')` will match either `a`, `e`, `i` `o` or `u` characters.
 
@@ -168,7 +168,7 @@ function charRange(
 
 Regex syntax: `[a-z]`.
 
-The `charRange` class matches any character present in the range from `start` to `end` (inclusive).
+The `charRange` class matches any characters in the range from `start` to `end` (inclusive).
 
 Examples:
 
@@ -191,7 +191,7 @@ The `charClass` construct creates a new character class that includes all passed
 Examples:
 
 - `charClass(charRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
-- `charClass(charRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase latin lettet from `a` to `z`, and either of `.`, `_`, and `-` characters.
+- `charClass(charRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase Latin letter from `a` to `z`, and either of `.`, `_`, and `-` characters.
 
 ### `inverted()`
 
@@ -203,7 +203,7 @@ function inverted(
 
 Regex syntax: `[^...]`.
 
-The `inverted` construct creates a new character class that matches any character that is not present in the passed character class.
+The `inverted` construct creates a new character class that matches any character not present in the passed character class.
 
 Examples:
 
@@ -212,7 +212,7 @@ Examples:
 
 ## Anchors
 
-Anchors are special characters or sequences that specify positions in the input string, rather than matching specific characters.
+Anchors are special characters or sequences that specify positions in the input string rather than matching specific characters.
 
 ### Start and end of string
 
