@@ -22,7 +22,7 @@ See tests: [example-hashtags.ts](../src/__tests__/example-hashtags.ts).
 
 ## Hex color validation
 
-This regex validate whether given string is a valid hex color, with 6 or 3 hex digits.
+This regex validates whether a given string is a valid hex color, with 6 or 3 hex digits.
 
 ```ts
 const hexDigit = charClass(digit, charRange('a', 'f'));
@@ -47,7 +47,7 @@ See tests: [example-hex-color.ts](../src/__tests__/example-hex-color.ts).
 
 ## Simple URL validation
 
-This regex validates (in simplified way) whether given string is a URL.
+This regex validates (in a simplified way) whether a given string is a URL.
 
 ```ts
 const protocol = [choiceOf('http', 'https'), '://'];
@@ -75,7 +75,7 @@ See tests: [example-url.ts](../src/__tests__/example-url.ts).
 
 ## Email address validation
 
-This regex validates whether given string is a properly formatted email address.
+This regex validates whether a given string is a properly formatted email address.
 
 ```ts
 const hostnameChars = charClass(charRange('a', 'z'), digit, anyOf('-.'));
@@ -103,7 +103,7 @@ See tests: [example-email.ts](../src/__tests__/example-email.ts).
 
 ## JavaScript number validation
 
-This regex validates if given string is a valid JavaScript number.
+This regex validates if a given string is a valid JavaScript number.
 
 
 ```ts
