@@ -1,6 +1,6 @@
 [![npm version](https://badge.fury.io/js/ts-regex-builder.svg)](https://badge.fury.io/js/ts-regex-builder)
 ![Build](https://github.com/callstack/ts-regex-builder/actions/workflows/ci.yml/badge.svg)
-<a href="https://pkg-size.dev/ts-regex-builder?no-peers"><img src="https://pkg-size.dev/badge/bundle/4554" title="Bundle size for ts-regex-builder"></a>
+![npm bundle size](https://deno.bundlejs.com/badge?q=ts-regex-builder)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![Star on GitHub](https://img.shields.io/github/stars/callstack/ts-regex-builder.svg?style=social)](https://github.com/callstack/ts-regex-builder/stargazers)
 
