@@ -6,9 +6,9 @@ A user-friendly regular expression builder for TypeScript and JavaScript.
 
 ## Goal
 
-Regular expressions are a powerful tool for matching simple and complex text patterns, yet they are notorious for their hard-to-parse syntax.
+Regular expressions are a powerful tool for matching text patterns, yet they are notorious for their hard-to-parse syntax, especially in the case of more complex patterns.
 
-This library allows users to create regular expressions in a structured way, making them easy to understand.
+This library allows users to create regular expressions in a structured way, making them easy to write and review. It provides a domain-specific langauge for defining regular expressions, which are finally turned into JavaScript-native `RegExp` objects for fast execution.
 
 ```ts
 // Before
@@ -137,6 +137,10 @@ See [API document](./docs/API.md).
 ## Examples
 
 See [Examples document](./docs/Examples.md).
+
+## Performance
+
+Regular expressions created with this library are executed at runtime, so you should avoid creating them in a context where they would need to be executed multiple times, e.g., inside loops or functions. We recommend that you create a top-level object for each required regex.
 
 ## Contributing
 
