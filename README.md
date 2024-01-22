@@ -2,7 +2,7 @@
 
 A user-friendly regular expression builder for TypeScript and JavaScript.
 
-[API docs](./API.md) | [Examples](./Examples.md)
+[API docs](./docs/API.md) | [Examples](./docs/Examples.md)
 
 ## Goal
 
@@ -16,7 +16,7 @@ const hexColor = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 
 // After
 const hexDigit = charClass(
-  charRange('a', 'f'), //
+  charRange('a', 'f'),
   charRange('A', 'F'),
   charRange('0', '9'),
 );
@@ -60,11 +60,8 @@ const regex = buildRegExp(['Hello ', capture(oneOrMore(word))]);
 TS Regex Builder allows you to build complex regular expressions using domain-specific language.
 
 Terminology:
-
 - regex construct (`RegexConstruct`) - common name for all regex constructs like character classes, quantifiers, and anchors.
-
 - regex element (`RegexElement`) - fundamental building block of a regular expression, defined as either a regex construct or a string.
-
 - regex sequence (`RegexSequence`) - a sequence of regex elements forming a regular expression. For developer convenience it also accepts a single element instead of array.
 
 Most of the regex constructs accept a regex sequence as their argument.
