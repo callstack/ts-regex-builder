@@ -1,3 +1,8 @@
+[![npm version](https://badge.fury.io/js/ts-regex-builder.svg)](https://badge.fury.io/js/ts-regex-builder)
+![Build](https://github.com/callstack/ts-regex-builder/actions/workflows/ci.yml/badge.svg)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Star on GitHub](https://img.shields.io/github/stars/callstack/ts-regex-builder.svg?style=social)](https://github.com/callstack/ts-regex-builder/stargazers)
+
 # TS Regex Builder
 
 A user-friendly regular expression builder for TypeScript and JavaScript.
