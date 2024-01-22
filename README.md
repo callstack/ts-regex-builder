@@ -17,10 +17,10 @@ Regular expressions are a powerful tool for matching text patterns, yet they are
 This library allows users to create regular expressions in a structured way, making them easy to write and review. It provides a domain-specific langauge for defining regular expressions, which are finally turned into JavaScript-native `RegExp` objects for fast execution.
 
 ```ts
-// Before
+// Regular JS RegExp
 const hexColor = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 
-// After
+// TS Regex Builder DSL
 const hexDigit = charClass(
   charRange('a', 'f'),
   charRange('A', 'F'),
@@ -80,15 +80,12 @@ Examples of sequences:
 Regex constructs can be composed into a tree structure:
 
 ```ts
+const currencyCode = repeat(charRange('A', 'Z'), 3);
 const currencyAmount = buildRegExp([
-  choiceOf(
-    '$',
-    '€',
-    repeat(charRange('A', 'Z'), 3), // ISO currency code
-  ),
+  choiceOf('$', '€', currencyCode), // currency
   capture(
-    oneOrMore(digit), // Integer part
-    optional(['.', repeat(digit, 2)]), // Fractional part
+    oneOrMore(digit), // integer part
+    optional(['.', repeat(digit, 2)]), // fractional part
   ),
 ]);
 ```
@@ -157,11 +154,16 @@ See the [project guidelines](GUIDELINES.md) to understand our core principles.
 
 MIT
 
+## Inspiration
+
+TS Regex Builder is inspired by [Swift Regex Builder API](https://developer.apple.com/documentation/regexbuilder).
+
 ## Reference
 
+- [ECMAScript Regular Expression BNF Grammar](https://262.ecma-international.org/7.0/#sec-regular-expressions)
 - [Swift Regex Builder API docs](https://developer.apple.com/documentation/regexbuilder)
 - [Swift Evolution 351: Regex Builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md)
-- [ECMAScript Regular Expression BNF Grammar](https://262.ecma-international.org/7.0/#sec-regular-expressions)
+
 
 ---
 
