@@ -39,6 +39,8 @@ const regex = buildRegExp(
   ],
   { ignoreCase: true },
 );
+
+const isValid = regex.test("#ffffff");
 ```
 
 Encoded regex: `/^#?(?:[a-f\d]{6}|[a-f\d]{3})$/i`.
@@ -67,6 +69,8 @@ const regex = buildRegExp([
   oneOrMore(domainChars), // TLD remaining chars
   endOfString,
 ]);
+
+const isValid = regex.test("https://hello.github.com");
 ```
 
 Encoded regex: `/^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d-]*[a-z\d])\.)+[a-z][a-z\d]+$/`.
@@ -147,6 +151,8 @@ const regex = buildRegExp([
   octet,
   endOfString,
 ]);
+
+const isValid = regex.test(192.168.0.1");
 ```
 
 Encoded regex: `/^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/`.
