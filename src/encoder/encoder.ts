@@ -53,11 +53,28 @@ function encodeRegExp(regexp: RegExp): EncodeResult {
     throw new Error('`encodeRegExp`: received regexp should not be empty');
   }
 
-  // Encode as lowest priority
+  // Encode at safe precedence
   return {
-    precedence: 'disjunction',
+    precedence: isAtomicPattern(regexp.source) ? 'atom' : 'disjunction',
     pattern,
   };
+}
+
+// This is intended to catch only some popular atomic patterns like char classes.
+function isAtomicPattern(pattern: string): boolean {
+  if (pattern.length === 1) {
+    return true;
+  }
+
+  if (pattern.startsWith('[') && pattern.endsWith(']') && pattern.match(/[[\]]/g)?.length === 2) {
+    return true;
+  }
+
+  if (pattern.startsWith('(') && pattern.endsWith(')') && pattern.match(/[()]/g)?.length === 2) {
+    return true;
+  }
+
+  return false;
 }
 
 function concatSequence(encoded: EncodeResult[]): EncodeResult {
