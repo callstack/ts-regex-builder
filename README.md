@@ -6,7 +6,7 @@
 
 # TS Regex Builder
 
-A user-friendly regular expression builder for TypeScript and JavaScript.
+Build maintainable regular expressions for TypeScript and JavaScript.
 
 [API docs](./docs/API.md) | [Examples](./docs/Examples.md)
 
