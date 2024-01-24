@@ -37,3 +37,25 @@ test('base quantifiers optimize grouping for atoms', () => {
   expect(optional('a')).toEqualRegex(/a?/);
   expect(zeroOrMore('a')).toEqualRegex(/a*/);
 });
+
+test('greedy quantifiers', () => {
+  expect(oneOrMore('a', 'greedy')).toEqualRegex(/a+/);
+  expect(oneOrMore('ab', 'greedy')).toEqualRegex(/(?:ab)+/);
+
+  expect(optional('a', 'greedy')).toEqualRegex(/a?/);
+  expect(optional('ab', 'greedy')).toEqualRegex(/(?:ab)?/);
+
+  expect(zeroOrMore('a', 'greedy')).toEqualRegex(/a*/);
+  expect(zeroOrMore('ab', 'greedy')).toEqualRegex(/(?:ab)*/);
+});
+
+test('lazy quantifiers', () => {
+  expect(oneOrMore('a', 'lazy')).toEqualRegex(/a+?/);
+  expect(oneOrMore('ab', 'lazy')).toEqualRegex(/(?:ab)+?/);
+
+  expect(optional('a', 'lazy')).toEqualRegex(/a??/);
+  expect(optional('ab', 'lazy')).toEqualRegex(/(?:ab)??/);
+
+  expect(zeroOrMore('a', 'lazy')).toEqualRegex(/a*?/);
+  expect(zeroOrMore('ab', 'lazy')).toEqualRegex(/(?:ab)*?/);
+});

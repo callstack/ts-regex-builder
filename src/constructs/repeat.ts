@@ -2,16 +2,22 @@ import { encodeAtom } from '../encoder/encoder';
 import type { EncodeResult } from '../encoder/types';
 import { ensureArray } from '../utils/elements';
 import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
+import { type QuantifierBehavior, validateBehavior } from './quantifiers';
 
 export interface Repeat extends RegexConstruct {
   type: 'repeat';
   count: RepeatCount;
+  behavior: QuantifierBehavior;
   children: RegexElement[];
 }
 
 export type RepeatCount = number | { min: number; max?: number };
 
-export function repeat(sequence: RegexSequence, count: RepeatCount): Repeat {
+export function repeat(
+  sequence: RegexSequence,
+  count: RepeatCount,
+  behavior?: QuantifierBehavior,
+): Repeat {
   const children = ensureArray(sequence);
 
   if (children.length === 0) {
@@ -22,6 +28,7 @@ export function repeat(sequence: RegexSequence, count: RepeatCount): Repeat {
     type: 'repeat',
     children,
     count: count,
+    behavior: validateBehavior(behavior),
     encode: encodeRepeat,
   };
 }
@@ -32,12 +39,14 @@ function encodeRepeat(this: Repeat): EncodeResult {
   if (typeof this.count === 'number') {
     return {
       precedence: 'sequence',
-      pattern: `${atomicNodes.pattern}{${this.count}}`,
+      pattern: `${atomicNodes.pattern}{${this.count}}${this.behavior === 'lazy' ? '?' : ''}`,
     };
   }
 
   return {
     precedence: 'sequence',
-    pattern: `${atomicNodes.pattern}{${this.count.min},${this.count?.max ?? ''}}`,
+    pattern: `${atomicNodes.pattern}{${this.count.min},${this.count?.max ?? ''}}${
+      this.behavior === 'lazy' ? '?' : ''
+    }`,
   };
 }
