@@ -45,8 +45,8 @@ test('greedy quantifiers', () => {
   expect(optional('a', 'greedy')).toEqualRegex(/a?/);
   expect(optional('ab', 'greedy')).toEqualRegex(/(?:ab)?/);
 
-  expect(zeroOrMore('a', 'greedy')).toEqualRegex(/a*/);
-  expect(zeroOrMore('ab', 'greedy')).toEqualRegex(/(?:ab)*/);
+  expect(zeroOrMore('a', { behavior: 'lazy' })).toEqualRegex(/a*/);
+  expect(zeroOrMore('ab', { behavior: 'lazy' })).toEqualRegex(/(?:ab)*/);
 });
 
 test('lazy quantifiers', () => {
@@ -56,6 +56,6 @@ test('lazy quantifiers', () => {
   expect(optional('a', 'lazy')).toEqualRegex(/a??/);
   expect(optional('ab', 'lazy')).toEqualRegex(/(?:ab)??/);
 
-  expect(zeroOrMore('a', 'lazy')).toEqualRegex(/a*?/);
-  expect(zeroOrMore('ab', 'lazy')).toEqualRegex(/(?:ab)*?/);
+  expect(zeroOrMore('a', { behavior: 'lazy' })).toEqualRegex(/a*?/);
+  expect(zeroOrMore('ab', { behavior: 'lazy' })).toEqualRegex(/(?:ab)*?/);
 });

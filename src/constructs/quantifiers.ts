@@ -5,10 +5,12 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
 export type QuantifierBehavior = 'greedy' | 'lazy';
 
+export type QuantifierOptions = { behavior?: QuantifierBehavior };
+
 export interface ZeroOrMore extends RegexConstruct {
   type: 'zeroOrMore';
   children: RegexElement[];
-  behavior: QuantifierBehavior;
+  options: QuantifierOptions;
 }
 
 export interface OneOrMore extends RegexConstruct {
@@ -23,10 +25,10 @@ export interface Optional extends RegexConstruct {
   behavior: QuantifierBehavior;
 }
 
-export function zeroOrMore(sequence: RegexSequence, behavior?: QuantifierBehavior): ZeroOrMore {
+export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions): ZeroOrMore {
   return {
     type: 'zeroOrMore',
-    behavior: validateBehavior(behavior),
+    options: { behavior: validateBehavior(options?.behavior) },
     children: ensureArray(sequence),
     encode: encodeZeroOrMore,
   };
@@ -53,7 +55,7 @@ export function optional(sequence: RegexSequence, behavior?: QuantifierBehavior)
 function encodeZeroOrMore(this: ZeroOrMore): EncodeResult {
   return {
     precedence: 'sequence',
-    pattern: `${encodeAtom(this.children).pattern}*${this.behavior === 'lazy' ? '?' : ''}`,
+    pattern: `${encodeAtom(this.children).pattern}*${this.options.behavior === 'lazy' ? '?' : ''}`,
   };
 }
 
