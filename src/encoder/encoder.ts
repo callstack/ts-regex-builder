@@ -16,6 +16,10 @@ function encodeNode(element: RegexElement): EncodeResult {
     return encodeText(element);
   }
 
+  if (typeof element === 'object' && element instanceof RegExp) {
+    return encodeRegExp(element);
+  }
+
   if (typeof element.encode !== 'function') {
     throw new Error(`\`encodeNode\`: unknown element type ${element.type}`);
   }
@@ -40,6 +44,37 @@ function encodeText(text: string): EncodeResult {
     precedence: 'sequence',
     pattern: escapeText(text),
   };
+}
+
+function encodeRegExp(regexp: RegExp): EncodeResult {
+  const pattern = regexp.source;
+
+  if (pattern.length === 0) {
+    throw new Error('`encodeRegExp`: received regexp should not be empty');
+  }
+
+  // Encode at safe precedence
+  return {
+    precedence: isAtomicPattern(regexp.source) ? 'atom' : 'disjunction',
+    pattern,
+  };
+}
+
+// This is intended to catch only some popular atomic patterns like char classes.
+function isAtomicPattern(pattern: string): boolean {
+  if (pattern.length === 1) {
+    return true;
+  }
+
+  if (pattern.startsWith('[') && pattern.endsWith(']') && pattern.match(/[[\]]/g)?.length === 2) {
+    return true;
+  }
+
+  if (pattern.startsWith('(') && pattern.endsWith(')') && pattern.match(/[()]/g)?.length === 2) {
+    return true;
+  }
+
+  return false;
 }
 
 function concatSequence(encoded: EncodeResult[]): EncodeResult {

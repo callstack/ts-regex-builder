@@ -1,4 +1,6 @@
 import { buildPattern, buildRegExp } from '../../builders';
+import { capture } from '../../constructs/capture';
+import { choiceOf } from '../../constructs/choice-of';
 import { oneOrMore, optional, zeroOrMore } from '../../constructs/quantifiers';
 import { repeat } from '../../constructs/repeat';
 
@@ -41,6 +43,26 @@ test('`buildPattern` escapes special characters', () => {
   expect('*.*').toEqualRegex(/\*\.\*/);
 
   expect([oneOrMore('.*'), zeroOrMore('[]{}')]).toEqualRegex(/(?:\.\*)+(?:\[\]\{\})*/);
+});
+
+test('`buildRegExp` accepts RegExp object', () => {
+  expect(buildRegExp(/abc/)).toEqual(/abc/);
+  expect(buildRegExp(oneOrMore(/abc/))).toEqual(/(?:abc)+/);
+  expect(buildRegExp(repeat(/abc/, 5))).toEqual(/(?:abc){5}/);
+  expect(buildRegExp(capture(/abc/))).toEqual(/(abc)/);
+  expect(buildRegExp(choiceOf(/a/, /b/))).toEqual(/a|b/);
+  expect(buildRegExp(choiceOf(/a|b/, /c/))).toEqual(/a|b|c/);
+});
+
+test('`buildRegExp` detects common atomic patterns', () => {
+  expect(buildRegExp(/a/)).toEqual(/a/);
+  expect(buildRegExp(/[a-z]/)).toEqual(/[a-z]/);
+  expect(buildRegExp(/(abc)/)).toEqual(/(abc)/);
+  expect(buildRegExp(oneOrMore(/a/))).toEqual(/a+/);
+  expect(buildRegExp(oneOrMore(/[a-z]/))).toEqual(/[a-z]+/);
+  expect(buildRegExp(oneOrMore(/(abc)/))).toEqual(/(abc)+/);
+  expect(buildRegExp(repeat(/a/, 5))).toEqual(/a{5}/);
+  expect(buildRegExp(oneOrMore(/(a|b|c)/))).toEqual(/(a|b|c)+/);
 });
 
 test('`buildRegExp` throws error on unknown element', () => {

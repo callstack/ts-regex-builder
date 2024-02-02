@@ -8,7 +8,7 @@ The sequence of regex elements forming a regular expression. For developer conve
 
 ### `RegexElement`
 
-Fundamental building blocks of a regular expression, defined as either a regex construct or a string.
+Fundamental building blocks of a regular expression, defined as either a regex construct, a string, or a `RegExp` literal (`/.../`).
 
 ### `RegexConstruct`
 
