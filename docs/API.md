@@ -81,10 +81,13 @@ Quantifiers in regex define the number of occurrences to match for a pattern.
 ```ts
 function zeroOrMore(
   sequence: RegexSequence,
+  behavior: "greedy" | "lazy" = "greedy",
 ): ZeroOrMore
 ```
 
-Regex syntax: `x*`;
+Regex syntax:
+* `x*` for default greedy behavior
+* `x*?` for lazy behavior
 
 The `zeroOrMore` quantifier matches zero or more occurrences of a given pattern, allowing a flexible number of repetitions of that element.
 
@@ -93,10 +96,13 @@ The `zeroOrMore` quantifier matches zero or more occurrences of a given pattern,
 ```ts
 function oneOrMore(
   sequence: RegexSequence,
+  behavior: "greedy" | "lazy" = "greedy",
 ): OneOrMore
 ```
 
-Regex syntax: `x+`;
+Regex syntax:
+* `x+` for default greedy behavior
+* `x+?` for lazy behavior
 
 The `oneOrMore` quantifier matches one or more occurrences of a given pattern, allowing a flexible number of repetitions of that element.
 
@@ -105,10 +111,13 @@ The `oneOrMore` quantifier matches one or more occurrences of a given pattern, a
 ```ts
 function optional(
   sequence: RegexSequence,
+  behavior: "greedy" | "lazy" = "greedy",
 ): Optionally
 ```
 
-Regex syntax: `x?`;
+Regex syntax:
+* `x?` for default greedy behavior
+* `x??` for lazy behavior
 
 The `optional` quantifier matches zero or one occurrence of a given pattern, making it optional.
 
@@ -118,10 +127,13 @@ The `optional` quantifier matches zero or one occurrence of a given pattern, mak
 function repeat(
   sequence: RegexSequence,
   count: number | { min: number; max?: number },
+  behavior: "greedy" | "lazy" = "greedy",
 ): Repeat
 ```
 
-Regex syntax: `x{n}`, `x{min,}`, `x{min, max}`.
+Regex syntax:
+* `x{n}`, `x{min,}`, `x{min, max}` for default greedy behavior
+* `x{n}?`, `x{min,}?`, `x{min, max}?` for lazy behavior
 
 The `repeat` quantifier in regex matches either exactly `count` times or between `min` and `max` times. If only `min` is provided, it matches at least `min` times.
 
