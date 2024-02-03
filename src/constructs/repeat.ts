@@ -16,7 +16,7 @@ export type RepeatCount = number | { min: number; max?: number };
 export function repeat(
   sequence: RegexSequence,
   count: RepeatCount,
-  behavior?: QuantifierBehavior,
+  behavior: QuantifierBehavior = 'greedy',
 ): Repeat {
   const children = ensureArray(sequence);
 

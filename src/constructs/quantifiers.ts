@@ -5,12 +5,10 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
 export type QuantifierBehavior = 'greedy' | 'lazy';
 
-export type QuantifierOptions = { behavior?: QuantifierBehavior };
-
 export interface ZeroOrMore extends RegexConstruct {
   type: 'zeroOrMore';
   children: RegexElement[];
-  options: QuantifierOptions;
+  behavior: QuantifierBehavior;
 }
 
 export interface OneOrMore extends RegexConstruct {
@@ -25,16 +23,22 @@ export interface Optional extends RegexConstruct {
   behavior: QuantifierBehavior;
 }
 
-export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions): ZeroOrMore {
+export function zeroOrMore(
+  sequence: RegexSequence,
+  behavior: QuantifierBehavior = 'greedy',
+): ZeroOrMore {
   return {
     type: 'zeroOrMore',
-    options: { behavior: validateBehavior(options?.behavior) },
+    behavior: validateBehavior(behavior),
     children: ensureArray(sequence),
     encode: encodeZeroOrMore,
   };
 }
 
-export function oneOrMore(sequence: RegexSequence, behavior?: QuantifierBehavior): OneOrMore {
+export function oneOrMore(
+  sequence: RegexSequence,
+  behavior: QuantifierBehavior = 'greedy',
+): OneOrMore {
   return {
     type: 'oneOrMore',
     behavior: validateBehavior(behavior),
@@ -43,7 +47,10 @@ export function oneOrMore(sequence: RegexSequence, behavior?: QuantifierBehavior
   };
 }
 
-export function optional(sequence: RegexSequence, behavior?: QuantifierBehavior): Optional {
+export function optional(
+  sequence: RegexSequence,
+  behavior: QuantifierBehavior = 'greedy',
+): Optional {
   return {
     type: 'optional',
     behavior: validateBehavior(behavior),
@@ -55,7 +62,7 @@ export function optional(sequence: RegexSequence, behavior?: QuantifierBehavior)
 function encodeZeroOrMore(this: ZeroOrMore): EncodeResult {
   return {
     precedence: 'sequence',
-    pattern: `${encodeAtom(this.children).pattern}*${this.options.behavior === 'lazy' ? '?' : ''}`,
+    pattern: `${encodeAtom(this.children).pattern}*${this.behavior === 'lazy' ? '?' : ''}`,
   };
 }
 
@@ -73,10 +80,10 @@ function encodeOptional(this: Optional): EncodeResult {
   };
 }
 
-export function validateBehavior(behavior: QuantifierBehavior | undefined): QuantifierBehavior {
-  if (behavior !== undefined && behavior !== 'lazy' && behavior !== 'greedy') {
+export function validateBehavior(behavior: QuantifierBehavior): QuantifierBehavior {
+  if (behavior !== 'lazy' && behavior !== 'greedy') {
     throw new Error(`Invalid quantifier behavior: ${behavior}`);
   }
 
-  return behavior ?? 'greedy';
+  return behavior;
 }
