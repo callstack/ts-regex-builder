@@ -158,3 +158,30 @@ const isValid = regex.test(192.168.0.1");
 Encoded regex: `/^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/`.
 
 See tests: [example-ipv4.ts](../src/__tests__/example-ipv4.ts).
+
+## Mixing with RegExp literals
+
+```ts
+// Match integers from 0-255
+const octet = choiceOf(
+  /[0-9]/, // 0-9
+  /[1-9][0-9]/, // 10-99
+  /1[0-9][0-9]/, // 100-199
+  /2[0-4][0-9]/, // 200-249
+  /25[0-5]/, // 250-255
+);
+
+// Match
+const regex = buildRegExp([
+  startOfString, //
+  repeat([octet, '.'], 3),
+  octet,
+  endOfString,
+]);
+
+const isValid = regex.test(192.168.0.1");
+```
+
+Encoded regex: `/^(?:(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/,`.
+
+See tests: [example-regexp.ts](../src/__tests__/example-regexp.ts).
