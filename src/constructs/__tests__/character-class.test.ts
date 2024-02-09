@@ -6,6 +6,9 @@ import {
   charRange,
   digit,
   inverted,
+  notDigit,
+  notWhitespace,
+  notWord,
   whitespace,
   word,
 } from '../character-class';
@@ -21,18 +24,54 @@ test('`digit` character class', () => {
   expect(digit).toEqualRegex(/\d/);
   expect(['x', digit]).toEqualRegex(/x\d/);
   expect(['x', digit, 'x']).toEqualRegex(/x\dx/);
+  expect(digit).toMatchString('1');
+  expect(digit).not.toMatchString('A');
+});
+
+test('`notDigit` character class', () => {
+  expect(notDigit).toEqualRegex(/\D/);
+  expect(['x', notDigit]).toEqualRegex(/x\D/);
+  expect(['x', notDigit, 'x']).toEqualRegex(/x\Dx/);
+  expect(notDigit).not.toMatchString('1');
+  expect(notDigit).toMatchString('A');
 });
 
 test('`word` character class', () => {
   expect(word).toEqualRegex(/\w/);
   expect(['x', word]).toEqualRegex(/x\w/);
   expect(['x', word, 'x']).toEqualRegex(/x\wx/);
+  expect(word).toMatchString('A');
+  expect(word).toMatchString('1');
+  expect(word).not.toMatchString('$');
+});
+
+test('`notWord` character class', () => {
+  expect(notWord).toEqualRegex(/\W/);
+  expect(['x', notWord]).toEqualRegex(/x\W/);
+  expect(['x', notWord, 'x']).toEqualRegex(/x\Wx/);
+  expect(notWord).not.toMatchString('A');
+  expect(notWord).not.toMatchString('1');
+  expect(notWord).toMatchString('$');
 });
 
 test('`whitespace` character class', () => {
   expect(whitespace).toEqualRegex(/\s/);
   expect(['x', whitespace]).toEqualRegex(/x\s/);
   expect(['x', whitespace, 'x']).toEqualRegex(/x\sx/);
+  expect(whitespace).toMatchString(' ');
+  expect(whitespace).toMatchString('\t');
+  expect(whitespace).not.toMatchString('A');
+  expect(whitespace).not.toMatchString('1');
+});
+
+test('`notWhitespace` character class', () => {
+  expect(notWhitespace).toEqualRegex(/\S/);
+  expect(['x', notWhitespace]).toEqualRegex(/x\S/);
+  expect(['x', notWhitespace, 'x']).toEqualRegex(/x\Sx/);
+  expect(notWhitespace).not.toMatchString(' ');
+  expect(notWhitespace).not.toMatchString('\t');
+  expect(notWhitespace).toMatchString('A');
+  expect(notWhitespace).toMatchString('1');
 });
 
 test('`charClass` base cases', () => {
