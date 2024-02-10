@@ -24,13 +24,11 @@ test('`repeat` throws on no children', () => {
 });
 
 test('greedy `repeat` quantifier', () => {
-  expect(repeat('a', 2, 'greedy')).toEqualRegex(/a{2}/);
-  expect(repeat('a', { min: 1 }, 'greedy')).toEqualRegex(/a{1,}/);
-  expect(repeat('a', { min: 1, max: 5 }, 'greedy')).toEqualRegex(/a{1,5}/);
+  expect(repeat('a', { min: 1, greedy: true })).toEqualRegex(/a{1,}/);
+  expect(repeat('a', { min: 1, max: 5, greedy: true })).toEqualRegex(/a{1,5}/);
 });
 
-test('lazy `repeat` quantifier', () => {
-  expect(repeat('a', 2, 'lazy')).toEqualRegex(/a{2}?/);
-  expect(repeat('a', { min: 1 }, 'lazy')).toEqualRegex(/a{1,}?/);
-  expect(repeat('a', { min: 1, max: 5 }, 'lazy')).toEqualRegex(/a{1,5}?/);
+test('non-greedy `repeat` quantifier', () => {
+  expect(repeat('a', { min: 1, greedy: false })).toEqualRegex(/a{1,}?/);
+  expect(repeat('a', { min: 1, max: 5, greedy: false })).toEqualRegex(/a{1,5}?/);
 });

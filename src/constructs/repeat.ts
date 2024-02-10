@@ -2,22 +2,16 @@ import { encodeAtom } from '../encoder/encoder';
 import type { EncodeResult } from '../encoder/types';
 import { ensureArray } from '../utils/elements';
 import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
-import { type QuantifierBehavior, validateBehavior } from './quantifiers';
 
 export interface Repeat extends RegexConstruct {
   type: 'repeat';
-  count: RepeatCount;
-  behavior: QuantifierBehavior;
   children: RegexElement[];
+  options: RepeatOptions;
 }
 
-export type RepeatCount = number | { min: number; max?: number };
+export type RepeatOptions = number | { min: number; max?: number; greedy?: boolean };
 
-export function repeat(
-  sequence: RegexSequence,
-  count: RepeatCount,
-  behavior: QuantifierBehavior = 'greedy',
-): Repeat {
+export function repeat(sequence: RegexSequence, options: RepeatOptions): Repeat {
   const children = ensureArray(sequence);
 
   if (children.length === 0) {
@@ -27,8 +21,7 @@ export function repeat(
   return {
     type: 'repeat',
     children,
-    count: count,
-    behavior: validateBehavior(behavior),
+    options,
     encode: encodeRepeat,
   };
 }
@@ -36,17 +29,17 @@ export function repeat(
 function encodeRepeat(this: Repeat): EncodeResult {
   const atomicNodes = encodeAtom(this.children);
 
-  if (typeof this.count === 'number') {
+  if (typeof this.options === 'number') {
     return {
       precedence: 'sequence',
-      pattern: `${atomicNodes.pattern}{${this.count}}${this.behavior === 'lazy' ? '?' : ''}`,
+      pattern: `${atomicNodes.pattern}{${this.options}}`,
     };
   }
 
   return {
     precedence: 'sequence',
-    pattern: `${atomicNodes.pattern}{${this.count.min},${this.count?.max ?? ''}}${
-      this.behavior === 'lazy' ? '?' : ''
+    pattern: `${atomicNodes.pattern}{${this.options.min},${this.options?.max ?? ''}}${
+      this.options.greedy === false ? '?' : ''
     }`,
   };
 }

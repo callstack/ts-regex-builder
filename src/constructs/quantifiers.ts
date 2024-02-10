@@ -3,58 +3,50 @@ import type { EncodeResult } from '../encoder/types';
 import { ensureArray } from '../utils/elements';
 import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
-export type QuantifierBehavior = 'greedy' | 'lazy';
-
+export interface QuantifierOptions {
+  greedy?: boolean;
+}
 export interface ZeroOrMore extends RegexConstruct {
   type: 'zeroOrMore';
   children: RegexElement[];
-  behavior: QuantifierBehavior;
+  options?: QuantifierOptions;
 }
 
 export interface OneOrMore extends RegexConstruct {
   type: 'oneOrMore';
   children: RegexElement[];
-  behavior: QuantifierBehavior;
+  options?: QuantifierOptions;
 }
 
 export interface Optional extends RegexConstruct {
   type: 'optional';
   children: RegexElement[];
-  behavior: QuantifierBehavior;
+  options?: QuantifierOptions;
 }
 
-export function zeroOrMore(
-  sequence: RegexSequence,
-  behavior: QuantifierBehavior = 'greedy',
-): ZeroOrMore {
+export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions): ZeroOrMore {
   return {
     type: 'zeroOrMore',
-    behavior: validateBehavior(behavior),
     children: ensureArray(sequence),
+    options,
     encode: encodeZeroOrMore,
   };
 }
 
-export function oneOrMore(
-  sequence: RegexSequence,
-  behavior: QuantifierBehavior = 'greedy',
-): OneOrMore {
+export function oneOrMore(sequence: RegexSequence, options?: QuantifierOptions): OneOrMore {
   return {
     type: 'oneOrMore',
-    behavior: validateBehavior(behavior),
     children: ensureArray(sequence),
+    options,
     encode: encodeOneOrMore,
   };
 }
 
-export function optional(
-  sequence: RegexSequence,
-  behavior: QuantifierBehavior = 'greedy',
-): Optional {
+export function optional(sequence: RegexSequence, options?: QuantifierOptions): Optional {
   return {
     type: 'optional',
-    behavior: validateBehavior(behavior),
     children: ensureArray(sequence),
+    options,
     encode: encodeOptional,
   };
 }
@@ -62,28 +54,20 @@ export function optional(
 function encodeZeroOrMore(this: ZeroOrMore): EncodeResult {
   return {
     precedence: 'sequence',
-    pattern: `${encodeAtom(this.children).pattern}*${this.behavior === 'lazy' ? '?' : ''}`,
+    pattern: `${encodeAtom(this.children).pattern}*${this.options?.greedy === false ? '?' : ''}`,
   };
 }
 
 function encodeOneOrMore(this: OneOrMore): EncodeResult {
   return {
     precedence: 'sequence',
-    pattern: `${encodeAtom(this.children).pattern}+${this.behavior === 'lazy' ? '?' : ''}`,
+    pattern: `${encodeAtom(this.children).pattern}+${this.options?.greedy === false ? '?' : ''}`,
   };
 }
 
 function encodeOptional(this: Optional): EncodeResult {
   return {
     precedence: 'sequence',
-    pattern: `${encodeAtom(this.children).pattern}?${this.behavior === 'lazy' ? '?' : ''}`,
+    pattern: `${encodeAtom(this.children).pattern}?${this.options?.greedy === false ? '?' : ''}`,
   };
-}
-
-export function validateBehavior(behavior: QuantifierBehavior): QuantifierBehavior {
-  if (behavior !== 'lazy' && behavior !== 'greedy') {
-    throw new Error(`Invalid quantifier behavior: ${behavior}`);
-  }
-
-  return behavior;
 }
