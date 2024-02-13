@@ -82,7 +82,7 @@ Quantifiers in regex define the number of occurrences to match for a pattern.
 function zeroOrMore(
   sequence: RegexSequence,
   options?: {
-    greedy?: boolean, // default = true
+    greedy?: boolean, // default=true
   }
 ): ZeroOrMore
 ```
@@ -99,7 +99,7 @@ The `zeroOrMore` quantifier matches zero or more occurrences of a given pattern,
 function oneOrMore(
   sequence: RegexSequence,
   options?: {
-    greedy?: boolean, // default = true
+    greedy?: boolean, // default=true
   }
 ): OneOrMore
 ```
@@ -116,7 +116,7 @@ The `oneOrMore` quantifier matches one or more occurrences of a given pattern, a
 function optional(
   sequence: RegexSequence,
   options?: {
-    greedy?: boolean, // default = true
+    greedy?: boolean, // default=true
   }
 ): Optionally
 ```
@@ -132,7 +132,11 @@ The `optional` quantifier matches zero or one occurrence of a given pattern, mak
 ```ts
 function repeat(
   sequence: RegexSequence,
-  options: number | { min: number; max?: number, greedy?: boolean  },
+  options: number | { 
+    min: number;
+    max?: number; 
+    greedy?: boolean;  // default=true
+  },
 ): Repeat
 ```
 

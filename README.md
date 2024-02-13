@@ -109,14 +109,19 @@ See [API document](./docs/API.md).
 
 ### Quantifiers
 
-| Quantifier                       | Regex Syntax | Description                                       |
-| -------------------------------- | ------------ | ------------------------------------------------- |
-| `zeroOrMore(x)`                  | `x*`         | Zero or more occurence of a pattern               |
-| `oneOrMore(x)`                   | `x+`         | One or more occurence of a pattern                |
-| `optional(x)`                    | `x?`         | Zero or one occurence of a pattern                |
-| `repeat(x, n)`                   | `x{n}`       | Pattern repeats exact number of times             |
-| `repeat(x, { min: n, })`         | `x{n,}`      | Pattern repeats at least given number of times    |
-| `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times |
+| Quantifier                                      | Regex Syntax | Description                                                    |
+| ----------------------------------------------- | ------------ | -------------------------------------------------------------- |
+| `zeroOrMore(x)`                                 | `x*`         | Zero or more occurence of a pattern                            |
+| `zeroOrMore(x, { greedy: false })`              | `x*?`        | Zero or more occurence of a pattern (non-greedy)               |
+| `oneOrMore(x)`                                  | `x+`         | One or more occurence of a pattern                             |
+| `oneOrMore(x, { greedy: false })`               | `x+?`        | One or more occurence of a pattern (non-greedy)                |
+| `optional(x)`                                   | `x?`         | Zero or one occurence of a pattern                             |
+| `optional(x, { greedy: false })`                | `x??`        | Zero or one occurence of a pattern (non-greedy)                |
+| `repeat(x, n)`                                  | `x{n}`       | Pattern repeats exact number of times                          |
+| `repeat(x, { min: n, })`                        | `x{n,}`      | Pattern repeats at least given number of times                 |
+| `repeat(x, { min: n, greedy: false })`          | `x{n,}?`     | Pattern repeats at least given number of times (non-greedy)    |
+| `repeat(x, { min: n, max: n2 })`                | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times              |
+| `repeat(x, { min: n, max: n2, greedy: false })` | `x{n1,n2}?`  | Pattern repeats between n1 and n2 number of times (non-greedy) |
 
 ### Character classes
 
