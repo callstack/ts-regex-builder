@@ -10,7 +10,7 @@ import {
   optional,
   startOfString,
   zeroOrMore,
-} from '../index';
+} from '..';
 
 // Modified from: https://stackoverflow.com/a/2015516
 test('example: simple url validation', () => {

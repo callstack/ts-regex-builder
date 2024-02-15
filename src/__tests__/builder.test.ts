@@ -1,4 +1,4 @@
-import { buildRegExp } from '../builders';
+import { buildRegExp } from '..';
 
 test('`regexBuilder` flags', () => {
   expect(buildRegExp('a').flags).toBe('');

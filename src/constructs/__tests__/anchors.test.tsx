@@ -1,5 +1,4 @@
-import { endOfString, startOfString } from '../anchors';
-import { oneOrMore } from '../quantifiers';
+import { endOfString, oneOrMore, startOfString } from '../..';
 
 test('`startOfString` basic cases', () => {
   expect(startOfString).toEqualRegex(/^/);

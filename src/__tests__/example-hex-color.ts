@@ -8,7 +8,7 @@ import {
   optional,
   repeat,
   startOfString,
-} from '../index';
+} from '..';
 
 test('example: hex color validation', () => {
   const hexDigit = charClass(digit, charRange('a', 'f'));

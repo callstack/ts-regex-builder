@@ -8,7 +8,7 @@ import {
   optional,
   startOfString,
   zeroOrMore,
-} from '../index';
+} from '..';
 
 test('example: validate JavaScript number', () => {
   const sign = anyOf('+-');

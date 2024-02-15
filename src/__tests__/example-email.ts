@@ -8,7 +8,7 @@ import {
   oneOrMore,
   repeat,
   startOfString,
-} from '../index';
+} from '..';
 
 test('example: email validation', () => {
   const usernameChars = charClass(charRange('a', 'z'), digit, anyOf('._%+-'));

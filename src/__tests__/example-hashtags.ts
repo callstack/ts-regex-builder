@@ -1,5 +1,4 @@
-import { buildRegExp } from '../builders';
-import { capture, oneOrMore, word } from '../index';
+import { buildRegExp, capture, oneOrMore, word } from '..';
 
 test('example: extracting hashtags', () => {
   const regex = buildRegExp(
