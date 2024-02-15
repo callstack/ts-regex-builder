@@ -18,6 +18,18 @@ export const endOfString: Anchor = {
   encode: encodeAnchor,
 };
 
+export const wordBoundary: Anchor = {
+  type: 'anchor',
+  symbol: '\\b',
+  encode: encodeAnchor,
+};
+
+export const notWordBoundary: Anchor = {
+  type: 'anchor',
+  symbol: '\\B',
+  encode: encodeAnchor,
+};
+
 function encodeAnchor(this: Anchor): EncodeResult {
   return {
     precedence: 'sequence',

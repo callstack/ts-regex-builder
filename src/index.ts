@@ -2,7 +2,7 @@ export type * from './types';
 
 export { buildPattern, buildRegExp } from './builders';
 
-export { endOfString, startOfString } from './constructs/anchors';
+export { endOfString, notWordBoundary, startOfString, wordBoundary } from './constructs/anchors';
 export { capture } from './constructs/capture';
 export {
   any,

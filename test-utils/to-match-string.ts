@@ -17,7 +17,7 @@ export function toMatchString(
     message: () =>
       this.utils.matcherHint('toMatchString', undefined, undefined, options) +
       '\n\n' +
-      `Expected string: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n` +
+      `Expected: ${this.isNot ? 'not ' : ''} matching ${this.utils.printExpected(expected)}\n` +
       `Received pattern: ${this.utils.printReceived(receivedRegex.source)}`,
   };
 }
