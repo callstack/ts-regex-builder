@@ -91,7 +91,7 @@ const currencyAmount = buildRegExp([
 ]);
 ```
 
-See [API document](./docs/API.md).
+See [API doc](./docs/API.md) for more info.
 
 ### Regex Builders
 
@@ -100,6 +100,8 @@ See [API document](./docs/API.md).
 | `buildRegExp(...)`                       | `/.../`      | Create `RegExp` instance            |
 | `buildRegExp(..., { ignoreCase: true })` | `/.../i`     | Create `RegExp` instance with flags |
 
+See [Regex Builder API doc](./docs/API.md#builder) for more info.
+
 ### Regex Constructs
 
 | Construct           | Regex Syntax | Notes                           |
@@ -107,21 +109,20 @@ See [API document](./docs/API.md).
 | `capture(...)`      | `(...)`      | Create a capture group          |
 | `choiceOf(x, y, z)` | `x\|y\|z`    | Match one of provided sequences |
 
+See [Regex Constructs API doc](./docs/API.md#constructs) for more info.
+
 ### Quantifiers
 
 | Quantifier                                      | Regex Syntax | Description                                                    |
 | ----------------------------------------------- | ------------ | -------------------------------------------------------------- |
 | `zeroOrMore(x)`                                 | `x*`         | Zero or more occurence of a pattern                            |
-| `zeroOrMore(x, { greedy: false })`              | `x*?`        | Zero or more occurence of a pattern (non-greedy)               |
 | `oneOrMore(x)`                                  | `x+`         | One or more occurence of a pattern                             |
-| `oneOrMore(x, { greedy: false })`               | `x+?`        | One or more occurence of a pattern (non-greedy)                |
 | `optional(x)`                                   | `x?`         | Zero or one occurence of a pattern                             |
-| `optional(x, { greedy: false })`                | `x??`        | Zero or one occurence of a pattern (non-greedy)                |
 | `repeat(x, n)`                                  | `x{n}`       | Pattern repeats exact number of times                          |
 | `repeat(x, { min: n, })`                        | `x{n,}`      | Pattern repeats at least given number of times                 |
-| `repeat(x, { min: n, greedy: false })`          | `x{n,}?`     | Pattern repeats at least given number of times (non-greedy)    |
 | `repeat(x, { min: n, max: n2 })`                | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times              |
-| `repeat(x, { min: n, max: n2, greedy: false })` | `x{n1,n2}?`  | Pattern repeats between n1 and n2 number of times (non-greedy) |
+
+See [Quantifiers API doc](./docs/API.md#quantifiers) for more info.
 
 ### Character classes
 
@@ -139,12 +140,16 @@ See [API document](./docs/API.md).
 | `charClass(...)`      | `[...]`      | Union of multiple character classes               |
 | `inverted(...)`       | `[^...]`     | Negation of a given character class               |
 
+See [Character Classes API doc](./docs/API.md##character-classes) for more info.
+
 ### Anchors
 
 | Anchor          | Regex Syntax | Description                                                              |
 | --------------- | ------------ | ------------------------------------------------------------------------ |
 | `startOfString` | `^`          | Match the start of the string (or the start of a line in multiline mode) |
 | `endOfString`   | `$`          | Match the end of the string (or the end of a line in multiline mode)     |
+
+See [Anchors API doc](./docs/API.md#anchors) for more info.
 
 ## Examples
 
