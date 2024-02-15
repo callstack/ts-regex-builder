@@ -22,3 +22,13 @@ test('`repeat` throws on no children', () => {
     `"\`repeat\` should receive at least one element"`,
   );
 });
+
+test('greedy `repeat` quantifier', () => {
+  expect(repeat('a', { min: 1, greedy: true })).toEqualRegex(/a{1,}/);
+  expect(repeat('a', { min: 1, max: 5, greedy: true })).toEqualRegex(/a{1,5}/);
+});
+
+test('non-greedy `repeat` quantifier', () => {
+  expect(repeat('a', { min: 1, greedy: false })).toEqualRegex(/a{1,}?/);
+  expect(repeat('a', { min: 1, max: 5, greedy: false })).toEqualRegex(/a{1,5}?/);
+});

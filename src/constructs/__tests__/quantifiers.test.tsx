@@ -37,3 +37,25 @@ test('base quantifiers optimize grouping for atoms', () => {
   expect(optional('a')).toEqualRegex(/a?/);
   expect(zeroOrMore('a')).toEqualRegex(/a*/);
 });
+
+test('greedy quantifiers', () => {
+  expect(oneOrMore('a', { greedy: true })).toEqualRegex(/a+/);
+  expect(oneOrMore('ab', { greedy: true })).toEqualRegex(/(?:ab)+/);
+
+  expect(optional('a', { greedy: true })).toEqualRegex(/a?/);
+  expect(optional('ab', { greedy: true })).toEqualRegex(/(?:ab)?/);
+
+  expect(zeroOrMore('a', { greedy: true })).toEqualRegex(/a*/);
+  expect(zeroOrMore('ab', { greedy: true })).toEqualRegex(/(?:ab)*/);
+});
+
+test('non-greedy quantifiers', () => {
+  expect(oneOrMore('a', { greedy: false })).toEqualRegex(/a+?/);
+  expect(oneOrMore('ab', { greedy: false })).toEqualRegex(/(?:ab)+?/);
+
+  expect(optional('a', { greedy: false })).toEqualRegex(/a??/);
+  expect(optional('ab', { greedy: false })).toEqualRegex(/(?:ab)??/);
+
+  expect(zeroOrMore('a', { greedy: false })).toEqualRegex(/a*?/);
+  expect(zeroOrMore('ab', { greedy: false })).toEqualRegex(/(?:ab)*?/);
+});
