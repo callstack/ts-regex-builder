@@ -142,8 +142,8 @@ const notWhitespace: CharacterClass;
 ```
 
 - `any` matches any character except newline characters. Regex syntax: `*`.
-- `word` matches any word character (alphanumeric & underscore). Regex syntax: `\w`.
-- `notWord` matches any character **except** word characters (alphanumeric & underscore). Regex syntax: `\W`.
+- `word` matches any word character (letters, digits & underscore). Regex syntax: `\w`.
+- `notWord` matches any character **except** word characters (letters, digits & underscore). Regex syntax: `\W`.
 - `digit` matches any digit. Regex syntax: `\d`.
 - `notDigit` matches any character **except** digits. Regex syntax: `\D`.
 - `whitespace` matches any whitespace character (spaces, tabs, line breaks). Regex syntax: `\s`.

@@ -120,19 +120,19 @@ See [API document](./docs/API.md).
 
 ### Character classes
 
-| Character class       | Regex Syntax | Description                                 |
-| --------------------- | ------------ | ------------------------------------------- |
-| `any`                 | `.`          | Any character                               |
-| `word`                | `\w`         | Word characters                             |
-| `notWord`             | `\W`         | Non-word characters                         |
-| `digit`               | `\d`         | Digit characters                            |
-| `notDigit`            | `\D`         | Non-digit characters                        |
-| `whitespace`          | `\s`         | Whitespace characters                       |
-| `notWhitespace`       | `\S`         | Non-whitespace characters                   |
-| `anyOf('abc')`        | `[abc]`      | Any of supplied characters                  |
-| `charRange('a', 'z')` | `[a-z]`      | Range of characters                         |
-| `charClass(...)`      | `[...]`      | Concatenation of multiple character classes |
-| `inverted(...)`       | `[^...]`     | Negation of a given character class         |
+| Character class       | Regex Syntax | Description                                       |
+| --------------------- | ------------ | ------------------------------------------------- |
+| `any`                 | `.`          | Any character                                     |
+| `word`                | `\w`         | Word character: letter, digit, underscore         |
+| `notWord`             | `\W`         | Non-word character                                |
+| `digit`               | `\d`         | Digit character: 0 to 9                           |
+| `notDigit`            | `\D`         | Non-digit character                               |
+| `whitespace`          | `\s`         | Whitespace character: space, tab, line break, ... |
+| `notWhitespace`       | `\S`         | Non-whitespace character                          |
+| `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
+| `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
+| `charClass(...)`      | `[...]`      | Union of multiple character classes               |
+| `inverted(...)`       | `[^...]`     | Negation of a given character class               |
 
 ### Anchors
 
