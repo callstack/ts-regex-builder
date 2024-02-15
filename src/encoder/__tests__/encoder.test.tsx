@@ -1,4 +1,13 @@
-import { buildRegExp, capture, choiceOf, oneOrMore, optional, repeat, zeroOrMore } from '../..';
+import {
+  buildPattern,
+  buildRegExp,
+  capture,
+  choiceOf,
+  oneOrMore,
+  optional,
+  repeat,
+  zeroOrMore,
+} from '../..';
 
 test('basic quantifies', () => {
   expect('a').toEqualRegex(/a/);
