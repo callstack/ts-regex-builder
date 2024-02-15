@@ -88,8 +88,8 @@ function zeroOrMore(
 ```
 
 Regex syntax:
-* `x*` for default greedy behavior
-* `x*?` for non-greedy behavior
+* `x*` for default greedy behavior (match as many characters as possible)
+* `x*?` for non-greedy behavior (match as few characters as possible)
 
 The `zeroOrMore` quantifier matches zero or more occurrences of a given pattern, allowing a flexible number of repetitions of that element.
 
@@ -105,8 +105,8 @@ function oneOrMore(
 ```
 
 Regex syntax:
-* `x+` for default greedy behavior
-* `x+?` for non-greedy behavior
+* `x+` for default greedy behavior (match as many characters as possible)
+* `x+?` for non-greedy behavior (match as few characters as possible)
 
 The `oneOrMore` quantifier matches one or more occurrences of a given pattern, allowing a flexible number of repetitions of that element.
 
@@ -122,8 +122,8 @@ function optional(
 ```
 
 Regex syntax:
-* `x?` for default greedy behavior
-* `x??` for non-greedy behavior
+* `x?` for default greedy behavior (match as many characters as possible)
+* `x??` for non-greedy behavior (match as few characters as possible)
 
 The `optional` quantifier matches zero or one occurrence of a given pattern, making it optional.
 
@@ -141,8 +141,8 @@ function repeat(
 ```
 
 Regex syntax:
-* `x{n}`, `x{min,}`, `x{min, max}` for default greedy behavior
-* `x{min,}?`, `x{min, max}?` for non-greedy behavior
+* `x{n}`, `x{min,}`, `x{min, max}` for default greedy behavior (match as many characters as possible)
+* `x{min,}?`, `x{min, max}?` for non-greedy behavior (match as few characters as possible)
 
 The `repeat` quantifier in regex matches either exactly `count` times or between `min` and `max` times. If only `min` is provided, it matches at least `min` times.
 
