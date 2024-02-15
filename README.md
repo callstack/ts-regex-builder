@@ -96,47 +96,50 @@ See [API document](./docs/API.md).
 ### Regex Builders
 
 | Builder                                  | Regex Syntax | Description                         |
-| ---------------------------------------- | ------------- | ----------------------------------- |
-| `buildRegExp(...)`                       | `/.../`       | Create `RegExp` instance            |
-| `buildRegExp(..., { ignoreCase: true })` | `/.../i`      | Create `RegExp` instance with flags |
+| ---------------------------------------- | ------------ | ----------------------------------- |
+| `buildRegExp(...)`                       | `/.../`      | Create `RegExp` instance            |
+| `buildRegExp(..., { ignoreCase: true })` | `/.../i`     | Create `RegExp` instance with flags |
 
 ### Regex Constructs
 
-| Construct           | Regex Syntax  | Notes                           |
-| ------------------- | ------------- | ------------------------------- |
-| `capture(...)`      | `(...)`       | Create a capture group          |
-| `choiceOf(x, y, z)` | `x\|y\|z`     | Match one of provided sequences |
+| Construct           | Regex Syntax | Notes                           |
+| ------------------- | ------------ | ------------------------------- |
+| `capture(...)`      | `(...)`      | Create a capture group          |
+| `choiceOf(x, y, z)` | `x\|y\|z`    | Match one of provided sequences |
 
 ### Quantifiers
 
-| Quantifier                       | Regex Syntax  | Description                                       |
-| -------------------------------- | ------------- | ------------------------------------------------- |
-| `zeroOrMore(x)`                  | `x*`          | Zero or more occurence of a pattern               |
-| `oneOrMore(x)`                   | `x+`          | One or more occurence of a pattern                |
-| `optional(x)`                    | `x?`          | Zero or one occurence of a pattern                |
-| `repeat(x, n)`                   | `x{n}`        | Pattern repeats exact number of times             |
-| `repeat(x, { min: n, })`         | `x{n,}`       | Pattern repeats at least given number of times    |
-| `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`    | Pattern repeats between n1 and n2 number of times |
+| Quantifier                       | Regex Syntax | Description                                       |
+| -------------------------------- | ------------ | ------------------------------------------------- |
+| `zeroOrMore(x)`                  | `x*`         | Zero or more occurence of a pattern               |
+| `oneOrMore(x)`                   | `x+`         | One or more occurence of a pattern                |
+| `optional(x)`                    | `x?`         | Zero or one occurence of a pattern                |
+| `repeat(x, n)`                   | `x{n}`       | Pattern repeats exact number of times             |
+| `repeat(x, { min: n, })`         | `x{n,}`      | Pattern repeats at least given number of times    |
+| `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times |
 
 ### Character classes
 
-| Character class       | Regex Syntax  | Description                                 |
-| --------------------- | ------------- | ------------------------------------------- |
-| `any`                 | `.`           | Any character                               |
-| `word`                | `\w`          | Word characters                             |
-| `digit`               | `\d`          | Digit characters                            |
-| `whitespace`          | `\s`          | Whitespace characters                       |
-| `anyOf('abc')`        | `[abc]`       | Any of supplied characters                  |
-| `charRange('a', 'z')` | `[a-z]`       | Range of characters                         |
-| `charClass(...)`      | `[...]`       | Concatenation of multiple character classes |
-| `inverted(...)`       | `[^...]`      | Negation of a given character class         |
+| Character class       | Regex Syntax | Description                                       |
+| --------------------- | ------------ | ------------------------------------------------- |
+| `any`                 | `.`          | Any character                                     |
+| `word`                | `\w`         | Word character: letter, digit, underscore         |
+| `notWord`             | `\W`         | Non-word character                                |
+| `digit`               | `\d`         | Digit character: 0 to 9                           |
+| `notDigit`            | `\D`         | Non-digit character                               |
+| `whitespace`          | `\s`         | Whitespace character: space, tab, line break, ... |
+| `notWhitespace`       | `\S`         | Non-whitespace character                          |
+| `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
+| `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
+| `charClass(...)`      | `[...]`      | Union of multiple character classes               |
+| `inverted(...)`       | `[^...]`     | Negation of a given character class               |
 
 ### Anchors
 
-| Anchor          | Regex Syntax  | Description                                                              |
-| --------------- | ------------- | ------------------------------------------------------------------------ |
-| `startOfString` | `^`           | Match the start of the string (or the start of a line in multiline mode) |
-| `endOfString`   | `$`           | Match the end of the string (or the end of a line in multiline mode)     |
+| Anchor          | Regex Syntax | Description                                                              |
+| --------------- | ------------ | ------------------------------------------------------------------------ |
+| `startOfString` | `^`          | Match the start of the string (or the start of a line in multiline mode) |
+| `endOfString`   | `$`          | Match the end of the string (or the end of a line in multiline mode)     |
 
 ## Examples
 

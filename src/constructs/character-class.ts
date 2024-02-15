@@ -33,6 +33,14 @@ export const digit: CharacterClass = {
   encode: encodeCharacterClass,
 };
 
+export const notDigit: CharacterClass = {
+  type: 'characterClass',
+  chars: ['\\D'],
+  ranges: [],
+  isInverted: false,
+  encode: encodeCharacterClass,
+};
+
 export const word: CharacterClass = {
   type: 'characterClass',
   chars: ['\\w'],
@@ -41,9 +49,25 @@ export const word: CharacterClass = {
   encode: encodeCharacterClass,
 };
 
+export const notWord: CharacterClass = {
+  type: 'characterClass',
+  chars: ['\\W'],
+  ranges: [],
+  isInverted: false,
+  encode: encodeCharacterClass,
+};
+
 export const whitespace: CharacterClass = {
   type: 'characterClass',
   chars: ['\\s'],
+  ranges: [],
+  isInverted: false,
+  encode: encodeCharacterClass,
+};
+
+export const notWhitespace: CharacterClass = {
+  type: 'characterClass',
+  chars: ['\\S'],
   ranges: [],
   isInverted: false,
   encode: encodeCharacterClass,
