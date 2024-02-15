@@ -1,4 +1,5 @@
-import { digit } from '../character-class';
+import { buildRegExp } from '../../builders';
+import { any, digit } from '../character-class';
 import { oneOrMore, optional, zeroOrMore } from '../quantifiers';
 
 test('`oneOrMore` quantifier', () => {
@@ -58,4 +59,14 @@ test('non-greedy quantifiers', () => {
 
   expect(zeroOrMore('a', { greedy: false })).toEqualRegex(/a*?/);
   expect(zeroOrMore('ab', { greedy: false })).toEqualRegex(/(?:ab)*?/);
+});
+
+test('showcase: greedy vs non-greedy quantifiers', () => {
+  const html = '<div>Hello <em>World!</em></div>';
+
+  const greedyTag = buildRegExp(['<', oneOrMore(any), '>'], { global: true });
+  expect(greedyTag).toMatchGroups(html, ['<div>Hello <em>World!</em></div>']);
+
+  const nonGreedyTag = buildRegExp(['<', oneOrMore(any, { greedy: false }), '>'], { global: true });
+  expect(nonGreedyTag).toMatchGroups(html, ['<div>', '<em>', '</em>', '</div>']);
 });

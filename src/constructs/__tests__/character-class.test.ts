@@ -169,3 +169,24 @@ test('`encodeCharacterClass` throws on empty text', () => {
     `"Character class should contain at least one character or character range"`,
   );
 });
+
+test('showcase: negated character classes', () => {
+  expect(notDigit).toEqualRegex(/\D/);
+  expect(notWord).toEqualRegex(/\W/);
+  expect(notWhitespace).toEqualRegex(/\S/);
+
+  expect(notDigit).toMatchString('A');
+  expect(notDigit).not.toMatchString('1');
+  expect(notDigit).toMatchString(' ');
+  expect(notDigit).toMatchString('#');
+
+  expect(notWord).not.toMatchString('A');
+  expect(notWord).not.toMatchString('1');
+  expect(notWord).toMatchString(' ');
+  expect(notWord).toMatchString('#');
+
+  expect(notWhitespace).toMatchString('A');
+  expect(notWhitespace).toMatchString('1');
+  expect(notWhitespace).not.toMatchString(' ');
+  expect(notWhitespace).toMatchString('#');
+});
