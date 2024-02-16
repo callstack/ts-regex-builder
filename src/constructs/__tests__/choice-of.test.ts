@@ -1,6 +1,4 @@
-import { oneOrMore, zeroOrMore } from '../quantifiers';
-import { repeat } from '../repeat';
-import { choiceOf } from '../choice-of';
+import { choiceOf, oneOrMore, repeat, zeroOrMore } from '../..';
 
 test('`choiceOf` using basic strings', () => {
   expect(choiceOf('a')).toEqualRegex(/a/);

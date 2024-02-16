@@ -13,6 +13,9 @@ export {
   charRange,
   charClass,
   inverted,
+  notDigit,
+  notWhitespace,
+  notWord,
 } from './constructs/character-class';
 export { choiceOf } from './constructs/choice-of';
 export { oneOrMore, optional, zeroOrMore } from './constructs/quantifiers';

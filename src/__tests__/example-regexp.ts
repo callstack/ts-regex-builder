@@ -1,4 +1,4 @@
-import { buildRegExp, choiceOf, endOfString, repeat, startOfString } from '../index';
+import { buildRegExp, choiceOf, endOfString, repeat, startOfString } from '..';
 
 test('example: mixing with RegExp literals (IPv4 address validator)', () => {
   const octet = choiceOf(

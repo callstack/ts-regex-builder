@@ -1,8 +1,13 @@
-import { buildPattern, buildRegExp } from '../../builders';
-import { capture } from '../../constructs/capture';
-import { choiceOf } from '../../constructs/choice-of';
-import { oneOrMore, optional, zeroOrMore } from '../../constructs/quantifiers';
-import { repeat } from '../../constructs/repeat';
+import {
+  buildPattern,
+  buildRegExp,
+  capture,
+  choiceOf,
+  oneOrMore,
+  optional,
+  repeat,
+  zeroOrMore,
+} from '../..';
 
 test('basic quantifies', () => {
   expect('a').toEqualRegex(/a/);
@@ -26,7 +31,7 @@ test('basic quantifies', () => {
   expect([optional('a'), 'b', oneOrMore('d')]).toEqualRegex(/a?bd+/);
 });
 
-test('`buildPattern` escapes special characters', () => {
+test('`buildRegExp` escapes special characters', () => {
   expect('.').toEqualRegex(/\./);
   expect('*').toEqualRegex(/\*/);
   expect('+').toEqualRegex(/\+/);

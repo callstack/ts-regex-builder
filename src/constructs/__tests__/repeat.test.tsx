@@ -1,6 +1,4 @@
-import { digit } from '../character-class';
-import { oneOrMore, zeroOrMore } from '../quantifiers';
-import { repeat } from '../repeat';
+import { digit, oneOrMore, repeat, zeroOrMore } from '../..';
 
 test('`repeat` quantifier', () => {
   expect(['a', repeat('b', { min: 1, max: 5 })]).toEqualRegex(/ab{1,5}/);

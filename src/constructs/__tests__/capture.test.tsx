@@ -1,5 +1,4 @@
-import { capture } from '../capture';
-import { oneOrMore } from '../quantifiers';
+import { capture, oneOrMore } from '../..';
 
 test('`capture` base cases', () => {
   expect(capture('a')).toEqualRegex(/(a)/);

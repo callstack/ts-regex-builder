@@ -1,7 +1,7 @@
-import { oneOrMore, optional, zeroOrMore } from '../quantifiers';
 import {
   any,
   anyOf,
+  buildRegExp,
   charClass,
   charRange,
   digit,
@@ -9,10 +9,12 @@ import {
   notDigit,
   notWhitespace,
   notWord,
+  oneOrMore,
+  optional,
   whitespace,
   word,
-} from '../character-class';
-import { buildRegExp } from '../../builders';
+  zeroOrMore,
+} from '../..';
 
 test('`any` character class', () => {
   expect(any).toEqualRegex(/./);

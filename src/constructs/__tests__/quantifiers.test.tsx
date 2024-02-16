@@ -1,6 +1,4 @@
-import { buildRegExp } from '../../builders';
-import { any, digit } from '../character-class';
-import { oneOrMore, optional, zeroOrMore } from '../quantifiers';
+import { any, buildRegExp, digit, oneOrMore, optional, zeroOrMore } from '../..';
 
 test('`oneOrMore` quantifier', () => {
   expect(oneOrMore('a')).toEqualRegex(/a+/);
