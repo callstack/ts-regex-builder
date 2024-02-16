@@ -130,11 +130,8 @@ See [Quantifiers API doc](./docs/API.md#quantifiers) for more info.
 | --------------------- | ------------ | ------------------------------------------------- |
 | `any`                 | `.`          | Any character                                     |
 | `word`                | `\w`         | Word character: letter, digit, underscore         |
-| `notWord`             | `\W`         | Non-word character                                |
 | `digit`               | `\d`         | Digit character: 0 to 9                           |
-| `notDigit`            | `\D`         | Non-digit character                               |
 | `whitespace`          | `\s`         | Whitespace character: space, tab, line break, ... |
-| `notWhitespace`       | `\S`         | Non-whitespace character                          |
 | `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
 | `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
 | `charClass(...)`      | `[...]`      | Union of multiple character classes               |
