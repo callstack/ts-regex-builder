@@ -58,6 +58,65 @@ Regex syntax: `(...)`.
 
 Captures, also known as capturing groups, extract and store parts of the matched string for later use.
 
+### `nonCaptureGroup()`
+
+```ts
+function nonCaptureGroup(
+  sequence: RegexSequence
+): NonCaptureGroup
+```
+
+Regex syntax: `(?:...)`.
+
+Groups multiple tokens together without creating a capture group.
+
+### `positiveLookahead()`
+
+```ts
+function positiveLookahead(
+  sequence: RegexSequence
+): PositiveLookahead
+```
+
+Regex syntax: `(?=...)`.
+
+Matches a group after the main expression without including it in the result.
+
+### `negativeLookahead()`
+
+```ts
+function negativeLookahead(
+  sequence: RegexSequence
+): NegativeLookahead
+```
+
+Regex syntax: `(?!...)`.
+
+Specifies a group that can not match after the main expression (if it matches, the result is discarded).
+
+### `positiveLookbehind()`
+
+```ts
+function positiveLookahead(
+  sequence: RegexSequence
+): PositiveLookahead
+```
+
+Regex syntax: `(?<=...)`.
+
+Matches a group before the main expression without including it in the result.
+
+### `negativeLookbehind()`
+
+```ts
+function negativeLookahead(
+  sequence: RegexSequence
+): NegativeLookahead
+```
+
+Regex syntax: `(?<!...)`.
+
+Specifies a group that can not match before the main expression (if it matches, the result is discarded).
 ### `choiceOf()`
 
 ```ts
