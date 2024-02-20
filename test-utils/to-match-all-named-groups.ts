@@ -1,15 +1,15 @@
 import type { RegexSequence } from '../src/types';
 import { wrapRegExp } from './utils';
 
-export function toMatchGroups(
+export function toMatchAllNamedGroups(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
   inputText: string,
-  expectedGroups: string[],
+  expectedGroups: Array<Record<string, string>>,
 ) {
   const receivedRegex = wrapRegExp(received);
-  const matchResult = inputText.match(receivedRegex);
-  const receivedGroups = matchResult ? [...matchResult] : null;
+  const matchResult = inputText.matchAll(receivedRegex);
+  const receivedGroups = matchResult ? [...matchResult].map((r) => r.groups) : null;
   const options = {
     isNot: this.isNot,
   };
@@ -24,13 +24,13 @@ export function toMatchGroups(
   };
 }
 
-expect.extend({ toMatchGroups });
+expect.extend({ toMatchAllNamedGroups });
 
 declare global {
   namespace jest {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Matchers<R, T = {}> {
-      toMatchGroups(inputText: string, expectedGroups: string[]): R;
+      toMatchAllNamedGroups(inputText: string, expectedGroups: Array<Record<string, string>>): R;
     }
   }
 }
