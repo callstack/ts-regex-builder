@@ -29,6 +29,7 @@ export default {
         'api/types',
         'api/builder',
         'api/constructs',
+        'api/captures',
         'api/quantifiers',
         'api/character-classes',
         'api/assertions',
