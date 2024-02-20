@@ -1,7 +1,13 @@
+// Types
 export type * from './types';
+export type { CaptureOptions } from './constructs/capture';
+export type { QuantifierOptions } from './constructs/quantifiers';
+export type { RepeatOptions } from './constructs/repeat';
 
+// Builders
 export { buildPattern, buildRegExp } from './builders';
 
+// Constructs
 export { endOfString, notWordBoundary, startOfString, wordBoundary } from './constructs/anchors';
 export { capture } from './constructs/capture';
 export {
