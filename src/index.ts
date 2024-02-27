@@ -22,6 +22,5 @@ export { lookahead } from './constructs/lookahead';
 export { lookbehind } from './constructs/lookbehind';
 export { negativeLookahead } from './constructs/negative-lookahead';
 export { negativeLookbehind } from './constructs/negative-lookbehind';
-export { nonCaptureGroup } from './constructs/non-capture-group';
 export { oneOrMore, optional, zeroOrMore } from './constructs/quantifiers';
 export { repeat } from './constructs/repeat';

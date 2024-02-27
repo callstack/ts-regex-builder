@@ -46,77 +46,6 @@ It optionally accepts a list of regex flags:
 
 These functions and objects represent available regex constructs.
 
-### `capture()`
-
-```ts
-function capture(
-  sequence: RegexSequence
-): Capture
-```
-
-Regex syntax: `(...)`.
-
-Captures, also known as capturing groups, extract and store parts of the matched string for later use.
-
-### `nonCaptureGroup()`
-
-```ts
-function nonCaptureGroup(
-  sequence: RegexSequence
-): NonCaptureGroup
-```
-
-Regex syntax: `(?:...)`.
-
-Groups multiple tokens together without creating a capture group.
-
-### `positiveLookahead()`
-
-```ts
-function positiveLookahead(
-  sequence: RegexSequence
-): PositiveLookahead
-```
-
-Regex syntax: `(?=...)`.
-
-Matches a group after the main expression without including it in the result.
-
-### `negativeLookahead()`
-
-```ts
-function negativeLookahead(
-  sequence: RegexSequence
-): NegativeLookahead
-```
-
-Regex syntax: `(?!...)`.
-
-Specifies a group that can not match after the main expression (if it matches, the result is discarded).
-
-### `positiveLookbehind()`
-
-```ts
-function positiveLookahead(
-  sequence: RegexSequence
-): PositiveLookahead
-```
-
-Regex syntax: `(?<=...)`.
-
-Matches a group before the main expression without including it in the result.
-
-### `negativeLookbehind()`
-
-```ts
-function negativeLookahead(
-  sequence: RegexSequence
-): NegativeLookahead
-```
-
-Regex syntax: `(?<!...)`.
-
-Specifies a group that can not match before the main expression (if it matches, the result is discarded).
 ### `choiceOf()`
 
 ```ts
@@ -130,6 +59,69 @@ Regex syntax: `a|b|c`.
 The `choiceOf` (disjunction) construct matches one out of several possible sequences. It functions similarly to a logical OR operator in programming. It can match simple string options as well as complex patterns.
 
 Example: `choiceOf("color", "colour")` matches either `color` or `colour` pattern.
+
+### `capture()`
+
+```ts
+function capture(
+  sequence: RegexSequence
+): Capture
+```
+
+Regex syntax: `(...)`.
+
+Captures, also known as capturing groups, extract and store parts of the matched string for later use.
+
+> [!NOTE]
+> TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required. E.g., `zeroOrMore(["abc"])` is encoded as `(?:abc)+`.
+
+### `lookahead()`
+
+```ts
+function lookahead(
+  sequence: RegexSequence
+): Lookahead
+```
+
+Regex syntax: `(?=...)`.
+
+Allows for conditional matching by checking for subsequent patterns in regexes without consuming them.
+
+### `negativeLookahead()`
+
+```ts
+function negativeLookahead(
+  sequence: RegexSequence
+): NegativeLookahead
+```
+
+Regex syntax: `(?!...)`.
+
+Allows for matches to be rejected if a specified subsequent pattern is present, without consuming any characters.
+
+### `lookbehind()`
+
+```ts
+function lookbehind(
+  sequence: RegexSequence
+): Lookahead
+```
+
+Regex syntax: `(?<=...)`.
+
+Allows for conditional matching by checking for preceeding patterns in regexes without consuming them.
+
+### `negativeLookbehind()`
+
+```ts
+function negativeLookahead(
+  sequence: RegexSequence
+): NegativeLookahead
+```
+
+Regex syntax: `(?<!...)`.
+
+Allows for matches to be rejected if a specified preceeding pattern is present, without consuming any characters.
 
 ## Quantifiers
 
