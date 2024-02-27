@@ -47,7 +47,7 @@ Encoded regex: `/^#?(?:[a-f\d]{6}|[a-f\d]{3})$/i`.
 
 See tests: [example-hex-color.ts](../src/__tests__/example-hex-color.ts).
 
-## Simple URL validation
+## URL validation
 
 This regex validates (in a simplified way) whether a given string is a URL.
 
@@ -75,7 +75,9 @@ const isValid = regex.test("https://hello.github.com");
 
 Encoded regex: `/^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d-]*[a-z\d])\.)+[a-z][a-z\d]+$/`.
 
-See tests: [example-url.ts](../src/__tests__/example-url.ts).
+See tests: [example-url-simple.ts](../src/__tests__/example-url-simple.ts).
+
+For more advanced URL validation check: [example-url-advanced.ts](../src/__tests__/example-url-advanced.ts).
 
 ## Email address validation
 
