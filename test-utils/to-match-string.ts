@@ -15,7 +15,7 @@ export function toMatchString(
   return {
     pass: matchResult !== null,
     message: () =>
-      this.utils.matcherHint('toMatchGroups', undefined, undefined, options) +
+      this.utils.matcherHint('toMatchString', undefined, undefined, options) +
       '\n\n' +
       `Expected string: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n` +
       `Received pattern: ${this.utils.printReceived(receivedRegex.source)}`,

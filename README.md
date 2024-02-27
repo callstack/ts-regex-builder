@@ -104,23 +104,30 @@ See [Regex Builder API doc](./docs/API.md#builder) for more info.
 
 ### Regex Constructs
 
-| Construct           | Regex Syntax | Notes                           |
-| ------------------- | ------------ | ------------------------------- |
-| `capture(...)`      | `(...)`      | Create a capture group          |
-| `choiceOf(x, y, z)` | `x\|y\|z`    | Match one of provided sequences |
+| Construct                 | Regex Syntax | Notes                                       |
+| ------------------------- | ------------ | ------------------------------------------- |
+| `choiceOf(x, y, z)`       | `x\|y\|z`    | Match one of provided sequences             |
+| `capture(...)`            | `(...)`      | Create a capture group                      |
+| `lookahead(...)`          | `(?=...)`    | Match subsequent text without consuming it  |
+| `negativeLookhead(...)`   | `(?!...)`    | Reject subsequent text without consuming it |
+| `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it   |
+| `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it  |
 
 See [Regex Constructs API doc](./docs/API.md#constructs) for more info.
 
+> [!NOTE]
+> TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required.
+
 ### Quantifiers
 
-| Quantifier                                      | Regex Syntax | Description                                                    |
-| ----------------------------------------------- | ------------ | -------------------------------------------------------------- |
-| `zeroOrMore(x)`                                 | `x*`         | Zero or more occurence of a pattern                            |
-| `oneOrMore(x)`                                  | `x+`         | One or more occurence of a pattern                             |
-| `optional(x)`                                   | `x?`         | Zero or one occurence of a pattern                             |
-| `repeat(x, n)`                                  | `x{n}`       | Pattern repeats exact number of times                          |
-| `repeat(x, { min: n, })`                        | `x{n,}`      | Pattern repeats at least given number of times                 |
-| `repeat(x, { min: n, max: n2 })`                | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times              |
+| Quantifier                       | Regex Syntax | Description                                       |
+| -------------------------------- | ------------ | ------------------------------------------------- |
+| `zeroOrMore(x)`                  | `x*`         | Zero or more occurence of a pattern               |
+| `oneOrMore(x)`                   | `x+`         | One or more occurence of a pattern                |
+| `optional(x)`                    | `x?`         | Zero or one occurence of a pattern                |
+| `repeat(x, n)`                   | `x{n}`       | Pattern repeats exact number of times             |
+| `repeat(x, { min: n, })`         | `x{n,}`      | Pattern repeats at least given number of times    |
+| `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times |
 
 See [Quantifiers API doc](./docs/API.md#quantifiers) for more info.
 
