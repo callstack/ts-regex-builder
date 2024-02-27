@@ -18,10 +18,10 @@ export {
   word,
 } from './constructs/character-class';
 export { choiceOf } from './constructs/choice-of';
+export { lookahead } from './constructs/lookahead';
+export { lookbehind } from './constructs/lookbehind';
 export { negativeLookahead } from './constructs/negative-lookahead';
 export { negativeLookbehind } from './constructs/negative-lookbehind';
 export { nonCaptureGroup } from './constructs/non-capture-group';
-export { positiveLookahead } from './constructs/positive-lookahead';
-export { positiveLookbehind } from './constructs/positive-lookbehind';
 export { oneOrMore, optional, zeroOrMore } from './constructs/quantifiers';
 export { repeat } from './constructs/repeat';

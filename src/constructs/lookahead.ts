@@ -10,27 +10,27 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  *
  * @example
  * ```ts
- * positiveLookahead("a");
+ * Lookahead("a");
  * // /(?=a)/
  *
- * positiveLookahead(["a", "b", "c"]);
+ * Lookahead(["a", "b", "c"]);
  * // /(?=abc)/
  * ```
  */
-export interface PositiveLookahead extends RegexConstruct {
-  type: 'PositiveLookahead';
+export interface Lookahead extends RegexConstruct {
+  type: 'Lookahead';
   children: RegexElement[];
 }
 
-export function positiveLookahead(sequence: RegexSequence): PositiveLookahead {
+export function lookahead(sequence: RegexSequence): Lookahead {
   return {
-    type: 'PositiveLookahead',
+    type: 'Lookahead',
     children: ensureArray(sequence),
-    encode: encodePositiveLookahead,
+    encode: encodeLookahead,
   };
 }
 
-function encodePositiveLookahead(this: PositiveLookahead): EncodeResult {
+function encodeLookahead(this: Lookahead): EncodeResult {
   return {
     precedence: 'atom',
     pattern: `(?=${encodeSequence(this.children).pattern})`,

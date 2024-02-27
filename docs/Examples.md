@@ -185,3 +185,41 @@ const isValid = regex.test(192.168.0.1");
 Encoded regex: `/^(?:(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/,`.
 
 See tests: [example-regexp.ts](../src/__tests__/example-regexp.ts).
+
+## Paasword validation
+
+//
+// The password policy is as follows:
+//  - At least one uppercase letter
+//  - At least one lowercase letter
+//  - At least one digit
+//  - At least one special character
+//  - At least 8 characters long
+//
+
+```ts
+const atLeastOneUppercase = lookahead([oneOrMore(word), charRange('A', 'Z')]);
+const atLeastOneLowercase = lookahead([oneOrMore(word), charRange('a', 'z')]);
+const atLeastOneDigit = lookahead([oneOrMore(word), digit]);
+const atLeastOneSpecialChar = lookahead([oneOrMore(word), anyOf('$@*$&!/')]);
+const atLeast8Chars = /.{8,}/;
+
+// Match
+  const validPassword = buildRegExp(
+      [
+          startOfString,
+          atLeastOneUppercase,
+          atLeastOneLowercase,
+          atLeastOneDigit,
+          atLeastOneSpecialChar,
+          atLeast8Chars,
+          endOfString
+      ]
+  );
+
+const isValid = regex.test("Aa$123456");
+```
+
+Encoded regex: `/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,}$/`.
+
+See tests: [example-password.ts](../src/__tests__/example-password.ts).

@@ -10,27 +10,27 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  *
  * @example
  * ```ts
- * positiveLookbehind("a");
+ * Lookbehind("a");
  * // /(?<=a)/
  *
- * positiveLookbehind(["a", "b", "c"]);
+ * Lookbehind(["a", "b", "c"]);
  * // /(?<=abc)/
  * ```
  */
-export interface PositiveLookbehind extends RegexConstruct {
-  type: 'PositiveLookbehind';
+export interface Lookbehind extends RegexConstruct {
+  type: 'Lookbehind';
   children: RegexElement[];
 }
 
-export function positiveLookbehind(sequence: RegexSequence): PositiveLookbehind {
+export function lookbehind(sequence: RegexSequence): Lookbehind {
   return {
-    type: 'PositiveLookbehind',
+    type: 'Lookbehind',
     children: ensureArray(sequence),
-    encode: encodePositiveLookbehind,
+    encode: encodeLookbehind,
   };
 }
 
-function encodePositiveLookbehind(this: PositiveLookbehind): EncodeResult {
+function encodeLookbehind(this: Lookbehind): EncodeResult {
   return {
     precedence: 'atom',
     pattern: `(?<=${encodeSequence(this.children).pattern})`,
