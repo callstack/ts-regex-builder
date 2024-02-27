@@ -1,7 +1,4 @@
-import { buildRegExp } from '../builders';
-import { anyOf, digit, endOfString, startOfString, zeroOrMore } from '../index';
-import { any, charRange } from '../constructs/character-class';
-import { lookahead } from '../constructs/lookahead';
+import { any, buildRegExp, endOfString, lookahead, startOfString, zeroOrMore } from '../index';
 
 //^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,}$
 
@@ -12,13 +9,12 @@ import { lookahead } from '../constructs/lookahead';
 //  - At least one digit
 //  - At least one special character
 //  - At least 8 characters long
-//
-const specialChars = '$@*&!#%?+-_';
-const atLeastOneUppercase = lookahead([zeroOrMore(any), charRange('A', 'Z')]);
-const atLeastOneLowercase = lookahead([zeroOrMore(any), charRange('a', 'z')]);
-const atLeastOneDigit = lookahead([zeroOrMore(any), digit]);
-const atLeastOneSpecialChar = lookahead([zeroOrMore(any), anyOf(specialChars)]);
-const atLeast8Chars = /.{8,}/;
+
+const atLeastOneUppercase = lookahead([zeroOrMore(any), /[A-Z]/]);
+const atLeastOneLowercase = lookahead([zeroOrMore(any), /[a-z]/]);
+const atLeastOneDigit = lookahead([zeroOrMore(any), /[0-9]/]);
+const atLeastOneSpecialChar = lookahead([zeroOrMore(any), /[^A-Za-z0-9\s]/]);
+const atLeastEightChars = /.{8,}/;
 
 test('Example: Validating passwords', () => {
   const validPassword = buildRegExp([
@@ -27,7 +23,7 @@ test('Example: Validating passwords', () => {
     atLeastOneLowercase,
     atLeastOneDigit,
     atLeastOneSpecialChar,
-    atLeast8Chars,
+    atLeastEightChars,
     endOfString,
   ]);
 
@@ -40,5 +36,8 @@ test('Example: Validating passwords', () => {
   expect(validPassword).not.toMatchString('#password');
   expect(validPassword).toMatchString('#passworD666');
   expect(validPassword).not.toMatchString('Aa%1234');
-  // expect(validPassword).toEqualRegex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,}$/g);
+
+  expect(validPassword).toEqualRegex(
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])(?:.{8,})$/,
+  );
 });

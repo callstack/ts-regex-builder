@@ -4,6 +4,7 @@ import { lookbehind } from '../constructs/lookbehind';
 
 const currencySymbol = '$€£¥R₿';
 const decimalSeparator = '.';
+
 const firstThousandsClause = repeat(digit, { min: 1, max: 3 });
 const thousandsSeparator = ',';
 const thousands = repeat(digit, 3);
@@ -35,4 +36,6 @@ test('example: extracting currency values', () => {
   expect(currencyRegex).toMatchString('₿ 100,000');
   expect(currencyRegex).not.toMatchString('10$');
   expect(currencyRegex).not.toMatchString('£A000');
+
+  expect(currencyRegex).toEqualRegex(/(?<=[$€£¥R₿])\s?\d{1,3}(?:,?\d{3})*(?:\.\d{2})?$/);
 });

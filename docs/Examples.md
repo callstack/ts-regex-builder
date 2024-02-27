@@ -109,7 +109,6 @@ See tests: [example-email.ts](../src/__tests__/example-email.ts).
 
 This regex validates if a given string is a valid JavaScript number.
 
-
 ```ts
 const sign = anyOf('+-');
 const exponent = [anyOf('eE'), optional(sign), oneOrMore(digit)];
@@ -186,40 +185,65 @@ Encoded regex: `/^(?:(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}(
 
 See tests: [example-regexp.ts](../src/__tests__/example-regexp.ts).
 
-## Paasword validation
+## Simple password validation
 
-//
-// The password policy is as follows:
-//  - At least one uppercase letter
-//  - At least one lowercase letter
-//  - At least one digit
-//  - At least one special character
-//  - At least 8 characters long
-//
+This regex corresponds to following password policy:
+- at least one uppercase letter
+- at least one lowercase letter
+- at least one digit
+- at least one special character
+- at least 8 characters long
 
 ```ts
-const atLeastOneUppercase = lookahead([oneOrMore(word), charRange('A', 'Z')]);
-const atLeastOneLowercase = lookahead([oneOrMore(word), charRange('a', 'z')]);
-const atLeastOneDigit = lookahead([oneOrMore(word), digit]);
-const atLeastOneSpecialChar = lookahead([oneOrMore(word), anyOf('$@*$&!/')]);
-const atLeast8Chars = /.{8,}/;
+const atLeastOneUppercase = lookahead([zeroOrMore(any), /[A-Z]/]);
+const atLeastOneLowercase = lookahead([zeroOrMore(any), /[a-z]/]);
+const atLeastOneDigit = lookahead([zeroOrMore(any), /[0-9]/]);
+const atLeastOneSpecialChar = lookahead([zeroOrMore(any), /[^A-Za-z0-9\s]/]);
+const atLeastEightChars = /.{8,}/;
 
 // Match
-  const validPassword = buildRegExp(
-      [
-          startOfString,
-          atLeastOneUppercase,
-          atLeastOneLowercase,
-          atLeastOneDigit,
-          atLeastOneSpecialChar,
-          atLeast8Chars,
-          endOfString
-      ]
-  );
+const validPassword = buildRegExp([
+    startOfString,
+    atLeastOneUppercase,
+    atLeastOneLowercase,
+    atLeastOneDigit,
+    atLeastOneSpecialChar,
+    atLeastEightChars,
+    endOfString
+]);
 
 const isValid = regex.test("Aa$123456");
 ```
 
-Encoded regex: `/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,}$/`.
+Encoded regex: `/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])(?:.{8,})$/`.
 
 See tests: [example-password.ts](../src/__tests__/example-password.ts).
+
+## Match currency values
+
+```ts
+const currencySymbol = '$€£¥R₿';
+const decimalSeparator = '.';
+
+const firstThousandsClause = repeat(digit, { min: 1, max: 3 });
+const thousandsSeparator = ',';
+const thousands = repeat(digit, 3);
+const thousandsClause = [optional(thousandsSeparator), thousands];
+const cents = repeat(digit, 2);
+const isCurrency = lookbehind(anyOf(currencySymbol));
+
+const currencyRegex = buildRegExp([
+  isCurrency,
+  optional(whitespace),
+  firstThousandsClause,
+  zeroOrMore(thousandsClause),
+  optional([decimalSeparator, cents]),
+  endOfString,
+]);
+
+const isValid = regex.test("£1,000");
+```
+
+Encoded regex: `/(?<=[$€£¥R₿])\s?\d{1,3}(?:,?\d{3})*(?:\.\d{2})?$/`.
+
+See tests: [example-currency.ts](../src/__tests__/example-currency.ts).

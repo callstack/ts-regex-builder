@@ -1,14 +1,11 @@
-import { buildRegExp } from '../builders';
-import { charClass, charRange, choiceOf, endOfString, oneOrMore } from '../index';
-import { negativeLookbehind } from '../constructs/negative-lookbehind';
+import { buildRegExp, choiceOf, endOfString, negativeLookbehind, oneOrMore } from '../index';
 
-const skipFileExtension = choiceOf('js', 'css', 'html');
-const isAllowedFileExtension = negativeLookbehind(skipFileExtension);
+const isRejectedFileExtension = negativeLookbehind(choiceOf('js', 'css', 'html'));
 
-test('example: extracting currency values', () => {
+test('example: filename validator', () => {
   const filenameRegex = buildRegExp([
-    oneOrMore(charClass(charRange('a', 'z'), charRange('A', 'Z'), charRange('0', '9'))),
-    isAllowedFileExtension,
+    oneOrMore(/[A-Za-z0-9_]/),
+    isRejectedFileExtension,
     endOfString,
   ]);
 

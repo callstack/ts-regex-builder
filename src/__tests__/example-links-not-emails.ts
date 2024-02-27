@@ -17,7 +17,6 @@ import {
 // URL:
 //      URL = Scheme ":"["//" Authority]Path["?" Query]["#" Fragment]
 //  https://en.wikipedia.org/wiki/URL#External_links
-//
 
 //
 // The building blocks of the URL regex.
@@ -69,18 +68,18 @@ test('Matching the Schema components.', () => {
 // Authority = [userinfo "@"] host [":" port]
 //
 const userInfo = oneOrMore(usernameChars);
-const hostlabel = repeat(hostnameChars, { min: 1, max: 63 });
-const hostlabelEnd = capture([hostlabel, endOfString]);
-const host = capture([oneOrMore([hostlabel, '.'])]);
+const hostname = repeat(hostnameChars, { min: 1, max: 63 });
+const hostnameEnd = capture([hostname, endOfString]);
+const host = capture([oneOrMore([hostname, '.'])]);
 const port = [portSeperator, oneOrMore(digit)];
 
-const Authority = [doubleSlash, optional([userInfo, at]), hostlabel, optional(port)];
+const Authority = [doubleSlash, optional([userInfo, at]), hostname, optional(port)];
 
 const authorityRegex = buildRegExp([startOfString, capture(Authority), endOfString], {
   ignoreCase: true,
 });
 
-const hostEx = buildRegExp([startOfString, host, hostlabelEnd, endOfString], { ignoreCase: true });
+const hostEx = buildRegExp([startOfString, host, hostnameEnd, endOfString], { ignoreCase: true });
 
 test('Matching the hostname component.', () => {
   expect(hostEx).toMatchString('www.google.com');
