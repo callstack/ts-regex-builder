@@ -18,13 +18,13 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  * ```
  */
 export interface NegativeLookbehind extends RegexConstruct {
-  type: 'NegativeLookbehind';
+  type: 'negativeLookbehind';
   children: RegexElement[];
 }
 
 export function negativeLookbehind(sequence: RegexSequence): NegativeLookbehind {
   return {
-    type: 'NegativeLookbehind',
+    type: 'negativeLookbehind',
     children: ensureArray(sequence),
     encode: encodeNegativeLookbehind,
   };

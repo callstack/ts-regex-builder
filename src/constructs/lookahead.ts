@@ -10,21 +10,21 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  *
  * @example
  * ```ts
- * Lookahead("a");
+ * lookahead("a");
  * // /(?=a)/
  *
- * Lookahead(["a", "b", "c"]);
+ * lookahead(["a", "b", "c"]);
  * // /(?=abc)/
  * ```
  */
 export interface Lookahead extends RegexConstruct {
-  type: 'Lookahead';
+  type: 'lookahead';
   children: RegexElement[];
 }
 
 export function lookahead(sequence: RegexSequence): Lookahead {
   return {
-    type: 'Lookahead',
+    type: 'lookahead',
     children: ensureArray(sequence),
     encode: encodeLookahead,
   };

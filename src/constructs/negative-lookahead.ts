@@ -18,13 +18,13 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  * ```
  */
 export interface NegativeLookahead extends RegexConstruct {
-  type: 'NegativeLookahead';
+  type: 'negativeLookahead';
   children: RegexElement[];
 }
 
 export function negativeLookahead(sequence: RegexSequence): NegativeLookahead {
   return {
-    type: 'NegativeLookahead',
+    type: 'negativeLookahead',
     children: ensureArray(sequence),
     encode: encodeNegativeLookahead,
   };

@@ -10,21 +10,21 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  *
  * @example
  * ```ts
- * Lookbehind("a");
+ * lookbehind("a");
  * // /(?<=a)/
  *
- * Lookbehind(["a", "b", "c"]);
+ * lookbehind(["a", "b", "c"]);
  * // /(?<=abc)/
  * ```
  */
 export interface Lookbehind extends RegexConstruct {
-  type: 'Lookbehind';
+  type: 'lookbehind';
   children: RegexElement[];
 }
 
 export function lookbehind(sequence: RegexSequence): Lookbehind {
   return {
-    type: 'Lookbehind',
+    type: 'lookbehind',
     children: ensureArray(sequence),
     encode: encodeLookbehind,
   };
