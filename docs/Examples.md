@@ -40,7 +40,7 @@ const regex = buildRegExp(
   { ignoreCase: true },
 );
 
-const isValid = regex.test("#ffffff");
+const isValid = regex.test('#ffffff');
 ```
 
 Encoded regex: `/^#?(?:[a-f\d]{6}|[a-f\d]{3})$/i`.
@@ -70,7 +70,7 @@ const regex = buildRegExp([
   endOfString,
 ]);
 
-const isValid = regex.test("https://hello.github.com");
+const isValid = regex.test('https://hello.github.com');
 ```
 
 Encoded regex: `/^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d-]*[a-z\d])\.)+[a-z][a-z\d]+$/`.
@@ -100,7 +100,7 @@ const regex = buildRegExp(
   { ignoreCase: true },
 );
 
-const isValid = regex.test("user@example.com");
+const isValid = regex.test('user@example.com');
 ```
 
 Encoded regex: `/^[a-z\d._%+-]+@[a-z\d.-]+\.[a-z]{2,}$/i`.
@@ -126,7 +126,7 @@ const regex = buildRegExp([
   endOfString,
 ]);
 
-const isValid = regex.test("1.0e+27");
+const isValid = regex.test('1.0e+27');
 ```
 
 Encoded regex: `/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/`.
@@ -190,6 +190,7 @@ See tests: [example-regexp.ts](../src/__tests__/example-regexp.ts).
 ## Simple password validation
 
 This regex corresponds to following password policy:
+
 - at least one uppercase letter
 - at least one lowercase letter
 - at least one digit
@@ -205,16 +206,16 @@ const atLeastEightChars = /.{8,}/;
 
 // Match
 const validPassword = buildRegExp([
-    startOfString,
-    atLeastOneUppercase,
-    atLeastOneLowercase,
-    atLeastOneDigit,
-    atLeastOneSpecialChar,
-    atLeastEightChars,
-    endOfString
+  startOfString,
+  atLeastOneUppercase,
+  atLeastOneLowercase,
+  atLeastOneDigit,
+  atLeastOneSpecialChar,
+  atLeastEightChars,
+  endOfString,
 ]);
 
-const isValid = regex.test("Aa$123456");
+const isValid = regex.test('Aa$123456');
 ```
 
 Encoded regex: `/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])(?:.{8,})$/`.
@@ -243,9 +244,57 @@ const currencyRegex = buildRegExp([
   endOfString,
 ]);
 
-const isValid = regex.test("£1,000");
+const isValid = regex.test('£1,000');
 ```
 
 Encoded regex: `/(?<=[$€£¥R₿])\s?\d{1,3}(?:,?\d{3})*(?:\.\d{2})?$/`.
 
 See tests: [example-currency.ts](../src/__tests__/example-currency.ts).
+
+## Finding specific whole words
+
+Ignoring cases where given word is part of a bigger word.
+
+```ts
+const wordsToFind = ['word', 'date'];
+
+const regex = buildRegExp([
+  wordBoundary, // match whole words only
+  choiceOf(...wordsToFind),
+  wordBoundary,
+]);
+
+expect(regex).toMatchString('word');
+expect(regex).toMatchString('date');
+
+expect(regex).not.toMatchString('sword');
+expect(regex).not.toMatchString('update');
+```
+
+Encoded regex: `/\b(?:word|date)\b/`.
+
+See tests: [example-find-words.ts](../src/__tests__/example-find-words.ts).
+
+## Finding specific suffixes
+
+Ignoring cases where given word is part of a bigger word.
+
+```ts
+const suffixesToFind = ['acy', 'ism'];
+
+const regex = buildRegExp([
+  notWordBoundary, // match suffixes only
+  choiceOf(...suffixesToFind),
+  wordBoundary,
+]);
+
+expect(regex).toMatchString('privacy ');
+expect(regex).toMatchString('democracy');
+
+expect(regex).not.toMatchString('acy');
+expect(regex).not.toMatchString('ism');
+```
+
+Encoded regex: `/\B(?:acy|ism)\b/`.
+
+See tests: [example-find-suffixes.ts](../src/__tests__/example-find-suffixes.ts).
