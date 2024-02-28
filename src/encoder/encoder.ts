@@ -49,13 +49,9 @@ function encodeText(text: string): EncodeResult {
 function encodeRegExp(regexp: RegExp): EncodeResult {
   const pattern = regexp.source;
 
-  if (pattern.length === 0) {
-    throw new Error('`encodeRegExp`: received regexp should not be empty');
-  }
-
   // Encode at safe precedence
   return {
-    precedence: isAtomicPattern(regexp.source) ? 'atom' : 'disjunction',
+    precedence: isAtomicPattern(pattern) ? 'atom' : 'disjunction',
     pattern,
   };
 }
