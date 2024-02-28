@@ -8,7 +8,7 @@
 
 Build maintainable regular expressions for TypeScript and JavaScript.
 
-[API docs](./docs/API.md) | [Examples](./docs/Examples.md)
+[API docs](https://callstack.github.io/ts-regex-builder/api) | [Examples](https://callstack.github.io/ts-regex-builder/examples)
 
 ## Goal
 
@@ -89,7 +89,7 @@ const currencyAmount = buildRegExp([
 ]);
 ```
 
-See [API doc](./docs/API.md) for more info.
+See [Types](https://callstack.github.io/ts-regex-builder/api/types) for more info.
 
 ### Regex Builders
 
@@ -98,7 +98,7 @@ See [API doc](./docs/API.md) for more info.
 | `buildRegExp(...)`                       | `/.../`      | Create `RegExp` instance            |
 | `buildRegExp(..., { ignoreCase: true })` | `/.../i`     | Create `RegExp` instance with flags |
 
-See [Regex Builder API doc](./docs/API.md#builder) for more info.
+See [Regex Builder API doc](https://callstack.github.io/ts-regex-builder/api/builder) for more info.
 
 ### Regex Constructs
 
@@ -111,7 +111,7 @@ See [Regex Builder API doc](./docs/API.md#builder) for more info.
 | `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it   |
 | `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it  |
 
-See [Regex Constructs API doc](./docs/API.md#constructs) for more info.
+See [Regex Constructs API doc](https://callstack.github.io/ts-regex-builder/api/constructs) for more info.
 
 > [!NOTE]
 > TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required.
@@ -127,7 +127,7 @@ See [Regex Constructs API doc](./docs/API.md#constructs) for more info.
 | `repeat(x, { min: n, })`         | `x{n,}`      | Pattern repeats at least given number of times    |
 | `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times |
 
-See [Quantifiers API doc](./docs/API.md#quantifiers) for more info.
+See [Quantifiers API doc](https://callstack.github.io/ts-regex-builder/api/quantifiers) for more info.
 
 ### Character classes
 
@@ -142,7 +142,7 @@ See [Quantifiers API doc](./docs/API.md#quantifiers) for more info.
 | `charClass(...)`      | `[...]`      | Union of multiple character classes               |
 | `inverted(...)`       | `[^...]`     | Negation of a given character class               |
 
-See [Character Classes API doc](./docs/API.md##character-classes) for more info.
+See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api/character-classes) for more info.
 
 ### Anchors
 
@@ -152,11 +152,11 @@ See [Character Classes API doc](./docs/API.md##character-classes) for more info.
 | `endOfString`   | `$`          | Match the end of the string (or the end of a line in multiline mode)     |
 | `wordBoundary`  | `\b`         | Match the start or end of a word without consuming characters            |
 
-See [Anchors API doc](./docs/API.md#anchors) for more info.
+See [Anchors API doc](https://callstack.github.io/ts-regex-builder/api/anchors) for more info.
 
 ## Examples
 
-See [Examples document](./docs/Examples.md).
+See [Examples document](https://callstack.github.io/ts-regex-builder/examples.md).
 
 ## Performance
 
