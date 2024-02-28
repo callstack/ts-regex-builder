@@ -14,8 +14,7 @@ Fundamental building blocks of a regular expression, defined as either a regex c
 
 The common type for all regex constructs like character classes, quantifiers, and anchors. You should not need to use this type directly, it is returned by all regex construct functions.
 
-Note: the shape of the `RegexConstruct` is considered private and may change in a breaking way without a major release. We will focus on maintaining the compatibility of regexes built with 
-
+Note: the shape of the `RegexConstruct` is considered private and may change in a breaking way without a major release. We will focus on maintaining the compatibility of regexes built with
 
 ## Builder
 
@@ -133,14 +132,15 @@ Quantifiers in regex define the number of occurrences to match for a pattern.
 function zeroOrMore(
   sequence: RegexSequence,
   options?: {
-    greedy?: boolean, // default=true
-  }
-): ZeroOrMore
+    greedy?: boolean; // default=true
+  },
+): ZeroOrMore;
 ```
 
 Regex syntax:
-* `x*` for default greedy behavior (match as many characters as possible)
-* `x*?` for non-greedy behavior (match as few characters as possible)
+
+- `x*` for default greedy behavior (match as many characters as possible)
+- `x*?` for non-greedy behavior (match as few characters as possible)
 
 The `zeroOrMore` quantifier matches zero or more occurrences of a given pattern, allowing a flexible number of repetitions of that element.
 
@@ -150,14 +150,15 @@ The `zeroOrMore` quantifier matches zero or more occurrences of a given pattern,
 function oneOrMore(
   sequence: RegexSequence,
   options?: {
-    greedy?: boolean, // default=true
-  }
-): OneOrMore
+    greedy?: boolean; // default=true
+  },
+): OneOrMore;
 ```
 
 Regex syntax:
-* `x+` for default greedy behavior (match as many characters as possible)
-* `x+?` for non-greedy behavior (match as few characters as possible)
+
+- `x+` for default greedy behavior (match as many characters as possible)
+- `x+?` for non-greedy behavior (match as few characters as possible)
 
 The `oneOrMore` quantifier matches one or more occurrences of a given pattern, allowing a flexible number of repetitions of that element.
 
@@ -167,14 +168,15 @@ The `oneOrMore` quantifier matches one or more occurrences of a given pattern, a
 function optional(
   sequence: RegexSequence,
   options?: {
-    greedy?: boolean, // default=true
-  }
-): Optionally
+    greedy?: boolean; // default=true
+  },
+): Optionally;
 ```
 
 Regex syntax:
-* `x?` for default greedy behavior (match as many characters as possible)
-* `x??` for non-greedy behavior (match as few characters as possible)
+
+- `x?` for default greedy behavior (match as many characters as possible)
+- `x??` for non-greedy behavior (match as few characters as possible)
 
 The `optional` quantifier matches zero or one occurrence of a given pattern, making it optional.
 
@@ -183,17 +185,20 @@ The `optional` quantifier matches zero or one occurrence of a given pattern, mak
 ```ts
 function repeat(
   sequence: RegexSequence,
-  options: number | { 
-    min: number;
-    max?: number; 
-    greedy?: boolean;  // default=true
-  },
-): Repeat
+  options:
+    | number
+    | {
+        min: number;
+        max?: number;
+        greedy?: boolean; // default=true
+      },
+): Repeat;
 ```
 
 Regex syntax:
-* `x{n}`, `x{min,}`, `x{min, max}` for default greedy behavior (match as many characters as possible)
-* `x{min,}?`, `x{min, max}?` for non-greedy behavior (match as few characters as possible)
+
+- `x{n}`, `x{min,}`, `x{min, max}` for default greedy behavior (match as many characters as possible)
+- `x{min,}?`, `x{min, max}?` for non-greedy behavior (match as few characters as possible)
 
 The `repeat` quantifier in regex matches either exactly `count` times or between `min` and `max` times. If only `min` is provided, it matches at least `min` times.
 
@@ -301,3 +306,15 @@ const endOfString: Anchor;
 
 - `startOfString` anchor matches the start of a string (or line, if multiline mode is enabled). Regex syntax: `^`.
 - `endOfString` anchor matches the end of a string (or line, if multiline mode is enabled). Regex syntax: `$`.
+
+### Word boundary
+
+```ts
+const wordBoundary: Anchor;
+const notWordBoundary: Anchor;
+```
+
+- `wordBoundary` matches the positions where a word character is not followed or preceded by another word character, effectively indicating the start or end of a word. Regex syntax: `\b`.
+- `notWordBoundary` matches the positions where a word character is followed or preceded by another word character, indicating that it is not at the start or end of a word. Regex syntax: `\B`.
+
+Note: word characters are letters, digits, and underscore (`_`). Other special characters like `#`, `$`, etc are not considered word characters.

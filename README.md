@@ -21,11 +21,7 @@ This library allows users to create regular expressions in a structured way, mak
 const hexColor = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 
 // TS Regex Builder DSL
-const hexDigit = charClass(
-  charRange('a', 'f'),
-  charRange('A', 'F'),
-  charRange('0', '9'),
-);
+const hexDigit = charClass(charRange('a', 'f'), charRange('A', 'F'), charRange('0', '9'));
 
 const hexColor = buildRegExp([
   startOfString,
@@ -66,6 +62,7 @@ const regex = buildRegExp(['Hello ', capture(oneOrMore(word))]);
 TS Regex Builder allows you to build complex regular expressions using domain-specific language.
 
 Terminology:
+
 - regex construct (`RegexConstruct`) - common name for all regex constructs like character classes, quantifiers, and anchors.
 - regex element (`RegexElement`) - a fundamental building block of a regular expression, defined as either a regex construct, a string, or `RegExp` literal (`/.../`).
 - regex sequence (`RegexSequence`) - a sequence of regex elements forming a regular expression. For developer convenience, it also accepts a single element instead of an array.
@@ -73,6 +70,7 @@ Terminology:
 Most of the regex constructs accept a regex sequence as their argument.
 
 Examples of sequences:
+
 - single element (construct): `capture('Hello')`
 - single element (string): `'Hello'`
 - single element (`RegExp` literal): `/Hello/`
@@ -152,6 +150,7 @@ See [Character Classes API doc](./docs/API.md##character-classes) for more info.
 | --------------- | ------------ | ------------------------------------------------------------------------ |
 | `startOfString` | `^`          | Match the start of the string (or the start of a line in multiline mode) |
 | `endOfString`   | `$`          | Match the end of the string (or the end of a line in multiline mode)     |
+| `wordBoundary`  | `\b`         | Match the start or end of a word without consuming characters            |
 
 See [Anchors API doc](./docs/API.md#anchors) for more info.
 
@@ -181,7 +180,6 @@ TS Regex Builder is inspired by [Swift Regex Builder API](https://developer.appl
 - [ECMAScript Regular Expression BNF Grammar](https://262.ecma-international.org/7.0/#sec-regular-expressions)
 - [Swift Regex Builder API docs](https://developer.apple.com/documentation/regexbuilder)
 - [Swift Evolution 351: Regex Builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md)
-
 
 ---
 
