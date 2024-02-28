@@ -89,7 +89,7 @@ test('`charClass` throws on inverted arguments', () => {
   );
 });
 
-test('`charRange` base cases', () => {
+test('`charRange` pattern', () => {
   expect(charRange('a', 'z')).toEqualRegex(/[a-z]/);
   expect(['x', charRange('0', '9')]).toEqualRegex(/x[0-9]/);
   expect([charRange('A', 'F'), 'x']).toEqualRegex(/[A-F]x/);
@@ -107,7 +107,7 @@ test('`charRange` throws on incorrect arguments', () => {
   );
 });
 
-test('`anyOf` base cases', () => {
+test('`anyOf` pattern', () => {
   expect(anyOf('a')).toEqualRegex(/a/);
   expect(['x', anyOf('a'), 'x']).toEqualRegex(/xax/);
   expect(anyOf('ab')).toEqualRegex(/[ab]/);
@@ -115,21 +115,21 @@ test('`anyOf` base cases', () => {
   expect(['x', anyOf('ab'), 'x']).toEqualRegex(/x[ab]x/);
 });
 
-test('`anyOf` with quantifiers', () => {
+test('`anyOf` pattern with quantifiers', () => {
   expect(['x', oneOrMore(anyOf('abc')), 'x']).toEqualRegex(/x[abc]+x/);
   expect(['x', optional(anyOf('abc')), 'x']).toEqualRegex(/x[abc]?x/);
   expect(['x', zeroOrMore(anyOf('abc')), 'x']).toEqualRegex(/x[abc]*x/);
 });
 
-test('`anyOf` escapes special characters', () => {
+test('`anyOf` pattern escapes special characters', () => {
   expect(anyOf('abc-+.]\\')).toEqualRegex(/[abc+.\]\\-]/);
 });
 
-test('`anyOf` moves hyphen to the last position', () => {
+test('`anyOf` pattern moves hyphen to the last position', () => {
   expect(anyOf('a-bc')).toEqualRegex(/[abc-]/);
 });
 
-test('`anyOf` edge case caret and  hyphen', () => {
+test('`anyOf` pattern edge case caret and  hyphen', () => {
   expect(anyOf('^-')).toEqualRegex(/[\^-]/);
   expect(anyOf('-^')).toEqualRegex(/[\^-]/);
   expect(anyOf('-^a')).toEqualRegex(/[a^-]/);
@@ -141,17 +141,17 @@ test('`anyOf` throws on empty text', () => {
   );
 });
 
-test('`inverted` character class', () => {
+test('`inverted` character class pattern', () => {
   expect(inverted(anyOf('a'))).toEqualRegex(/[^a]/);
   expect(inverted(anyOf('abc'))).toEqualRegex(/[^abc]/);
 });
 
-test('`inverted` character class double inversion', () => {
+test('`inverted` character class pattern double inversion', () => {
   expect(inverted(inverted(anyOf('a')))).toEqualRegex(/a/);
   expect(inverted(inverted(anyOf('abc')))).toEqualRegex(/[abc]/);
 });
 
-test('`inverted` character class execution', () => {
+test('`inverted` character class matching', () => {
   expect(inverted(anyOf('a'))).not.toMatchString('aa');
   expect(inverted(anyOf('a'))).toMatchGroups('aba', ['b']);
 });
