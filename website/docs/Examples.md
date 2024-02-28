@@ -15,7 +15,7 @@ const hashtagMatches = '#hello #world'.matchAll(hashtags);
 
 Encoded regex: `/#(\w+)/g`.
 
-See tests: [example-hashtags.ts](../src/__tests__/example-hashtags.ts).
+See tests: [example-hashtags.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-hashtags.ts).
 
 ## Hex color validation
 
@@ -42,7 +42,7 @@ const isValid = regex.test('#ffffff');
 
 Encoded regex: `/^#?(?:[a-f\d]{6}|[a-f\d]{3})$/i`.
 
-See tests: [example-hex-color.ts](../src/__tests__/example-hex-color.ts).
+See tests: [example-hex-color.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-hex-color.ts).
 
 ## URL validation
 
@@ -72,9 +72,9 @@ const isValid = regex.test('https://hello.github.com');
 
 Encoded regex: `/^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d-]*[a-z\d])\.)+[a-z][a-z\d]+$/`.
 
-See tests: [example-url-simple.ts](../src/__tests__/example-url-simple.ts).
+See tests: [example-url-simple.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-url-simple.ts).
 
-For more advanced URL validation check: [example-url-advanced.ts](../src/__tests__/example-url-advanced.ts).
+For more advanced URL validation check: [example-url-advanced.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-url-advanced.ts).
 
 ## Email address validation
 
@@ -102,7 +102,7 @@ const isValid = regex.test('user@example.com');
 
 Encoded regex: `/^[a-z\d._%+-]+@[a-z\d.-]+\.[a-z]{2,}$/i`.
 
-See tests: [example-email.ts](../src/__tests__/example-email.ts).
+See tests: [example-email.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-email.ts).
 
 ## JavaScript number validation
 
@@ -128,7 +128,7 @@ const isValid = regex.test('1.0e+27');
 
 Encoded regex: `/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/`.
 
-See tests: [example-js-number.ts](../src/__tests__/example-js-number.ts).
+See tests: [example-js-number.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-js-number.ts).
 
 ## IPv4 address validation
 
@@ -155,7 +155,7 @@ const isValid = regex.test(192.168.0.1");
 
 Encoded regex: `/^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/`.
 
-See tests: [example-ipv4.ts](../src/__tests__/example-ipv4.ts).
+See tests: [example-ipv4.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-ipv4.ts).
 
 ## Mixing with RegExp literals
 
@@ -182,7 +182,7 @@ const isValid = regex.test(192.168.0.1");
 
 Encoded regex: `/^(?:(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/,`.
 
-See tests: [example-regexp.ts](../src/__tests__/example-regexp.ts).
+See tests: [example-regexp.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-regexp.ts).
 
 ## Simple password validation
 
@@ -217,7 +217,7 @@ const isValid = regex.test('Aa$123456');
 
 Encoded regex: `/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])(?:.{8,})$/`.
 
-See tests: [example-password.ts](../src/__tests__/example-password.ts).
+See tests: [example-password.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-password.ts).
 
 ## Match currency values
 
@@ -246,7 +246,7 @@ const isValid = regex.test('£1,000');
 
 Encoded regex: `/(?<=[$€£¥R₿])\s?\d{1,3}(?:,?\d{3})*(?:\.\d{2})?$/`.
 
-See tests: [example-currency.ts](../src/__tests__/example-currency.ts).
+See tests: [example-currency.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-currency.ts).
 
 ## Finding specific whole words
 
@@ -270,7 +270,7 @@ expect(regex).not.toMatchString('update');
 
 Encoded regex: `/\b(?:word|date)\b/`.
 
-See tests: [example-find-words.ts](../src/__tests__/example-find-words.ts).
+See tests: [example-find-words.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-find-words.ts).
 
 ## Finding specific suffixes
 
@@ -294,4 +294,4 @@ expect(regex).not.toMatchString('ism');
 
 Encoded regex: `/\B(?:acy|ism)\b/`.
 
-See tests: [example-find-suffixes.ts](../src/__tests__/example-find-suffixes.ts).
+See tests: [example-find-suffixes.ts](https://github.com/callstack/ts-regex-builder/blob/main/src/__tests__/example-find-suffixes.ts).
