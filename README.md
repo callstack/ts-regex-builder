@@ -89,7 +89,7 @@ const currencyAmount = buildRegExp([
 ]);
 ```
 
-See [Types](https://callstack.github.io/ts-regex-builder/api/types) for more info.
+See [Types API doc](https://callstack.github.io/ts-regex-builder/api/types) for more info.
 
 ### Regex Builders
 
@@ -98,7 +98,7 @@ See [Types](https://callstack.github.io/ts-regex-builder/api/types) for more inf
 | `buildRegExp(...)`                       | `/.../`      | Create `RegExp` instance            |
 | `buildRegExp(..., { ignoreCase: true })` | `/.../i`     | Create `RegExp` instance with flags |
 
-See [Regex Builder API doc](https://callstack.github.io/ts-regex-builder/api/builder) for more info.
+See [Builder API doc](https://callstack.github.io/ts-regex-builder/api/builder) for more info.
 
 ### Regex Constructs
 
@@ -111,7 +111,7 @@ See [Regex Builder API doc](https://callstack.github.io/ts-regex-builder/api/bui
 | `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it   |
 | `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it  |
 
-See [Regex Constructs API doc](https://callstack.github.io/ts-regex-builder/api/constructs) for more info.
+See [Constructs API doc](https://callstack.github.io/ts-regex-builder/api/constructs) for more info.
 
 > [!NOTE]
 > TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required.
@@ -156,7 +156,7 @@ See [Anchors API doc](https://callstack.github.io/ts-regex-builder/api/anchors) 
 
 ## Examples
 
-See [Examples document](https://callstack.github.io/ts-regex-builder/examples.md).
+See [Examples](https://callstack.github.io/ts-regex-builder/examples).
 
 ## Performance
 
