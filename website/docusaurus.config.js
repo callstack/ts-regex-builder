@@ -79,15 +79,15 @@ const config = {
             items: [
               {
                 label: 'Getting Started',
-                to: '/docs/',
+                to: '/',
               },
               {
                 label: 'API',
-                to: '/docs/api',
+                to: '/api',
               },
               {
                 label: 'Examples',
-                to: '/docs/examples',
+                to: '/examples',
               },
             ],
           },
