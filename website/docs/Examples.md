@@ -1,17 +1,14 @@
-# Regex Examples
+---
+id: examples
+title: Examples
+---
 
 ## Match hashtags
 
 This regex matches and captures all hashtags in a given string.
 
 ```ts
-const hashtags = buildRegExp(
-  [
-    '#',
-    capture(oneOrMore(word)),
-  ],
-  { global: true },
-);
+const hashtags = buildRegExp(['#', capture(oneOrMore(word))], { global: true });
 
 const hashtagMatches = '#hello #world'.matchAll(hashtags);
 ```
