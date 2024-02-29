@@ -1,23 +1,23 @@
-import { buildRegExp, choiceOf, wordBoundary } from '..';
+import { choiceOf, regex, wordBoundary } from '..';
 
 test('example: find specific words', () => {
   const wordsToFind = ['word', 'date'];
 
-  const regex = buildRegExp([
+  const wordsRegex = regex([
     wordBoundary, // match whole words only
     choiceOf(...wordsToFind),
     wordBoundary,
-  ]);
+  ]).build();
 
-  expect(regex).toMatchString('word');
-  expect(regex).toMatchString('some date');
-  expect(regex).toMatchString('date and word');
+  expect(wordsRegex).toMatchString('word');
+  expect(wordsRegex).toMatchString('some date');
+  expect(wordsRegex).toMatchString('date and word');
 
-  expect(regex).not.toMatchString('sword');
-  expect(regex).not.toMatchString('keywords');
-  expect(regex).not.toMatchString('words');
-  expect(regex).not.toMatchString('update');
-  expect(regex).not.toMatchString('dates');
+  expect(wordsRegex).not.toMatchString('sword');
+  expect(wordsRegex).not.toMatchString('keywords');
+  expect(wordsRegex).not.toMatchString('words');
+  expect(wordsRegex).not.toMatchString('update');
+  expect(wordsRegex).not.toMatchString('dates');
 
-  expect(regex).toEqualRegex(/\b(?:word|date)\b/);
+  expect(wordsRegex).toEqualRegex(/\b(?:word|date)\b/);
 });

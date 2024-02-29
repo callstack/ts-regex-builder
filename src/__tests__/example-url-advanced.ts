@@ -1,6 +1,5 @@
 import {
   anyOf,
-  buildRegExp,
   capture,
   charClass,
   charRange,
@@ -9,7 +8,9 @@ import {
   negativeLookahead,
   oneOrMore,
   optional,
+  regex,
   repeat,
+  sequence,
   startOfString,
 } from '../index';
 
@@ -38,18 +39,21 @@ const domainChars = charRange('a', 'z');
 //      Examples of popular schemes include http, https, ftp, mailto, file, data and irc.
 //      A URL string must be a scheme, followed by a colon, followed by a scheme-specific part.
 
-const scheme = [repeat(charClass(hyphen, alphabetical), { min: 3, max: 6 }), optional('s')];
-const schemeRegex = buildRegExp([startOfString, capture(scheme), endOfString], {
+const schemeRegex = regex([
+  repeat(charClass(hyphen, alphabetical), { min: 3, max: 6 }),
+  optional('s'),
+]);
+const schemeValidator = regex([startOfString, schemeRegex, endOfString]).build({
   ignoreCase: true,
 });
 
 test('Matching the Schema components.', () => {
-  expect(schemeRegex).toMatchString('ftp');
-  expect(schemeRegex).not.toMatchString('ftp:');
-  expect(schemeRegex).not.toMatchString('h');
-  expect(schemeRegex).not.toMatchString('nameiswaytoolong');
-  expect(schemeRegex).toMatchString('HTTPS');
-  expect(schemeRegex).toMatchString('http');
+  expect(schemeValidator).toMatchString('ftp');
+  expect(schemeValidator).not.toMatchString('ftp:');
+  expect(schemeValidator).not.toMatchString('h');
+  expect(schemeValidator).not.toMatchString('nameiswaytoolong');
+  expect(schemeValidator).toMatchString('HTTPS');
+  expect(schemeValidator).toMatchString('http');
 });
 
 // Authority:
@@ -65,12 +69,12 @@ const hostnameEnd = capture([hostname, endOfString]);
 const host = capture([oneOrMore([hostname, '.'])]);
 const port = [portSeperator, oneOrMore(digit)];
 
-const authority = [doubleSlash, optional([userInfo, at]), hostname, optional(port)];
-const authorityRegex = buildRegExp([startOfString, ...authority, endOfString], {
+const authorityRegex = sequence([doubleSlash, optional([userInfo, at]), hostname, optional(port)]);
+const authorityValidator = regex([startOfString, authorityRegex, endOfString]).build({
   ignoreCase: true,
 });
 
-const hostEx = buildRegExp([startOfString, host, hostnameEnd, endOfString], { ignoreCase: true });
+const hostEx = regex([startOfString, host, hostnameEnd, endOfString]).build({ ignoreCase: true });
 
 test('match URL hostname component', () => {
   expect(hostEx).toMatchString('www.google.com');
@@ -78,10 +82,10 @@ test('match URL hostname component', () => {
 });
 
 test('match URL authority components', () => {
-  expect(authorityRegex).toMatchString('//davidbowie@localhost:8080');
-  expect(authorityRegex).toMatchString('//localhost:1234');
-  expect(authorityRegex).not.toMatchString('davidbowie@localhost:1972');
-  expect(authorityRegex).not.toMatchString('nameiswaytoolong');
+  expect(authorityValidator).toMatchString('//davidbowie@localhost:8080');
+  expect(authorityValidator).toMatchString('//localhost:1234');
+  expect(authorityValidator).not.toMatchString('davidbowie@localhost:1972');
+  expect(authorityValidator).not.toMatchString('nameiswaytoolong');
 });
 
 // Path:
@@ -95,7 +99,7 @@ const pathSegment = [
 ];
 
 const path = oneOrMore(pathSegment);
-const pathRegex = buildRegExp([startOfString, path, endOfString], {
+const pathRegex = regex([startOfString, path, endOfString]).build({
   ignoreCase: true,
 });
 
@@ -121,10 +125,10 @@ const queryValue = oneOrMore(charClass(lowercase, uppercase, digit, anyOf('_-'))
 const queryDelimiter = anyOf('&;');
 const equals = '=';
 
-const queryKeyValuePair = buildRegExp([queryKey, equals, queryValue]);
+const queryKeyValuePair = regex([queryKey, equals, queryValue]).build();
 
 const query = [querySeparator, oneOrMore([queryKeyValuePair, optional(queryDelimiter)])];
-const queryRegex = buildRegExp([startOfString, ...query, endOfString], {
+const queryRegex = regex([startOfString, ...query, endOfString]).build({
   ignoreCase: true,
 });
 
@@ -147,7 +151,7 @@ const fragment = [
   fragmentSeparator,
   oneOrMore(charClass(lowercase, uppercase, digit, anyOf(':@%._+~#=&'))),
 ];
-const fragmentRegex = buildRegExp([startOfString, ...fragment, endOfString], {
+const fragmentRegex = regex([startOfString, ...fragment, endOfString]).build({
   ignoreCase: true,
 });
 
@@ -157,23 +161,20 @@ test('match URL fragment component', () => {
   expect(fragmentRegex).not.toMatchString('#');
 });
 
-const urlRegex = buildRegExp(
-  [
-    startOfString,
-    capture([
-      optional(scheme),
-      schemeSeperator,
-      optional(authority),
-      path,
-      optional(query),
-      optional(fragment),
-    ]),
-    endOfString,
-  ],
-  {
-    ignoreCase: true,
-  },
-);
+const urlRegex = regex([
+  startOfString,
+  capture([
+    optional(schemeRegex),
+    schemeSeperator,
+    optional(authorityRegex),
+    path,
+    optional(query),
+    optional(fragment),
+  ]),
+  endOfString,
+]).build({
+  ignoreCase: true,
+});
 
 test('match URLs', () => {
   expect(urlRegex).not.toMatchString('');
@@ -188,22 +189,19 @@ test('match URLs', () => {
   );
 });
 
-const emailRegex = buildRegExp(
-  [
-    startOfString,
-    capture([
-      oneOrMore(usernameChars),
-      '@',
-      oneOrMore(hostnameChars),
-      '.',
-      repeat(domainChars, { min: 2 }),
-    ]),
-    endOfString,
-  ],
-  {
-    ignoreCase: true,
-  },
-);
+const emailRegex = regex([
+  startOfString,
+  capture([
+    oneOrMore(usernameChars),
+    '@',
+    oneOrMore(hostnameChars),
+    '.',
+    repeat(domainChars, { min: 2 }),
+  ]),
+  endOfString,
+]).build({
+  ignoreCase: true,
+});
 
 test('match email address', () => {
   expect(emailRegex).not.toMatchString('');
@@ -211,17 +209,14 @@ test('match email address', () => {
   expect(emailRegex).not.toMatchString('stevenwilson@porcupinetree');
 });
 
-const urlsWithoutEmailsRegex = buildRegExp(
-  [
-    startOfString,
-    negativeLookahead(emailRegex), // Reject emails
-    urlRegex,
-    endOfString,
-  ],
-  {
-    ignoreCase: true,
-  },
-);
+const urlsWithoutEmailsRegex = regex([
+  startOfString,
+  negativeLookahead(emailRegex), // Reject emails
+  urlRegex,
+  endOfString,
+]).build({
+  ignoreCase: true,
+});
 
 test('match URL but not email', () => {
   expect(urlsWithoutEmailsRegex).toMatchString('http://localhost:8080');

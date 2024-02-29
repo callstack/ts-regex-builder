@@ -1,6 +1,5 @@
 import {
   anyOf,
-  buildRegExp,
   charClass,
   charRange,
   choiceOf,
@@ -8,6 +7,7 @@ import {
   endOfString,
   oneOrMore,
   optional,
+  regex,
   startOfString,
   zeroOrMore,
 } from '..';
@@ -23,28 +23,28 @@ test('example: simple url validation', () => {
     [domainChars, zeroOrMore(domainCharsHypen), domainChars], // multi char
   );
 
-  const regex = buildRegExp([
+  const urlValidator = regex([
     startOfString,
     optional(protocol),
     oneOrMore([domainSegment, '.']), // domain segment
     charRange('a', 'z'), // TLD first char
     oneOrMore(domainChars), // TLD remaining chars
     endOfString,
-  ]);
+  ]).build();
 
-  expect(regex).toMatchString('example.com');
-  expect(regex).toMatchString('beta.example.com');
-  expect(regex).toMatchString('http://beta.example.com');
-  expect(regex).toMatchString('https://beta.example.com');
-  expect(regex).toMatchString('a.co');
+  expect(urlValidator).toMatchString('example.com');
+  expect(urlValidator).toMatchString('beta.example.com');
+  expect(urlValidator).toMatchString('http://beta.example.com');
+  expect(urlValidator).toMatchString('https://beta.example.com');
+  expect(urlValidator).toMatchString('a.co');
 
-  expect(regex).not.toMatchString('example');
-  expect(regex).not.toMatchString('aaa.a');
-  expect(regex).not.toMatchString('a.-a.com');
-  expect(regex).not.toMatchString('a.-a.com');
-  expect(regex).not.toMatchString('@gmail.com');
+  expect(urlValidator).not.toMatchString('example');
+  expect(urlValidator).not.toMatchString('aaa.a');
+  expect(urlValidator).not.toMatchString('a.-a.com');
+  expect(urlValidator).not.toMatchString('a.-a.com');
+  expect(urlValidator).not.toMatchString('@gmail.com');
 
-  expect(regex).toEqualRegex(
+  expect(urlValidator).toEqualRegex(
     /^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d-]*[a-z\d])\.)+[a-z][a-z\d]+$/,
   );
 });

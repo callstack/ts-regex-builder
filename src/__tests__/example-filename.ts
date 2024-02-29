@@ -1,13 +1,13 @@
-import { buildRegExp, choiceOf, endOfString, negativeLookbehind, oneOrMore } from '../index';
+import { choiceOf, endOfString, negativeLookbehind, oneOrMore, regex } from '..';
 
 const isRejectedFileExtension = negativeLookbehind(choiceOf('js', 'css', 'html'));
 
 test('example: filename validator', () => {
-  const filenameRegex = buildRegExp([
+  const filenameRegex = regex([
     oneOrMore(/[A-Za-z0-9_]/),
     isRejectedFileExtension,
     endOfString,
-  ]);
+  ]).build();
 
   expect(filenameRegex).toMatchString('index.ts');
   expect(filenameRegex).toMatchString('index.tsx');

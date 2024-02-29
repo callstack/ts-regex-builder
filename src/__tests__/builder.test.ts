@@ -1,23 +1,23 @@
-import { buildRegExp } from '..';
+import { regex } from '..';
 
 test('`regexBuilder` flags', () => {
-  expect(buildRegExp('a').flags).toBe('');
-  expect(buildRegExp('a', {}).flags).toBe('');
+  expect(regex('a').build().flags).toBe('');
+  expect(regex('a').build({}).flags).toBe('');
 
-  expect(buildRegExp('a', { global: true }).flags).toBe('g');
-  expect(buildRegExp('a', { global: false }).flags).toBe('');
+  expect(regex('a').build({ global: true }).flags).toBe('g');
+  expect(regex('a').build({ global: false }).flags).toBe('');
 
-  expect(buildRegExp('a', { ignoreCase: true }).flags).toBe('i');
-  expect(buildRegExp('a', { ignoreCase: false }).flags).toBe('');
+  expect(regex('a').build({ ignoreCase: true }).flags).toBe('i');
+  expect(regex('a').build({ ignoreCase: false }).flags).toBe('');
 
-  expect(buildRegExp('a', { multiline: true }).flags).toBe('m');
-  expect(buildRegExp('a', { multiline: false }).flags).toBe('');
+  expect(regex('a').build({ multiline: true }).flags).toBe('m');
+  expect(regex('a').build({ multiline: false }).flags).toBe('');
 
-  expect(buildRegExp('a', { hasIndices: true }).flags).toBe('d');
-  expect(buildRegExp('a', { hasIndices: false }).flags).toBe('');
+  expect(regex('a').build({ hasIndices: true }).flags).toBe('d');
+  expect(regex('a').build({ hasIndices: false }).flags).toBe('');
 
   expect(
-    buildRegExp('a', {
+    regex('a').build({
       global: true, //
       ignoreCase: true,
       multiline: false,

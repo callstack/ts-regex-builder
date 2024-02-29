@@ -1,5 +1,13 @@
-import { buildRegExp } from '../builders';
-import { anyOf, digit, endOfString, optional, repeat, whitespace, zeroOrMore } from '../index';
+import {
+  anyOf,
+  digit,
+  endOfString,
+  optional,
+  regex,
+  repeat,
+  whitespace,
+  zeroOrMore,
+} from '../index';
 import { lookbehind } from '../constructs/lookbehind';
 
 const currencySymbol = '$€£¥R₿';
@@ -13,14 +21,14 @@ const cents = repeat(digit, 2);
 const isCurrency = lookbehind(anyOf(currencySymbol));
 
 test('example: extracting currency values', () => {
-  const currencyRegex = buildRegExp([
+  const currencyRegex = regex([
     isCurrency,
     optional(whitespace),
     firstThousandsClause,
     zeroOrMore(thousandsClause),
     optional([decimalSeparator, cents]),
     endOfString,
-  ]);
+  ]).build();
 
   expect(currencyRegex).toMatchString('$10');
   expect(currencyRegex).toMatchString('$ 10');

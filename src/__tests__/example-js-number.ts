@@ -1,6 +1,5 @@
 import {
   anyOf,
-  buildRegExp,
   choiceOf,
   digit,
   endOfString,
@@ -15,7 +14,7 @@ test('example: validate JavaScript number', () => {
   const sign = anyOf('+-');
   const exponent = regex([anyOf('eE'), optional(sign), oneOrMore(digit)]);
 
-  const numberValidator = buildRegExp([
+  const numberValidator = regex([
     startOfString,
     optional(sign),
     choiceOf(
@@ -24,7 +23,7 @@ test('example: validate JavaScript number', () => {
     ),
     optional(exponent), // exponent
     endOfString,
-  ]);
+  ]).build();
 
   expect(numberValidator).toMatchString('0');
   expect(numberValidator).toMatchString('-1');

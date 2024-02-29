@@ -1,23 +1,20 @@
-import { buildRegExp, capture, oneOrMore, word } from '..';
+import { capture, oneOrMore, regex, word } from '..';
 
 test('example: extracting hashtags', () => {
-  const regex = buildRegExp(
-    [
-      '#', // prettier break-line
-      capture(oneOrMore(word)),
-    ],
-    { global: true },
-  );
+  const hashtagFinder = regex([
+    '#', // prettier break-line
+    capture(oneOrMore(word)),
+  ]).build({ global: true });
 
-  expect(regex).toMatchAllGroups('Hello #world!', [['#world', 'world']]);
-  expect(regex).toMatchAllGroups('#Hello #world!', [
+  expect(hashtagFinder).toMatchAllGroups('Hello #world!', [['#world', 'world']]);
+  expect(hashtagFinder).toMatchAllGroups('#Hello #world!', [
     ['#Hello', 'Hello'],
     ['#world', 'world'],
   ]);
 
-  expect(regex).not.toMatchString('aa');
-  expect(regex).not.toMatchString('#');
-  expect(regex).not.toMatchString('a# ');
+  expect(hashtagFinder).not.toMatchString('aa');
+  expect(hashtagFinder).not.toMatchString('#');
+  expect(hashtagFinder).not.toMatchString('a# ');
 
-  expect(regex).toEqualRegex(/#(\w+)/g);
+  expect(hashtagFinder).toEqualRegex(/#(\w+)/g);
 });

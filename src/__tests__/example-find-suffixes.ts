@@ -1,24 +1,24 @@
-import { buildRegExp, choiceOf, nonWordBoundary, wordBoundary } from '..';
+import { choiceOf, nonWordBoundary, regex, wordBoundary } from '..';
 
 test('example: find words with suffix', () => {
   const suffixesToFind = ['acy', 'ism'];
 
-  const regex = buildRegExp([
+  const suffixRegex = regex([
     nonWordBoundary, // match suffixes only
     choiceOf(...suffixesToFind),
     wordBoundary,
-  ]);
+  ]).build();
 
-  expect(regex).toMatchString('democracy');
-  expect(regex).toMatchString('Bureaucracy');
-  expect(regex).toMatchString('abc privacy ');
-  expect(regex).toMatchString('abc dynamism');
-  expect(regex).toMatchString('realism abc');
-  expect(regex).toMatchString('abc modernism abc');
+  expect(suffixRegex).toMatchString('democracy');
+  expect(suffixRegex).toMatchString('Bureaucracy');
+  expect(suffixRegex).toMatchString('abc privacy ');
+  expect(suffixRegex).toMatchString('abc dynamism');
+  expect(suffixRegex).toMatchString('realism abc');
+  expect(suffixRegex).toMatchString('abc modernism abc');
 
-  expect(regex).not.toMatchString('abc acy');
-  expect(regex).not.toMatchString('ism abc');
-  expect(regex).not.toMatchString('dynamisms');
+  expect(suffixRegex).not.toMatchString('abc acy');
+  expect(suffixRegex).not.toMatchString('ism abc');
+  expect(suffixRegex).not.toMatchString('dynamisms');
 
-  expect(regex).toEqualRegex(/\B(?:acy|ism)\b/);
+  expect(suffixRegex).toEqualRegex(/\B(?:acy|ism)\b/);
 });

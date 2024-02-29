@@ -3,6 +3,8 @@ import { encodeSequence } from './encoder/encoder';
 import { ensureArray } from './utils/elements';
 
 /**
+ * @deprecated Use `regex(...).build()` instead.
+ *
  * Generate RegExp object from elements with optional flags.
  *
  * @param elements Single regex element or array of elements
@@ -15,6 +17,8 @@ export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp
   return new RegExp(pattern, flagsString);
 }
 
+export const buildRegex = buildRegExp;
+
 /**
  * Generate regex pattern from elements.
  * @param elements Single regex element or array of elements
@@ -24,7 +28,7 @@ export function buildPattern(sequence: RegexSequence): string {
   return encodeSequence(ensureArray(sequence)).pattern;
 }
 
-function encodeFlags(flags: RegexFlags): string {
+export function encodeFlags(flags: RegexFlags): string {
   let result = '';
 
   if (flags.global) result += 'g';

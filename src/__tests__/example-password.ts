@@ -1,4 +1,4 @@
-import { any, buildRegExp, endOfString, lookahead, startOfString, zeroOrMore } from '../index';
+import { any, endOfString, lookahead, regex, startOfString, zeroOrMore } from '../index';
 
 //^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,}$
 
@@ -17,7 +17,7 @@ const atLeastOneSpecialChar = lookahead([zeroOrMore(any), /[^A-Za-z0-9\s]/]);
 const atLeastEightChars = /.{8,}/;
 
 test('Example: Validating passwords', () => {
-  const validPassword = buildRegExp([
+  const passwordValidator = regex([
     startOfString,
     atLeastOneUppercase,
     atLeastOneLowercase,
@@ -25,19 +25,19 @@ test('Example: Validating passwords', () => {
     atLeastOneSpecialChar,
     atLeastEightChars,
     endOfString,
-  ]);
+  ]).build();
 
-  expect(validPassword).toMatchString('Aaaaa$aaaaaaa1');
-  expect(validPassword).not.toMatchString('aaaaaaaaaaa');
-  expect(validPassword).toMatchString('9aaa#aaaaA');
-  expect(validPassword).not.toMatchString('Aa');
-  expect(validPassword).toMatchString('Aa$123456');
-  expect(validPassword).not.toMatchString('Abba');
-  expect(validPassword).not.toMatchString('#password');
-  expect(validPassword).toMatchString('#passworD666');
-  expect(validPassword).not.toMatchString('Aa%1234');
+  expect(passwordValidator).toMatchString('Aaaaa$aaaaaaa1');
+  expect(passwordValidator).not.toMatchString('aaaaaaaaaaa');
+  expect(passwordValidator).toMatchString('9aaa#aaaaA');
+  expect(passwordValidator).not.toMatchString('Aa');
+  expect(passwordValidator).toMatchString('Aa$123456');
+  expect(passwordValidator).not.toMatchString('Abba');
+  expect(passwordValidator).not.toMatchString('#password');
+  expect(passwordValidator).toMatchString('#passworD666');
+  expect(passwordValidator).not.toMatchString('Aa%1234');
 
-  expect(validPassword).toEqualRegex(
+  expect(passwordValidator).toEqualRegex(
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])(?:.{8,})$/,
   );
 });
