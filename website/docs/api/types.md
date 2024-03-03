@@ -6,11 +6,24 @@ sidebar_position: 1
 
 ### `RegexSequence`
 
+```ts
+type RegexSequence = 
+    | RegexElement[]
+    | RegexElement;
+```
+
 The sequence of regex elements forming a regular expression. For developer convenience, it also accepts a single element instead of an array.
 
 ### `RegexElement`
 
-Fundamental building blocks of a regular expression, defined as either a regex construct, a string, or a `RegExp` literal (`/.../`).
+```ts
+type RegexElement = 
+    | RegexConstruct
+    | RegExp
+    | string;
+```
+
+Regex elements are fundamental building blocks of a regular expression. These can be either further regex constructs, regular strings to be matched literally or `RegExp` literals (`/.../`) for including simple regexes as part of a larger structure.
 
 ### `RegexConstruct`
 
