@@ -54,8 +54,11 @@ See [Builder](./api/builder) for more info.
 
 See [Constructs](./api/constructs) for more info.
 
-> [!NOTE]
-> TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required.
+:::note
+
+TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required.
+
+:::
 
 ### Quantifiers
 

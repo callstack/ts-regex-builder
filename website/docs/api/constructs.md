@@ -29,6 +29,9 @@ Regex syntax: `(...)`.
 
 Captures, also known as capturing groups, extract and store parts of the matched string for later use.
 
-> [!NOTE]
-> TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required. E.g., `zeroOrMore(["abc"])` is encoded as `(?:abc)+`.
+:::note
+
+TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required. E.g., `zeroOrMore("abc")` is encoded as `(?:abc)+`.
+
+:::
 
