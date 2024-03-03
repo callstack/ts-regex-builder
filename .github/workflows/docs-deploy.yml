@@ -21,10 +21,10 @@ jobs:
         uses: ./.github/actions/setup-website
 
       - name: Install dependencies
-        run: yarn --cwd website install --frozen-lockfile
+        run: cd ./website && yarn install --frozen-lockfile
 
       - name: Build website
-        run: yarn --cwd website build
+        run: cd ./website && yarn build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

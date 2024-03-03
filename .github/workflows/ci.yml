@@ -66,4 +66,4 @@ jobs:
         uses: ./.github/actions/setup-website
 
       - name: Build website
-        run: yarn --cwd website build
+        run: cd ./wesite && yarn build
