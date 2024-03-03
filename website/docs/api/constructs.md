@@ -1,7 +1,6 @@
 ---
 id: constructs
 title: Constructs
-sidebar_position: 3
 ---
 
 These functions and objects represent available regex constructs.

@@ -1,7 +1,6 @@
 ---
 id: quantifiers
 title: Quantifiers
-sidebar_position: 4
 ---
 
 Quantifiers in regex define the number of occurrences to match for a pattern.

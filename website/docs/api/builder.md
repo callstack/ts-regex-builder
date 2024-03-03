@@ -1,7 +1,6 @@
 ---
 id: builder
 title: Builder
-sidebar_position: 2
 ---
 
 ### `buildRegExp()`

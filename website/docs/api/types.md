@@ -1,7 +1,6 @@
 ---
 id: types
 title: Types
-sidebar_position: 1
 ---
 
 ### `RegexSequence`

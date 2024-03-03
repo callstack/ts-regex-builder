@@ -1,7 +1,6 @@
 ---
-id: anchors
+id: assertions
 title: Assertions
-sidebar_position: 6
 ---
 
 ## Anchors
