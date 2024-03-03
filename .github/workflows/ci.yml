@@ -63,7 +63,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js and website deps
-        uses: ./.github/actions/setup-website-deps
+        uses: ./.github/actions/setup-website
 
       - name: Build website
         run: yarn --cwd website build
