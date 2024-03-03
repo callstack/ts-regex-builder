@@ -126,7 +126,8 @@
   "eslintIgnore": [
     "node_modules/",
     "lib/",
-    "coverage/"
+    "coverage/",
+    "website/"
   ],
   "prettier": {
     "quoteProps": "consistent",
