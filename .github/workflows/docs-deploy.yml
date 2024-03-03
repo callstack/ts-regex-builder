@@ -18,13 +18,13 @@ jobs:
           fetch-depth: 0
 
       - name: Setup
-        uses: ./.github/actions/setup
+        uses: ./.github/actions/setup-website
 
       - name: Install dependencies
-        run: cd ./website && yarn install --frozen-lockfile
+        run: yarn --cwd website install --frozen-lockfile
 
       - name: Build website
-        run: cd ./website && yarn build
+        run: yarn --cwd website build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

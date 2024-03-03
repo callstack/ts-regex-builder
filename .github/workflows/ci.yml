@@ -10,9 +10,10 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    name: Lint and Typecheck
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -25,9 +26,10 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    name: Test
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -42,9 +44,10 @@ jobs:
 
   build-library:
     runs-on: ubuntu-latest
+    name: Build Library
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -52,3 +55,15 @@ jobs:
       - name: Build package
         run: yarn prepare
 
+  test-website:
+    runs-on: ubuntu-latest
+    name: Test Website
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and website deps
+        uses: ./.github/actions/setup-website-deps
+
+      - name: Build website
+        run: yarn --cwd website build
