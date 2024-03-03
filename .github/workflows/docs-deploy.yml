@@ -20,9 +20,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup-website
 
-      - name: Install dependencies
-        run: cd ./website && yarn install --frozen-lockfile
-
       - name: Build website
         run: cd ./website && yarn build
 
