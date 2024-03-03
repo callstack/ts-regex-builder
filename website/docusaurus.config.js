@@ -61,7 +61,7 @@ const config = {
         title: 'TS Regex Builder',
         logo: {
           alt: 'TS Regex Builder',
-          src: 'img/logo.png',
+          src: 'img/logo-200.png',
         },
         items: [
           {
