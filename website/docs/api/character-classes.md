@@ -10,20 +10,20 @@ Character classes are a set of characters that match any one of the characters i
 ```ts
 const any: CharacterClass;
 const word: CharacterClass;
-const notWord: CharacterClass;
+const nonWord: CharacterClass;
 const digit: CharacterClass;
-const notDigit: CharacterClass;
+const nonDigit: CharacterClass;
 const whitespace: CharacterClass;
-const notWhitespace: CharacterClass;
+const nonWhitespace: CharacterClass;
 ```
 
 - `any` matches any character except newline characters. Regex syntax: `*`.
 - `word` matches any word character (letters, digits & underscore). Regex syntax: `\w`.
-- `notWord` matches any character **except** word characters (letters, digits & underscore). Regex syntax: `\W`.
+- `nonWord` matches any character **except** word characters (letters, digits & underscore). Regex syntax: `\W`.
 - `digit` matches any digit. Regex syntax: `\d`.
-- `notDigit` matches any character **except** digits. Regex syntax: `\D`.
+- `nonDigit` matches any character **except** digits. Regex syntax: `\D`.
 - `whitespace` matches any whitespace character (spaces, tabs, line breaks). Regex syntax: `\s`.
-- `notWhitespace` matches any character **except** whitespace characters (spaces, tabs, line breaks). Regex syntax: `\S`.
+- `nonWhitespace` matches any character **except** whitespace characters (spaces, tabs, line breaks). Regex syntax: `\S`.
 
 ### `anyOf()`
 

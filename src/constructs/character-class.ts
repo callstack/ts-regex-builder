@@ -33,7 +33,7 @@ export const digit: CharacterClass = {
   encode: encodeCharacterClass,
 };
 
-export const notDigit: CharacterClass = {
+export const nonDigit: CharacterClass = {
   type: 'characterClass',
   chars: ['\\D'],
   ranges: [],
@@ -49,7 +49,7 @@ export const word: CharacterClass = {
   encode: encodeCharacterClass,
 };
 
-export const notWord: CharacterClass = {
+export const nonWord: CharacterClass = {
   type: 'characterClass',
   chars: ['\\W'],
   ranges: [],
@@ -65,13 +65,28 @@ export const whitespace: CharacterClass = {
   encode: encodeCharacterClass,
 };
 
-export const notWhitespace: CharacterClass = {
+export const nonWhitespace: CharacterClass = {
   type: 'characterClass',
   chars: ['\\S'],
   ranges: [],
   isInverted: false,
   encode: encodeCharacterClass,
 };
+
+/**
+ * @deprecated Renamed to `nonDigit`.
+ */
+export const notDigit = nonDigit;
+
+/**
+ * @deprecated Renamed to `nonWord`.
+ */
+export const notWord = nonWord;
+
+/**
+ * @deprecated Renamed to `nonWhitespace`.
+ */
+export const notWhitespace = nonWhitespace;
 
 export function charClass(...elements: CharacterClass[]): CharacterClass {
   elements.forEach((element) => {

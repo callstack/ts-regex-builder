@@ -2,7 +2,7 @@ import {
   buildRegExp,
   digit,
   endOfString,
-  notWhitespace,
+  nonWhitespace,
   notWordBoundary,
   oneOrMore,
   startOfString,
@@ -35,11 +35,11 @@ test('`wordBoundary` pattern', () => {
 
 test('`wordBoundary` matching', () => {
   expect(
-    buildRegExp([wordBoundary, 'a', zeroOrMore(notWhitespace)], { global: true }),
+    buildRegExp([wordBoundary, 'a', zeroOrMore(nonWhitespace)], { global: true }),
   ).toMatchGroups('a ba ab aa', ['a', 'ab', 'aa']);
 
   expect(
-    buildRegExp([zeroOrMore(notWhitespace), 'a', wordBoundary], { global: true }),
+    buildRegExp([zeroOrMore(nonWhitespace), 'a', wordBoundary], { global: true }),
   ).toMatchGroups('a ba ab aa', ['a', 'ba', 'aa']);
 });
 
