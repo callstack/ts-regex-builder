@@ -3,7 +3,7 @@ import {
   digit,
   endOfString,
   nonWhitespace,
-  notWordBoundary,
+  nonWordBoundary,
   oneOrMore,
   startOfString,
   wordBoundary,
@@ -43,20 +43,20 @@ test('`wordBoundary` matching', () => {
   ).toMatchGroups('a ba ab aa', ['a', 'ba', 'aa']);
 });
 
-test('`notWordBoundary` pattern', () => {
-  expect(notWordBoundary).toEqualRegex(/\B/);
-  expect([notWordBoundary, 'a', 'b']).toEqualRegex(/\Bab/);
-  expect(['a', notWordBoundary, 'b']).toEqualRegex(/a\Bb/);
-  expect(['a', 'b', notWordBoundary]).toEqualRegex(/ab\B/);
+test('`nonWordBoundary` pattern', () => {
+  expect(nonWordBoundary).toEqualRegex(/\B/);
+  expect([nonWordBoundary, 'a', 'b']).toEqualRegex(/\Bab/);
+  expect(['a', nonWordBoundary, 'b']).toEqualRegex(/a\Bb/);
+  expect(['a', 'b', nonWordBoundary]).toEqualRegex(/ab\B/);
 });
 
-test('`notWordBoundary` matching', () => {
-  expect(buildRegExp([notWordBoundary, 'abc', digit], { global: true })).toMatchGroups(
+test('`nonWordBoundary` matching', () => {
+  expect(buildRegExp([nonWordBoundary, 'abc', digit], { global: true })).toMatchGroups(
     'abc1 xabc2 xxabc3',
     ['abc2', 'abc3'],
   );
 
-  expect(buildRegExp([digit, 'abc', notWordBoundary], { global: true })).toMatchGroups(
+  expect(buildRegExp([digit, 'abc', nonWordBoundary], { global: true })).toMatchGroups(
     '1abc 2abcx 3abcxx',
     ['2abc', '3abc'],
   );
