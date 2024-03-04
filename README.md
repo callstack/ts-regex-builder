@@ -136,7 +136,7 @@ See [Quantifiers API doc](https://callstack.github.io/ts-regex-builder/api/quant
 | `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
 | `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
 | `charClass(...)`      | `[...]`      | Union of multiple character classes               |
-| `inverted(...)`       | `[^...]`     | Negation of a given character class               |
+| `negated(...)`        | `[^...]`     | Negation of a given character class               |
 
 See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api/character-classes) for more info.
 

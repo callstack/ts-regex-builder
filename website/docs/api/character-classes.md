@@ -68,17 +68,17 @@ Examples:
 - `charClass(charRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
 - `charClass(charRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase Latin letter from `a` to `z`, and either of `.`, `_`, and `-` characters.
 
-### `inverted()`
+### `negated()`
 
 ```ts
-function inverted(element: CharacterClass): CharacterClass;
+function negated(element: CharacterClass): CharacterClass;
 ```
 
 Regex syntax: `[^...]`.
 
-The `inverted` construct creates a new character class that matches any character not present in the passed character class.
+The `negated` construct creates a new character class that matches any character not present in the passed character class.
 
 Examples:
 
-- `inverted(digit)` matches any character that is not a digit
-- `inverted(anyOf('aeiou'))` matches any character that is not a lowercase vowel.
+- `negated(digit)` matches any character that is not a digit
+- `negated(anyOf('aeiou'))` matches any character that is not a lowercase vowel.

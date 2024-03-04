@@ -5,7 +5,7 @@ import {
   charClass,
   charRange,
   digit,
-  inverted,
+  negated,
   nonDigit,
   nonWhitespace,
   nonWord,
@@ -83,9 +83,9 @@ test('`charClass` base cases', () => {
   expect(charClass(charRange('a', 'z'), whitespace, anyOf('05'))).toEqualRegex(/[a-z\s05]/);
 });
 
-test('`charClass` throws on inverted arguments', () => {
-  expect(() => charClass(inverted(whitespace))).toThrowErrorMatchingInlineSnapshot(
-    `"\`charClass\` should receive only non-inverted character classes"`,
+test('`charClass` throws on negated arguments', () => {
+  expect(() => charClass(negated(whitespace))).toThrowErrorMatchingInlineSnapshot(
+    `"\`charClass\` should receive only non-negated character classes"`,
   );
 });
 
@@ -141,30 +141,30 @@ test('`anyOf` throws on empty text', () => {
   );
 });
 
-test('`inverted` character class pattern', () => {
-  expect(inverted(anyOf('a'))).toEqualRegex(/[^a]/);
-  expect(inverted(anyOf('abc'))).toEqualRegex(/[^abc]/);
+test('`negated` character class pattern', () => {
+  expect(negated(anyOf('a'))).toEqualRegex(/[^a]/);
+  expect(negated(anyOf('abc'))).toEqualRegex(/[^abc]/);
 });
 
-test('`inverted` character class pattern double inversion', () => {
-  expect(inverted(inverted(anyOf('a')))).toEqualRegex(/a/);
-  expect(inverted(inverted(anyOf('abc')))).toEqualRegex(/[abc]/);
+test('`negated` character class pattern double inversion', () => {
+  expect(negated(negated(anyOf('a')))).toEqualRegex(/a/);
+  expect(negated(negated(anyOf('abc')))).toEqualRegex(/[abc]/);
 });
 
-test('`inverted` character class matching', () => {
-  expect(inverted(anyOf('a'))).not.toMatchString('aa');
-  expect(inverted(anyOf('a'))).toMatchGroups('aba', ['b']);
+test('`negated` character class matching', () => {
+  expect(negated(anyOf('a'))).not.toMatchString('aa');
+  expect(negated(anyOf('a'))).toMatchGroups('aba', ['b']);
 });
 
 test('`encodeCharacterClass` throws on empty text', () => {
   expect(() =>
     buildRegExp(
       // @ts-expect-error
-      inverted({
+      negated({
         type: 'characterClass',
         chars: [],
         ranges: [],
-        isInverted: false,
+        isNegated: false,
       }),
     ),
   ).toThrowErrorMatchingInlineSnapshot(

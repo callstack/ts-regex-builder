@@ -5,7 +5,7 @@ export interface CharacterClass extends RegexConstruct {
   type: 'characterClass';
   chars: string[];
   ranges: CharacterRange[];
-  isInverted: boolean;
+  isNegated: boolean;
   encode: () => EncodeResult;
 }
 
@@ -21,7 +21,7 @@ export const any: CharacterClass = {
   type: 'characterClass',
   chars: ['.'],
   ranges: [],
-  isInverted: false,
+  isNegated: false,
   encode: encodeCharacterClass,
 };
 
@@ -29,7 +29,7 @@ export const digit: CharacterClass = {
   type: 'characterClass',
   chars: ['\\d'],
   ranges: [],
-  isInverted: false,
+  isNegated: false,
   encode: encodeCharacterClass,
 };
 
@@ -37,7 +37,7 @@ export const nonDigit: CharacterClass = {
   type: 'characterClass',
   chars: ['\\D'],
   ranges: [],
-  isInverted: false,
+  isNegated: false,
   encode: encodeCharacterClass,
 };
 
@@ -45,7 +45,7 @@ export const word: CharacterClass = {
   type: 'characterClass',
   chars: ['\\w'],
   ranges: [],
-  isInverted: false,
+  isNegated: false,
   encode: encodeCharacterClass,
 };
 
@@ -53,7 +53,7 @@ export const nonWord: CharacterClass = {
   type: 'characterClass',
   chars: ['\\W'],
   ranges: [],
-  isInverted: false,
+  isNegated: false,
   encode: encodeCharacterClass,
 };
 
@@ -61,7 +61,7 @@ export const whitespace: CharacterClass = {
   type: 'characterClass',
   chars: ['\\s'],
   ranges: [],
-  isInverted: false,
+  isNegated: false,
   encode: encodeCharacterClass,
 };
 
@@ -69,7 +69,7 @@ export const nonWhitespace: CharacterClass = {
   type: 'characterClass',
   chars: ['\\S'],
   ranges: [],
-  isInverted: false,
+  isNegated: false,
   encode: encodeCharacterClass,
 };
 
@@ -90,8 +90,8 @@ export const notWhitespace = nonWhitespace;
 
 export function charClass(...elements: CharacterClass[]): CharacterClass {
   elements.forEach((element) => {
-    if (element.isInverted) {
-      throw new Error('`charClass` should receive only non-inverted character classes');
+    if (element.isNegated) {
+      throw new Error('`charClass` should receive only non-negated character classes');
     }
   });
 
@@ -99,7 +99,7 @@ export function charClass(...elements: CharacterClass[]): CharacterClass {
     type: 'characterClass',
     chars: elements.map((c) => c.chars).flat(),
     ranges: elements.map((c) => c.ranges).flat(),
-    isInverted: false,
+    isNegated: false,
     encode: encodeCharacterClass,
   };
 }
@@ -121,7 +121,7 @@ export function charRange(start: string, end: string): CharacterClass {
     type: 'characterClass',
     chars: [],
     ranges: [{ start, end }],
-    isInverted: false,
+    isNegated: false,
     encode: encodeCharacterClass,
   };
 }
@@ -137,17 +137,17 @@ export function anyOf(characters: string): CharacterClass {
     type: 'characterClass',
     chars,
     ranges: [],
-    isInverted: false,
+    isNegated: false,
     encode: encodeCharacterClass,
   };
 }
 
-export function inverted(element: CharacterClass): CharacterClass {
+export function negated(element: CharacterClass): CharacterClass {
   return {
     type: 'characterClass',
     chars: element.chars,
     ranges: element.ranges,
-    isInverted: !element.isInverted,
+    isNegated: !element.isNegated,
     encode: encodeCharacterClass,
   };
 }
@@ -158,7 +158,7 @@ function encodeCharacterClass(this: CharacterClass): EncodeResult {
   }
 
   // Direct rendering for single-character class
-  if (this.chars.length === 1 && this.ranges?.length === 0 && !this.isInverted) {
+  if (this.chars.length === 1 && this.ranges?.length === 0 && !this.isNegated) {
     return {
       precedence: 'atom',
       pattern: this.chars[0]!,
@@ -172,9 +172,9 @@ function encodeCharacterClass(this: CharacterClass): EncodeResult {
   const caret = this.chars.includes('^') ? '^' : '';
   const otherChars = this.chars.filter((c) => c !== '-' && c !== '^').join('');
   const ranges = this.ranges.map(({ start, end }) => `${start}-${end}`).join('');
-  const isInverted = this.isInverted ? '^' : '';
+  const negation = this.isNegated ? '^' : '';
 
-  let pattern = `[${isInverted}${ranges}${otherChars}${caret}${hyphen}]`;
+  let pattern = `[${negation}${ranges}${otherChars}${caret}${hyphen}]`;
   if (pattern === '[^-]') pattern = '[\\^-]';
 
   return {
