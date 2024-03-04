@@ -17,6 +17,7 @@ export {
   charRange,
   digit,
   negated,
+  inverted,
   nonDigit,
   nonWhitespace,
   nonWord,

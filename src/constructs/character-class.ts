@@ -152,6 +152,11 @@ export function negated(element: CharacterClass): CharacterClass {
   };
 }
 
+/**
+ * @deprecated Renamed to `negated`.
+ */
+export const inverted = negated;
+
 function encodeCharacterClass(this: CharacterClass): EncodeResult {
   if (this.chars.length === 0 && this.ranges.length === 0) {
     throw new Error('Character class should contain at least one character or character range');
