@@ -47,19 +47,18 @@ See [Builder](./api/builder) for more info.
 
 ### Regex Constructs
 
-| Construct                 | Regex Syntax | Notes                                       |
-| ------------------------- | ------------ | ------------------------------------------- |
-| `choiceOf(x, y, z)`       | `x\|y\|z`    | Match one of provided sequences             |
-| `capture(...)`            | `(...)`      | Create a capture group                      |
-| `lookahead(...)`          | `(?=...)`    | Match subsequent text without consuming it  |
-| `negativeLookhead(...)`   | `(?!...)`    | Reject subsequent text without consuming it |
-| `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it   |
-| `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it  |
+| Construct           | Regex Syntax | Notes                           |
+| ------------------- | ------------ | ------------------------------- |
+| `choiceOf(x, y, z)` | `x\|y\|z`    | Match one of provided sequences |
+| `capture(...)`      | `(...)`      | Create a capture group          |
 
 See [Constructs](./api/constructs) for more info.
 
-> [!NOTE]
-> TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required.
+:::note
+
+TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required.
+
+:::
 
 ### Quantifiers
 
@@ -89,12 +88,17 @@ See [Quantifiers](./api/quantifiers) for more info.
 
 See [Character Classes](./api/character-classes) for more info.
 
-### Anchors
+### Assertions
 
-| Anchor          | Regex Syntax | Description                                                              |
-| --------------- | ------------ | ------------------------------------------------------------------------ |
-| `startOfString` | `^`          | Match the start of the string (or the start of a line in multiline mode) |
-| `endOfString`   | `$`          | Match the end of the string (or the end of a line in multiline mode)     |
-| `wordBoundary`  | `\b`         | Match the start or end of a word without consuming characters            |
+| Assertion                 | Regex Syntax | Description                                                              |
+| ------------------------- | ------------ | ------------------------------------------------------------------------ |
+| `startOfString`           | `^`          | Match the start of the string (or the start of a line in multiline mode) |
+| `endOfString`             | `$`          | Match the end of the string (or the end of a line in multiline mode)     |
+| `wordBoundary`            | `\b`         | Match the start or end of a word without consuming characters            |
+| `lookahead(...)`          | `(?=...)`    | Match subsequent text without consuming it                               |
+| `negativeLookhead(...)`   | `(?!...)`    | Reject subsequent text without consuming it                              |
+| `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it                                |
+| `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it                               |
 
-See [Anchors](./api/anchors) for more info.
+
+See [Assertions](./api/assertions) for more info.

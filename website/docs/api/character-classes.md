@@ -1,7 +1,6 @@
 ---
 id: character-classes
 title: Character Classes
-sidebar_position: 5
 ---
 
 Character classes are a set of characters that match any one of the characters in the set.

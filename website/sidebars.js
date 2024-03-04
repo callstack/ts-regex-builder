@@ -31,7 +31,7 @@ export default {
         'api/constructs',
         'api/quantifiers',
         'api/character-classes',
-        'api/anchors',
+        'api/assertions',
       ],
     },
     {
@@ -41,4 +41,3 @@ export default {
     },
   ],
 };
-
