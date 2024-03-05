@@ -4,6 +4,9 @@ title: Getting Started
 slug: /
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Goal
 
 Regular expressions are a powerful tool for matching text patterns, yet they are notorious for their hard-to-parse syntax, especially in the case of more complex patterns.
@@ -32,15 +35,22 @@ const hexColor = buildRegExp([
 
 ## Installation
 
+<Tabs>
+<TabItem value="npm" label="npm">
+
 ```sh
 npm install ts-regex-builder
 ```
 
-or
+</TabItem>
+<TabItem value="yarn" label="yarn">
 
 ```sh
 yarn add ts-regex-builder
 ```
+
+</TabItem>
+</Tabs>
 
 ## Basic usage
 
