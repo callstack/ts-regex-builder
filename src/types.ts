@@ -35,3 +35,5 @@ export interface RegexFlags {
   /** Penerate the start and end indices of each captured group in a match. */
   hasIndices?: boolean;
 }
+const validGroupNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+export type GroupNumber = (typeof validGroupNumbers)[number];

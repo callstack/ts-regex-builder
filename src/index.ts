@@ -4,6 +4,9 @@ export { buildPattern, buildRegExp } from './builders';
 
 export { endOfString, notWordBoundary, startOfString, wordBoundary } from './constructs/anchors';
 export { capture } from './constructs/capture';
+export { namedCapture } from './constructs/named-capture';
+export { backreference } from './constructs/backreference';
+export { namedBackreference } from './constructs/named-backreference';
 export {
   any,
   anyOf,

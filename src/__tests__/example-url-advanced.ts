@@ -22,8 +22,8 @@ const uppercase = charRange('A', 'Z');
 const hyphen = anyOf('-');
 const alphabetical = charClass(lowercase, uppercase);
 const specialChars = anyOf('._%+-');
-const portSeperator = ':';
-const schemeSeperator = ':';
+const portSeparator = ':';
+const schemeSeparator = ':';
 const doubleSlash = '//';
 const at = '@';
 const pathSeparator = '/';
@@ -63,7 +63,7 @@ const userInfo = oneOrMore(usernameChars);
 const hostname = repeat(hostnameChars, { min: 1, max: 63 });
 const hostnameEnd = capture([hostname, endOfString]);
 const host = capture([oneOrMore([hostname, '.'])]);
-const port = [portSeperator, oneOrMore(digit)];
+const port = [portSeparator, oneOrMore(digit)];
 
 const authority = [doubleSlash, optional([userInfo, at]), hostname, optional(port)];
 const authorityRegex = buildRegExp([startOfString, ...authority, endOfString], {
@@ -162,7 +162,7 @@ const urlRegex = buildRegExp(
     startOfString,
     capture([
       optional(scheme),
-      schemeSeperator,
+      schemeSeparator,
       optional(authority),
       path,
       optional(query),

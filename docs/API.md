@@ -74,6 +74,41 @@ Captures, also known as capturing groups, extract and store parts of the matched
 > [!NOTE]
 > TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required. E.g., `zeroOrMore(["abc"])` is encoded as `(?:abc)+`.
 
+### `backreference()`
+
+```ts
+function backreference(
+  groupNumber: number
+): Backreference
+```
+
+Regex syntax: `\1 \2`.
+
+A backreference is a way to match the same text as previously matched by a capturing group.
+
+### `namedCapture()`
+
+```ts
+function namedCapture(
+  sequence: RegexSequence
+): NamedCapture
+```
+
+Regex syntax: `(...)`.
+
+A named capturing group is a capturing group that give a name to the group. The group's matching result can later be identified by this name.
+
+### `namedBackreference()`
+
+```ts
+function namedBackreference(
+  groupName: string
+): NamedBackreference
+```
+
+Regex syntax: `\k{groupName}`.
+
+A named backreference is a way to match the same text as previously matched by a named capturing group.
 ### `lookahead()`
 
 ```ts
