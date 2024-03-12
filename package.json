@@ -17,12 +17,14 @@
   ],
   "exports": {
     ".": {
+      "require": "./lib/commonjs/index",
       "import": "./lib/module/index",
-      "require": "./lib/commonjs/index"
+      "types": "./lib/typescript/src/index.d.ts"
     },
     "./patterns": {
+      "require": "./lib/commonjs/patterns/index",
       "import": "./lib/module/patterns/index",
-      "require": "./lib/commonjs/patterns/index"
+      "types": "./lib/typescript/src/patterns/index.d.ts"
     }
   },
   "scripts": {
