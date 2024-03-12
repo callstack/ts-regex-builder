@@ -15,6 +15,16 @@
     "!**/__mocks__",
     "!**/.*"
   ],
+  "exports": {
+    ".": {
+      "import": "./lib/module/index",
+      "require": "./lib/commonjs/index"
+    },
+    "./patterns": {
+      "import": "./lib/module/patterns/index",
+      "require": "./lib/commonjs/patterns/index"
+    }
+  },
   "scripts": {
     "test": "jest",
     "typecheck": "tsc --noEmit",
