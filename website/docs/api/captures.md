@@ -10,7 +10,6 @@ function capture(
   sequence: RegexSequence,
   options?: {
     name?: string;
-    ref?: string;
   },
 ): Capture;
 ```
@@ -18,7 +17,7 @@ function capture(
 Regex syntax:
 
 - `(...)` for capturing groups (no `name` option)
-- `(?<name>...)` for named capturing groups (`name` or `ref` option)
+- `(?<name>...)` for named capturing groups (`name` option)
 
 Captures, also known as capturing groups, extract and store parts of the matched string for later use.
 
@@ -46,7 +45,22 @@ function ref(
 
 Regex syntax: `\k<...>`.
 
-References, also known as backreferences, allow matching the same text again that was previously matched by a capturing group.
+Creates a reference, also known as backreferences, which allows matching the same text again that was previously matched by a capturing group. To form a valid regex, reference need to be attached to named capturing group earlier in the expression.
+
+If you do not specify the reference name, a auto-generated unique value will be assigned for it.
+
+Usage with `capture()`:
+
+```ts
+// Define ref with name "some".
+const someRef = ref('some');
+
+const regex = buildRegExp([
+  capture(..., { ref: someRef}), // Here you make a named capture using name from `someRef`.
+  // ...
+  someRef, // Here you match the same text as captured in capture using `someRef`.
+  ])
+```
 
 :::note
 

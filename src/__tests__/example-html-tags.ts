@@ -12,14 +12,15 @@ import {
 
 test('example: html tag matching', () => {
   const tagName = oneOrMore(charClass(charRange('a', 'z'), digit));
+  const tagContent = zeroOrMore(any, { greedy: false });
 
   const tagRef = ref('tag');
   const tagMatcher = buildRegExp(
     [
       '<',
-      capture(tagName, { ref: tagRef }),
+      capture(tagName, { name: tagRef }),
       '>',
-      capture(zeroOrMore(any, { greedy: false }), { name: 'content' }),
+      capture(tagContent, { name: 'content' }),
       '</',
       tagRef,
       '>',
