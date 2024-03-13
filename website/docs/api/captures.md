@@ -35,10 +35,10 @@ TS Regex Builder does not have a construct for non-capturing groups. Such groups
 
 :::
 
-### `ref()`
+### `reference()`
 
 ```ts
-function ref(
+function reference(
   name?: string;
 ): Reference;
 ```
@@ -52,13 +52,15 @@ If you do not specify the reference name, a auto-generated unique value will be 
 Usage with `capture()`:
 
 ```ts
-// Define ref with name "some".
-const someRef = ref('some');
+// Define reference with name "some".
+const someRef = reference('some');
 
 const regex = buildRegExp([
-  capture(..., { ref: someRef}), // Here you make a named capture using name from `someRef`.
-  // ...
-  someRef, // Here you match the same text as captured in capture using `someRef`.
+  // Create a named capture using name from `someRef`.
+  capture(..., { name: someRef}),
+  // ... some other elements ...
+  // Match the same text as captured in capture using `someRef`.
+  someRef,
   ])
 ```
 

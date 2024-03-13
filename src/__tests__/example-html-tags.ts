@@ -6,7 +6,7 @@ import {
   charRange,
   digit,
   oneOrMore,
-  ref,
+  reference,
   zeroOrMore,
 } from '..';
 
@@ -14,7 +14,7 @@ test('example: html tag matching', () => {
   const tagName = oneOrMore(charClass(charRange('a', 'z'), digit));
   const tagContent = zeroOrMore(any, { greedy: false });
 
-  const tagRef = ref('tag');
+  const tagRef = reference('tag');
   const tagMatcher = buildRegExp(
     [
       '<',
