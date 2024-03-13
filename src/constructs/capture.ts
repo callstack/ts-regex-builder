@@ -9,15 +9,13 @@ export interface Capture extends RegexConstruct {
   options?: CaptureOptions;
 }
 
-export type CaptureOptions =
-  | {
-      /** Name to be given to the capturing group. */
-      name: string;
-    }
-  | {
-      /** Reference object ({@link ref}) that will allow to match the captured text again later. */
-      ref: Reference;
-    };
+export type CaptureOptions = {
+  /**
+   * Name to be given to the capturing group can either by a string or {@link ref} instance.
+   */
+  name: string | Reference;
+};
+
 export interface Reference extends RegexConstruct {
   type: 'reference';
   name: string;
@@ -40,11 +38,11 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Capt
 let counter = 0;
 
 /**
- * Creates a backreference to a capturing group.
+ * Creates a reference (a.k.a. backreference) to a capturing group.
  *
  * Backreferences allows to match the same text that was previously captured by a capturing group.
  *
- * @param name - Name to be given to the capturing group which receives this `Backreference`. If not provided, a unique name will be generated.
+ * @param name - Name to be given to the capturing group which receives this reference. If not provided, a unique name will be generated.
  */
 export function ref(name?: string): Reference {
   return {
@@ -56,7 +54,7 @@ export function ref(name?: string): Reference {
 
 function encodeCapture(this: Capture): EncodeResult {
   // @ts-expect-error
-  const name = this.options?.ref?.name ?? this.options?.name;
+  const name = this.options?.name?.name ?? this.options?.name;
   if (name) {
     return {
       precedence: 'atom',
