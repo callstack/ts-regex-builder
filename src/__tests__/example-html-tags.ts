@@ -17,9 +17,9 @@ test('example: html tag matching', () => {
   const tagMatcher = buildRegExp(
     [
       '<',
-      capture(tagName, { as: tagRef }),
+      capture(tagName, { ref: tagRef }),
       '>',
-      capture(zeroOrMore(any, { greedy: false }), { as: 'content' }),
+      capture(zeroOrMore(any, { greedy: false }), { name: 'content' }),
       '</',
       tagRef,
       '>',

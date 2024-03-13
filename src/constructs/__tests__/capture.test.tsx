@@ -25,27 +25,28 @@ test('`capture` matching', () => {
 });
 
 test('named `capture` pattern', () => {
-  expect(capture('a', { as: 'xyz' })).toEqualRegex('(?<xyz>a)');
-  expect(capture('abc', { as: 'xyz' })).toEqualRegex('(?<xyz>abc)');
-  expect(capture(oneOrMore('abc'), { as: 'xyz' })).toEqualRegex('(?<xyz>(?:abc)+)');
-  expect(oneOrMore(capture('abc', { as: 'xyz' }))).toEqualRegex('(?<xyz>abc)+');
+  expect(capture('a', { name: 'xyz' })).toEqualRegex('(?<xyz>a)');
+  expect(capture('abc', { name: 'xyz' })).toEqualRegex('(?<xyz>abc)');
+  expect(capture(oneOrMore('abc'), { name: 'xyz' })).toEqualRegex('(?<xyz>(?:abc)+)');
+  expect(oneOrMore(capture('abc', { name: 'xyz' }))).toEqualRegex('(?<xyz>abc)+');
 });
 
 test('named `capture` matching', () => {
-  expect(capture('b', { as: 'x1' })).toMatchGroups('ab', ['b', 'b']);
-  expect(capture('b', { as: 'x1' })).toMatchNamedGroups('ab', { x1: 'b' });
+  expect(capture('b', { name: 'x1' })).toMatchGroups('ab', ['b', 'b']);
+  expect(capture('b', { name: 'x1' })).toMatchNamedGroups('ab', { x1: 'b' });
 
-  expect(['a', capture('b', { as: 'x1' })]).toMatchGroups('ab', ['ab', 'b']);
-  expect(['a', capture('b', { as: 'x1' })]).toMatchNamedGroups('ab', { x1: 'b' });
+  expect(['a', capture('b', { name: 'x1' })]).toMatchGroups('ab', ['ab', 'b']);
+  expect(['a', capture('b', { name: 'x1' })]).toMatchNamedGroups('ab', { x1: 'b' });
 
-  expect([capture('a'), capture('b', { as: 'x1' }), capture('c', { as: 'x2' })]).toMatchGroups(
+  expect([capture('a'), capture('b', { name: 'x1' }), capture('c', { name: 'x2' })]).toMatchGroups(
     'abc',
     ['abc', 'a', 'b', 'c'],
   );
-  expect([capture('a'), capture('b', { as: 'x1' }), capture('c', { as: 'x2' })]).toMatchNamedGroups(
-    'abc',
-    { x1: 'b', x2: 'c' },
-  );
+  expect([
+    capture('a'),
+    capture('b', { name: 'x1' }),
+    capture('c', { name: 'x2' }),
+  ]).toMatchNamedGroups('abc', { x1: 'b', x2: 'c' });
 });
 
 // Should have `ref0` as name.
@@ -54,23 +55,23 @@ const firstRef = ref();
 test('`reference` pattern', () => {
   expect([firstRef]).toEqualRegex(/\k<ref0>/);
   expect([ref('xyz')]).toEqualRegex(/\k<xyz>/);
-  expect([capture(any, { as: firstRef }), ' ', firstRef]).toEqualRegex('(?<ref0>.) \\k<ref0>');
+  expect([capture(any, { ref: firstRef }), ' ', firstRef]).toEqualRegex('(?<ref0>.) \\k<ref0>');
 
   const otherRef = ref('r123');
-  expect(['xx', capture(any, { as: otherRef }), ' ', otherRef, 'xx']).toEqualRegex(
+  expect(['xx', capture(any, { ref: otherRef }), ' ', otherRef, 'xx']).toEqualRegex(
     'xx(?<r123>.) \\k<r123>xx',
   );
 });
 
 test('`reference` matching basic case', () => {
   const someRef = ref();
-  expect([capture(word, { as: someRef }), someRef]).toMatchString('aa');
-  expect([capture(digit, { as: someRef }), someRef]).toMatchString('11');
+  expect([capture(word, { ref: someRef }), someRef]).toMatchString('aa');
+  expect([capture(digit, { ref: someRef }), someRef]).toMatchString('11');
 
-  expect([capture(any, { as: someRef }), someRef]).not.toMatchString('ab');
+  expect([capture(any, { ref: someRef }), someRef]).not.toMatchString('ab');
 
-  expect([capture(digit, { as: someRef }), someRef]).not.toMatchString('1a');
-  expect([capture(digit, { as: someRef }), someRef]).not.toMatchString('a1');
+  expect([capture(digit, { ref: someRef }), someRef]).not.toMatchString('1a');
+  expect([capture(digit, { ref: someRef }), someRef]).not.toMatchString('a1');
 });
 
 test('`reference` matching HTML attributes', () => {
@@ -78,10 +79,10 @@ test('`reference` matching HTML attributes', () => {
   const quote = anyOf('"\'');
   const htmlAttributeRegex = buildRegExp([
     wordBoundary,
-    capture(oneOrMore(word), { as: 'name' }),
+    capture(oneOrMore(word), { name: 'name' }),
     '=',
-    capture(quote, { as: quoteRef }),
-    capture(oneOrMore(inverted(quote)), { as: 'value' }),
+    capture(quote, { ref: quoteRef }),
+    capture(oneOrMore(inverted(quote)), { name: 'value' }),
     quoteRef,
   ]);
 

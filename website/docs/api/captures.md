@@ -10,14 +10,15 @@ function capture(
   sequence: RegexSequence,
   options?: {
     name?: string;
+    ref?: string;
   },
 ): Capture;
 ```
 
 Regex syntax:
 
-- `(...)` for capturing groups
-- `(?<name>...)` for named capturing groups
+- `(...)` for capturing groups (no `name` option)
+- `(?<name>...)` for named capturing groups (`name` or `ref` option)
 
 Captures, also known as capturing groups, extract and store parts of the matched string for later use.
 

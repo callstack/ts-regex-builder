@@ -9,14 +9,16 @@ export interface Capture extends RegexConstruct {
   options?: CaptureOptions;
 }
 
-export interface CaptureOptions {
-  /**
-   * Either a name to be given to the capturing group or a `Reference` object ({@link ref})
-   * that will allow to match the captured text again later. */
-  as?: Backreference | string;
-}
-
-export interface Backreference extends RegexConstruct {
+export type CaptureOptions =
+  | {
+      /** Name to be given to the capturing group. */
+      name: string;
+    }
+  | {
+      /** Reference object ({@link ref}) that will allow to match the captured text again later. */
+      ref: Reference;
+    };
+export interface Reference extends RegexConstruct {
   type: 'reference';
   name: string;
 }
@@ -44,7 +46,7 @@ let counter = 0;
  *
  * @param name - Name to be given to the capturing group which receives this `Backreference`. If not provided, a unique name will be generated.
  */
-export function ref(name?: string): Backreference {
+export function ref(name?: string): Reference {
   return {
     type: 'reference',
     name: name ?? `ref${counter++}`,
@@ -53,12 +55,12 @@ export function ref(name?: string): Backreference {
 }
 
 function encodeCapture(this: Capture): EncodeResult {
-  const ref = this.options?.as;
-  if (ref) {
-    const refName = typeof ref === 'string' ? ref : ref?.name;
+  // @ts-expect-error
+  const name = this.options?.ref?.name ?? this.options?.name;
+  if (name) {
     return {
       precedence: 'atom',
-      pattern: `(?<${refName}>${encodeSequence(this.children).pattern})`,
+      pattern: `(?<${name}>${encodeSequence(this.children).pattern})`,
     };
   }
 
@@ -68,7 +70,7 @@ function encodeCapture(this: Capture): EncodeResult {
   };
 }
 
-function encodeReference(this: Backreference): EncodeResult {
+function encodeReference(this: Reference): EncodeResult {
   return {
     precedence: 'atom',
     pattern: `\\k<${this.name}>`,
