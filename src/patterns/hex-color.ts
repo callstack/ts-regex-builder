@@ -2,7 +2,6 @@ import { buildRegExp } from '../builders';
 import { endOfString, startOfString } from '../constructs/anchors';
 import { charClass, charRange, digit } from '../constructs/character-class';
 import { choiceOf } from '../constructs/choice-of';
-import { optional } from '../constructs/quantifiers';
 import { repeat } from '../constructs/repeat';
 
 const hexDigit = charClass(digit, charRange('a', 'f'));
@@ -22,19 +21,17 @@ export const hexColorFinder = buildRegExp(
 /**
  * Check that given text is a valid hex color.
  *
- * Allows both 3 and 6 digit hex colors, with or without the leading `#`.
+ * Allows both 3 and 6 digit hex colors.
  * */
 export const hexColorValidator = buildRegExp(
   [
     startOfString, // Match whole string
-    optional('#'),
+    '#',
     choiceOf(
       repeat(hexDigit, 6), // #rrggbb
       repeat(hexDigit, 3), // #rgb
     ),
     endOfString,
   ],
-  {
-    ignoreCase: true,
-  },
+  { ignoreCase: true },
 );
