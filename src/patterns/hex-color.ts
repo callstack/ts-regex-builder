@@ -1,5 +1,5 @@
 import { buildRegExp } from '../builders';
-import { endOfString, startOfString } from '../constructs/anchors';
+import { endOfString, startOfString, wordBoundary } from '../constructs/anchors';
 import { charClass, charRange, digit } from '../constructs/character-class';
 import { choiceOf } from '../constructs/choice-of';
 import { repeat } from '../constructs/repeat';
@@ -14,8 +14,9 @@ export const hexColorFinder = buildRegExp(
       repeat(hexDigit, 6), // #rrggbb
       repeat(hexDigit, 3), // #rgb
     ),
+    wordBoundary,
   ],
-  { ignoreCase: true },
+  { ignoreCase: true, global: true },
 );
 
 /**
