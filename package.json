@@ -15,6 +15,18 @@
     "!**/__mocks__",
     "!**/.*"
   ],
+  "exports": {
+    ".": {
+      "require": "./lib/commonjs/index",
+      "import": "./lib/module/index",
+      "types": "./lib/typescript/src/index.d.ts"
+    },
+    "./patterns": {
+      "require": "./lib/commonjs/patterns/index",
+      "import": "./lib/module/patterns/index",
+      "types": "./lib/typescript/src/patterns/index.d.ts"
+    }
+  },
   "scripts": {
     "test": "jest",
     "typecheck": "tsc --noEmit",
