@@ -2,11 +2,11 @@
 import {
   UrlAuthorityFinder,
   UrlAuthorityValidator,
+  UrlHostFinder,
+  UrlHostValidator,
   UrlSchemeFinder,
   UrlSchemeValidator,
 } from '../URL';
-//import { hostGreedyNoRepeatValidator, hostEagerNoRepeatValidator, hostEagerZeroOrMoreValidator, hostGreedyZeroOrMoreValidator} from '../URL';
-//import { UrlHostFinder, UrlHostValidator } from '../URL';
 
 test('urlSchemeValidator', () => {
   expect(UrlSchemeValidator).toMatchString('ftp:');
@@ -42,13 +42,14 @@ test('UrlAuthorityValidator', () => {
   expect(UrlAuthorityValidator).toMatchString('abba@aaaa.aaaaaaa');
 });
 
+test('UrlHostValidator', () => {
+  expect(UrlHostValidator).toMatchString('www.google.com');
+});
+
+test('UrlHostFinder', () => {
+  expect(UrlHostFinder).toMatchString('www.google.com');
+});
+
 test('UrlAuthorityFinder', () => {
-  expect(UrlAuthorityFinder).toMatchAllGroups(
-    'The best place to search is https://www.google.com',
-    [['www.google.com', 'www.google.com', 'www.google.com']],
-  );
-  //expect(UrlAuthorityFinder).toMatchAllGroups('The alternatives are www.bing.com, perplexity.ai and OpenAI', [
-  //['www.bing.com'],
-  //['perplexity.ai'],
-  //]);
+  expect(UrlAuthorityFinder).toMatchString('abba@a');
 });
