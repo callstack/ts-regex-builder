@@ -9,11 +9,12 @@
 import { buildRegExp } from '../builders';
 import { endOfString, startOfString, wordBoundary } from '../constructs/anchors';
 import { anyOf, charClass, charRange, digit } from '../constructs/character-class';
-
+import { choiceOf } from '../constructs/choice-of';
 import { repeat } from '../constructs/repeat';
 import { capture } from '../constructs/capture';
 import { oneOrMore, optional } from '../constructs/quantifiers';
-import { lookahead } from '../constructs/lookahead';
+// import type { RegexElement, RegexSequence } from '../types';
+// import { lookahead } from '../constructs/lookahead';
 
 //
 // The building blocks of the URL regex.
@@ -22,18 +23,19 @@ const lowercase = charRange('a', 'z');
 const uppercase = charRange('A', 'Z');
 const at = '@';
 const equals = '=';
+const period = '.';
 const hyphen = anyOf('-');
 const alphabetical = charClass(lowercase, uppercase);
 const specialChars = anyOf('._%+-');
 const portSeperator = ':';
 const schemeSeperator = ':';
-const doubleSlash = '//';
+//const doubleSlash = '//';
 
 const pathSeparator = '/';
 const querySeparator = '?';
 const fragmentSeparator = '#';
 const usernameChars = charClass(lowercase, digit, specialChars);
-const hostnameChars = charClass(charRange('a', 'z'), digit, anyOf('-'));
+const hostnameChars = charClass(charRange('a', 'z'));
 const pathSpecialChars = anyOf(':@%._+~#=');
 const queryDelimiter = anyOf('&;');
 
@@ -50,7 +52,7 @@ const queryDelimiter = anyOf('&;');
 const urlScheme = [
   repeat(charClass(hyphen, alphabetical), { min: 3, max: 6 }),
   optional('s'),
-  lookahead(schemeSeperator),
+  schemeSeperator,
 ];
 
 export const UrlSchemeFinder = buildRegExp([capture(urlScheme)], {
@@ -69,29 +71,95 @@ export const UrlSchemeValidator = buildRegExp([startOfString, capture(urlScheme)
 //        3. An optional port number, preceded by a colon (:)
 //    Authority = [userinfo "@"] host [":" port]
 
-const userInfo = oneOrMore(usernameChars);
-const hostname = repeat(hostnameChars, { min: 1, max: 63 });
-const hostnameEnd = capture([hostname, endOfString]);
-const host = capture([oneOrMore([hostname, '.'])]);
-const port = [portSeperator, oneOrMore(digit)];
-
-const urlAuthority = [doubleSlash, optional([userInfo, at]), hostname, optional(port)];
-
-export const UrlAuthorityFinder = buildRegExp(capture(urlAuthority), {
+/***
+//    Host: No Repeat, Eager Version
+const hostnameEager = capture(repeat(hostnameChars, { min: 1, max: 255, greedy: false }));
+const hostEagerNoRepeat = capture([hostnameEager, period, hostnameEager]);
+export const hostEagerNoRepeatFinder = buildRegExp(hostEagerNoRepeat, {
   ignoreCase: true,
   global: true,
 });
 
-export const UrlAuthorityValidator = buildRegExp(
-  [startOfString, capture(urlAuthority), endOfString],
+export const hostEagerNoRepeatValidator = buildRegExp(
+  [startOfString, hostEagerNoRepeat, endOfString],
   { ignoreCase: true },
 );
+
+//    Host: No Repeat, Greedy Version
+const hostnameGreedy = capture(repeat(hostnameChars, { min: 1, max: 255, greedy: true }));
+const hostGreedyNoRepeat = capture([hostnameGreedy, period, hostnameGreedy]);
+export const hostGreedyNoRepeatFinder = buildRegExp(hostEagerNoRepeat, {
+  ignoreCase: true,
+  global: true,
+});
+
+export const hostGreedyNoRepeatValidator = buildRegExp(
+  [startOfString, hostGreedyNoRepeat, endOfString],
+  { ignoreCase: true },
+);
+
+//    Host: ZeroOrMore, Eager Version
+
+const hostEagerZeroOrMore = capture([hostnameEager, zeroOrMore([period, hostnameEager])]);
+export const hostEagerZeroOrMoreFinder = buildRegExp(hostEagerZeroOrMore, {
+  ignoreCase: true,
+  global: true,
+});
+
+export const hostEagerZeroOrMoreValidator = buildRegExp(
+  [startOfString, hostEagerZeroOrMore, endOfString],
+  { ignoreCase: true },
+);
+
+//    Host: with Repeat, Greedy Version
+
+const hostGreedyWithRepeat = capture([hostnameGreedy, repeat([period, hostnameGreedy], { min: 1, max: 255 })]);
+export const hostGreedyWithRepeatFinder = buildRegExp(hostGreedyWithRepeat, {
+  ignoreCase: true,
+  global: true,
+});
+
+export const hostGreedyWithRepeatValidator = buildRegExp(
+  [startOfString, hostGreedyWithRepeat, endOfString],
+  { ignoreCase: true },
+);
+
+//    Host: ZeroOrMore, Greedy Version
+
+const hostGreedyZeroOrMore = capture([hostnameGreedy, zeroOrMore([period, hostnameGreedy])]);
+export const hostGreedyZeroOrMoreFinder = buildRegExp(hostGreedyZeroOrMore, {
+  ignoreCase: true,
+  global: true,
+});
+
+export const hostGreedyZeroOrMoreValidator = buildRegExp(
+  [startOfString, hostGreedyZeroOrMore, endOfString],
+  { ignoreCase: true },
+);
+***/
+
+const userInfo = oneOrMore(usernameChars);
+const portNumber = capture(repeat(digit, { min: 1, max: 5, greedy: false }));
+const port = capture([portSeperator, portNumber]);
+const host = capture(repeat(hostnameChars, { min: 1, max: 255, greedy: false }));
+const hostname = capture([host, optional(repeat([period, host], { min: 1, max: 255 }))]);
+const urlAuthority = capture([optional([userInfo, at]), hostname, optional(port)]);
+
+export const UrlAuthorityFinder = buildRegExp(urlAuthority, {
+  ignoreCase: true,
+  global: true,
+});
+
+export const UrlAuthorityValidator = buildRegExp([startOfString, urlAuthority, endOfString], {
+  ignoreCase: true,
+});
 
 //
 //    Convenience Pattern - Host:
 //        A hostname (e.g. www.google.com)
 //
-const urlHost = [host, hostnameEnd, endOfString];
+
+const urlHost = [host, choiceOf([pathSeparator, wordBoundary, endOfString])];
 
 export const UrlHostFinder = buildRegExp(capture(urlHost), {
   ignoreCase: true,
@@ -174,7 +242,8 @@ const url = capture([
 /***
  ***  Find URL strings in a text.
  ***/
-export const urlFinder = buildRegExp([wordBoundary, url, wordBoundary], {
+
+export const urlFinder = buildRegExp(url, {
   ignoreCase: true,
   global: true,
 });
@@ -182,16 +251,5 @@ export const urlFinder = buildRegExp([wordBoundary, url, wordBoundary], {
 /***
  ***  Check that given text is a valid URL.
  ***/
-export const urlValidator = buildRegExp(
-  [
-    startOfString,
-    optional(urlScheme),
-    schemeSeperator,
-    optional(urlAuthority),
-    urlPath,
-    optional(urlQuery),
-    optional(urlFragment),
-    endOfString,
-  ],
-  { ignoreCase: true },
-);
+
+export const urlValidator = buildRegExp([startOfString, url, endOfString], { ignoreCase: true });
