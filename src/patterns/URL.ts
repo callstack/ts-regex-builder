@@ -3,7 +3,7 @@
 //  This regular expression is based on the RFC 3986 standard which defines the URL format.
 //  URL = Scheme ":"["//" Authority]Path["?" Query]["#" Fragment]
 //  Source: https://en.wikipedia.org/wiki/URL#External_links
-//  Source: https://tools.ietf.org/html/rfc3986
+//  Source: https://datatracker.ietf.org/doc/html/rfc1738
 //
 
 import { buildRegExp } from '../builders';
@@ -13,9 +13,6 @@ import { choiceOf } from '../constructs/choice-of';
 import { repeat } from '../constructs/repeat';
 import { capture } from '../constructs/capture';
 import { oneOrMore, optional } from '../constructs/quantifiers';
-import type { RegexSequence } from '../types';
-// import type { RegexElement, RegexSequence } from '../types';
-// import { lookahead } from '../constructs/lookahead';
 
 //
 // The building blocks of the URL regex.
@@ -25,13 +22,12 @@ const uppercase = charRange('A', 'Z');
 const at = '@';
 const equals = '=';
 const period = '.';
-const hyphen = anyOf('-');
+const hyphen = '-';
 const alphabetical = charClass(lowercase, uppercase);
 const specialChars = anyOf('._%+-');
 const portSeperator = ':';
 const schemeSeperator = ':';
 const doubleSlash = '//';
-
 const pathSeparator = '/';
 const querySeparator = '?';
 const fragmentSeparator = '#';
@@ -50,18 +46,18 @@ const queryDelimiter = anyOf('&;');
 //      A URL string must be a scheme, followed by a colon, followed by a scheme-specific part.
 //
 
-const urlScheme = [
-  repeat(charClass(hyphen, alphabetical), { min: 3, max: 6 }),
+export const urlScheme = [
+  repeat(charClass(anyOf(hyphen), alphabetical), { min: 3, max: 6 }),
   optional('s'),
   schemeSeperator,
 ];
 
-export const UrlSchemeFinder = buildRegExp([capture(urlScheme)], {
+export const urlSchemeFinder = buildRegExp([capture(urlScheme)], {
   ignoreCase: true,
   global: true,
 });
 
-export const UrlSchemeValidator = buildRegExp([startOfString, capture(urlScheme), endOfString], {
+export const urlSchemeValidator = buildRegExp([startOfString, capture(urlScheme), endOfString], {
   ignoreCase: true,
 });
 
@@ -72,20 +68,20 @@ export const UrlSchemeValidator = buildRegExp([startOfString, capture(urlScheme)
 //        3. An optional port number, preceded by a colon (:)
 //    Authority = [userinfo "@"] host [":" port]
 
-const userInfo = oneOrMore(usernameChars);
-const portNumber = repeat(digit, { min: 1, max: 5, greedy: false });
-const port = [portSeperator, portNumber];
+const userinfo = oneOrMore(usernameChars);
+const port = repeat(digit, { min: 1, max: 5, greedy: false });
+const urlPort = [portSeperator, port];
 const host = repeat(hostnameChars, { min: 1, max: 255, greedy: false });
 const hostname = [host, optional(repeat([period, host], { min: 1, max: 255 }))];
 
-const urlAuthority: RegexSequence = [optional([userInfo, at]), choiceOf(hostname), optional(port)];
+export const urlAuthority = [optional([userinfo, at]), choiceOf(hostname), optional(urlPort)];
 
-export const UrlAuthorityFinder = buildRegExp(urlAuthority, {
+export const urlAuthorityFinder = buildRegExp(urlAuthority, {
   ignoreCase: true,
   global: true,
 });
 
-export const UrlAuthorityValidator = buildRegExp(
+export const urlAuthorityValidator = buildRegExp(
   [startOfString, choiceOf(urlAuthority), endOfString],
   {
     ignoreCase: true,
@@ -97,14 +93,14 @@ export const UrlAuthorityValidator = buildRegExp(
 //        A hostname (e.g. www.google.com)
 //
 
-const urlHost = choiceOf(hostname);
+export const urlHost = choiceOf(hostname);
 
-export const UrlHostFinder = buildRegExp(urlHost, {
+export const urlHostFinder = buildRegExp(hostname, {
   ignoreCase: true,
   global: true,
 });
 
-export const UrlHostValidator = buildRegExp(urlHost, { ignoreCase: true });
+export const urlHostValidator = buildRegExp(urlHost, { ignoreCase: true });
 
 //    Path:
 //      The path is the part of the URL that comes after the authority and before the query.
@@ -116,14 +112,14 @@ const pathSegment = [
   optional(oneOrMore(charClass(lowercase, uppercase, digit, pathSpecialChars))),
 ];
 
-const urlPath = oneOrMore(pathSegment);
+export const urlPath = oneOrMore(pathSegment);
 
-export const UrlPathFinder = buildRegExp(urlPath, {
+export const urlPathFinder = buildRegExp(urlPath, {
   ignoreCase: true,
   global: true,
 });
 
-export const UrlPathValidator = buildRegExp(urlPath, { ignoreCase: true });
+export const urlPathValidator = buildRegExp(urlPath, { ignoreCase: true });
 
 //    Query:
 //      The query part of a URL is optional and comes after the path.
@@ -133,38 +129,37 @@ export const UrlPathValidator = buildRegExp(urlPath, { ignoreCase: true });
 
 const queryKey = oneOrMore(charClass(lowercase, uppercase, digit, anyOf('_-')));
 const queryValue = oneOrMore(charClass(lowercase, uppercase, digit, anyOf('_-')));
-
 const queryKeyValuePair = buildRegExp([queryKey, equals, queryValue]);
 
-const urlQuery = [querySeparator, oneOrMore([queryKeyValuePair, optional(queryDelimiter)])];
+export const urlQuery = [querySeparator, oneOrMore([queryKeyValuePair, optional(queryDelimiter)])];
 
-export const UrlQueryFinder = buildRegExp(urlQuery, {
+export const urlQueryFinder = buildRegExp(urlQuery, {
   ignoreCase: true,
   global: true,
 });
 
-export const UrlQueryValidator = buildRegExp(urlQuery, { ignoreCase: true });
+export const urlQueryValidator = buildRegExp(urlQuery, { ignoreCase: true });
 
 //    Fragment:
 //      The fragment part of a URL is optional and comes after the query.
 //      It is separated from the query by a hash (#).
 //      The fragment string consists of a sequence of characters.
 
-const urlFragment = [
+export const urlFragment = [
   fragmentSeparator,
   oneOrMore(charClass(lowercase, uppercase, digit, pathSpecialChars)),
 ];
 
-export const UrlFragmentFinder = buildRegExp(urlFragment, {
+export const urlFragmentFinder = buildRegExp(urlFragment, {
   ignoreCase: true,
   global: true,
 });
 
-export const UrlFragmentValidator = buildRegExp(urlFragment, {
+export const urlFragmentValidator = buildRegExp(urlFragment, {
   ignoreCase: true,
 });
 
-const url = [
+export const url = [
   optional(urlScheme),
   schemeSeperator,
   optional([doubleSlash, choiceOf(urlAuthority)]),

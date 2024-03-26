@@ -1,55 +1,55 @@
 //import { urlFinder, urlValidator } from '..';
 import {
-  UrlAuthorityFinder,
-  UrlAuthorityValidator,
-  UrlHostFinder,
-  UrlHostValidator,
-  UrlSchemeFinder,
-  UrlSchemeValidator,
+  urlAuthorityFinder,
+  urlAuthorityValidator,
+  urlHostFinder,
+  urlHostValidator,
+  urlSchemeFinder,
+  urlSchemeValidator,
 } from '../URL';
 
 test('urlSchemeValidator', () => {
-  expect(UrlSchemeValidator).toMatchString('ftp:');
-  expect(UrlSchemeValidator).toMatchString('https:');
-  expect(UrlSchemeValidator).not.toMatchString('http');
-  expect(UrlSchemeValidator).not.toMatchString('https');
-  expect(UrlSchemeValidator).not.toMatchString('ht:');
-  expect(UrlSchemeValidator).not.toMatchString('httpsftpmailtoirc:');
+  expect(urlSchemeValidator).toMatchString('ftp:');
+  expect(urlSchemeValidator).toMatchString('https:');
+  expect(urlSchemeValidator).not.toMatchString('http');
+  expect(urlSchemeValidator).not.toMatchString('https');
+  expect(urlSchemeValidator).not.toMatchString('ht:');
+  expect(urlSchemeValidator).not.toMatchString('httpsftpmailtoirc:');
 });
 
-test('UrlSchemeFinder', () => {
-  expect(UrlSchemeFinder).toMatchAllGroups('The best place to search is http:', [
+test('urlSchemeFinder', () => {
+  expect(urlSchemeFinder).toMatchAllGroups('The best place to search is http:', [
     ['http:', 'http:'],
   ]);
 });
 
-test('UrlAuthorityValidator', () => {
-  expect(UrlAuthorityValidator).toMatchString('abba@a');
-  expect(UrlAuthorityValidator).not.toMatchString('abba@');
-  expect(UrlAuthorityValidator).not.toMatchString('@');
-  expect(UrlAuthorityValidator).not.toMatchString('@aa.aa.aa.aa.aa.aa');
-  expect(UrlAuthorityValidator).toMatchString('aa');
-  expect(UrlAuthorityValidator).toMatchString('aaa');
-  expect(UrlAuthorityValidator).toMatchString('aa.aa');
-  expect(UrlAuthorityValidator).toMatchString('aa.aa.aa');
-  expect(UrlAuthorityValidator).toMatchString('aa.aa.aa.aa.aa.aa');
-  expect(UrlAuthorityValidator).toMatchString('abba@aa.aa.aa.aa.aa.aa');
-  expect(UrlAuthorityValidator).toMatchString('aaaa.aaaa');
-  expect(UrlAuthorityValidator).toMatchString('aaaaaaaaaa');
-  expect(UrlAuthorityValidator).toMatchString('aaaa.aaaaaaa');
-  expect(UrlAuthorityValidator).toMatchString('abba@aaaa.aaaa');
-  expect(UrlAuthorityValidator).toMatchString('abba@aaaaaaaaaa');
-  expect(UrlAuthorityValidator).toMatchString('abba@aaaa.aaaaaaa');
+test('urlAuthorityValidator', () => {
+  expect(urlAuthorityValidator).toMatchString('abba@a');
+  expect(urlAuthorityValidator).not.toMatchString('abba@');
+  expect(urlAuthorityValidator).not.toMatchString('@');
+  expect(urlAuthorityValidator).not.toMatchString('@aa.aa.aa.aa.aa.aa');
+  expect(urlAuthorityValidator).toMatchString('aa');
+  expect(urlAuthorityValidator).toMatchString('aaa');
+  expect(urlAuthorityValidator).toMatchString('aa.aa');
+  expect(urlAuthorityValidator).toMatchString('aa.aa.aa');
+  expect(urlAuthorityValidator).toMatchString('aa.aa.aa.aa.aa.aa');
+  expect(urlAuthorityValidator).toMatchString('abba@aa.aa.aa.aa.aa.aa');
+  expect(urlAuthorityValidator).toMatchString('aaaa.aaaa');
+  expect(urlAuthorityValidator).toMatchString('aaaaaaaaaa');
+  expect(urlAuthorityValidator).toMatchString('aaaa.aaaaaaa');
+  expect(urlAuthorityValidator).toMatchString('abba@aaaa.aaaa');
+  expect(urlAuthorityValidator).toMatchString('abba@aaaaaaaaaa');
+  expect(urlAuthorityValidator).toMatchString('abba@aaaa.aaaaaaa');
 });
 
-test('UrlHostValidator', () => {
-  expect(UrlHostValidator).toMatchString('www.google.com');
+test('urlHostValidator', () => {
+  expect(urlHostValidator).toMatchString('www.google.com');
 });
 
-test('UrlHostFinder', () => {
-  expect(UrlHostFinder).toMatchString('www.google.com');
+test('urlHostFinder', () => {
+  expect(urlHostFinder).toMatchString('www.google.com');
 });
 
-test('UrlAuthorityFinder', () => {
-  expect(UrlAuthorityFinder).toMatchString('abba@a');
+test('urlAuthorityFinder', () => {
+  expect(urlAuthorityFinder).toMatchString('abba@a');
 });
