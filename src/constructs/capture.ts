@@ -11,7 +11,7 @@ export interface Capture extends RegexConstruct {
 
 export type CaptureOptions = {
   /**
-   * Name to be given to the capturing group can either by a string or {@link reference} instance.
+   * Name to be given to the capturing group can either by a string or {@link ref} instance.
    */
   name: string | Reference;
 };
@@ -24,7 +24,7 @@ export interface Reference extends RegexConstruct {
 /**
  * Creates a capturing group which allows the matched pattern to be available:
  * - in the match results (`String.match`, `String.matchAll`, or `RegExp.exec`)
- * - in the regex itself, through {@link reference}
+ * - in the regex itself, through {@link ref}
  */
 export function capture(sequence: RegexSequence, options?: CaptureOptions): Capture {
   return {
@@ -44,7 +44,7 @@ let counter = 0;
  *
  * @param name - Name to be given to the capturing group which receives this reference. If not provided, a unique name will be generated.
  */
-export function reference(name?: string): Reference {
+export function ref(name?: string): Reference {
   return {
     type: 'reference',
     name: name ?? `ref${counter++}`,
