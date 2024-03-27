@@ -15,7 +15,6 @@ import {
   word,
   zeroOrMore,
 } from '../..';
-import { notDigit } from '../../../lib/typescript/src';
 
 test('`any` character class', () => {
   expect(any).toEqualRegex(/./);
