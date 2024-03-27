@@ -33,11 +33,12 @@ const pathSeparator = '/';
 const querySeparator = '?';
 const fragmentSeparator = '#';
 const usernameChars = charClass(lowercase, digit, specialChars);
-const hostnameChars = charClass(charRange('a', 'z'));
+const hostnameChars = charRange('a', 'z');
 const pathSpecialChars = anyOf(':@%._+~#=');
 const queryDelimiter = anyOf('&;');
-const hexDigit = choiceOf(charRange('0', '9'), charRange('a', 'f'), charRange('A', 'F'));
-const ipV6Group = repeat(hexDigit, { min: 1, max: 4, greedy: false });
+export const hexDigit = choiceOf(charRange('0', '9'), charRange('a', 'f'), charRange('A', 'F'));
+export const ipV6Group = repeat(hexDigit, { min: 1, max: 4, greedy: false });
+export const ipV6GroupValidator = buildRegExp([startOfString, ipV6Group, endOfString]);
 const ipV4Seperator = '.';
 const ipV6Seperator = ':';
 
@@ -49,7 +50,7 @@ export const ipDigit = choiceOf(
   regex([charRange('0', '9')]),
 );
 
-export const ipV4DigitValidator = buildRegExp([startOfString, capture(ipDigit), endOfString]);
+export const ipV4DigitValidator = buildRegExp([startOfString, regex(ipDigit), endOfString]);
 
 export const ipv4Address = regex([
   ipDigit,
@@ -94,15 +95,21 @@ export const urlIpv4Validator = buildRegExp([startOfString, capture(ipv4Address)
 
 export const ipv6Address = regex([
   optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
   ipV6Seperator,
   optional(ipV6Group),
   ipV6Seperator,
+  optional(ipV6Group),
+  optional(ipV6Seperator),
+  optional(ipV6Group),
+  optional(ipV6Seperator),
+  optional(ipV6Group),
+  optional(ipV6Seperator),
+  optional(ipV6Group),
+  optional(ipV6Seperator),
+  optional(ipV6Group),
+  optional(ipV6Seperator),
+  optional(ipV6Group),
+  optional(ipV6Seperator),
   optional(ipV6Group),
 ]);
 
@@ -150,8 +157,8 @@ export const urlSchemeValidator = buildRegExp([startOfString, capture(urlScheme)
 const userinfo = oneOrMore(usernameChars);
 const port = repeat(digit, { min: 1, max: 5, greedy: false });
 const urlPort = [portSeperator, port];
-const host = repeat(hostnameChars, { min: 1, max: 255, greedy: false });
-const hostname = [host, optional(repeat([period, host], { min: 1, max: 255 }))];
+const host = repeat(hostnameChars, { min: 1, max: 63, greedy: false });
+const hostname = [host, repeat([period, host], { min: 0, max: 255, greedy: false })];
 
 export const urlAuthority = [optional([userinfo, at]), choiceOf(hostname), optional(urlPort)];
 
@@ -179,7 +186,9 @@ export const urlHostFinder = buildRegExp(hostname, {
   global: true,
 });
 
-export const urlHostValidator = buildRegExp(urlHost, { ignoreCase: true });
+export const urlHostValidator = buildRegExp([startOfString, regex(hostname), endOfString], {
+  ignoreCase: true,
+});
 
 //    Path:
 //      The path is the part of the URL that comes after the authority and before the query.
