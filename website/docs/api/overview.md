@@ -84,7 +84,7 @@ See [Quantifiers](./api/quantifiers) for more info.
 | `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
 | `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
 | `charClass(...)`      | `[...]`      | Union of multiple character classes               |
-| `inverted(...)`       | `[^...]`     | Negation of a given character class               |
+| `negated(...)`        | `[^...]`     | Negation of a given character class               |
 
 See [Character Classes](./api/character-classes) for more info.
 

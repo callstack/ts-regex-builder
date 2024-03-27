@@ -10,20 +10,20 @@ Character classes are a set of characters that match any one of the characters i
 ```ts
 const any: CharacterClass;
 const word: CharacterClass;
-const notWord: CharacterClass;
+const nonWord: CharacterClass;
 const digit: CharacterClass;
-const notDigit: CharacterClass;
+const nonDigit: CharacterClass;
 const whitespace: CharacterClass;
-const notWhitespace: CharacterClass;
+const nonWhitespace: CharacterClass;
 ```
 
 - `any` matches any character except newline characters. Regex syntax: `*`.
 - `word` matches any word character (letters, digits & underscore). Regex syntax: `\w`.
-- `notWord` matches any character **except** word characters (letters, digits & underscore). Regex syntax: `\W`.
+- `nonWord` matches any character **except** word characters (letters, digits & underscore). Regex syntax: `\W`.
 - `digit` matches any digit. Regex syntax: `\d`.
-- `notDigit` matches any character **except** digits. Regex syntax: `\D`.
+- `nonDigit` matches any character **except** digits. Regex syntax: `\D`.
 - `whitespace` matches any whitespace character (spaces, tabs, line breaks). Regex syntax: `\s`.
-- `notWhitespace` matches any character **except** whitespace characters (spaces, tabs, line breaks). Regex syntax: `\S`.
+- `nonWhitespace` matches any character **except** whitespace characters (spaces, tabs, line breaks). Regex syntax: `\S`.
 
 ### `anyOf()`
 
@@ -68,17 +68,17 @@ Examples:
 - `charClass(charRange('a', 'f'), digit)` will match all lowercase hex digits (`0` to `9` and `a` to `f`).
 - `charClass(charRange('a', 'z'), digit, anyOf("._-"))` will match any digit, lowercase Latin letter from `a` to `z`, and either of `.`, `_`, and `-` characters.
 
-### `inverted()`
+### `negated()`
 
 ```ts
-function inverted(element: CharacterClass): CharacterClass;
+function negated(element: CharacterClass): CharacterClass;
 ```
 
 Regex syntax: `[^...]`.
 
-The `inverted` construct creates a new character class that matches any character not present in the passed character class.
+The `negated` construct creates a new character class that matches any character not present in the passed character class.
 
 Examples:
 
-- `inverted(digit)` matches any character that is not a digit
-- `inverted(anyOf('aeiou'))` matches any character that is not a lowercase vowel.
+- `negated(digit)` matches any character that is not a digit
+- `negated(anyOf('aeiou'))` matches any character that is not a lowercase vowel.
