@@ -35,10 +35,10 @@ TS Regex Builder does not have a construct for non-capturing groups. Such groups
 
 :::
 
-### `reference()`
+### `ref()`
 
 ```ts
-function reference(
+function ref(
   name?: string;
 ): Reference;
 ```
@@ -53,13 +53,13 @@ Usage with `capture()`:
 
 ```ts
 // Define reference with name "some".
-const someRef = reference('some');
+const someRef = ref('some');
 
 const regex = buildRegExp([
   // Create a named capture using name from `someRef`.
-  capture(..., { name: someRef}),
+  capture(..., { name: someRef }),
   // ... some other elements ...
-  // Match the same text as captured in capture using `someRef`.
+  // Match the same text as captured in a `capture` using `someRef`.
   someRef,
   ])
 ```
