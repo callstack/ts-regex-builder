@@ -6,7 +6,7 @@ import {
   digit,
   inverted,
   oneOrMore,
-  reference,
+  ref,
   word,
   wordBoundary,
 } from '../..';
@@ -50,21 +50,21 @@ test('named `capture` matching', () => {
 });
 
 // Should have `ref0` as name.
-const firstRef = reference();
+const firstRef = ref();
 
 test('`reference` pattern', () => {
   expect([firstRef]).toEqualRegex(/\k<ref0>/);
-  expect([reference('xyz')]).toEqualRegex(/\k<xyz>/);
+  expect([ref('xyz')]).toEqualRegex(/\k<xyz>/);
   expect([capture(any, { name: firstRef }), ' ', firstRef]).toEqualRegex('(?<ref0>.) \\k<ref0>');
 
-  const otherRef = reference('r123');
+  const otherRef = ref('r123');
   expect(['xx', capture(any, { name: otherRef }), ' ', otherRef, 'xx']).toEqualRegex(
     'xx(?<r123>.) \\k<r123>xx',
   );
 });
 
 test('`reference` matching basic case', () => {
-  const someRef = reference();
+  const someRef = ref();
   expect([capture(word, { name: someRef }), someRef]).toMatchString('aa');
   expect([capture(digit, { name: someRef }), someRef]).toMatchString('11');
 
@@ -75,7 +75,7 @@ test('`reference` matching basic case', () => {
 });
 
 test('`reference` matching HTML attributes', () => {
-  const quoteRef = reference('quote');
+  const quoteRef = ref('quote');
   const quote = anyOf('"\'');
   const htmlAttributeRegex = buildRegExp([
     wordBoundary,
