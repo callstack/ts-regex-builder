@@ -1,9 +1,11 @@
 //import { urlFinder, urlValidator } from '..';
 import {
+  ipV4DigitValidator,
   urlAuthorityFinder,
   urlAuthorityValidator,
   urlHostFinder,
   urlHostValidator,
+  urlIpv4Validator,
   urlSchemeFinder,
   urlSchemeValidator,
 } from '../URL';
@@ -15,6 +17,7 @@ test('urlSchemeValidator', () => {
   expect(urlSchemeValidator).not.toMatchString('https');
   expect(urlSchemeValidator).not.toMatchString('ht:');
   expect(urlSchemeValidator).not.toMatchString('httpsftpmailtoirc:');
+  expect(urlSchemeValidator).not.toMatchString('httpsftpmailtoirc');
 });
 
 test('urlSchemeFinder', () => {
@@ -42,8 +45,28 @@ test('urlAuthorityValidator', () => {
   expect(urlAuthorityValidator).toMatchString('abba@aaaa.aaaaaaa');
 });
 
+test('ipDigit', () => {
+  expect(ipV4DigitValidator).toMatchString('255');
+  expect(ipV4DigitValidator).not.toMatchString('256');
+  expect(ipV4DigitValidator).toMatchString('25');
+  expect(ipV4DigitValidator).not.toMatchString('25.5');
+  expect(ipV4DigitValidator).toMatchString('249');
+  expect(ipV4DigitValidator).toMatchString('100');
+  expect(ipV4DigitValidator).toMatchString('199');
+  expect(ipV4DigitValidator).not.toMatchString('1000');
+  expect(ipV4DigitValidator).not.toMatchString('100.');
+  expect(ipV4DigitValidator).toMatchString('000');
+  expect(ipV4DigitValidator).toMatchString('00');
+  expect(ipV4DigitValidator).toMatchString('0');
+});
+
+test('urlIpv4Validator', () => {
+  expect(urlIpv4Validator).toMatchString('255.255.255.255');
+});
+
 test('urlHostValidator', () => {
   expect(urlHostValidator).toMatchString('www.google.com');
+  expect(urlHostValidator).toMatchString('ftp.data.com.');
 });
 
 test('urlHostFinder', () => {

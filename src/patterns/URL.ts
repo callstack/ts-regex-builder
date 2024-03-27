@@ -15,7 +15,6 @@ import { capture } from '../constructs/capture';
 import { oneOrMore, optional } from '../constructs/quantifiers';
 import { regex } from '../constructs/regex';
 
-
 //
 // The building blocks of the URL regex.
 //
@@ -37,16 +36,20 @@ const usernameChars = charClass(lowercase, digit, specialChars);
 const hostnameChars = charClass(charRange('a', 'z'));
 const pathSpecialChars = anyOf(':@%._+~#=');
 const queryDelimiter = anyOf('&;');
-const hexDigit = choiceOf(charRange("0", "9"), charRange("a", "f"), charRange("A", "F"))
-const ipV6Group = repeat(hexDigit, { min: 1, max: 4, greedy: false })
+const hexDigit = choiceOf(charRange('0', '9'), charRange('a', 'f'), charRange('A', 'F'));
+const ipV6Group = repeat(hexDigit, { min: 1, max: 4, greedy: false });
 const ipV4Seperator = '.';
 const ipV6Seperator = ':';
 
 export const ipDigit = choiceOf(
-  regex(["2", "5", charRange("0", "5")]),
-  regex(["2", charRange("0", "4"), charRange("0", "9")]),
-  regex([anyOf("01"), charRange("0", "9"), charRange("0", "9")])
-)
+  regex(['2', '5', charRange('0', '5')]),
+  regex(['2', charRange('0', '4'), charRange('0', '9')]),
+  regex([charRange('0', '1'), charRange('0', '9'), charRange('0', '9')]),
+  regex([charRange('0', '9'), charRange('0', '9')]),
+  regex([charRange('0', '9')]),
+);
+
+export const ipV4DigitValidator = buildRegExp([startOfString, capture(ipDigit), endOfString]);
 
 export const ipv4Address = regex([
   ipDigit,
@@ -55,8 +58,8 @@ export const ipv4Address = regex([
   ipV4Seperator,
   ipDigit,
   ipV4Seperator,
-  ipDigit
-])
+  ipDigit,
+]);
 
 export const urlIpv4Finder = buildRegExp([capture(ipv4Address)], {
   ignoreCase: true,
@@ -101,7 +104,7 @@ export const ipv6Address = regex([
   optional(ipV6Group),
   ipV6Seperator,
   optional(ipV6Group),
-])
+]);
 
 export const urlIpv6Finder = buildRegExp([capture(ipv6Address)], {
   ignoreCase: true,
