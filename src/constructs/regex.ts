@@ -9,14 +9,9 @@ export interface Regex extends RegexConstruct {
 }
 
 export function regex(sequence: RegexSequence): Regex {
-  const children = ensureArray(sequence);
-  if (children.length === 0) {
-    throw new Error('`regex` should receive at least one element');
-  }
-
   return {
     type: 'sequence',
-    children,
+    children: ensureArray(sequence),
     encode: encodeRegex,
   };
 }
