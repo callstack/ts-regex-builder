@@ -6,15 +6,16 @@ import {
   endOfString,
   oneOrMore,
   optional,
+  regex,
   startOfString,
   zeroOrMore,
 } from '..';
 
 test('example: validate JavaScript number', () => {
   const sign = anyOf('+-');
-  const exponent = [anyOf('eE'), optional(sign), oneOrMore(digit)];
+  const exponent = regex([anyOf('eE'), optional(sign), oneOrMore(digit)]);
 
-  const regex = buildRegExp([
+  const numberValidator = buildRegExp([
     startOfString,
     optional(sign),
     choiceOf(
@@ -25,26 +26,26 @@ test('example: validate JavaScript number', () => {
     endOfString,
   ]);
 
-  expect(regex).toMatchString('0');
-  expect(regex).toMatchString('-1');
-  expect(regex).toMatchString('+1');
-  expect(regex).toMatchString('1.0');
-  expect(regex).toMatchString('1.1234');
-  expect(regex).toMatchString('1.');
-  expect(regex).toMatchString('.1');
-  expect(regex).toMatchString('-.1234');
-  expect(regex).toMatchString('+.5');
-  expect(regex).toMatchString('1e21');
-  expect(regex).toMatchString('1e-21');
-  expect(regex).toMatchString('+1e+42');
-  expect(regex).toMatchString('-1e-42');
+  expect(numberValidator).toMatchString('0');
+  expect(numberValidator).toMatchString('-1');
+  expect(numberValidator).toMatchString('+1');
+  expect(numberValidator).toMatchString('1.0');
+  expect(numberValidator).toMatchString('1.1234');
+  expect(numberValidator).toMatchString('1.');
+  expect(numberValidator).toMatchString('.1');
+  expect(numberValidator).toMatchString('-.1234');
+  expect(numberValidator).toMatchString('+.5');
+  expect(numberValidator).toMatchString('1e21');
+  expect(numberValidator).toMatchString('1e-21');
+  expect(numberValidator).toMatchString('+1e+42');
+  expect(numberValidator).toMatchString('-1e-42');
 
-  expect(regex).not.toMatchString('');
-  expect(regex).not.toMatchString('a');
-  expect(regex).not.toMatchString('1a');
-  expect(regex).not.toMatchString('1.0.');
-  expect(regex).not.toMatchString('.1.1');
-  expect(regex).not.toMatchString('.');
+  expect(numberValidator).not.toMatchString('');
+  expect(numberValidator).not.toMatchString('a');
+  expect(numberValidator).not.toMatchString('1a');
+  expect(numberValidator).not.toMatchString('1.0.');
+  expect(numberValidator).not.toMatchString('.1.1');
+  expect(numberValidator).not.toMatchString('.');
 
-  expect(regex).toEqualRegex(/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/);
+  expect(numberValidator).toEqualRegex(/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/);
 });

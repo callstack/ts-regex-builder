@@ -33,4 +33,5 @@ export { lookbehind } from './constructs/lookbehind';
 export { negativeLookahead } from './constructs/negative-lookahead';
 export { negativeLookbehind } from './constructs/negative-lookbehind';
 export { oneOrMore, optional, zeroOrMore } from './constructs/quantifiers';
+export { regex } from './constructs/regex';
 export { repeat } from './constructs/repeat';
