@@ -8,7 +8,13 @@ export type { RepeatOptions } from './constructs/repeat';
 export { buildPattern, buildRegExp } from './builders';
 
 // Constructs
-export { endOfString, notWordBoundary, startOfString, wordBoundary } from './constructs/anchors';
+export {
+  endOfString,
+  nonWordBoundary,
+  notWordBoundary,
+  startOfString,
+  wordBoundary,
+} from './constructs/anchors';
 export { capture, reference } from './constructs/capture';
 export {
   any,
