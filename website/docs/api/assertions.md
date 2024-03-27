@@ -23,11 +23,11 @@ _This API was added in version 1.3.0._
 
 ```ts
 const wordBoundary: Anchor;
-const notWordBoundary: Anchor;
+const nonWordBoundary: Anchor;
 ```
 
 - `wordBoundary` matches the positions where a word character is not followed or preceded by another word character, effectively indicating the start or end of a word. Regex syntax: `\b`.
-- `notWordBoundary` matches the positions where a word character is followed or preceded by another word character, indicating that it is not at the start or end of a word. Regex syntax: `\B`.
+- `nonWordBoundary` matches the positions where a word character is followed or preceded by another word character, indicating that it is not at the start or end of a word. Regex syntax: `\B`.
 
 Note: word characters are letters, digits, and underscore (`_`). Other special characters like `#`, `$`, etc are not considered word characters.
 

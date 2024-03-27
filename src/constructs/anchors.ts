@@ -24,11 +24,16 @@ export const wordBoundary: Anchor = {
   encode: encodeAnchor,
 };
 
-export const notWordBoundary: Anchor = {
+export const nonWordBoundary: Anchor = {
   type: 'anchor',
   symbol: '\\B',
   encode: encodeAnchor,
 };
+
+/**
+ * @deprecated Renamed to `nonWordBoundary`.
+ */
+export const notWordBoundary = nonWordBoundary;
 
 function encodeAnchor(this: Anchor): EncodeResult {
   return {

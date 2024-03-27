@@ -2,7 +2,13 @@ export type * from './types';
 
 export { buildPattern, buildRegExp } from './builders';
 
-export { endOfString, notWordBoundary, startOfString, wordBoundary } from './constructs/anchors';
+export {
+  endOfString,
+  nonWordBoundary,
+  notWordBoundary,
+  startOfString,
+  wordBoundary,
+} from './constructs/anchors';
 export { capture } from './constructs/capture';
 export {
   any,
@@ -10,7 +16,11 @@ export {
   charClass,
   charRange,
   digit,
+  negated,
   inverted,
+  nonDigit,
+  nonWhitespace,
+  nonWord,
   notDigit,
   notWhitespace,
   notWord,

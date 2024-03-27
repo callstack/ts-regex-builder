@@ -5,10 +5,10 @@ import {
   charClass,
   charRange,
   digit,
-  inverted,
-  notDigit,
-  notWhitespace,
-  notWord,
+  negated,
+  nonDigit,
+  nonWhitespace,
+  nonWord,
   oneOrMore,
   optional,
   whitespace,
@@ -30,12 +30,12 @@ test('`digit` character class', () => {
   expect(digit).not.toMatchString('A');
 });
 
-test('`notDigit` character class', () => {
-  expect(notDigit).toEqualRegex(/\D/);
-  expect(['x', notDigit]).toEqualRegex(/x\D/);
-  expect(['x', notDigit, 'x']).toEqualRegex(/x\Dx/);
-  expect(notDigit).not.toMatchString('1');
-  expect(notDigit).toMatchString('A');
+test('`nonDigit` character class', () => {
+  expect(nonDigit).toEqualRegex(/\D/);
+  expect(['x', nonDigit]).toEqualRegex(/x\D/);
+  expect(['x', nonDigit, 'x']).toEqualRegex(/x\Dx/);
+  expect(nonDigit).not.toMatchString('1');
+  expect(nonDigit).toMatchString('A');
 });
 
 test('`word` character class', () => {
@@ -47,13 +47,13 @@ test('`word` character class', () => {
   expect(word).not.toMatchString('$');
 });
 
-test('`notWord` character class', () => {
-  expect(notWord).toEqualRegex(/\W/);
-  expect(['x', notWord]).toEqualRegex(/x\W/);
-  expect(['x', notWord, 'x']).toEqualRegex(/x\Wx/);
-  expect(notWord).not.toMatchString('A');
-  expect(notWord).not.toMatchString('1');
-  expect(notWord).toMatchString('$');
+test('`nonWord` character class', () => {
+  expect(nonWord).toEqualRegex(/\W/);
+  expect(['x', nonWord]).toEqualRegex(/x\W/);
+  expect(['x', nonWord, 'x']).toEqualRegex(/x\Wx/);
+  expect(nonWord).not.toMatchString('A');
+  expect(nonWord).not.toMatchString('1');
+  expect(nonWord).toMatchString('$');
 });
 
 test('`whitespace` character class', () => {
@@ -66,14 +66,14 @@ test('`whitespace` character class', () => {
   expect(whitespace).not.toMatchString('1');
 });
 
-test('`notWhitespace` character class', () => {
-  expect(notWhitespace).toEqualRegex(/\S/);
-  expect(['x', notWhitespace]).toEqualRegex(/x\S/);
-  expect(['x', notWhitespace, 'x']).toEqualRegex(/x\Sx/);
-  expect(notWhitespace).not.toMatchString(' ');
-  expect(notWhitespace).not.toMatchString('\t');
-  expect(notWhitespace).toMatchString('A');
-  expect(notWhitespace).toMatchString('1');
+test('`nonWhitespace` character class', () => {
+  expect(nonWhitespace).toEqualRegex(/\S/);
+  expect(['x', nonWhitespace]).toEqualRegex(/x\S/);
+  expect(['x', nonWhitespace, 'x']).toEqualRegex(/x\Sx/);
+  expect(nonWhitespace).not.toMatchString(' ');
+  expect(nonWhitespace).not.toMatchString('\t');
+  expect(nonWhitespace).toMatchString('A');
+  expect(nonWhitespace).toMatchString('1');
 });
 
 test('`charClass` base cases', () => {
@@ -83,9 +83,9 @@ test('`charClass` base cases', () => {
   expect(charClass(charRange('a', 'z'), whitespace, anyOf('05'))).toEqualRegex(/[a-z\s05]/);
 });
 
-test('`charClass` throws on inverted arguments', () => {
-  expect(() => charClass(inverted(whitespace))).toThrowErrorMatchingInlineSnapshot(
-    `"\`charClass\` should receive only non-inverted character classes"`,
+test('`charClass` throws on negated arguments', () => {
+  expect(() => charClass(negated(whitespace))).toThrowErrorMatchingInlineSnapshot(
+    `"\`charClass\` should receive only non-negated character classes"`,
   );
 });
 
@@ -141,30 +141,30 @@ test('`anyOf` throws on empty text', () => {
   );
 });
 
-test('`inverted` character class pattern', () => {
-  expect(inverted(anyOf('a'))).toEqualRegex(/[^a]/);
-  expect(inverted(anyOf('abc'))).toEqualRegex(/[^abc]/);
+test('`negated` character class pattern', () => {
+  expect(negated(anyOf('a'))).toEqualRegex(/[^a]/);
+  expect(negated(anyOf('abc'))).toEqualRegex(/[^abc]/);
 });
 
-test('`inverted` character class pattern double inversion', () => {
-  expect(inverted(inverted(anyOf('a')))).toEqualRegex(/a/);
-  expect(inverted(inverted(anyOf('abc')))).toEqualRegex(/[abc]/);
+test('`negated` character class pattern double inversion', () => {
+  expect(negated(negated(anyOf('a')))).toEqualRegex(/a/);
+  expect(negated(negated(anyOf('abc')))).toEqualRegex(/[abc]/);
 });
 
-test('`inverted` character class matching', () => {
-  expect(inverted(anyOf('a'))).not.toMatchString('aa');
-  expect(inverted(anyOf('a'))).toMatchGroups('aba', ['b']);
+test('`negated` character class matching', () => {
+  expect(negated(anyOf('a'))).not.toMatchString('aa');
+  expect(negated(anyOf('a'))).toMatchGroups('aba', ['b']);
 });
 
 test('`encodeCharacterClass` throws on empty text', () => {
   expect(() =>
     buildRegExp(
       // @ts-expect-error
-      inverted({
+      negated({
         type: 'characterClass',
         chars: [],
         ranges: [],
-        isInverted: false,
+        isNegated: false,
       }),
     ),
   ).toThrowErrorMatchingInlineSnapshot(
@@ -173,22 +173,22 @@ test('`encodeCharacterClass` throws on empty text', () => {
 });
 
 test('showcase: negated character classes', () => {
-  expect(notDigit).toEqualRegex(/\D/);
-  expect(notWord).toEqualRegex(/\W/);
-  expect(notWhitespace).toEqualRegex(/\S/);
+  expect(nonDigit).toEqualRegex(/\D/);
+  expect(nonWord).toEqualRegex(/\W/);
+  expect(nonWhitespace).toEqualRegex(/\S/);
 
-  expect(notDigit).toMatchString('A');
-  expect(notDigit).not.toMatchString('1');
-  expect(notDigit).toMatchString(' ');
-  expect(notDigit).toMatchString('#');
+  expect(nonDigit).toMatchString('A');
+  expect(nonDigit).not.toMatchString('1');
+  expect(nonDigit).toMatchString(' ');
+  expect(nonDigit).toMatchString('#');
 
-  expect(notWord).not.toMatchString('A');
-  expect(notWord).not.toMatchString('1');
-  expect(notWord).toMatchString(' ');
-  expect(notWord).toMatchString('#');
+  expect(nonWord).not.toMatchString('A');
+  expect(nonWord).not.toMatchString('1');
+  expect(nonWord).toMatchString(' ');
+  expect(nonWord).toMatchString('#');
 
-  expect(notWhitespace).toMatchString('A');
-  expect(notWhitespace).toMatchString('1');
-  expect(notWhitespace).not.toMatchString(' ');
-  expect(notWhitespace).toMatchString('#');
+  expect(nonWhitespace).toMatchString('A');
+  expect(nonWhitespace).toMatchString('1');
+  expect(nonWhitespace).not.toMatchString(' ');
+  expect(nonWhitespace).toMatchString('#');
 });

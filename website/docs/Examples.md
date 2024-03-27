@@ -280,7 +280,7 @@ Ignoring cases where given word is part of a bigger word.
 const suffixesToFind = ['acy', 'ism'];
 
 const regex = buildRegExp([
-  notWordBoundary, // match suffixes only
+  nonWordBoundary, // match suffixes only
   choiceOf(...suffixesToFind),
   wordBoundary,
 ]);

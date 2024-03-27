@@ -1,10 +1,10 @@
-import { buildRegExp, choiceOf, notWordBoundary, wordBoundary } from '..';
+import { buildRegExp, choiceOf, nonWordBoundary, wordBoundary } from '..';
 
 test('example: find words with suffix', () => {
   const suffixesToFind = ['acy', 'ism'];
 
   const regex = buildRegExp([
-    notWordBoundary, // match suffixes only
+    nonWordBoundary, // match suffixes only
     choiceOf(...suffixesToFind),
     wordBoundary,
   ]);
