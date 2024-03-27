@@ -3,6 +3,7 @@ import type { RegexConstruct } from '../types';
 
 export interface CharacterClass extends RegexConstruct {
   type: 'characterClass';
+  escape?: string;
   chars: string[];
   ranges: CharacterRange[];
   isNegated: boolean;
@@ -19,7 +20,8 @@ export interface CharacterRange {
 
 export const any: CharacterClass = {
   type: 'characterClass',
-  chars: ['.'],
+  escape: '.',
+  chars: [],
   ranges: [],
   isNegated: false,
   encode: encodeCharacterClass,
@@ -27,7 +29,8 @@ export const any: CharacterClass = {
 
 export const digit: CharacterClass = {
   type: 'characterClass',
-  chars: ['\\d'],
+  escape: '\\d',
+  chars: [],
   ranges: [],
   isNegated: false,
   encode: encodeCharacterClass,
@@ -35,7 +38,8 @@ export const digit: CharacterClass = {
 
 export const nonDigit: CharacterClass = {
   type: 'characterClass',
-  chars: ['\\D'],
+  escape: '\\D',
+  chars: [],
   ranges: [],
   isNegated: false,
   encode: encodeCharacterClass,
@@ -43,7 +47,8 @@ export const nonDigit: CharacterClass = {
 
 export const word: CharacterClass = {
   type: 'characterClass',
-  chars: ['\\w'],
+  escape: '\\w',
+  chars: [],
   ranges: [],
   isNegated: false,
   encode: encodeCharacterClass,
@@ -51,7 +56,8 @@ export const word: CharacterClass = {
 
 export const nonWord: CharacterClass = {
   type: 'characterClass',
-  chars: ['\\W'],
+  escape: '\\W',
+  chars: [],
   ranges: [],
   isNegated: false,
   encode: encodeCharacterClass,
@@ -59,7 +65,8 @@ export const nonWord: CharacterClass = {
 
 export const whitespace: CharacterClass = {
   type: 'characterClass',
-  chars: ['\\s'],
+  escape: '\\s',
+  chars: [],
   ranges: [],
   isNegated: false,
   encode: encodeCharacterClass,
@@ -67,7 +74,8 @@ export const whitespace: CharacterClass = {
 
 export const nonWhitespace: CharacterClass = {
   type: 'characterClass',
-  chars: ['\\S'],
+  escape: '\\S',
+  chars: [],
   ranges: [],
   isNegated: false,
   encode: encodeCharacterClass,
@@ -89,15 +97,17 @@ export const notWord = nonWord;
 export const notWhitespace = nonWhitespace;
 
 export function charClass(...elements: CharacterClass[]): CharacterClass {
-  elements.forEach((element) => {
-    if (element.isNegated) {
-      throw new Error('`charClass` should receive only non-negated character classes');
-    }
-  });
+  if (elements.some((e) => e.isNegated)) {
+    throw new Error('`charClass` should receive only non-negated character classes');
+  }
+
+  if (elements.length === 1) {
+    return elements[0]!;
+  }
 
   return {
     type: 'characterClass',
-    chars: elements.map((c) => c.chars).flat(),
+    chars: elements.map((c) => getAllChars(c)).flat(),
     ranges: elements.map((c) => c.ranges).flat(),
     isNegated: false,
     encode: encodeCharacterClass,
@@ -158,24 +168,26 @@ export function negated(element: CharacterClass): CharacterClass {
 export const inverted = negated;
 
 function encodeCharacterClass(this: CharacterClass): EncodeResult {
-  if (this.chars.length === 0 && this.ranges.length === 0) {
+  if (this.escape === undefined && this.chars.length === 0 && this.ranges.length === 0) {
     throw new Error('Character class should contain at least one character or character range');
   }
 
   // Direct rendering for single-character class
-  if (this.chars.length === 1 && this.ranges?.length === 0 && !this.isNegated) {
+  if (this.escape !== undefined && !this.chars.length && !this.ranges.length && !this.isNegated) {
     return {
       precedence: 'atom',
-      pattern: this.chars[0]!,
+      pattern: this.escape,
     };
   }
+
+  const allChars = getAllChars(this);
 
   // If passed characters includes hyphen (`-`) it need to be moved to
   // first (or last) place in order to treat it as hyphen character and not a range.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
-  const hyphen = this.chars.includes('-') ? '-' : '';
-  const caret = this.chars.includes('^') ? '^' : '';
-  const otherChars = this.chars.filter((c) => c !== '-' && c !== '^').join('');
+  const hyphen = allChars.includes('-') ? '-' : '';
+  const caret = allChars.includes('^') ? '^' : '';
+  const otherChars = allChars.filter((c) => c !== '-' && c !== '^').join('');
   const ranges = this.ranges.map(({ start, end }) => `${start}-${end}`).join('');
   const negation = this.isNegated ? '^' : '';
 
@@ -190,4 +202,12 @@ function encodeCharacterClass(this: CharacterClass): EncodeResult {
 
 function escapeForCharacterClass(text: string): string {
   return text.replace(/[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+function getAllChars(characterClass: CharacterClass) {
+  if (characterClass.escape === undefined) {
+    return characterClass.chars;
+  }
+
+  return [characterClass.escape, ...characterClass.chars];
 }
