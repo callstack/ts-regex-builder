@@ -15,46 +15,19 @@ import { capture } from '../constructs/capture';
 import { oneOrMore, optional } from '../constructs/quantifiers';
 import { regex } from '../constructs/regex';
 
+import { alphabetical, lowercase, uppercase } from './shared';
 import { ipv4Address, ipv6Address } from './ip-addr';
-
-//
-// The building blocks of the URL regex.
-//
-const lowercase = charRange('a', 'z');
-const uppercase = charRange('A', 'Z');
-const at = '@';
-const equals = '=';
-const period = '.';
-const hyphen = '-';
-const alphabetical = charClass(lowercase, uppercase);
-const specialChars = anyOf('._%+-');
-const portSeperator = ':';
-const schemeSeperator = ':';
-const doubleSlash = '//';
-const pathSeparator = '/';
-const querySeparator = '?';
-const fragmentSeparator = '#';
-const usernameChars = charClass(lowercase, digit, specialChars);
-const hostnameChars = charRange('a', 'z');
-const pathSpecialChars = anyOf(':@%._+~#=');
-const queryDelimiter = anyOf('&;');
-const pathChar = charClass(lowercase, uppercase, digit, pathSpecialChars);
-
-//
-// Combining these building blocks into the following URL regex components:
-//
 
 //    Scheme:
 //      The scheme is the first part of the URL and defines the protocol to be used.
 //      Examples of popular schemes include http, https, ftp, mailto, file, data and irc.
 //      A URL string must be a scheme, followed by a colon, followed by a scheme-specific part.
 //
+const schemeSpecialChars = anyOf('+-.');
+const schemeChar = charClass(alphabetical, digit, schemeSpecialChars);
+const schemeSeperator = ':';
 
-export const urlScheme = [
-  repeat(charClass(anyOf(hyphen), alphabetical), { min: 3, max: 6 }),
-  optional('s'),
-  schemeSeperator,
-];
+export const urlScheme = [repeat(schemeChar, { min: 3, max: 6 }), optional('s'), schemeSeperator];
 
 export const urlSchemeFinder = buildRegExp([capture(urlScheme)], {
   ignoreCase: true,
@@ -71,26 +44,31 @@ export const urlSchemeValidator = buildRegExp([startOfString, capture(urlScheme)
 //        2. A hostname (e.g. www.google.com)
 //        3. An optional port number, preceded by a colon (:)
 //    Authority = [userinfo "@"] host [":" port]
-
-const userinfo = oneOrMore(usernameChars);
+//
+const userinfoSpecialChars = anyOf('._%+-');
+const userinfoChars = charClass(lowercase, digit, userinfoSpecialChars);
+const hostnameChars = charRange('a', 'z');
+const hostSeperator = '.';
+const userinfo = oneOrMore(userinfoChars);
 const port = repeat(digit, { min: 1, max: 5, greedy: false });
-const urlPort = [portSeperator, port];
+const portSeperator = ':';
+const urlPort = regex([portSeperator, port]);
 const host = repeat(hostnameChars, { min: 1, max: 63, greedy: false });
-const hostname = [host, repeat([period, host], { min: 0, max: 255, greedy: false })];
+const hostname = regex([host, repeat([hostSeperator, host], { min: 0, max: 255, greedy: false })]);
+const authoritySeperator = '//';
+const userinfoSeperator = '@';
 
-export const urlAuthority = [optional([userinfo, at]), choiceOf(hostname), optional(urlPort)];
+export const urlAuthority = regex([
+  optional([userinfo, userinfoSeperator]),
+  hostname,
+  optional(urlPort),
+]);
 
 export const urlAuthorityFinder = buildRegExp(urlAuthority, {
-  ignoreCase: true,
   global: true,
 });
 
-export const urlAuthorityValidator = buildRegExp(
-  [startOfString, choiceOf(urlAuthority), endOfString],
-  {
-    ignoreCase: true,
-  },
-);
+export const urlAuthorityValidator = buildRegExp([startOfString, regex(urlAuthority), endOfString]);
 
 //
 //    Convenience Pattern - Host:
@@ -113,6 +91,9 @@ export const urlHostValidator = buildRegExp([startOfString, regex(hostname), end
 //      It consists of a sequence of path segments separated by a forward slash (/).
 //      A path string must begin with a forward slash (/).
 
+const pathSeparator = '/';
+const pathSpecialChars = anyOf(':@%._+~#=');
+const pathChar = charClass(lowercase, uppercase, digit, pathSpecialChars);
 const pathSegment = [pathSeparator, repeat(pathChar, { min: 1, max: 63, greedy: false })];
 
 export const urlPath = repeat(pathSegment, { min: 1, max: 255, greedy: false });
@@ -131,7 +112,10 @@ export const urlPathValidator = buildRegExp([startOfString, urlPath, endOfString
 //      It is separated from the path by a question mark (?).
 //      The query string consists of a sequence of field-value pairs separated by an ampersand (&).
 //      Each field-value pair is separated by an equals sign (=).
-
+//
+const equals = '=';
+const querySeparator = '?';
+const queryDelimiter = anyOf('&;');
 const queryKey = oneOrMore(charClass(lowercase, uppercase, digit, anyOf('_-')));
 const queryValue = oneOrMore(charClass(lowercase, uppercase, digit, anyOf('_-')));
 const queryKeyValuePair = buildRegExp([queryKey, equals, queryValue]);
@@ -150,6 +134,8 @@ export const urlQueryValidator = buildRegExp(urlQuery, { ignoreCase: true });
 //      It is separated from the query by a hash (#).
 //      The fragment string consists of a sequence of characters.
 
+const fragmentSeparator = '#';
+
 export const urlFragment = [
   fragmentSeparator,
   oneOrMore(charClass(lowercase, uppercase, digit, pathSpecialChars)),
@@ -167,7 +153,7 @@ export const urlFragmentValidator = buildRegExp(urlFragment, {
 export const url = [
   optional(urlScheme),
   schemeSeperator,
-  optional([doubleSlash, choiceOf(urlAuthority)]),
+  optional([authoritySeperator, choiceOf(urlAuthority)]),
   urlPath,
   optional(urlQuery),
   optional(urlFragment),
