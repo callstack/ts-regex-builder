@@ -1,32 +1,13 @@
-import {
-  any,
-  buildRegExp,
-  capture,
-  charClass,
-  charRange,
-  digit,
-  oneOrMore,
-  ref,
-  zeroOrMore,
-} from '..';
+import { any, buildRegExp, capture, oneOrMore, zeroOrMore } from '..';
 
 test('example: html tag matching', () => {
-  const tagName = oneOrMore(charClass(charRange('a', 'z'), digit));
-  const tagContent = zeroOrMore(any, { greedy: false });
+  const tagName = capture(oneOrMore(/[a-z0-9]/), { name: 'tag' });
+  const tagContent = capture(zeroOrMore(any, { greedy: false }), { name: 'content' });
 
-  const tagRef = ref('tag');
-  const tagMatcher = buildRegExp(
-    [
-      '<',
-      capture(tagName, { name: tagRef }),
-      '>',
-      capture(tagContent, { name: 'content' }),
-      '</',
-      tagRef,
-      '>',
-    ],
-    { ignoreCase: true, global: true },
-  );
+  const tagMatcher = buildRegExp(['<', tagName, '>', tagContent, '</', tagName.ref(), '>'], {
+    ignoreCase: true,
+    global: true,
+  });
 
   expect(tagMatcher).toMatchAllNamedGroups('<a>abc</a>', [{ tag: 'a', content: 'abc' }]);
   expect(tagMatcher).toMatchAllNamedGroups('<a><b>abc</b></a>', [

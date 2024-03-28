@@ -7,13 +7,14 @@ export interface Capture extends RegexConstruct {
   type: 'capture';
   children: RegexElement[];
   options?: CaptureOptions;
+  ref: () => Reference;
 }
 
 export type CaptureOptions = {
   /**
    * Name to be given to the capturing group can either by a string or {@link ref} instance.
    */
-  name: string | Reference;
+  name: string;
 };
 
 export interface Reference extends RegexConstruct {
@@ -32,10 +33,15 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Capt
     children: ensureArray(sequence),
     options,
     encode: encodeCapture,
+    ref: generateRef,
   };
 }
 
 let counter = 0;
+
+function generateRef(this: Capture) {
+  return ref(this.options?.name ?? 'unknown');
+}
 
 /**
  * Creates a reference (a.k.a. backreference) to a capturing group.
