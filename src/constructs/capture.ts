@@ -7,7 +7,13 @@ export interface Capture extends RegexConstruct {
   type: 'capture';
   children: RegexElement[];
   options?: CaptureOptions;
-  ref: () => Reference;
+
+  /** Creates a backreference to a capturing group.
+   * It allows to match the same text that was previously captured by the capturing group.
+   *
+   * Note: requires `name` option to be passed.
+   */
+  ref: () => Backreference;
 }
 
 export type CaptureOptions = {
@@ -17,8 +23,8 @@ export type CaptureOptions = {
   name: string;
 };
 
-export interface Reference extends RegexConstruct {
-  type: 'reference';
+export interface Backreference extends RegexConstruct {
+  type: 'backreference';
   name: string;
 }
 
@@ -32,35 +38,26 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Capt
     type: 'capture',
     children: ensureArray(sequence),
     options,
-    encode: encodeCapture,
     ref: generateRef,
+    encode: encodeCapture,
   };
 }
 
-let counter = 0;
+function generateRef(this: Capture): Backreference {
+  const name = this.options?.name;
+  if (!name) {
+    throw new Error('Capture group "name" is required when calling "ref()".');
+  }
 
-function generateRef(this: Capture) {
-  return ref(this.options?.name ?? 'unknown');
-}
-
-/**
- * Creates a reference (a.k.a. backreference) to a capturing group.
- *
- * Backreferences allows to match the same text that was previously captured by a capturing group.
- *
- * @param name - Name to be given to the capturing group which receives this reference. If not provided, a unique name will be generated.
- */
-export function ref(name?: string): Reference {
   return {
-    type: 'reference',
-    name: name ?? `ref${counter++}`,
-    encode: encodeReference,
+    type: 'backreference',
+    name,
+    encode: encodeBackreference,
   };
 }
 
 function encodeCapture(this: Capture): EncodeResult {
-  // @ts-expect-error
-  const name = this.options?.name?.name ?? this.options?.name;
+  const name = this.options?.name;
   if (name) {
     return {
       precedence: 'atom',
@@ -74,7 +71,7 @@ function encodeCapture(this: Capture): EncodeResult {
   };
 }
 
-function encodeReference(this: Reference): EncodeResult {
+function encodeBackreference(this: Backreference): EncodeResult {
   return {
     precedence: 'atom',
     pattern: `\\k<${this.name}>`,

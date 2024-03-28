@@ -1,8 +1,14 @@
 import { any, buildRegExp, capture, oneOrMore, zeroOrMore } from '..';
 
 test('example: html tag matching', () => {
-  const tagName = capture(oneOrMore(/[a-z0-9]/), { name: 'tag' });
-  const tagContent = capture(zeroOrMore(any, { greedy: false }), { name: 'content' });
+  const tagName = capture(
+    oneOrMore(/[a-z0-9]/), //
+    { name: 'tag' },
+  );
+  const tagContent = capture(
+    zeroOrMore(any, { greedy: false }), //
+    { name: 'content' },
+  );
 
   const tagMatcher = buildRegExp(['<', tagName, '>', tagContent, '</', tagName.ref(), '>'], {
     ignoreCase: true,
@@ -20,5 +26,5 @@ test('example: html tag matching', () => {
 
   expect(tagMatcher).not.toMatchString('<a>abc</b>');
 
-  expect(tagMatcher).toEqualRegex('<(?<tag>[a-z\\d]+)>(?<content>.*?)<\\/\\k<tag>>');
+  expect(tagMatcher).toEqualRegex('<(?<tag>[a-z0-9]+)>(?<content>.*?)<\\/\\k<tag>>');
 });

@@ -4,9 +4,8 @@ import {
   buildRegExp,
   capture,
   digit,
-  inverted,
+  negated,
   oneOrMore,
-  ref,
   word,
   wordBoundary,
 } from '../..';
@@ -49,41 +48,41 @@ test('named `capture` matching', () => {
   ]).toMatchNamedGroups('abc', { x1: 'b', x2: 'c' });
 });
 
-// Should have `ref0` as name.
-const firstRef = ref();
+test('`ref` function', () => {
+  const someCapture = capture(any, { name: 'ref0' });
+  expect([someCapture, ' ', someCapture.ref()]).toEqualRegex('(?<ref0>.) \\k<ref0>');
 
-test('`reference` pattern', () => {
-  expect([firstRef]).toEqualRegex(/\k<ref0>/);
-  expect([ref('xyz')]).toEqualRegex(/\k<xyz>/);
-  expect([capture(any, { name: firstRef }), ' ', firstRef]).toEqualRegex('(?<ref0>.) \\k<ref0>');
-
-  const otherRef = ref('r123');
-  expect(['xx', capture(any, { name: otherRef }), ' ', otherRef, 'xx']).toEqualRegex(
+  const otherCapture = capture(any, { name: 'r123' });
+  expect(['xx', otherCapture, ' ', otherCapture.ref(), 'xx']).toEqualRegex(
     'xx(?<r123>.) \\k<r123>xx',
   );
 });
 
 test('`reference` matching basic case', () => {
-  const someRef = ref();
-  expect([capture(word, { name: someRef }), someRef]).toMatchString('aa');
-  expect([capture(digit, { name: someRef }), someRef]).toMatchString('11');
+  const wordCapture = capture(word, { name: 'word' });
+  expect([wordCapture, wordCapture.ref()]).toMatchString('aa');
 
-  expect([capture(any, { name: someRef }), someRef]).not.toMatchString('ab');
+  const digitCapture = capture(digit, { name: 'digit' });
+  expect([digitCapture, digitCapture.ref()]).toMatchString('11');
 
-  expect([capture(digit, { name: someRef }), someRef]).not.toMatchString('1a');
-  expect([capture(digit, { name: someRef }), someRef]).not.toMatchString('a1');
+  const anyCapture = capture(any, { name: 'any' });
+  expect([anyCapture, anyCapture.ref()]).not.toMatchString('ab');
+
+  expect([digitCapture, digitCapture.ref()]).not.toMatchString('1a');
+  expect([digitCapture, digitCapture.ref()]).not.toMatchString('a1');
 });
 
 test('`reference` matching HTML attributes', () => {
-  const quoteRef = ref('quote');
   const quote = anyOf('"\'');
+  const quoteCapture = capture(quote, { name: 'quote' });
+
   const htmlAttributeRegex = buildRegExp([
     wordBoundary,
     capture(oneOrMore(word), { name: 'name' }),
     '=',
-    capture(quote, { name: quoteRef }),
-    capture(oneOrMore(inverted(quote)), { name: 'value' }),
-    quoteRef,
+    quoteCapture,
+    capture(oneOrMore(negated(quote)), { name: 'value' }),
+    quoteCapture.ref(),
   ]);
 
   expect(htmlAttributeRegex).toMatchNamedGroups('a="b"', {
