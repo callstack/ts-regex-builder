@@ -15,6 +15,8 @@ import { capture } from '../constructs/capture';
 import { oneOrMore, optional } from '../constructs/quantifiers';
 import { regex } from '../constructs/regex';
 
+import { ipv4Address, ipv6Address } from './ip-addr';
+
 //
 // The building blocks of the URL regex.
 //
@@ -36,91 +38,7 @@ const usernameChars = charClass(lowercase, digit, specialChars);
 const hostnameChars = charRange('a', 'z');
 const pathSpecialChars = anyOf(':@%._+~#=');
 const queryDelimiter = anyOf('&;');
-export const hexDigit = choiceOf(charRange('0', '9'), charRange('a', 'f'), charRange('A', 'F'));
-export const ipV6Group = repeat(hexDigit, { min: 1, max: 4, greedy: false });
-export const ipV6GroupValidator = buildRegExp([startOfString, ipV6Group, endOfString]);
-const ipV4Seperator = '.';
-const ipV6Seperator = ':';
-
-export const ipDigit = choiceOf(
-  regex(['2', '5', charRange('0', '5')]),
-  regex(['2', charRange('0', '4'), charRange('0', '9')]),
-  regex([charRange('0', '1'), charRange('0', '9'), charRange('0', '9')]),
-  regex([charRange('0', '9'), charRange('0', '9')]),
-  regex([charRange('0', '9')]),
-);
-
-export const ipV4DigitValidator = buildRegExp([startOfString, regex(ipDigit), endOfString]);
-
-export const ipv4Address = regex([
-  ipDigit,
-  ipV4Seperator,
-  ipDigit,
-  ipV4Seperator,
-  ipDigit,
-  ipV4Seperator,
-  ipDigit,
-]);
-
-export const urlIpv4Finder = buildRegExp([capture(ipv4Address)], {
-  ignoreCase: true,
-  global: true,
-});
-
-export const urlIpv4Validator = buildRegExp([startOfString, capture(ipv4Address), endOfString], {
-  ignoreCase: true,
-});
-
-/***
- *** IPv6 Address
- *** Source: https://www.rfc-editor.org/rfc/rfc4291.html
- ***
- *** Form 1:
- ***    ABCD:EF01:2345:6789:ABCD:EF01:2345:6789
- ***    2001:DB8:0:0:8:800:200C:417A (collapsed leading zeros)
- ***
- *** Form 2:
- ***    The following valid addresses:
- ***      2001:DB8:0:0:8:800:200C:417A   a unicast address
- ***      FF01:0:0:0:0:0:0:101           a multicast address
- ***      0:0:0:0:0:0:0:1                the loopback address
- ***      0:0:0:0:0:0:0:0                the unspecified address
- ***
- ***    Can be represented as the following collapsed valid addresses:
- ***      2001:DB8::8:800:200C:417A      a unicast address
- ***      FF01::101                      a multicast address
- ***      ::1                            the loopback address
- ***      ::                             the unspecified address
- ***/
-
-export const ipv6Address = regex([
-  optional(ipV6Group),
-  ipV6Seperator,
-  optional(ipV6Group),
-  ipV6Seperator,
-  optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
-  optional(ipV6Seperator),
-  optional(ipV6Group),
-]);
-
-export const urlIpv6Finder = buildRegExp([capture(ipv6Address)], {
-  ignoreCase: true,
-  global: true,
-});
-
-export const urlIpv6Validator = buildRegExp([startOfString, capture(ipv6Address), endOfString], {
-  ignoreCase: true,
-});
+const pathChar = charClass(lowercase, uppercase, digit, pathSpecialChars);
 
 //
 // Combining these building blocks into the following URL regex components:
@@ -195,19 +113,18 @@ export const urlHostValidator = buildRegExp([startOfString, regex(hostname), end
 //      It consists of a sequence of path segments separated by a forward slash (/).
 //      A path string must begin with a forward slash (/).
 
-const pathSegment = [
-  pathSeparator,
-  optional(oneOrMore(charClass(lowercase, uppercase, digit, pathSpecialChars))),
-];
+const pathSegment = [pathSeparator, repeat(pathChar, { min: 1, max: 63, greedy: false })];
 
-export const urlPath = oneOrMore(pathSegment);
+export const urlPath = repeat(pathSegment, { min: 1, max: 255, greedy: false });
 
 export const urlPathFinder = buildRegExp(urlPath, {
   ignoreCase: true,
   global: true,
 });
 
-export const urlPathValidator = buildRegExp(urlPath, { ignoreCase: true });
+export const urlPathValidator = buildRegExp([startOfString, urlPath, endOfString], {
+  ignoreCase: true,
+});
 
 //    Query:
 //      The query part of a URL is optional and comes after the path.
