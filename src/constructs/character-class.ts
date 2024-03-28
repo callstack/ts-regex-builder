@@ -97,21 +97,7 @@ export const notWord = nonWord;
 export const notWhitespace = nonWhitespace;
 
 export function charClass(...elements: CharacterClass[]): CharacterClass {
-  if (elements.some((e) => e.isNegated)) {
-    throw new Error('`charClass` should receive only non-negated character classes');
-  }
-
-  if (elements.length === 1) {
-    return elements[0]!;
-  }
-
-  return {
-    type: 'characterClass',
-    chars: elements.map((c) => getAllChars(c)).flat(),
-    ranges: elements.map((c) => c.ranges).flat(),
-    isNegated: false,
-    encode: encodeCharacterClass,
-  };
+  return union(elements, charClass.name);
 }
 
 export function charRange(start: string, end: string): CharacterClass {
@@ -152,12 +138,16 @@ export function anyOf(characters: string): CharacterClass {
   };
 }
 
-export function negated(element: CharacterClass): CharacterClass {
+export function negated(...classes: CharacterClass[]): CharacterClass {
+  const x = negated;
+  x.name;
+  const unionClass = union(classes, negated.name);
+
   return {
     type: 'characterClass',
-    chars: element.chars,
-    ranges: element.ranges,
-    isNegated: !element.isNegated,
+    chars: unionClass.chars,
+    ranges: unionClass.ranges,
+    isNegated: !unionClass.isNegated,
     encode: encodeCharacterClass,
   };
 }
@@ -197,6 +187,27 @@ function encodeCharacterClass(this: CharacterClass): EncodeResult {
   return {
     precedence: 'atom',
     pattern,
+  };
+}
+
+function union(classes: CharacterClass[], fnName: string): CharacterClass {
+  const negatedCount = classes.filter((c) => c.isNegated).length;
+  if (negatedCount !== 0 && negatedCount !== classes.length) {
+    throw new Error(
+      `"${fnName}": either all character classes should be negated or none of them should be negated`,
+    );
+  }
+
+  if (classes.length === 1) {
+    return classes[0]!;
+  }
+
+  return {
+    type: 'characterClass',
+    chars: classes.map((c) => getAllChars(c)).flat(),
+    ranges: classes.map((c) => c.ranges).flat(),
+    isNegated: false,
+    encode: encodeCharacterClass,
   };
 }
 
