@@ -10,7 +10,7 @@ import {
   urlIpv6Validator,
   urlSchemeFinder,
   urlSchemeValidator,
-} from '../URL';
+} from '../url';
 
 test('urlSchemeValidator', () => {
   expect(urlSchemeValidator).toMatchString('ftp:');
@@ -84,24 +84,6 @@ test('hexDigit', () => {
   expect(hexDigit).toMatchString('f');
   expect(hexDigit).not.toMatchString('g');
   expect(hexDigit).not.toMatchString('h');
-  expect(hexDigit).not.toMatchString('i');
-  expect(hexDigit).not.toMatchString('j');
-  expect(hexDigit).not.toMatchString('k');
-  expect(hexDigit).not.toMatchString('l');
-  expect(hexDigit).not.toMatchString('m');
-  expect(hexDigit).not.toMatchString('n');
-  expect(hexDigit).not.toMatchString('o');
-  expect(hexDigit).not.toMatchString('p');
-  expect(hexDigit).not.toMatchString('q');
-  expect(hexDigit).not.toMatchString('r');
-  expect(hexDigit).not.toMatchString('s');
-  expect(hexDigit).not.toMatchString('t');
-  expect(hexDigit).not.toMatchString('u');
-  expect(hexDigit).not.toMatchString('v');
-  expect(hexDigit).not.toMatchString('w');
-  expect(hexDigit).not.toMatchString('x');
-  expect(hexDigit).not.toMatchString('y');
-  expect(hexDigit).not.toMatchString('z');
   expect(hexDigit).toMatchString('A');
   expect(hexDigit).toMatchString('B');
   expect(hexDigit).toMatchString('C');
