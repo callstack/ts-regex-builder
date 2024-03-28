@@ -15,7 +15,7 @@ export {
   startOfString,
   wordBoundary,
 } from './constructs/anchors';
-export { capture, ref } from './constructs/capture';
+export { capture } from './constructs/capture';
 export {
   any,
   anyOf,

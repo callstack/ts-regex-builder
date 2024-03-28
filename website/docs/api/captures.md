@@ -35,33 +35,29 @@ TS Regex Builder does not have a construct for non-capturing groups. Such groups
 
 :::
 
-### `ref()`
+### `Capture.ref()`
 
 ```ts
-function ref(
-  name?: string;
-): Reference;
+function Capture.ref(): Backreference;
 ```
 
 Regex syntax: `\k<...>`.
 
-Creates a reference, also known as backreferences, which allows matching the same text again that was previously matched by a capturing group. To form a valid regex, reference need to be attached to named capturing group earlier in the expression.
-
-If you do not specify the reference name, a auto-generated unique value will be assigned for it.
+Creates a backreference, allowing the exact text, previously matched by a capturing group, to be matched again. This construct is not a standalone function but a method available on a `Capture` construct instance, which should be assigned to a variable.
 
 Usage with `capture()`:
 
 ```ts
-// Define reference with name "some".
-const someRef = ref('some');
+// Define a capture as a variable.
+const someCapture = capture([...], { name: 'some' });
 
 const regex = buildRegExp([
   // Create a named capture using name from `someRef`.
-  capture(..., { name: someRef }),
+  someCapture,
   // ... some other elements ...
   // Match the same text as captured in a `capture` using `someRef`.
-  someRef,
-  ])
+  someCapture.ref(),
+])
 ```
 
 :::note
