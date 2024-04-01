@@ -1,19 +1,30 @@
 //
 //  A Regular Expression to validate URLs and to match URL components.
 //  This regular expression is based on the RFC 3986 standard which defines the URL format.
+//
 //  URL = Scheme ":"["//" Authority]Path["?" Query]["#" Fragment]
+//
+//  This pattern is designed to match WEB URLs, and does not support all possible URL schemes.
 //  Source: https://en.wikipedia.org/wiki/URL#External_links
 //  Source: https://datatracker.ietf.org/doc/html/rfc1738
+//  Source: https://datatracker.ietf.org/doc/html/rfc3986
+//
+//  Current limitations:
+//     - Does not support URL Authorities with passwords.  This pattern is generally considered deprecated.
+//     - URLs of the form 'http://' are considered valid.  This is not a valid URL, but it is a valid URI.
+//     - Only URL Queries of the form 'x=y' are considered valid.  Single values without an equals sign are not supported.
 //
 
 import { buildRegExp } from '../builders';
 import { endOfString, startOfString } from '../constructs/anchors';
-import { anyOf, charClass, charRange, digit } from '../constructs/character-class';
+import { anyOf, charClass, digit } from '../constructs/character-class';
 import { choiceOf } from '../constructs/choice-of';
 import { repeat } from '../constructs/repeat';
 import { capture } from '../constructs/capture';
-import { oneOrMore, optional } from '../constructs/quantifiers';
+import { oneOrMore, optional, zeroOrMore } from '../constructs/quantifiers';
 import { regex } from '../constructs/regex';
+import { lookahead } from '../constructs/lookahead';
+import { negativeLookahead } from '../constructs/negative-lookahead';
 
 import { alphabetical, lowercase, uppercase } from './shared';
 import { ipv4Address, ipv6Address } from './ip-addr';
@@ -27,16 +38,22 @@ const schemeSpecialChars = anyOf('+-.');
 const schemeChar = charClass(alphabetical, digit, schemeSpecialChars);
 const schemeSeperator = ':';
 
-export const urlScheme = [repeat(schemeChar, { min: 3, max: 6 }), optional('s'), schemeSeperator];
+const schemePlural = regex([
+  alphabetical,
+  repeat(schemeChar, { min: 2, max: 4, greedy: false }),
+  's',
+]);
+const schemeSingular = regex([alphabetical, repeat(schemeChar, { min: 2, max: 5, greedy: false })]);
+export const urlScheme = buildRegExp(
+  regex([choiceOf(schemePlural, schemeSingular), lookahead(schemeSeperator)]),
+);
 
-export const urlSchemeFinder = buildRegExp([capture(urlScheme)], {
+export const urlSchemeFinder = buildRegExp(capture(urlScheme), {
   ignoreCase: true,
   global: true,
 });
 
-export const urlSchemeValidator = buildRegExp([startOfString, capture(urlScheme), endOfString], {
-  ignoreCase: true,
-});
+export const urlSchemeValidator = buildRegExp([startOfString, capture(urlScheme)]);
 
 //    Authority:
 //      The authority part of a URL consists of three sub-parts:
@@ -47,20 +64,22 @@ export const urlSchemeValidator = buildRegExp([startOfString, capture(urlScheme)
 //
 const userinfoSpecialChars = anyOf('._%+-');
 const userinfoChars = charClass(lowercase, digit, userinfoSpecialChars);
-const hostnameChars = charRange('a', 'z');
-const hostSeperator = '.';
 const userinfo = oneOrMore(userinfoChars);
+const userinfoSeperator = '@';
+
+const hostnameSpecialChars = anyOf('-');
+const hostnameChars = charClass(lowercase, digit, hostnameSpecialChars);
+const hostSeperator = '.';
 const port = repeat(digit, { min: 1, max: 5, greedy: false });
 const portSeperator = ':';
 const urlPort = regex([portSeperator, port]);
 const host = repeat(hostnameChars, { min: 1, max: 63, greedy: false });
 const hostname = regex([host, repeat([hostSeperator, host], { min: 0, max: 255, greedy: false })]);
 const authoritySeperator = '//';
-const userinfoSeperator = '@';
 
 export const urlAuthority = regex([
   optional([userinfo, userinfoSeperator]),
-  hostname,
+  capture(choiceOf(hostname, ipv4Address, ipv6Address)),
   optional(urlPort),
 ]);
 
@@ -92,11 +111,11 @@ export const urlHostValidator = buildRegExp([startOfString, regex(hostname), end
 //      A path string must begin with a forward slash (/).
 
 const pathSeparator = '/';
-const pathSpecialChars = anyOf(':@%._+~#=');
+const pathSpecialChars = anyOf('_-()+');
 const pathChar = charClass(lowercase, uppercase, digit, pathSpecialChars);
-const pathSegment = [pathSeparator, repeat(pathChar, { min: 1, max: 63, greedy: false })];
+const pathSegment = regex([pathSeparator, repeat(pathChar, { min: 0, max: 63, greedy: false })]);
 
-export const urlPath = repeat(pathSegment, { min: 1, max: 255, greedy: false });
+export const urlPath = buildRegExp(repeat(pathSegment, { min: 0, max: 255, greedy: false }));
 
 export const urlPathFinder = buildRegExp(urlPath, {
   ignoreCase: true,
@@ -116,18 +135,25 @@ export const urlPathValidator = buildRegExp([startOfString, urlPath, endOfString
 const equals = '=';
 const querySeparator = '?';
 const queryDelimiter = anyOf('&;');
-const queryKey = oneOrMore(charClass(lowercase, uppercase, digit, anyOf('_-')));
-const queryValue = oneOrMore(charClass(lowercase, uppercase, digit, anyOf('_-')));
-const queryKeyValuePair = buildRegExp([queryKey, equals, queryValue]);
+const queryChars = charClass(lowercase, uppercase, digit, anyOf('_-'));
+const queryKey = oneOrMore(queryChars);
+const queryValue = oneOrMore(queryChars);
+const queryKeyValuePair = regex([queryKey, equals, queryValue]);
 
-export const urlQuery = [querySeparator, oneOrMore([queryKeyValuePair, optional(queryDelimiter)])];
+export const urlQuery = regex([
+  querySeparator,
+  queryKeyValuePair,
+  zeroOrMore([queryDelimiter, queryKeyValuePair]),
+]);
 
 export const urlQueryFinder = buildRegExp(urlQuery, {
   ignoreCase: true,
   global: true,
 });
 
-export const urlQueryValidator = buildRegExp(urlQuery, { ignoreCase: true });
+export const urlQueryValidator = buildRegExp([startOfString, urlQuery, endOfString], {
+  ignoreCase: true,
+});
 
 //    Fragment:
 //      The fragment part of a URL is optional and comes after the query.
@@ -135,36 +161,41 @@ export const urlQueryValidator = buildRegExp(urlQuery, { ignoreCase: true });
 //      The fragment string consists of a sequence of characters.
 
 const fragmentSeparator = '#';
+const fragmentSpecialChars = anyOf(":@%._+~=()/-&!$*;?,'");
+const fragmentChars = charClass(lowercase, uppercase, digit, fragmentSpecialChars);
 
-export const urlFragment = [
-  fragmentSeparator,
-  oneOrMore(charClass(lowercase, uppercase, digit, pathSpecialChars)),
-];
+export const urlFragment = regex([fragmentSeparator, oneOrMore(fragmentChars)]);
 
 export const urlFragmentFinder = buildRegExp(urlFragment, {
   ignoreCase: true,
   global: true,
 });
 
-export const urlFragmentValidator = buildRegExp(urlFragment, {
+export const urlFragmentValidator = buildRegExp([startOfString, urlFragment, endOfString], {
   ignoreCase: true,
 });
 
-export const url = [
-  optional(urlScheme),
+//
+//    These two patterns are needed to disambiguate between "http:/path" and "http://authority/path".
+//    "http://" is technically a valid URL: urlScheme = http, urlAuthority = null, urlPath = /
+//    By convention, an empty path is considered invalid, if it follows an empty authority.
+//
+const noAuthority = regex([pathSeparator, negativeLookahead(pathSeparator), capture(urlPath)]);
+const hasAuthority = regex([authoritySeperator, capture(urlAuthority), optional(capture(urlPath))]);
+
+export const url = buildRegExp([
+  capture(urlScheme),
   schemeSeperator,
-  optional([authoritySeperator, choiceOf(urlAuthority)]),
-  urlPath,
-  optional(urlQuery),
-  optional(urlFragment),
-];
+  choiceOf(noAuthority, hasAuthority),
+  optional(capture(urlQuery)),
+  optional(capture(urlFragment)),
+]);
 
 /***
  ***  Find URL strings in a text.
  ***/
 
 export const urlFinder = buildRegExp(url, {
-  ignoreCase: true,
   global: true,
 });
 
@@ -172,6 +203,4 @@ export const urlFinder = buildRegExp(url, {
  ***  Check that given text is a valid URL.
  ***/
 
-export const urlValidator = buildRegExp([startOfString, choiceOf(url), endOfString], {
-  ignoreCase: true,
-});
+export const urlValidator = buildRegExp([startOfString, url, endOfString]);
