@@ -1,10 +1,10 @@
 export { hexColorFinder, hexColorValidator } from './hex-color';
-export { url, urlFinder, urlValidator } from './url';
-export { urlHost, urlHostFinder, urlHostValidator } from './url';
-export { urlScheme, urlSchemeFinder, urlSchemeValidator } from './url';
-export { urlAuthority, urlAuthorityFinder, urlAuthorityValidator } from './url';
-export { urlPath, urlPathFinder, urlPathValidator } from './url';
-export { urlQuery, urlQueryFinder, urlQueryValidator } from './url';
-export { urlFragment, urlFragmentFinder, urlFragmentValidator } from './url';
+export { url, urlFinder, urlValidator } from './url-pattern';
+export { urlHost, urlHostFinder, urlHostValidator } from './url-pattern';
+export { urlScheme, urlSchemeFinder, urlSchemeValidator } from './url-pattern';
+export { urlAuthority, urlAuthorityFinder, urlAuthorityValidator } from './url-pattern';
+export { urlPath, urlPathFinder, urlPathValidator } from './url-pattern';
+export { urlQuery, urlQueryFinder, urlQueryValidator } from './url-pattern';
+export { urlFragment, urlFragmentFinder, urlFragmentValidator } from './url-pattern';
 export { ipv4DigitValidator, ipv4Finder, ipv4Validator } from './ip-addr';
 export { ipv6Finder, ipv6Validator, ipv6GroupValidator } from './ip-addr';
