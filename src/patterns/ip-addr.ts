@@ -10,14 +10,14 @@
 
 import { buildRegExp } from '../builders';
 import { endOfString, startOfString } from '../constructs/anchors';
+import { capture } from '../constructs/capture';
 import { charRange } from '../constructs/character-class';
 import { choiceOf } from '../constructs/choice-of';
-import { repeat } from '../constructs/repeat';
-import { capture } from '../constructs/capture';
 import { optional } from '../constructs/quantifiers';
 import { regex } from '../constructs/regex';
+import { repeat } from '../constructs/repeat';
 
-import { hexDigit } from './shared';
+import { hexDigit } from './atoms';
 
 export const ipv6Group = repeat(hexDigit, { min: 1, max: 4, greedy: false });
 export const ipv6GroupValidator = buildRegExp([startOfString, ipv6Group, endOfString]);

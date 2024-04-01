@@ -17,16 +17,16 @@
 
 import { buildRegExp } from '../builders';
 import { endOfString, startOfString } from '../constructs/anchors';
+import { capture } from '../constructs/capture';
 import { anyOf, charClass, digit } from '../constructs/character-class';
 import { choiceOf } from '../constructs/choice-of';
-import { repeat } from '../constructs/repeat';
-import { capture } from '../constructs/capture';
-import { oneOrMore, optional, zeroOrMore } from '../constructs/quantifiers';
-import { regex } from '../constructs/regex';
 import { lookahead } from '../constructs/lookahead';
 import { negativeLookahead } from '../constructs/negative-lookahead';
+import { oneOrMore, optional, zeroOrMore } from '../constructs/quantifiers';
+import { regex } from '../constructs/regex';
+import { repeat } from '../constructs/repeat';
 
-import { alphabetical, lowercase, uppercase } from './shared';
+import { alphabetical, lowercase, uppercase } from './atoms';
 import { ipv4Address, ipv6Address } from './ip-addr';
 
 //    Scheme:
