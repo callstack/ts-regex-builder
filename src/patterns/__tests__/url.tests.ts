@@ -9,8 +9,7 @@ import {
   urlSchemeFinder,
   urlSchemeValidator,
   urlValidator,
-  //url
-} from '../url';
+} from '..';
 
 test('urlSchemeValidator', () => {
   expect('ftp:').toMatch(urlSchemeValidator);
@@ -205,7 +204,6 @@ test('urlValidator', () => {
     expect(url).toMatch(urlValidator);
   }
   for (const url of urlShouldNotMatch) {
-    //expect(url).not.toMatch(urlValidator);
     expect(urlValidator).not.toMatchString(url);
   }
 });
