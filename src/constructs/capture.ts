@@ -36,11 +36,13 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Capt
 }
 
 /**
- * Creates a reference (a.k.a. backreference) to a capturing group.
+ * Creates a reference, also known as backreference, which allows matching
+ * again the exact text that a capturing group previously matched.
  *
- * Backreferences allows to match the same text that was previously captured by a capturing group.
+ * In order to form a valid regex, the reference must use the same name as
+ * a capturing group earlier in the expression.
  *
- * @param name - Name to be given to the capturing group which receives this reference. If not provided, a unique name will be generated.
+ * @param name - Name of the capturing group to reference.
  */
 export function ref(name: string): Reference {
   return {
