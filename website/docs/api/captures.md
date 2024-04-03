@@ -38,9 +38,7 @@ TS Regex Builder does not have a construct for non-capturing groups. Such groups
 ### `ref()`
 
 ```ts
-function ref(
-  name: string;
-): Reference;
+function ref(name: string): Reference;
 ```
 
 Regex syntax: `\k<...>`.
