@@ -11,9 +11,9 @@ export interface Capture extends RegexConstruct {
 
 export type CaptureOptions = {
   /**
-   * Name to be given to the capturing group can either by a string or {@link ref} instance.
+   * Name to be given to the capturing group.
    */
-  name: string | Reference;
+  name: string;
 };
 
 export interface Reference extends RegexConstruct {
@@ -35,8 +35,6 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Capt
   };
 }
 
-let counter = 0;
-
 /**
  * Creates a reference (a.k.a. backreference) to a capturing group.
  *
@@ -44,17 +42,16 @@ let counter = 0;
  *
  * @param name - Name to be given to the capturing group which receives this reference. If not provided, a unique name will be generated.
  */
-export function ref(name?: string): Reference {
+export function ref(name: string): Reference {
   return {
     type: 'reference',
-    name: name ?? `ref${counter++}`,
+    name,
     encode: encodeReference,
   };
 }
 
 function encodeCapture(this: Capture): EncodeResult {
-  // @ts-expect-error
-  const name = this.options?.name?.name ?? this.options?.name;
+  const name = this.options?.name;
   if (name) {
     return {
       precedence: 'atom',

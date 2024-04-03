@@ -14,15 +14,14 @@ test('example: html tag matching', () => {
   const tagName = oneOrMore(charClass(charRange('a', 'z'), digit));
   const tagContent = zeroOrMore(any, { greedy: false });
 
-  const tagRef = ref('tag');
   const tagMatcher = buildRegExp(
     [
       '<',
-      capture(tagName, { name: tagRef }),
+      capture(tagName, { name: 'tag' }),
       '>',
       capture(tagContent, { name: 'content' }),
       '</',
-      tagRef,
+      ref('tag'),
       '>',
     ],
     { ignoreCase: true, global: true },

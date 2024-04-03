@@ -47,20 +47,16 @@ Regex syntax: `\k<...>`.
 
 Creates a reference, also known as backreferences, which allows matching the same text again that was previously matched by a capturing group. To form a valid regex, reference need to be attached to named capturing group earlier in the expression.
 
-If you do not specify the reference name, a auto-generated unique value will be assigned for it.
-
 Usage with `capture()`:
 
 ```ts
-// Define reference with name "some".
-const someRef = ref('some');
-
 const regex = buildRegExp([
-  // Create a named capture using name from `someRef`.
-  capture(..., { name: someRef }),
+  // Create a named capture using name from `someKey`.
+  capture(..., { name: 'someKey' }),
   // ... some other elements ...
-  // Match the same text as captured in a `capture` using `someRef`.
-  someRef,
+
+  // Match the same text as matched by `capture` with the same name.
+  ref('someKey'),
   ])
 ```
 
