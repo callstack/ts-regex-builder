@@ -13,7 +13,7 @@ export type CaptureOptions = {
   /**
    * Name to be given to the capturing group.
    */
-  name: string;
+  name?: string;
 };
 
 export interface Reference extends RegexConstruct {

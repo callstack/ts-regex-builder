@@ -39,13 +39,13 @@ TS Regex Builder does not have a construct for non-capturing groups. Such groups
 
 ```ts
 function ref(
-  name?: string;
+  name: string;
 ): Reference;
 ```
 
 Regex syntax: `\k<...>`.
 
-Creates a reference, also known as backreferences, which allows matching the same text again that was previously matched by a capturing group. To form a valid regex, reference need to be attached to named capturing group earlier in the expression.
+Creates a reference, also known as a backreference, which allows matching again the exact text that a capturing group previously matched. The reference must use the same name as some capturing group earlier in the expression to form a valid regex.
 
 Usage with `capture()`:
 
