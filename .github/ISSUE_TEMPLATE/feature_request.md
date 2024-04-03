@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[Feature]"
+title: '[Feature]'
 labels: enhancement
 assignees: ''
-
 ---
 
 **Is your feature request related to a problem? Please describe.**
@@ -17,10 +16,11 @@ A clear and concise description of what you want to happen.
 A clear and concise description of any alternative solutions or features you've considered.
 
 **Checklist**
+
 - [ ] Implementation
 - [ ] Tests
-- [ ] API docs 
-- [ ] README docs (if relevant) 
+- [ ] API docs
+- [ ] README docs (if relevant)
 - [ ] Example docs & tests (if relevant)
 
 **Additional context**
