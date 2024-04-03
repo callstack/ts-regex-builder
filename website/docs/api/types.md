@@ -6,9 +6,7 @@ title: Types
 ### `RegexSequence`
 
 ```ts
-type RegexSequence = 
-    | RegexElement[]
-    | RegexElement;
+type RegexSequence = RegexElement[] | RegexElement;
 ```
 
 The sequence of regex elements forming a regular expression. For developer convenience, it also accepts a single element instead of an array.
@@ -16,10 +14,7 @@ The sequence of regex elements forming a regular expression. For developer conve
 ### `RegexElement`
 
 ```ts
-type RegexElement = 
-    | RegexConstruct
-    | RegExp
-    | string;
+type RegexElement = RegexConstruct | RegExp | string;
 ```
 
 Regex elements are fundamental building blocks of a regular expression. These can be either further regex constructs, regular strings to be matched literally or `RegExp` literals (`/.../`) for including simple regexes as part of a larger structure.
