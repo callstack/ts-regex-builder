@@ -1,9 +1,9 @@
 {
   "name": "ts-regex-builder",
   "version": "1.5.0",
-  "description": "TypeScript adaptation of Swift Regex Builder API",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
+  "description": "Maintainable regular expressions for TypeScript and JavaScript.",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
   "types": "lib/typescript/src/index.d.ts",
   "source": "src/index",
   "sideEffects": false,
@@ -17,13 +17,13 @@
   ],
   "exports": {
     ".": {
-      "require": "./lib/commonjs/index",
-      "import": "./lib/module/index",
+      "require": "./lib/commonjs/index.js",
+      "import": "./lib/module/index.js",
       "types": "./lib/typescript/src/index.d.ts"
     },
     "./patterns": {
-      "require": "./lib/commonjs/patterns/index",
-      "import": "./lib/module/patterns/index",
+      "require": "./lib/commonjs/patterns/index.js",
+      "import": "./lib/module/patterns/index.js",
       "types": "./lib/typescript/src/patterns/index.d.ts"
     }
   },
