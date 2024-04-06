@@ -64,6 +64,8 @@
     "@size-limit/preset-small-lib": "^11.1.2",
     "@types/jest": "^29.5.12",
     "babel-plugin-add-import-extension": "^1.6.0",
+    "babel-plugin-macros": "^3.1.0",
+    "babel-plugin-tester": "^11.0.4",
     "del-cli": "^5.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.10.0",
