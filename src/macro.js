@@ -1,6 +1,6 @@
 import { createMacro, MacroError } from 'babel-plugin-macros';
 import pkg from '../package.json';
-import { buildPattern, capture } from '.';
+import { buildPattern, capture, choiceOf, oneOrMore, optional, zeroOrMore } from '.';
 
 // `createMacro` is simply a function that ensures your macro is only
 // called in the context of a babel transpilation and will throw an
@@ -31,7 +31,7 @@ function tsRegexMacro({ references, state, babel }) {
 function handleRegexSequence(path) {
   if (path.isArrayExpression()) {
     //console.log('Sequence.Array', path.get('elements'));
-    return path.get('elements').map(handleRegexElement).join('');
+    return handleElementList(path.get('elements'));
   }
 
   //console.log('Sequence.Single', path);
@@ -45,21 +45,35 @@ function handleRegexElement(path) {
   }
 
   if (path.isCallExpression()) {
-    console.log('Element.CallExpression');
-
-    const callee = path.get('callee');
-    const calleeName = callee.node.name;
-    const args = callee.get('arguments');
-    switch (calleeName) {
+    const callee = path.node.callee;
+    const args = path.get('arguments');
+    switch (callee.name) {
       case 'capture':
-        return capture(handleRegexSequence(args));
+        return capture(handleElementList(args));
+      case 'choiceOf':
+        return choiceOf(...args.map(handleRegexElement));
+      case 'zeroOrMore':
+        return zeroOrMore(handleElementList(args));
+      case 'oneOrMore':
+        return oneOrMore(handleElementList(args));
+      case 'optional':
+        return optional(handleElementList(args));
       default:
         throw new MacroError(
-          `${pkg.name} "handleRegexElement" can't handle CallExpression "${calleeName}".`,
+          `${pkg.name} "handleRegexElement" can't handle CallExpression "${callee.name}".`,
         );
     }
   }
 
-  console.log('Unknown element:', path);
+  logNode(path, 'UNKNOWN ELEMENT');
   throw new MacroError(`${pkg.name} "handleRegexElement" can't handle ${path.node?.type}.`);
+}
+
+function handleElementList(paths) {
+  return paths.map(handleRegexElement).join('');
+}
+
+function logNode(node, label) {
+  const { parentPath, hub, context, scope, ...rest } = node;
+  console.log(label, ':', node.type, ':', rest);
 }
