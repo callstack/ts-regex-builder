@@ -1,6 +1,6 @@
 import { createMacro, MacroError } from 'babel-plugin-macros';
-import { buildRegExp } from '.';
 import pkg from '../package.json';
+import { buildRegExp } from '.';
 
 // `createMacro` is simply a function that ensures your macro is only
 // called in the context of a babel transpilation and will throw an
@@ -21,24 +21,27 @@ function tsRegexMacro({ references, state, babel }) {
     console.log('BuildRegexCall', buildRegExpCall);
 
     const args = buildRegExpCall.get('arguments');
-    const value = compileRegex(args[0]);
+    const value = handleRegexSequence(args[0]);
+    console.log('VALUE', value);
     buildRegExpCall.replaceWith(babel.types.regExpLiteral(value));
   });
-
-  // const encoded = buildRegExp('a');
-  // argumentsPaths[0].parentPath.replaceWith(encoded);
-  // // console.log('State: ', state);
-  // console.log('Babel: ', babel);
-  // state is the second argument you're passed to a visitor in a
-  // normal babel plugin. `babel` is the `babel-plugin-macros` module.
-  // do whatever you like to the AST paths you find in `references`
-  // read more below...
 }
 
-function compileRegex(path) {
+function handleRegexSequence(path) {
+  if (path.isArrayExpression()) {
+    console.log('Sequence.Array', path.get('elements'));
+    return path.get('elements').map(handleRegexElement).join('');
+  }
+
+  console.log('Sequence.Single', path);
+  return handleRegexElement(path);
+}
+
+function handleRegexElement(path) {
   if (path.isStringLiteral()) {
+    console.log('Element.StringLiteral', path);
     return path.node.value;
   }
 
-  throw new MacroError(`${pkg.name} "buildRegExp" can't handle ${path.node.type}.`);
+  throw new MacroError(`${pkg.name} "handleRegexElement" can't handle ${path.node.type}.`);
 }

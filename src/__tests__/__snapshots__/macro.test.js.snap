@@ -25,3 +25,16 @@ buildRegExp('abc');
 /abc/;
 
 `;
+
+exports[`macros 3. macros: 3. macros 1`] = `
+
+
+import { buildRegExp } from '../macro.js'
+buildRegExp(['d', 'e', 'f']);
+
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/def/;
+
+`;
