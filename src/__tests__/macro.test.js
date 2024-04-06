@@ -18,5 +18,13 @@ pluginTester({
     import { buildRegExp } from '../macro.js'
     buildRegExp(['d', 'e', 'f']);
     `,
+    `
+    import { buildRegExp } from '../macro.js'
+    buildRegExp(['d', 'e', 'f']);
+    `,
+    `
+    import { buildRegExp } from '../macro.js'
+    buildRegExp(capture('a'));
+    `,
   ],
 });
