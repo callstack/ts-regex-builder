@@ -1,6 +1,6 @@
 import { createMacro, MacroError } from 'babel-plugin-macros';
 import pkg from '../package.json';
-import { buildRegExp } from '.';
+import { buildPattern, capture } from '.';
 
 // `createMacro` is simply a function that ensures your macro is only
 // called in the context of a babel transpilation and will throw an
@@ -18,30 +18,48 @@ function tsRegexMacro({ references, state, babel }) {
       );
     }
 
-    console.log('BuildRegexCall', buildRegExpCall);
+    //console.log('BuildRegexCall', buildRegExpCall);
 
     const args = buildRegExpCall.get('arguments');
-    const value = handleRegexSequence(args[0]);
-    console.log('VALUE', value);
-    buildRegExpCall.replaceWith(babel.types.regExpLiteral(value));
+    const regexAst = handleRegexSequence(args[0]);
+    const pattern = buildPattern(regexAst);
+    console.log('VALUE', pattern);
+    buildRegExpCall.replaceWith(babel.types.regExpLiteral(pattern));
   });
 }
 
 function handleRegexSequence(path) {
   if (path.isArrayExpression()) {
-    console.log('Sequence.Array', path.get('elements'));
+    //console.log('Sequence.Array', path.get('elements'));
     return path.get('elements').map(handleRegexElement).join('');
   }
 
-  console.log('Sequence.Single', path);
+  //console.log('Sequence.Single', path);
   return handleRegexElement(path);
 }
 
 function handleRegexElement(path) {
   if (path.isStringLiteral()) {
-    console.log('Element.StringLiteral', path);
+    //console.log('Element.StringLiteral', path);
     return path.node.value;
   }
 
-  throw new MacroError(`${pkg.name} "handleRegexElement" can't handle ${path.node.type}.`);
+  if (path.isCallExpression()) {
+    console.log('Element.CallExpression');
+
+    const callee = path.get('callee');
+    const calleeName = callee.node.name;
+    const args = callee.get('arguments');
+    switch (calleeName) {
+      case 'capture':
+        return capture(handleRegexSequence(args));
+      default:
+        throw new MacroError(
+          `${pkg.name} "handleRegexElement" can't handle CallExpression "${calleeName}".`,
+        );
+    }
+  }
+
+  console.log('Unknown element:', path);
+  throw new MacroError(`${pkg.name} "handleRegexElement" can't handle ${path.node?.type}.`);
 }
