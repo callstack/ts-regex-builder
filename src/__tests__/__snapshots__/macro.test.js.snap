@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`macros 1. macros: 1. macros 1`] = `
+
+
+import { buildRegExp } from '../macro.js'
+buildRegExp('a');
+
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/a/;
+
+`;
+
+exports[`macros 2. macros: 2. macros 1`] = `
+
+
+import { buildRegExp } from '../macro.js'
+buildRegExp('abc');
+
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/abc/;
+
+`;

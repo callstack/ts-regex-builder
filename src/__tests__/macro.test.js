@@ -7,11 +7,12 @@ pluginTester({
   babelOptions: { filename: __filename },
   tests: [
     `
-      import MyMacro from '../macro.cts'
-
-      MyMacro({someOption: true}, \`
-        some stuff
-      \`)
+    import { buildRegExp } from '../macro.js'
+    buildRegExp('a');
+    `,
+    `
+    import { buildRegExp } from '../macro.js'
+    buildRegExp('abc');
     `,
   ],
 });
