@@ -86,6 +86,22 @@ pluginTester({
       output: '/a|bcd|efd/;',
     },
     {
+      title: 'Regex: single element',
+      code: `
+        import { buildRegExp, } from '../macro.js'
+        buildRegExp(regex('xyz'));
+      `,
+      output: '/xyz/;',
+    },
+    {
+      title: 'Regex: mixed sequence',
+      code: `
+        import { buildRegExp, } from '../macro.js'
+        buildRegExp(regex(['x1', /(x2)+?/, zeroOrMore('x3')]));
+      `,
+      output: '/x1(?:(x2)+?)(?:x3)*/;',
+    },
+    {
       title: 'Capture: single char',
       code: `
         import { buildRegExp } from '../macro.js'
@@ -108,6 +124,14 @@ pluginTester({
         buildRegExp(capture(['a', 'b'], { name: 'hello' }));
       `,
       output: '/(?<hello>ab)/;',
+    },
+    {
+      title: 'Ref: capture with ref',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp([capture(['ab'], { name: 'hi' }), ref('hi')]);
+      `,
+      output: '/(?<hi>ab)\\k<hi>/;',
     },
     {
       title: 'ZeroOrMore: single char string literal',
