@@ -1,6 +1,6 @@
 import { createMacro, MacroError } from 'babel-plugin-macros';
 import pkg from '../package.json';
-import { buildPattern, capture, choiceOf, oneOrMore, optional, zeroOrMore } from '.';
+import { buildPattern, capture, choiceOf, oneOrMore, optional, ref, regex, zeroOrMore } from '.';
 
 // `createMacro` is simply a function that ensures your macro is only
 // called in the context of a babel transpilation and will throw an
@@ -51,8 +51,12 @@ function evalRegexElement(path) {
     switch (callee.name) {
       case 'choiceOf':
         return choiceOf(...args.map(evalRegexSequence));
+      case 'regex':
+        return regex(evalRegexSequence(args[0]));
       case 'capture':
         return capture(evalRegexSequence(args[0]), evalOptionsObject(args[1]));
+      case 'ref':
+        return ref(args[0].node.value);
       case 'zeroOrMore':
         return zeroOrMore(evalRegexSequence(args[0]), evalOptionsObject(args[1]));
       case 'oneOrMore':
