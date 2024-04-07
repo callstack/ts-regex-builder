@@ -21,43 +21,44 @@ function tsRegexMacro({ references, state, babel }) {
     //console.log('BuildRegexCall', buildRegExpCall);
 
     const args = buildRegExpCall.get('arguments');
-    const regexAst = handleRegexSequence(args[0]);
-    const pattern = buildPattern(regexAst);
+    const regexSequence = evalRegexSequence(args[0]);
+    const pattern = buildPattern(regexSequence);
     console.log('VALUE', pattern);
     buildRegExpCall.replaceWith(babel.types.regExpLiteral(pattern));
   });
 }
 
-function handleRegexSequence(path) {
+function evalRegexSequence(path) {
   if (path.isArrayExpression()) {
-    //console.log('Sequence.Array', path.get('elements'));
-    return handleElementList(path.get('elements'));
+    return evalElementList(path.get('elements'));
   }
 
-  //console.log('Sequence.Single', path);
-  return handleRegexElement(path);
+  return evalRegexElement(path);
 }
 
-function handleRegexElement(path) {
+function evalRegexElement(path) {
   if (path.isStringLiteral()) {
-    //console.log('Element.StringLiteral', path);
     return path.node.value;
+  }
+
+  if (path.isRegExpLiteral()) {
+    return new RegExp(path.node.pattern, path.node.flags);
   }
 
   if (path.isCallExpression()) {
     const callee = path.node.callee;
     const args = path.get('arguments');
     switch (callee.name) {
-      case 'capture':
-        return capture(handleElementList(args));
       case 'choiceOf':
-        return choiceOf(...args.map(handleRegexElement));
+        return choiceOf(...args.map(evalRegexElement));
+      case 'capture':
+        return capture(evalRegexSequence(args[0]));
       case 'zeroOrMore':
-        return zeroOrMore(handleElementList(args));
+        return zeroOrMore(evalRegexSequence(args[0]));
       case 'oneOrMore':
-        return oneOrMore(handleElementList(args));
+        return oneOrMore(evalRegexSequence(args[0]));
       case 'optional':
-        return optional(handleElementList(args));
+        return optional(evalRegexSequence(args[0]));
       default:
         throw new MacroError(
           `${pkg.name} "handleRegexElement" can't handle CallExpression "${callee.name}".`,
@@ -69,8 +70,8 @@ function handleRegexElement(path) {
   throw new MacroError(`${pkg.name} "handleRegexElement" can't handle ${path.node?.type}.`);
 }
 
-function handleElementList(paths) {
-  return paths.map(handleRegexElement).join('');
+function evalElementList(paths) {
+  return paths.map(evalRegexElement);
 }
 
 function logNode(node, label) {
