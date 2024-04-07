@@ -54,6 +54,38 @@ pluginTester({
       output: '/d(e?)f/;',
     },
     {
+      title: 'ChoiceOf: single element',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(choiceOf('a'));
+      `,
+      output: '/a/;',
+    },
+    {
+      title: 'ChoiceOf: sequence of single element',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(choiceOf(['a']));
+      `,
+      output: '/a/;',
+    },
+    {
+      title: 'ChoiceOf: two single elements',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(choiceOf('a','b'));
+      `,
+      output: '/a|b/;',
+    },
+    {
+      title: 'ChoiceOf: more sequences',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(choiceOf('a',['b', 'cd'], ['efd']));
+      `,
+      output: '/a|bcd|efd/;',
+    },
+    {
       title: 'Capture: single char',
       code: `
         import { buildRegExp } from '../macro.js'
@@ -70,7 +102,15 @@ pluginTester({
       output: '/(abc)/;',
     },
     {
-      title: 'ZeroOrMore: single char',
+      title: 'Capture: sequence with named',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(capture(['a', 'b'], { name: 'hello' }));
+      `,
+      output: '/(?<hello>ab)/;',
+    },
+    {
+      title: 'ZeroOrMore: single char string literal',
       code: `
         import { buildRegExp } from '../macro.js'
         buildRegExp(zeroOrMore('a'));
@@ -78,7 +118,31 @@ pluginTester({
       output: '/a*/;',
     },
     {
-      title: 'OneOrMore: single char',
+      title: 'ZeroOrMore: multi-char string literal',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(zeroOrMore('abc'));
+      `,
+      output: '/(?:abc)*/;',
+    },
+    {
+      title: 'ZeroOrMore: sequence of string literals',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(zeroOrMore(['a', 'bc']));
+      `,
+      output: '/(?:abc)*/;',
+    },
+    {
+      title: 'ZeroOrMore: non-greedy option',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(zeroOrMore(['a', 'b'], { greedy: false }));
+      `,
+      output: '/(?:ab)*?/;',
+    },
+    {
+      title: 'OneOrMore: single char string literal',
       code: `
         import { buildRegExp } from '../macro.js'
         buildRegExp(oneOrMore('a'));
@@ -86,7 +150,31 @@ pluginTester({
       output: '/a+/;',
     },
     {
-      title: 'Optional: single char',
+      title: 'OneOrMore: multi-char string literal',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(oneOrMore('abc'));
+      `,
+      output: '/(?:abc)+/;',
+    },
+    {
+      title: 'OneOrMore: sequence of string literals',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(oneOrMore(['a', 'bc']));
+      `,
+      output: '/(?:abc)+/;',
+    },
+    {
+      title: 'OneOrMore: non-greedy option',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(oneOrMore(['a', 'b'], { greedy: false }));
+      `,
+      output: '/(?:ab)+?/;',
+    },
+    {
+      title: 'Optional: single char string literal',
       code: `
         import { buildRegExp } from '../macro.js'
         buildRegExp(optional('a'));
@@ -94,12 +182,28 @@ pluginTester({
       output: '/a?/;',
     },
     {
-      title: 'ChoiceOf: two single elements',
+      title: 'Optional: multi-char string literal',
       code: `
         import { buildRegExp } from '../macro.js'
-        buildRegExp(choiceOf('a','b'));
+        buildRegExp(optional('abc'));
       `,
-      output: '/a|b/;',
+      output: '/(?:abc)?/;',
+    },
+    {
+      title: 'Optional: sequence of string literals',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(optional(['a', 'bc']));
+      `,
+      output: '/(?:abc)?/;',
+    },
+    {
+      title: 'Optional: non-greedy option',
+      code: `
+        import { buildRegExp } from '../macro.js'
+        buildRegExp(optional(['a', 'b'], { greedy: false }));
+      `,
+      output: '/(?:ab)??/;',
     },
   ],
 });

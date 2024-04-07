@@ -9,7 +9,7 @@ import { buildPattern, capture, choiceOf, oneOrMore, optional, zeroOrMore } from
 module.exports = createMacro(tsRegexMacro);
 
 function tsRegexMacro({ references, state, babel }) {
-  console.log('References: ', references);
+  //console.log('References: ', references);
 
   references.buildRegExp.forEach(({ parentPath: buildRegExpCall }) => {
     if (!buildRegExpCall.isCallExpression()) {
@@ -23,7 +23,7 @@ function tsRegexMacro({ references, state, babel }) {
     const args = buildRegExpCall.get('arguments');
     const regexSequence = evalRegexSequence(args[0]);
     const pattern = buildPattern(regexSequence);
-    console.log('VALUE', pattern);
+    //console.log('VALUE', pattern);
     buildRegExpCall.replaceWith(babel.types.regExpLiteral(pattern));
   });
 }
@@ -50,15 +50,15 @@ function evalRegexElement(path) {
     const args = path.get('arguments');
     switch (callee.name) {
       case 'choiceOf':
-        return choiceOf(...args.map(evalRegexElement));
+        return choiceOf(...args.map(evalRegexSequence));
       case 'capture':
-        return capture(evalRegexSequence(args[0]));
+        return capture(evalRegexSequence(args[0]), evalOptionsObject(args[1]));
       case 'zeroOrMore':
-        return zeroOrMore(evalRegexSequence(args[0]));
+        return zeroOrMore(evalRegexSequence(args[0]), evalOptionsObject(args[1]));
       case 'oneOrMore':
-        return oneOrMore(evalRegexSequence(args[0]));
+        return oneOrMore(evalRegexSequence(args[0]), evalOptionsObject(args[1]));
       case 'optional':
-        return optional(evalRegexSequence(args[0]));
+        return optional(evalRegexSequence(args[0]), evalOptionsObject(args[1]));
       default:
         throw new MacroError(
           `${pkg.name} "handleRegexElement" can't handle CallExpression "${callee.name}".`,
@@ -74,7 +74,41 @@ function evalElementList(paths) {
   return paths.map(evalRegexElement);
 }
 
-function logNode(node, label) {
-  const { parentPath, hub, context, scope, ...rest } = node;
-  console.log(label, ':', node.type, ':', rest);
+function evalOptionsObject(path) {
+  if (!path) {
+    return undefined;
+  }
+
+  if (!path.isObjectExpression()) {
+    throw new MacroError(
+      `${pkg.name} "evalOptionsObject" expected ObjectExpression, got ${path.node.type}.`,
+    );
+  }
+
+  logPath('Options Path:', path.get('properties'));
+  console.log('Options Node: ', path.node.properties);
+
+  const options = {};
+  path.node.properties.forEach((propNode) => {
+    if (propNode.key.type !== 'Identifier') {
+      throw new MacroError('Options object keys must be string identifiers.');
+    }
+
+    if (propNode.value.type !== 'StringLiteral' && propNode.value.type !== 'BooleanLiteral') {
+      throw new MacroError('Options object values must be string or boolean literals.');
+    }
+
+    options[propNode.key.name] = propNode.value.value;
+  });
+
+  return options;
+}
+
+function logPath(label, path) {
+  const { parentPath, hub, context, scope, container, ...rest } = path;
+  console.log(label, ':', path.type, ':', rest);
+}
+
+function logNode(label, node) {
+  console.log(label, ':', node.type, ':', node);
 }
