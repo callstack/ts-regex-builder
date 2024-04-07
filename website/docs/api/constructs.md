@@ -19,30 +19,10 @@ The `choiceOf` (disjunction) construct matches one out of several possible seque
 
 Example: `choiceOf("color", "colour")` matches either `color` or `colour` pattern.
 
-### `capture()`
-
-```ts
-function capture(
-  sequence: RegexSequence,
-): Capture;
-```
-
-Regex syntax: `(...)`.
-
-Captures, also known as capturing groups, extract and store parts of the matched string for later use.
-
-:::note
-
-TS Regex Builder does not have a construct for non-capturing groups. Such groups are implicitly added when required. E.g., `zeroOrMore("abc")` is encoded as `(?:abc)+`.
-
-:::
-
 ### `regex()`
 
 ```ts
-function regex(
-  sequence: RegexSequence,
-): Regex;
+function regex(sequence: RegexSequence): Regex;
 ```
 
 Regex syntax: the pattern remains unchanged when wrapped by this construct.

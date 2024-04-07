@@ -4,7 +4,7 @@ import { wrapRegExp } from './utils';
 export function toEqualRegex(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
-  expected: RegExp,
+  expected: RegExp | string,
 ) {
   received = wrapRegExp(received);
 
@@ -12,10 +12,15 @@ export function toEqualRegex(
     isNot: this.isNot,
   };
 
+  const expectedSource = typeof expected === 'string' ? expected : expected.source;
+  const expectedFlags = typeof expected === 'string' ? undefined : expected.flags;
+
   return {
-    pass: expected.source === received.source && expected.flags === received.flags,
+    pass:
+      expectedSource === received.source &&
+      (expectedFlags === undefined || expectedFlags === received.flags),
     message: () =>
-      this.utils.matcherHint('toHavePattern', undefined, undefined, options) +
+      this.utils.matcherHint('toEqualRegex', undefined, undefined, options) +
       '\n\n' +
       `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n` +
       `Received: ${this.utils.printReceived(received)}`,
@@ -28,7 +33,7 @@ declare global {
   namespace jest {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Matchers<R, T = {}> {
-      toEqualRegex(expected: RegExp): R;
+      toEqualRegex(expected: RegExp | string): R;
     }
   }
 }

@@ -152,7 +152,6 @@ See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api
 | `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it                                |
 | `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it                               |
 
-
 See [Assertions API doc](https://callstack.github.io/ts-regex-builder/api/assertions) for more info.
 
 ## Examples

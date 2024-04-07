@@ -100,5 +100,4 @@ See [Character Classes](./api/character-classes) for more info.
 | `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it                                |
 | `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it                               |
 
-
 See [Assertions](./api/assertions) for more info.
