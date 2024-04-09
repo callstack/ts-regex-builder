@@ -10,16 +10,15 @@ export function toMatchString(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
   expected: string,
-  matchType: MatchTypeOptions = { exactString: true },
+  matchType?: MatchTypeOptions,
 ) {
   const receivedRegex = wrapRegExp(received);
   const matchResult = expected.match(receivedRegex);
-  //console.log('matchResult', { received, expected, matchResult });
 
   let pass: boolean = false;
-  if (matchType.exactString) {
-    pass = matchResult !== null && matchResult[0] === expected;
-  } else if (typeof matchType.substring === 'string') {
+  if (matchType === undefined) pass = matchResult !== null && matchResult[0] === expected;
+  else if (matchType.exactString) pass = matchResult !== null && matchResult[0] === expected;
+  else if (typeof matchType.substring === 'string') {
     pass = matchResult !== null && matchResult[0].includes(matchType.substring);
   } else {
     pass = matchResult !== null;
