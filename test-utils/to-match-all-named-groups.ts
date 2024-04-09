@@ -16,11 +16,10 @@ export function toMatchAllNamedGroups(
 
   return {
     pass: this.equals(receivedGroups, expectedGroups),
-    message: () =>
-      this.utils.matcherHint('toMatchGroups', undefined, undefined, options) +
-      '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedGroups)}\n` +
-      `Received: ${this.utils.printReceived(receivedGroups)}`,
+    message: () => `
+      ${this.utils.matcherHint('toMatchGroups', undefined, undefined, options)}\n\n
+      Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedGroups)}\n
+      Received: ${this.utils.printReceived(receivedGroups)}`,
   };
 }
 

@@ -1,24 +1,41 @@
 import type { RegexSequence } from '../src/types';
 import { wrapRegExp } from './utils';
 
+interface MatchTypeOptions {
+  exactString: boolean;
+  substring?: string;
+}
+
 export function toMatchString(
   this: jest.MatcherContext,
   received: RegExp | RegexSequence,
   expected: string,
+  matchType: MatchTypeOptions = { exactString: true },
 ) {
   const receivedRegex = wrapRegExp(received);
   const matchResult = expected.match(receivedRegex);
+  //console.log('matchResult', { received, expected, matchResult });
+
+  let pass: boolean = false;
+  if (matchType.exactString) {
+    pass = matchResult !== null && matchResult[0] === expected;
+  } else if (typeof matchType.substring === 'string') {
+    pass = matchResult !== null && matchResult[0].includes(matchType.substring);
+  } else {
+    pass = matchResult !== null;
+  }
+
   const options = {
     isNot: this.isNot,
   };
 
   return {
-    pass: matchResult !== null,
-    message: () =>
-      this.utils.matcherHint('toMatchString', undefined, undefined, options) +
-      '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''} matching ${this.utils.printExpected(expected)}\n` +
-      `Received pattern: ${this.utils.printReceived(receivedRegex.source)}`,
+    pass: pass,
+    message: () => `
+      ${this.utils.matcherHint('toMatchString', undefined, undefined, options)}\n\n
+      Expected: ${this.isNot ? 'not ' : ''} matching ${this.utils.printExpected(expected)}\n
+      Received pattern: ${this.utils.printReceived(receivedRegex.source)}
+      `,
   };
 }
 
@@ -28,7 +45,7 @@ declare global {
   namespace jest {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Matchers<R, T = {}> {
-      toMatchString(expected: string): R;
+      toMatchString(expected: string, matchType: MatchTypeOptions): R;
     }
   }
 }

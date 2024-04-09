@@ -11,8 +11,10 @@ test('`negativeLookahead` pattern', () => {
 });
 
 test('`negativeLookahead` matching', () => {
-  expect([negativeLookahead('$'), oneOrMore(digit)]).toMatchString('1 turkey costs 30$');
-  expect([negativeLookahead('a'), 'b']).toMatchString('abba');
+  expect([negativeLookahead('$'), oneOrMore(digit)]).toMatchString('1 turkey costs 30$', {
+    exactString: false,
+  });
+  expect([negativeLookahead('a'), 'b']).toMatchString('abba', { exactString: false });
   expect(['a', negativeLookahead(capture('bba'))]).not.toMatchGroups('abba', ['a', 'bba']);
   expect([negativeLookahead('-'), anyOf('+-'), zeroOrMore(digit)]).not.toMatchString('-123');
   expect([negativeLookahead('-'), anyOf('+-'), zeroOrMore(digit)]).toMatchString('+123');

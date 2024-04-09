@@ -10,17 +10,18 @@ export function toMatchGroups(
   const receivedRegex = wrapRegExp(received);
   const matchResult = inputText.match(receivedRegex);
   const receivedGroups = matchResult ? [...matchResult] : null;
+
   const options = {
     isNot: this.isNot,
   };
 
   return {
     pass: this.equals(receivedGroups, expectedGroups),
-    message: () =>
-      this.utils.matcherHint('toMatchGroups', undefined, undefined, options) +
-      '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedGroups)}\n` +
-      `Received: ${this.utils.printReceived(receivedGroups)}`,
+    message: () => `
+      ${this.utils.matcherHint('toMatchGroups', undefined, undefined, options)}\n\n
+      Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedGroups)}\n
+      Received: ${this.utils.printReceived(receivedGroups)}
+      `,
   };
 }
 

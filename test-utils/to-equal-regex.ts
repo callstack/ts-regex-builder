@@ -19,11 +19,11 @@ export function toEqualRegex(
     pass:
       expectedSource === received.source &&
       (expectedFlags === undefined || expectedFlags === received.flags),
-    message: () =>
-      this.utils.matcherHint('toEqualRegex', undefined, undefined, options) +
-      '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n` +
-      `Received: ${this.utils.printReceived(received)}`,
+    message: () => `
+      ${this.utils.matcherHint('toEqualRegex', undefined, undefined, options)}\n\n
+      Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expected)}\n
+      Received: ${this.utils.printReceived(received)}
+      `,
   };
 }
 

@@ -12,20 +12,22 @@ test('`lookbehind` pattern', () => {
 test('`lookbehind` matching', () => {
   expect([zeroOrMore(whitespace), word, lookbehind('s'), oneOrMore(whitespace)]).toMatchString(
     'too many cats to feed.',
+    { exactString: false },
   );
 
   expect([lookbehind('USD'), zeroOrMore(whitespace), oneOrMore(digit)]).toMatchString(
     'The price is USD 30',
+    { exactString: false },
   );
 
   expect([lookbehind('USD'), zeroOrMore(whitespace), oneOrMore(digit)]).not.toMatchString(
     'The price is CDN 30',
   );
 
-  expect([lookbehind('a'), 'b']).toMatchString('abba');
+  expect([lookbehind('a'), 'b']).toMatchString('abba', { exactString: false });
 
   const mjsImport = [lookbehind('.mjs')];
-  expect(mjsImport).toMatchString("import {Person} from './person.mjs';");
+  expect(mjsImport).toMatchString("import {Person} from './person.mjs';", { exactString: false });
   expect(mjsImport).not.toMatchString("import {Person} from './person.js';");
   expect([anyOf('+-'), oneOrMore(digit), lookbehind('-')]).not.toMatchString('+123');
 });

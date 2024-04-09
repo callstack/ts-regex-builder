@@ -11,8 +11,10 @@ test('`lookahead` pattern', () => {
 });
 
 test('`lookahead` matching', () => {
-  expect([oneOrMore(digit), lookahead('$')]).toMatchString('1 turkey costs 30$');
-  expect(['q', lookahead('u')]).toMatchString('queen');
+  expect([oneOrMore(digit), lookahead('$')]).toMatchString('1 turkey costs 30$', {
+    exactString: false,
+  });
+  expect(['q', lookahead('u')]).toMatchString('queen', { exactString: false });
   expect(['a', lookahead('b'), lookahead('c')]).not.toMatchString('abc');
   expect(['a', lookahead(capture('bba'))]).toMatchGroups('abba', ['a', 'bba']);
 });

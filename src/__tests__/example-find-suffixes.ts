@@ -9,16 +9,16 @@ test('example: find words with suffix', () => {
     wordBoundary,
   ]);
 
-  expect(regex).toMatchString('democracy');
-  expect(regex).toMatchString('Bureaucracy');
-  expect(regex).toMatchString('abc privacy ');
-  expect(regex).toMatchString('abc dynamism');
-  expect(regex).toMatchString('realism abc');
-  expect(regex).toMatchString('abc modernism abc');
+  expect(regex).toMatchString('democracy', { exactString: false });
+  expect(regex).toMatchString('Bureaucracy', { exactString: false });
+  expect(regex).toMatchString('abc privacy ', { exactString: false });
+  expect(regex).toMatchString('abc dynamism', { exactString: false });
+  expect(regex).toMatchString('realism abc', { exactString: false });
+  expect(regex).toMatchString('abc modernism abc', { exactString: false });
 
-  expect(regex).not.toMatchString('abc acy');
-  expect(regex).not.toMatchString('ism abc');
-  expect(regex).not.toMatchString('dynamisms');
+  expect(regex).not.toMatchString('abc acy', { exactString: false });
+  expect(regex).not.toMatchString('ism abc', { exactString: false });
+  expect(regex).not.toMatchString('dynamisms', { exactString: false });
 
   expect(regex).toEqualRegex(/\B(?:acy|ism)\b/);
 });

@@ -22,18 +22,21 @@ test('example: extracting currency values', () => {
     endOfString,
   ]);
 
-  expect(currencyRegex).toMatchString('$10');
-  expect(currencyRegex).toMatchString('$ 10');
+  expect(currencyRegex).toMatchString('$10', { exactString: false, substring: '10' });
+  expect(currencyRegex).toMatchString('$ 10', { exactString: false, substring: '10' });
   expect(currencyRegex).not.toMatchString('$ 10.');
-  expect(currencyRegex).toMatchString('$ 10');
+  expect(currencyRegex).toMatchString('$ 10', { exactString: false, substring: '10' });
   expect(currencyRegex).not.toMatchString('$10.5');
-  expect(currencyRegex).toMatchString('$10.50');
+  expect(currencyRegex).toMatchString('$10.50', { exactString: false, substring: '10.50' });
   expect(currencyRegex).not.toMatchString('$10.501');
-  expect(currencyRegex).toMatchString('€100');
-  expect(currencyRegex).toMatchString('£1,000');
-  expect(currencyRegex).toMatchString('$ 100000000000000000');
-  expect(currencyRegex).toMatchString('€ 10000');
-  expect(currencyRegex).toMatchString('₿ 100,000');
+  expect(currencyRegex).toMatchString('€100', { exactString: false, substring: '100' });
+  expect(currencyRegex).toMatchString('£1,000', { exactString: false, substring: '1,000' });
+  expect(currencyRegex).toMatchString('$ 100000000000000000', {
+    exactString: false,
+    substring: '100000000000000000',
+  });
+  expect(currencyRegex).toMatchString('€ 10000', { exactString: false, substring: '10' });
+  expect(currencyRegex).toMatchString('₿ 100,000', { exactString: false, substring: '100,000' });
   expect(currencyRegex).not.toMatchString('10$');
   expect(currencyRegex).not.toMatchString('£A000');
 

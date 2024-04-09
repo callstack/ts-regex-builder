@@ -2,32 +2,48 @@ import {
   urlAuthorityFinder,
   urlAuthorityValidator,
   urlFragmentValidator,
-  urlHostFinder,
+  urlHost,
   urlHostValidator,
   urlPathValidator,
   urlQueryValidator,
+  urlScheme,
   urlSchemeFinder,
   urlSchemeValidator,
   urlValidator,
 } from '..';
 
+test('urlScheme', () => {
+  expect(urlScheme).not.toMatchString('http');
+  expect(urlScheme).not.toMatchString('http://');
+  expect(urlScheme).not.toMatchString('http//');
+  expect(urlScheme).toMatchString('ftp:', { exactString: false, substring: 'ftp' });
+  expect(urlScheme).not.toMatchString('ftp:');
+  expect(urlScheme).toMatchString('http:', { exactString: false, substring: 'http' });
+  expect(urlScheme).not.toMatchString('http:');
+  expect(urlScheme).toMatchString('http://', { exactString: false, substring: 'http' });
+  expect(urlScheme).not.toMatchString('http://');
+});
+
 test('urlSchemeValidator', () => {
-  expect('ftp:').toMatch(urlSchemeValidator);
-  expect('ftp').not.toMatch(urlSchemeValidator);
-  expect('https:').toMatch(urlSchemeValidator);
-  expect('https').not.toMatch(urlSchemeValidator);
-  expect('http://').toMatch(urlSchemeValidator);
-  expect('ft').not.toMatch(urlSchemeValidator);
-  expect('httpsftpmailtoirc').not.toMatch(urlSchemeValidator);
+  expect(urlSchemeValidator).not.toMatchString('http');
+  expect(urlSchemeValidator).not.toMatchString('http://');
+  expect(urlSchemeValidator).not.toMatchString('http//', { exactString: false, substring: 'http' });
+  expect(urlSchemeValidator).toMatchString('ftp:');
+  expect(urlSchemeValidator).not.toMatchString('http://');
+  expect(urlSchemeValidator).not.toMatchString('https');
+  expect(urlSchemeValidator).not.toMatchString('http://', {
+    exactString: false,
+    substring: 'http',
+  });
+  expect(urlSchemeValidator).not.toMatchString('http://');
+  expect(urlSchemeValidator).not.toMatchString('ft');
+  expect(urlSchemeValidator).not.toMatchString('httpsftpmailtoirc');
 });
 
 test('urlSchemeFinder', () => {
   expect(urlSchemeFinder).toMatchAllGroups(
     'The best way to get data for interactive apps is "http:" and not "ftp:."',
-    [
-      ['http', 'http'],
-      ['ftp', 'ftp'],
-    ],
+    [['http:'], ['ftp:']],
   );
 });
 
@@ -65,8 +81,8 @@ test('urlHostValidator', () => {
   expect(urlHostValidator).toMatchString('localhost');
 });
 
-test('urlHostFinder', () => {
-  expect(urlHostFinder).toMatchString('www.google.com');
+test('urlHost', () => {
+  expect(urlHost).toMatchString('www');
 });
 
 test('urlAuthorityFinder', () => {

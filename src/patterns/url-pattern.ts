@@ -17,7 +17,7 @@
 
 import { buildRegExp } from '../builders';
 import { endOfString, startOfString } from '../constructs/anchors';
-import { capture } from '../constructs/capture';
+//import { capture } from '../constructs/capture';
 import { anyOf, charClass, digit } from '../constructs/character-class';
 import { choiceOf } from '../constructs/choice-of';
 import { lookahead } from '../constructs/lookahead';
@@ -43,17 +43,26 @@ const schemePlural = regex([
   repeat(schemeChar, { min: 2, max: 4, greedy: false }),
   's',
 ]);
-const schemeSingular = regex([alphabetical, repeat(schemeChar, { min: 2, max: 5, greedy: false })]);
-export const urlScheme = buildRegExp(
-  regex([choiceOf(schemePlural, schemeSingular), lookahead(schemeSeperator)]),
-);
 
-export const urlSchemeFinder = buildRegExp(capture(urlScheme), {
-  ignoreCase: true,
+const schemeSingular = regex([alphabetical, repeat(schemeChar, { min: 2, max: 5, greedy: false })]);
+
+export const urlScheme = buildRegExp([
+  choiceOf(schemePlural, schemeSingular),
+  lookahead(schemeSeperator),
+]);
+
+export const urlSchemeFinder = buildRegExp([urlScheme, schemeSeperator], {
+  ignoreCase: false,
   global: true,
 });
 
-export const urlSchemeValidator = buildRegExp([startOfString, capture(urlScheme)]);
+export const urlSchemeValidator = buildRegExp(
+  [startOfString, urlScheme, schemeSeperator, endOfString],
+  {
+    ignoreCase: false,
+    global: false,
+  },
+);
 
 //    Authority:
 //      The authority part of a URL consists of three sub-parts:
@@ -73,21 +82,22 @@ const hostSeperator = '.';
 const port = repeat(digit, { min: 1, max: 5, greedy: false });
 const portSeperator = ':';
 const urlPort = regex([portSeperator, port]);
-const host = repeat(hostnameChars, { min: 1, max: 63, greedy: false });
+const host = repeat(hostnameChars, { min: 1, max: 63, greedy: true });
 const hostname = regex([host, repeat([hostSeperator, host], { min: 0, max: 255, greedy: false })]);
 const authoritySeperator = '//';
 
 export const urlAuthority = regex([
   optional([userinfo, userinfoSeperator]),
-  capture(choiceOf(hostname, ipv4Address, ipv6Address)),
+  choiceOf(hostname, ipv4Address, ipv6Address),
   optional(urlPort),
 ]);
 
 export const urlAuthorityFinder = buildRegExp(urlAuthority, {
+  ignoreCase: false,
   global: true,
 });
 
-export const urlAuthorityValidator = buildRegExp([startOfString, regex(urlAuthority), endOfString]);
+export const urlAuthorityValidator = buildRegExp([startOfString, urlAuthority, endOfString]);
 
 //
 //    Convenience Pattern - Host:
@@ -95,14 +105,16 @@ export const urlAuthorityValidator = buildRegExp([startOfString, regex(urlAuthor
 //
 
 export const urlHost = choiceOf(hostname, ipv4Address, ipv6Address);
+//export const urlHost = host;
 
 export const urlHostFinder = buildRegExp(hostname, {
-  ignoreCase: true,
+  ignoreCase: false,
   global: true,
 });
 
 export const urlHostValidator = buildRegExp([startOfString, regex(hostname), endOfString], {
-  ignoreCase: true,
+  ignoreCase: false,
+  global: false,
 });
 
 //    Path:
@@ -118,12 +130,13 @@ const pathSegment = regex([pathSeparator, repeat(pathChar, { min: 0, max: 63, gr
 export const urlPath = buildRegExp(repeat(pathSegment, { min: 0, max: 255, greedy: false }));
 
 export const urlPathFinder = buildRegExp(urlPath, {
-  ignoreCase: true,
+  ignoreCase: false,
   global: true,
 });
 
 export const urlPathValidator = buildRegExp([startOfString, urlPath, endOfString], {
-  ignoreCase: true,
+  ignoreCase: false,
+  global: false,
 });
 
 //    Query:
@@ -147,12 +160,13 @@ export const urlQuery = regex([
 ]);
 
 export const urlQueryFinder = buildRegExp(urlQuery, {
-  ignoreCase: true,
+  ignoreCase: false,
   global: true,
 });
 
 export const urlQueryValidator = buildRegExp([startOfString, urlQuery, endOfString], {
-  ignoreCase: true,
+  ignoreCase: false,
+  global: false,
 });
 
 //    Fragment:
@@ -167,12 +181,13 @@ const fragmentChars = charClass(lowercase, uppercase, digit, fragmentSpecialChar
 export const urlFragment = regex([fragmentSeparator, oneOrMore(fragmentChars)]);
 
 export const urlFragmentFinder = buildRegExp(urlFragment, {
-  ignoreCase: true,
+  ignoreCase: false,
   global: true,
 });
 
 export const urlFragmentValidator = buildRegExp([startOfString, urlFragment, endOfString], {
-  ignoreCase: true,
+  ignoreCase: false,
+  global: false,
 });
 
 //
@@ -180,15 +195,15 @@ export const urlFragmentValidator = buildRegExp([startOfString, urlFragment, end
 //    "http://" is technically a valid URL: urlScheme = http, urlAuthority = null, urlPath = /
 //    By convention, an empty path is considered invalid, if it follows an empty authority.
 //
-const noAuthority = regex([pathSeparator, negativeLookahead(pathSeparator), capture(urlPath)]);
-const hasAuthority = regex([authoritySeperator, capture(urlAuthority), optional(capture(urlPath))]);
+const noAuthority = regex([pathSeparator, negativeLookahead(pathSeparator), urlPath]);
+const hasAuthority = regex([authoritySeperator, urlAuthority, optional(urlPath)]);
 
 export const url = buildRegExp([
-  capture(urlScheme),
+  urlScheme,
   schemeSeperator,
   choiceOf(noAuthority, hasAuthority),
-  optional(capture(urlQuery)),
-  optional(capture(urlFragment)),
+  optional(urlQuery),
+  optional(urlFragment),
 ]);
 
 /***

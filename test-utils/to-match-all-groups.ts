@@ -9,17 +9,14 @@ export function toMatchAllGroups(
 ) {
   const receivedRegex = wrapRegExp(received);
   const receivedGroups = toNestedArray(expectedString.matchAll(receivedRegex));
-  const options = {
-    isNot: this.isNot,
-  };
 
   return {
     pass: this.equals(receivedGroups, expectedGroups),
-    message: () =>
-      this.utils.matcherHint('toMatchGroups', undefined, undefined, options) +
-      '\n\n' +
-      `Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedGroups)}\n` +
-      `Received: ${this.utils.printReceived(receivedGroups)}`,
+    message: () => `
+      this.utils.matcherHint('toMatchGroups', undefined, undefined, options)\n\n
+      Expected: ${this.isNot ? 'not ' : ''}${this.utils.printExpected(expectedGroups)}\n
+      Received: ${this.utils.printReceived(receivedGroups)}
+      `,
   };
 }
 

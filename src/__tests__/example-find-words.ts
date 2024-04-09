@@ -9,15 +9,15 @@ test('example: find specific words', () => {
     wordBoundary,
   ]);
 
-  expect(regex).toMatchString('word');
-  expect(regex).toMatchString('some date');
-  expect(regex).toMatchString('date and word');
+  expect(regex).toMatchString('word', { exactString: false });
+  expect(regex).toMatchString('some date', { exactString: false });
+  expect(regex).toMatchString('date and word', { exactString: false });
 
-  expect(regex).not.toMatchString('sword');
-  expect(regex).not.toMatchString('keywords');
-  expect(regex).not.toMatchString('words');
-  expect(regex).not.toMatchString('update');
-  expect(regex).not.toMatchString('dates');
+  expect(regex).not.toMatchString('sword', { exactString: false });
+  expect(regex).not.toMatchString('keywords', { exactString: false });
+  expect(regex).not.toMatchString('words', { exactString: false });
+  expect(regex).not.toMatchString('update', { exactString: false });
+  expect(regex).not.toMatchString('dates', { exactString: false });
 
   expect(regex).toEqualRegex(/\b(?:word|date)\b/);
 });
