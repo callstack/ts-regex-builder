@@ -1,16 +1,18 @@
 import { buildRegExp } from '../builders';
 import { endOfString, startOfString, wordBoundary } from '../constructs/anchors';
+import { charClass, charRange, digit } from '../constructs/character-class';
 import { choiceOf } from '../constructs/choice-of';
 import { repeat } from '../constructs/repeat';
-import { lowerCaseHexDigit } from './atoms';
+
+const hexDigit = charClass(digit, charRange('a', 'f'));
 
 /** Find hex color strings in a text. */
 export const hexColorFinder = buildRegExp(
   [
     '#',
     choiceOf(
-      repeat(lowerCaseHexDigit, 6), // #rrggbb
-      repeat(lowerCaseHexDigit, 3), // #rgb
+      repeat(hexDigit, 6), // #rrggbb
+      repeat(hexDigit, 3), // #rgb
     ),
     wordBoundary,
   ],
@@ -27,8 +29,8 @@ export const hexColorValidator = buildRegExp(
     startOfString, // Match whole string
     '#',
     choiceOf(
-      repeat(lowerCaseHexDigit, 6), // #rrggbb
-      repeat(lowerCaseHexDigit, 3), // #rgb
+      repeat(hexDigit, 6), // #rrggbb
+      repeat(hexDigit, 3), // #rgb
     ),
     endOfString,
   ],
