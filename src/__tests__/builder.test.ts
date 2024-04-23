@@ -16,11 +16,19 @@ test('`regexBuilder` flags', () => {
   expect(buildRegExp('a', { hasIndices: true }).flags).toBe('d');
   expect(buildRegExp('a', { hasIndices: false }).flags).toBe('');
 
+  expect(buildRegExp('a', { dotAll: true }).flags).toBe('s');
+  expect(buildRegExp('a', { dotAll: false }).flags).toBe('');
+
+  expect(buildRegExp('a', { sticky: true }).flags).toBe('y');
+  expect(buildRegExp('a', { sticky: false }).flags).toBe('');
+
   expect(
     buildRegExp('a', {
       global: true, //
       ignoreCase: true,
       multiline: false,
+      dotAll: true,
+      sticky: true,
     }).flags,
-  ).toBe('gi');
+  ).toBe('gisy');
 });

@@ -13,6 +13,8 @@ function buildRegExp(
     ignoreCase?: boolean;
     multiline?: boolean;
     hasIndices?: boolean;
+    dotAll?: boolean;
+    sticky?: boolean;
   },
 ): RegExp;
 ```
@@ -25,3 +27,5 @@ It optionally accepts a list of regex flags:
 - `ignoreCase` - perform case-insensitive matching.
 - `multiline` - treat the start and end of each line in a string as the beginning and end of the string.
 - `hasIndices` - provide each captured group's start and end indices in a match.
+- `dotAll` - allows `.` to match newlines.
+- `sticky` - matches only from the index indicated by the `lastIndex` property, does not attempt to match from any later indexes.
