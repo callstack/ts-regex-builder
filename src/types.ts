@@ -79,8 +79,19 @@ export interface RegexFlags {
   dotAll?: boolean;
 
   /**
-   * MDN: _Matches only from the index indicated by the lastIndex property of this regular expression in the target string. Does not attempt to match from any later indexes._
+   * MDN: _Matches only from the index indicated by the `lastIndex` property of this regular expression in the target string. Does not attempt to match from any later indexes._
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/sticky
    */
   sticky?: boolean;
+
+  /**
+   * Enables [Unicode-aware mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode#unicode-aware_mode).
+   *
+   * This enables features like:
+   * - unicode character escapes: `\u{xxxx}`
+   * - unicode character class escapes:`\p{UnicodePropertyValue}`
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode
+   */
+  unicode?: boolean;
 }
