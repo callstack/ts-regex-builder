@@ -90,7 +90,6 @@ test('`charClass` throws on negated arguments', () => {
 });
 
 test('`charClass` joins character escapes', () => {
-  expect(charClass(any)).toEqualRegex(/./);
   expect(charClass(word)).toEqualRegex(/\w/);
   expect(charClass(digit)).toEqualRegex(/\d/);
   expect(charClass(whitespace)).toEqualRegex(/\s/);
@@ -98,14 +97,11 @@ test('`charClass` joins character escapes', () => {
   expect(charClass(nonDigit)).toEqualRegex(/\D/);
   expect(charClass(nonWhitespace)).toEqualRegex(/\S/);
 
-  expect(charClass(any, whitespace)).toEqualRegex(/[.\s]/);
-  expect(charClass(any, nonWhitespace)).toEqualRegex(/[.\S]/);
+  expect(charClass(whitespace, nonWhitespace)).toEqualRegex(/[\s\S]/);
 
   expect(charClass(word, whitespace)).toEqualRegex(/[\w\s]/);
-  expect(charClass(any, word, digit)).toEqualRegex(/[.\w\d]/);
-
   expect(charClass(word, digit, whitespace)).toEqualRegex(/[\w\d\s]/);
-  expect(charClass(any, word, digit, whitespace)).toEqualRegex(/[.\w\d\s]/);
+  expect(charClass(word, nonDigit)).toEqualRegex(/[\w\D]/);
 });
 
 test('`charRange` pattern', () => {

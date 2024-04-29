@@ -18,13 +18,13 @@ export interface CharacterRange {
   end: string;
 }
 
-export const any: CharacterClass = {
-  type: 'characterClass',
-  escape: '.',
-  chars: [],
-  ranges: [],
-  isNegated: false,
-  encode: encodeCharacterClass,
+/**
+ * Matches any single character.
+ * Cannot be used as a part of character class.
+ */
+export const any: EncodeResult = {
+  precedence: 'atom',
+  pattern: '.',
 };
 
 export const digit: CharacterClass = {

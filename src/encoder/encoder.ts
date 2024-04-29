@@ -20,7 +20,11 @@ function encodeNode(element: RegexElement): EncodeResult {
     return encodeRegExp(element);
   }
 
-  if (typeof element.encode !== 'function') {
+  if (typeof element === 'object' && 'pattern' in element) {
+    return element;
+  }
+
+  if (typeof element === 'object' && typeof element.encode !== 'function') {
     throw new Error(`\`encodeNode\`: unknown element type ${element.type}`);
   }
 
