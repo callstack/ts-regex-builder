@@ -12,7 +12,7 @@ export type RegexSequence = RegexElement[] | RegexElement;
 /**
  * Fundamental building block of a regular expression, defined as either a regex construct or a string.
  */
-export type RegexElement = RegexConstruct | string | RegExp;
+export type RegexElement = RegexConstruct | EncodeResult | string | RegExp;
 
 /**
  * Common interface for all regex constructs like character classes, quantifiers, and anchors.
