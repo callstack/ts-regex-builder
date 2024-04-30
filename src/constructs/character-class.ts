@@ -88,7 +88,7 @@ export function charClass(...elements: CharacterClass[]): CharacterClass {
 
   return {
     type: 'characterClass',
-    chars: elements.map((c) => getAllChars(c)).flat(),
+    chars: elements.map((c) => getAllChars(c) ?? []).flat(),
     ranges: elements.map((c) => c.ranges ?? []).flat(),
     encode: encodeCharacterClass,
   };
