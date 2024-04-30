@@ -2,10 +2,7 @@
   "name": "ts-regex-builder",
   "version": "1.6.0",
   "description": "Maintainable regular expressions for TypeScript and JavaScript.",
-  "main": "lib/commonjs/index.js",
-  "module": "lib/module/index.js",
-  "types": "lib/typescript/src/index.d.ts",
-  "source": "src/index",
+  "source": "src/index.ts",
   "sideEffects": false,
   "files": [
     "src",
@@ -17,14 +14,14 @@
   ],
   "exports": {
     ".": {
-      "require": "./lib/commonjs/index.js",
-      "import": "./lib/module/index.js",
-      "types": "./lib/typescript/src/index.d.ts"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
     "./patterns": {
-      "require": "./lib/commonjs/patterns/index.js",
-      "import": "./lib/module/patterns/index.js",
-      "types": "./lib/typescript/src/patterns/index.d.ts"
+      "require": "./dist/patterns/index.js",
+      "import": "./dist/patterns/index.js",
+      "types": "./dist/patterns/index.d.ts"
     }
   },
   "scripts": {
@@ -32,7 +29,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli lib",
-    "prepare": "bob build",
+    "build": "tsup",
+    "prepare": "build",
     "release": "release-it"
   },
   "keywords": [
@@ -64,8 +62,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^28.1.1",
     "prettier": "^2.0.5",
-    "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
+    "tsup": "^8.0.2",
     "typescript": "^5.0.2"
   },
   "packageManager": "yarn@3.6.1",
@@ -147,19 +145,5 @@
     "tabWidth": 2,
     "trailingComma": "all",
     "useTabs": false
-  },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
   }
 }
