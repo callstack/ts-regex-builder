@@ -1,6 +1,6 @@
 {
   "name": "ts-regex-builder",
-  "version": "1.6.0",
+  "version": "1.6.1-beta.0",
   "description": "Maintainable regular expressions for TypeScript and JavaScript.",
   "source": "src/index.ts",
   "sideEffects": false,
