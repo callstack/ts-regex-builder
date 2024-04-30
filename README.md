@@ -180,7 +180,3 @@ TS Regex Builder is inspired by [Swift Regex Builder API](https://developer.appl
 - [ECMAScript Regular Expression BNF Grammar](https://262.ecma-international.org/7.0/#sec-regular-expressions)
 - [Swift Regex Builder API docs](https://developer.apple.com/documentation/regexbuilder)
 - [Swift Evolution 351: Regex Builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md)
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

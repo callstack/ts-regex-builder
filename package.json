@@ -49,6 +49,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-typescript": "^7.24.1",
     "@callstack/eslint-config": "^14.1.0",
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
