@@ -118,42 +118,6 @@
       "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
     }
   },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@callstack/eslint-config/node",
-      "prettier"
-    ],
-    "plugins": [
-      "import"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
-          "trailingComma": "all",
-          "useTabs": false
-        }
-      ],
-      "sort-imports": [
-        "error",
-        {
-          "ignoreCase": true,
-          "ignoreDeclarationSort": true
-        }
-      ],
-      "import/order": "error"
-    }
-  },
-  "eslintIgnore": [
-    "node_modules/",
-    "dist/",
-    "coverage/",
-    "website/"
-  ],
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
