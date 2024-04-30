@@ -157,7 +157,7 @@ function encodeCharacterClass(this: CharacterClass): EncodeResult {
     };
   }
 
-  const allChars = getAllChars(this);
+  const allChars = getAllChars(this) ?? [];
 
   // If passed characters includes hyphen (`-`) it need to be moved to
   // first (or last) place in order to treat it as hyphen character and not a range.
@@ -183,7 +183,7 @@ function escapeForCharacterClass(text: string): string {
 
 function getAllChars(characterClass: CharacterClass) {
   if (characterClass.escape === undefined) {
-    return characterClass.chars ?? [];
+    return characterClass.chars;
   }
 
   return [characterClass.escape, ...(characterClass.chars ?? [])];
