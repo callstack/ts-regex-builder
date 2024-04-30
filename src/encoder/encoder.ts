@@ -1,14 +1,16 @@
-import type { RegexElement } from '../types';
+import type { RegexElement, RegexSequence } from '../types';
+import { ensureArray } from '../utils/elements';
 import { escapeText } from '../utils/text';
 import type { EncodeResult } from './types';
 
-export function encodeSequence(elements: RegexElement[]): EncodeResult {
+export function encodeSequence(sequence: RegexSequence): EncodeResult {
+  const elements = ensureArray(sequence);
   const encodedNodes = elements.map((n) => encodeNode(n));
   return concatSequence(encodedNodes);
 }
 
-export function encodeAtom(elements: RegexElement[]): EncodeResult {
-  return wrapAtom(encodeSequence(elements));
+export function encodeAtom(sequence: RegexSequence): EncodeResult {
+  return wrapAtom(encodeSequence(sequence));
 }
 
 function encodeNode(element: RegexElement): EncodeResult {
