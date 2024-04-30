@@ -1,21 +1,20 @@
 import type { EncodeResult } from '../encoder/types';
 import type { RegexConstruct } from '../types';
 
-export interface CharacterClass extends RegexConstruct {
-  type: 'characterClass';
-  escape?: string;
-  chars: string[];
-  ranges: CharacterRange[];
-  isNegated: boolean;
-  encode: () => EncodeResult;
-}
-
 /**
  * Character range from start to end (inclusive).
  */
 export interface CharacterRange {
   start: string;
   end: string;
+}
+
+export interface CharacterClass extends RegexConstruct {
+  type: 'characterClass';
+  escape?: string;
+  chars?: string[];
+  ranges?: CharacterRange[];
+  isNegated?: boolean;
 }
 
 /**
@@ -30,54 +29,36 @@ export const any: EncodeResult = {
 export const digit: CharacterClass = {
   type: 'characterClass',
   escape: '\\d',
-  chars: [],
-  ranges: [],
-  isNegated: false,
   encode: encodeCharacterClass,
 };
 
 export const nonDigit: CharacterClass = {
   type: 'characterClass',
   escape: '\\D',
-  chars: [],
-  ranges: [],
-  isNegated: false,
   encode: encodeCharacterClass,
 };
 
 export const word: CharacterClass = {
   type: 'characterClass',
   escape: '\\w',
-  chars: [],
-  ranges: [],
-  isNegated: false,
   encode: encodeCharacterClass,
 };
 
 export const nonWord: CharacterClass = {
   type: 'characterClass',
   escape: '\\W',
-  chars: [],
-  ranges: [],
-  isNegated: false,
   encode: encodeCharacterClass,
 };
 
 export const whitespace: CharacterClass = {
   type: 'characterClass',
   escape: '\\s',
-  chars: [],
-  ranges: [],
-  isNegated: false,
   encode: encodeCharacterClass,
 };
 
 export const nonWhitespace: CharacterClass = {
   type: 'characterClass',
   escape: '\\S',
-  chars: [],
-  ranges: [],
-  isNegated: false,
   encode: encodeCharacterClass,
 };
 
@@ -107,9 +88,8 @@ export function charClass(...elements: CharacterClass[]): CharacterClass {
 
   return {
     type: 'characterClass',
-    chars: elements.map((c) => getAllChars(c)).flat(),
-    ranges: elements.map((c) => c.ranges).flat(),
-    isNegated: false,
+    chars: elements.map((c) => getAllChars(c) ?? []).flat(),
+    ranges: elements.map((c) => c.ranges ?? []).flat(),
     encode: encodeCharacterClass,
   };
 }
@@ -129,9 +109,7 @@ export function charRange(start: string, end: string): CharacterClass {
 
   return {
     type: 'characterClass',
-    chars: [],
     ranges: [{ start, end }],
-    isNegated: false,
     encode: encodeCharacterClass,
   };
 }
@@ -146,8 +124,6 @@ export function anyOf(characters: string): CharacterClass {
   return {
     type: 'characterClass',
     chars,
-    ranges: [],
-    isNegated: false,
     encode: encodeCharacterClass,
   };
 }
@@ -155,6 +131,7 @@ export function anyOf(characters: string): CharacterClass {
 export function negated(element: CharacterClass): CharacterClass {
   return {
     type: 'characterClass',
+    escape: element.escape,
     chars: element.chars,
     ranges: element.ranges,
     isNegated: !element.isNegated,
@@ -168,19 +145,19 @@ export function negated(element: CharacterClass): CharacterClass {
 export const inverted = negated;
 
 function encodeCharacterClass(this: CharacterClass): EncodeResult {
-  if (this.escape === undefined && this.chars.length === 0 && this.ranges.length === 0) {
+  if (this.escape === undefined && !this.chars?.length && !this.ranges?.length) {
     throw new Error('Character class should contain at least one character or character range');
   }
 
-  // Direct rendering for single-character class
-  if (this.escape !== undefined && !this.chars.length && !this.ranges.length && !this.isNegated) {
+  // Direct rendering for escapes
+  if (this.escape !== undefined && !this.chars?.length && !this.ranges?.length && !this.isNegated) {
     return {
       precedence: 'atom',
       pattern: this.escape,
     };
   }
 
-  const allChars = getAllChars(this);
+  const allChars = getAllChars(this) ?? [];
 
   // If passed characters includes hyphen (`-`) it need to be moved to
   // first (or last) place in order to treat it as hyphen character and not a range.
@@ -188,7 +165,7 @@ function encodeCharacterClass(this: CharacterClass): EncodeResult {
   const hyphen = allChars.includes('-') ? '-' : '';
   const caret = allChars.includes('^') ? '^' : '';
   const otherChars = allChars.filter((c) => c !== '-' && c !== '^').join('');
-  const ranges = this.ranges.map(({ start, end }) => `${start}-${end}`).join('');
+  const ranges = this.ranges?.map(({ start, end }) => `${start}-${end}`).join('') ?? '';
   const negation = this.isNegated ? '^' : '';
 
   let pattern = `[${negation}${ranges}${otherChars}${caret}${hyphen}]`;
@@ -209,5 +186,5 @@ function getAllChars(characterClass: CharacterClass) {
     return characterClass.chars;
   }
 
-  return [characterClass.escape, ...characterClass.chars];
+  return [characterClass.escape, ...(characterClass.chars ?? [])];
 }
