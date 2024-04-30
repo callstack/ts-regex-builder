@@ -31,7 +31,8 @@
     "clean": "del-cli dist",
     "build": "tsup",
     "prepare": "build",
-    "release": "release-it"
+    "release": "release-it",
+    "release:beta": "release-it --preRelease=beta"
   },
   "keywords": [
     "regex",
@@ -101,6 +102,18 @@
       "@release-it/conventional-changelog": {
         "preset": "angular"
       }
+    },
+    "hooks": {
+      "before:init": [
+        "yarn lint",
+        "yarn typecheck",
+        "yarn test"
+      ],
+      "after:bump": [
+        "yarn clean",
+        "yarn build"
+      ],
+      "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
     }
   },
   "eslintConfig": {
