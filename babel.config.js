@@ -1,5 +1,5 @@
 module.exports = {
-  presets: ['@babel/preset-typescript'],
+  presets: [['@babel/preset-env', { targets: { node: 'current' } }], '@babel/preset-typescript'],
 
   env: {
     cjs: {
@@ -8,13 +8,13 @@ module.exports = {
         ['@babel/plugin-transform-modules-commonjs', { strict: true }],
         ['babel-plugin-add-import-extension', { extension: 'js' }],
       ],
+      ignore: ['**/__tests__/*', '**/test.ts', '**/*.d.ts'],
     },
 
     esm: {
       presets: [['@babel/preset-env', { targets: { node: 'current' }, modules: false }]],
       plugins: [['babel-plugin-add-import-extension', { extension: 'mjs' }]],
+      ignore: ['**/__tests__/*', '**/test.ts', '**/*.d.ts'],
     },
   },
-
-  ignore: ['**/__tests__/*', '**/test.ts', '**/*.d.ts'],
 };
