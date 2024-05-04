@@ -4,11 +4,11 @@
   "description": "Maintainable regular expressions for TypeScript and JavaScript.",
   "main": "lib/commonjs/index.js",
   "module": "lib/esm/index.js",
-  "types": "lib/typescript/src/index.d.ts",
+  "types": "lib/types/src/index.d.ts",
   "source": "src/index",
   "sideEffects": false,
   "files": [
-    "lib",
+    "dist",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
@@ -18,12 +18,12 @@
     ".": {
       "require": "./lib/commonjs/index.js",
       "import": "./lib/esm/index.js",
-      "types": "./lib/typescript/src/index.d.ts"
+      "types": "./lib/types/src/index.d.ts"
     },
     "./patterns": {
       "require": "./lib/commonjs/patterns/index.js",
       "import": "./lib/esm/patterns/index.js",
-      "types": "./lib/typescript/src/patterns/index.d.ts"
+      "types": "./lib/types/src/patterns/index.d.ts"
     }
   },
   "scripts": {
@@ -35,7 +35,7 @@
     "build": "yarn clean && yarn build:commonjs && yarn build:esm && yarn build:typescript",
     "build:commonjs": "BABEL_ENV=cjs babel src --out-dir \"dist/commonjs\" --extensions .js,.ts --out-file-extension .js --source-maps --no-comments",
     "build:esm": "BABEL_ENV=esm babel src --out-dir \"dist/esm\" --extensions .js,.ts --out-file-extension .mjs  --source-maps --no-comments",
-    "build:typescript": "tsc --project tsconfig.release.json --outDir \"dist/typescript\""
+    "build:typescript": "tsc --project tsconfig.release.json --outDir \"dist/types\""
   },
   "keywords": [
     "regex",

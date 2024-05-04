@@ -16,5 +16,5 @@ module.exports = {
     },
   },
 
-  ignore: ['**/test.ts', '**/*.d.ts'],
+  ignore: ['**/__tests__/*', '**/test.ts', '**/*.d.ts'],
 };
