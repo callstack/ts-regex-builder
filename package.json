@@ -68,7 +68,7 @@
     "release-it": "^15.0.0",
     "typescript": "^5.0.2"
   },
-  "packageManager": "yarn@3.6.1",
+  "packageManager": "yarn@4.2.1",
   "engines": {
     "node": ">= 18.0.0"
   },
