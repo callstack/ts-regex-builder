@@ -5,7 +5,7 @@
   "main": "dist/commonjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/src/index.d.ts",
-  "source": "src/index",
+  "source": "src/index.ts",
   "sideEffects": false,
   "files": [
     "dist",
@@ -17,13 +17,13 @@
   "exports": {
     ".": {
       "require": "./dist/commonjs/index.js",
-      "import": "./dist/esm/index.js",
-      "types": "./dist/types/src/index.d.ts"
+      "import": "./dist/esm/index.mjs",
+      "types": "./dist/types/index.d.ts"
     },
     "./patterns": {
       "require": "./dist/commonjs/patterns/index.js",
-      "import": "./dist/esm/patterns/index.js",
-      "types": "./dist/types/src/patterns/index.d.ts"
+      "import": "./dist/esm/patterns/index.mjs",
+      "types": "./dist/types/patterns/index.d.ts"
     }
   },
   "scripts": {
