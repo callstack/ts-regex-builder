@@ -1,15 +1,14 @@
 {
   "name": "ts-regex-builder",
-  "version": "1.6.0",
+  "version": "1.6.1-beta.3",
   "description": "Maintainable regular expressions for TypeScript and JavaScript.",
-  "main": "lib/commonjs/index.js",
-  "module": "lib/module/index.js",
-  "types": "lib/typescript/src/index.d.ts",
-  "source": "src/index",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/src/index.d.ts",
+  "source": "src/index.ts",
   "sideEffects": false,
   "files": [
-    "src",
-    "lib",
+    "dist",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
@@ -17,23 +16,27 @@
   ],
   "exports": {
     ".": {
-      "require": "./lib/commonjs/index.js",
-      "import": "./lib/module/index.js",
-      "types": "./lib/typescript/src/index.d.ts"
+      "require": "./dist/commonjs/index.js",
+      "import": "./dist/esm/index.mjs",
+      "types": "./dist/types/index.d.ts"
     },
     "./patterns": {
-      "require": "./lib/commonjs/patterns/index.js",
-      "import": "./lib/module/patterns/index.js",
-      "types": "./lib/typescript/src/patterns/index.d.ts"
+      "require": "./dist/commonjs/patterns/index.js",
+      "import": "./dist/esm/patterns/index.mjs",
+      "types": "./dist/types/patterns/index.d.ts"
     }
   },
   "scripts": {
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli lib",
-    "prepare": "bob build",
-    "release": "release-it"
+    "clean": "del-cli dist",
+    "release": "release-it",
+    "release:beta": "release-it --preRelease=beta",
+    "build": "yarn clean && yarn build:commonjs && yarn build:esm && yarn build:typescript",
+    "build:commonjs": "BABEL_ENV=cjs babel src --out-dir \"dist/commonjs\" --extensions .js,.ts --out-file-extension .js --source-maps --no-comments",
+    "build:esm": "BABEL_ENV=esm babel src --out-dir \"dist/esm\" --extensions .js,.ts --out-file-extension .mjs  --source-maps --no-comments",
+    "build:typescript": "tsc --project tsconfig.release.json --outDir \"dist/types\""
   },
   "keywords": [
     "regex",
@@ -50,11 +53,18 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
+    "@babel/cli": "^7.22.10",
+    "@babel/core": "^7.22.10",
+    "@babel/plugin-syntax-flow": "^7.24.1",
+    "@babel/plugin-transform-react-jsx": "^7.23.4",
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-typescript": "^7.22.5",
     "@callstack/eslint-config": "^14.1.0",
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^28.1.2",
+    "babel-plugin-add-import-extension": "^1.6.0",
     "commitlint": "^17.0.2",
     "del-cli": "^5.0.0",
     "eslint": "^8.56.0",
@@ -64,7 +74,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^28.1.1",
     "prettier": "^2.0.5",
-    "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
     "typescript": "^5.0.2"
   },
@@ -80,7 +89,7 @@
       "src/**/*.{js,jsx,ts,tsx}"
     ],
     "modulePathIgnorePatterns": [
-      "<rootDir>/lib/"
+      "<rootDir>/dist/"
     ]
   },
   "commitlint": {
@@ -137,7 +146,7 @@
   },
   "eslintIgnore": [
     "node_modules/",
-    "lib/",
+    "dist/",
     "coverage/",
     "website/"
   ],
@@ -147,19 +156,5 @@
     "tabWidth": 2,
     "trailingComma": "all",
     "useTabs": false
-  },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
   }
 }

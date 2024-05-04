@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Build package
-        run: yarn prepare
+        run: yarn build
 
   test-website:
     runs-on: ubuntu-latest
