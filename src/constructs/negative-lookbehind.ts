@@ -1,4 +1,4 @@
-import { encodePattern } from '../encoder';
+import { encodeSequence } from '../encoder';
 import type { EncodedRegex, RegexSequence } from '../types';
 
 /**
@@ -18,6 +18,6 @@ import type { EncodedRegex, RegexSequence } from '../types';
 export function negativeLookbehind(sequence: RegexSequence): EncodedRegex {
   return {
     precedence: 'atom',
-    pattern: `(?<!${encodePattern(sequence)})`,
+    pattern: `(?<!${encodeSequence(sequence).pattern})`,
   };
 }

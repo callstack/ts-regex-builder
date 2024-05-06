@@ -1,9 +1,12 @@
 import type { CharacterClass, EncodedRegex, RegexElement, RegexSequence } from './types';
-import { ensureArray } from './utils/elements';
-import { escapeText } from './utils/text';
 
-export function encode(sequence: RegexSequence): EncodedRegex {
-  const elements = ensureArray(sequence);
+export function encodeAtomic(sequence: RegexSequence): string {
+  const encoded = encodeSequence(sequence);
+  return encoded.precedence === 'atom' ? encoded.pattern : `(?:${encoded.pattern})`;
+}
+
+export function encodeSequence(sequence: RegexSequence): EncodedRegex {
+  const elements = Array.isArray(sequence) ? sequence : [sequence];
   const encoded = elements.map((n) => encodeElement(n));
 
   if (encoded.length === 1) {
@@ -13,22 +16,9 @@ export function encode(sequence: RegexSequence): EncodedRegex {
   return {
     precedence: 'sequence',
     pattern: encoded
-      .map((n) => (n.precedence === 'disjunction' ? encodeAtomicPattern(n) : n.pattern))
+      .map((n) => (n.precedence === 'disjunction' ? encodeAtomic(n) : n.pattern))
       .join(''),
   };
-}
-
-export function encodePattern(sequence: RegexSequence): string {
-  return encode(sequence).pattern;
-}
-
-export function encodeAtomicPattern(sequence: RegexSequence): string {
-  const encoded = encode(sequence);
-  if (encoded.precedence === 'atom') {
-    return encoded.pattern;
-  }
-
-  return `(?:${encoded.pattern})`;
 }
 
 function encodeElement(element: RegexElement): EncodedRegex {
@@ -40,10 +30,12 @@ function encodeElement(element: RegexElement): EncodedRegex {
     return encodeRegExp(element);
   }
 
+  // EncodedRegex
   if (typeof element === 'object' && 'pattern' in element) {
     return element;
   }
 
+  // CharacterClass
   if (typeof element === 'object' && 'chars' in element) {
     return encodeCharClass(element);
   }
@@ -118,4 +110,9 @@ function isAtomicPattern(pattern: string): boolean {
   }
 
   return false;
+}
+
+// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
+function escapeText(text: string) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }

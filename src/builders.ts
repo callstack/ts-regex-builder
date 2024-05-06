@@ -1,5 +1,5 @@
 import type { RegexFlags, RegexSequence } from './types';
-import { encodePattern } from './encoder';
+import { encodeSequence } from './encoder';
 
 /**
  * Generate RegExp object from elements with optional flags.
@@ -9,7 +9,7 @@ import { encodePattern } from './encoder';
  * @returns RegExp object
  */
 export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp {
-  const pattern = encodePattern(sequence);
+  const pattern = encodeSequence(sequence).pattern;
   const flagsString = encodeFlags(flags ?? {});
   return new RegExp(pattern, flagsString);
 }
@@ -20,7 +20,7 @@ export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp
  * @returns regex pattern string
  */
 export function buildPattern(sequence: RegexSequence): string {
-  return encodePattern(sequence);
+  return encodeSequence(sequence).pattern;
 }
 
 function encodeFlags(flags: RegexFlags): string {

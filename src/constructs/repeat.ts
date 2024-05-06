@@ -1,25 +1,24 @@
-import { encodeAtomicPattern } from '../encoder';
-import { ensureArray } from '../utils/elements';
+import { encodeAtomic } from '../encoder';
 import type { EncodedRegex, RegexSequence } from '../types';
 
 export type RepeatOptions = number | { min: number; max?: number; greedy?: boolean };
 
 export function repeat(sequence: RegexSequence, options: RepeatOptions): EncodedRegex {
-  const children = ensureArray(sequence);
-  if (children.length === 0) {
+  const elements = Array.isArray(sequence) ? sequence : [sequence];
+  if (elements.length === 0) {
     throw new Error('`repeat` should receive at least one element');
   }
 
   if (typeof options === 'number') {
     return {
       precedence: 'sequence',
-      pattern: `${encodeAtomicPattern(children)}{${options}}`,
+      pattern: `${encodeAtomic(elements)}{${options}}`,
     };
   }
 
   return {
     precedence: 'sequence',
-    pattern: `${encodeAtomicPattern(children)}{${options.min},${options?.max ?? ''}}${
+    pattern: `${encodeAtomic(elements)}{${options.min},${options?.max ?? ''}}${
       options.greedy === false ? '?' : ''
     }`,
   };
