@@ -1,6 +1,6 @@
-import type { EncodeResult } from '../encoder/types';
+import type { EncodedRegex } from '../encoder/types';
 
-export interface CharacterEscape extends EncodeResult {
+export interface CharacterEscape extends EncodedRegex {
   kind: 'escape';
 
   // `CharacterClass` compatibility
@@ -12,7 +12,7 @@ export interface CharacterEscape extends EncodeResult {
  * Matches any single character.
  * Specifically this one is NOT a character escape.
  */
-export const any: EncodeResult = {
+export const any: EncodedRegex = {
   precedence: 'atom',
   pattern: '.',
 };

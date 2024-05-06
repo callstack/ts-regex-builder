@@ -1,4 +1,4 @@
-import type { EncodeResult } from './encoder/types';
+import type { EncodedRegex } from './encoder/types';
 
 export type ArrayOrSingle<T> = T[] | T;
 
@@ -12,14 +12,14 @@ export type RegexSequence = RegexElement[] | RegexElement;
 /**
  * Fundamental building block of a regular expression, defined as either a regex construct or a string.
  */
-export type RegexElement = RegexConstruct | EncodeResult | string | RegExp;
+export type RegexElement = RegexConstruct | EncodedRegex | string | RegExp;
 
 /**
  * Common interface for all regex constructs like character classes, quantifiers, and anchors.
  */
 export interface RegexConstruct {
   type: string;
-  encode(): EncodeResult;
+  encode(): EncodedRegex;
 }
 
 /**

@@ -1,5 +1,5 @@
 import { encodeSequence } from '../encoder/encoder';
-import type { EncodeResult } from '../encoder/types';
+import type { EncodedRegex } from '../encoder/types';
 import { ensureArray } from '../utils/elements';
 import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
@@ -30,7 +30,7 @@ export function lookbehind(sequence: RegexSequence): Lookbehind {
   };
 }
 
-function encodeLookbehind(this: Lookbehind): EncodeResult {
+function encodeLookbehind(this: Lookbehind): EncodedRegex {
   return {
     precedence: 'atom',
     pattern: `(?<=${encodeSequence(this.children).pattern})`,

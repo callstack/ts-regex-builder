@@ -1,5 +1,5 @@
 import { encodeSequence } from '../encoder/encoder';
-import type { EncodeResult } from '../encoder/types';
+import type { EncodedRegex } from '../encoder/types';
 import { ensureArray } from '../utils/elements';
 import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
@@ -20,7 +20,7 @@ export function choiceOf(...alternatives: RegexSequence[]): ChoiceOf {
   };
 }
 
-function encodeChoiceOf(this: ChoiceOf): EncodeResult {
+function encodeChoiceOf(this: ChoiceOf): EncodedRegex {
   const encodedAlternatives = this.alternatives.map((c) => encodeSequence(c));
   if (encodedAlternatives.length === 1) {
     return encodedAlternatives[0]!;

@@ -1,5 +1,5 @@
 import { encodeSequence } from '../encoder/encoder';
-import type { EncodeResult } from '../encoder/types';
+import type { EncodedRegex } from '../encoder/types';
 import { ensureArray } from '../utils/elements';
 import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
 
@@ -16,6 +16,6 @@ export function regex(sequence: RegexSequence): Regex {
   };
 }
 
-function encodeRegex(this: Regex): EncodeResult {
+function encodeRegex(this: Regex): EncodedRegex {
   return encodeSequence(this.children);
 }

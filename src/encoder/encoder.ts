@@ -1,19 +1,19 @@
 import type { RegexElement, RegexSequence } from '../types';
 import { ensureArray } from '../utils/elements';
 import { escapeText } from '../utils/text';
-import type { EncodeResult } from './types';
+import type { EncodedRegex } from './types';
 
-export function encodeSequence(sequence: RegexSequence): EncodeResult {
+export function encodeSequence(sequence: RegexSequence): EncodedRegex {
   const elements = ensureArray(sequence);
   const encodedNodes = elements.map((n) => encodeNode(n));
   return concatSequence(encodedNodes);
 }
 
-export function encodeAtom(sequence: RegexSequence): EncodeResult {
+export function encodeAtom(sequence: RegexSequence): EncodedRegex {
   return wrapAtom(encodeSequence(sequence));
 }
 
-function encodeNode(element: RegexElement): EncodeResult {
+function encodeNode(element: RegexElement): EncodedRegex {
   if (typeof element === 'string') {
     return encodeText(element);
   }
@@ -33,7 +33,7 @@ function encodeNode(element: RegexElement): EncodeResult {
   return element.encode();
 }
 
-function encodeText(text: string): EncodeResult {
+function encodeText(text: string): EncodedRegex {
   if (text.length === 0) {
     throw new Error('`encodeText`: received text should not be empty');
   }
@@ -52,7 +52,7 @@ function encodeText(text: string): EncodeResult {
   };
 }
 
-function encodeRegExp(regexp: RegExp): EncodeResult {
+function encodeRegExp(regexp: RegExp): EncodedRegex {
   const pattern = regexp.source;
 
   // Encode at safe precedence
@@ -79,7 +79,7 @@ function isAtomicPattern(pattern: string): boolean {
   return false;
 }
 
-function concatSequence(encoded: EncodeResult[]): EncodeResult {
+function concatSequence(encoded: EncodedRegex[]): EncodedRegex {
   if (encoded.length === 1) {
     return encoded[0]!;
   }
@@ -92,7 +92,7 @@ function concatSequence(encoded: EncodeResult[]): EncodeResult {
   };
 }
 
-function wrapAtom(encoded: EncodeResult): EncodeResult {
+function wrapAtom(encoded: EncodedRegex): EncodedRegex {
   if (encoded.precedence === 'atom') {
     return encoded;
   }

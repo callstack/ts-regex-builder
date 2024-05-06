@@ -1,7 +1,7 @@
 /**
  * Encoded regex pattern with information about its type (atom, sequence)
  */
-export interface EncodeResult {
+export interface EncodedRegex {
   precedence: EncodePrecedence;
   pattern: string;
 }

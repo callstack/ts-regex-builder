@@ -1,4 +1,4 @@
-import type { EncodeResult } from '../encoder/types';
+import type { EncodedRegex } from '../encoder/types';
 import type { RegexConstruct } from '../types';
 import type { CharacterEscape } from './char-escape';
 
@@ -60,7 +60,7 @@ export function anyOf(characters: string): CharacterClass {
   };
 }
 
-export function negated(element: CharacterClass | CharacterEscape): EncodeResult {
+export function negated(element: CharacterClass | CharacterEscape): EncodedRegex {
   return encodeCharacterClass.call(element, true);
 }
 
@@ -72,7 +72,7 @@ export const inverted = negated;
 export function encodeCharacterClass(
   this: CharacterClass | CharacterEscape,
   isNegated?: boolean,
-): EncodeResult {
+): EncodedRegex {
   if (!this.chars.length && !this.ranges?.length) {
     throw new Error('Character class should contain at least one character or character range');
   }
