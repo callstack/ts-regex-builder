@@ -2,17 +2,21 @@ import type { CharacterClass, EncodedRegex, RegexElement, RegexSequence } from '
 import { ensureArray } from './utils/elements';
 import { escapeText } from './utils/text';
 
-export function encodeSequence(sequence: RegexSequence): EncodedRegex {
+export function encode(sequence: RegexSequence): EncodedRegex {
   const elements = ensureArray(sequence);
-  const encodedNodes = elements.map((n) => encodeNode(n));
-  return concatEncodedRegexes(encodedNodes);
+  const encodedNodes = elements.map((n) => encodeElement(n));
+  return concat(encodedNodes);
 }
 
-export function encodeAtom(sequence: RegexSequence): EncodedRegex {
-  return wrapAtom(encodeSequence(sequence));
+export function encodePattern(sequence: RegexSequence): string {
+  return encode(sequence).pattern;
 }
 
-function encodeNode(element: RegexElement): EncodedRegex {
+export function encodeAtomicPattern(sequence: RegexSequence): string {
+  return wrapAtom(encode(sequence)).pattern;
+}
+
+function encodeElement(element: RegexElement): EncodedRegex {
   if (typeof element === 'string') {
     return encodeText(element);
   }
@@ -101,7 +105,7 @@ function isAtomicPattern(pattern: string): boolean {
   return false;
 }
 
-function concatEncodedRegexes(encoded: EncodedRegex[]): EncodedRegex {
+function concat(encoded: EncodedRegex[]): EncodedRegex {
   if (encoded.length === 1) {
     return encoded[0]!;
   }

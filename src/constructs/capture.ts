@@ -1,4 +1,4 @@
-import { encodeSequence } from '../encoder';
+import { encodePattern } from '../encoder';
 import type { EncodedRegex } from '../types';
 import type { RegexSequence } from '../types';
 
@@ -23,13 +23,13 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Enco
   if (name) {
     return {
       precedence: 'atom',
-      pattern: `(?<${name}>${encodeSequence(sequence).pattern})`,
+      pattern: `(?<${name}>${encodePattern(sequence)})`,
     };
   }
 
   return {
     precedence: 'atom',
-    pattern: `(${encodeSequence(sequence).pattern})`,
+    pattern: `(${encodePattern(sequence)})`,
   };
 }
 

@@ -1,4 +1,4 @@
-import { encodeAtom } from '../encoder';
+import { encodeAtomicPattern } from '../encoder';
 import { ensureArray } from '../utils/elements';
 import type { EncodedRegex, RegexSequence } from '../types';
 
@@ -11,18 +11,16 @@ export function repeat(sequence: RegexSequence, options: RepeatOptions): Encoded
     throw new Error('`repeat` should receive at least one element');
   }
 
-  const atomicNodes = encodeAtom(sequence);
-
   if (typeof options === 'number') {
     return {
       precedence: 'sequence',
-      pattern: `${atomicNodes.pattern}{${options}}`,
+      pattern: `${encodeAtomicPattern(sequence)}{${options}}`,
     };
   }
 
   return {
     precedence: 'sequence',
-    pattern: `${atomicNodes.pattern}{${options.min},${options?.max ?? ''}}${
+    pattern: `${encodeAtomicPattern(sequence)}{${options.min},${options?.max ?? ''}}${
       options.greedy === false ? '?' : ''
     }`,
   };

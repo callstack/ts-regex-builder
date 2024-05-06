@@ -1,4 +1,4 @@
-import { encodeSequence } from '../encoder';
+import { encodePattern } from '../encoder';
 import type { EncodedRegex, RegexSequence } from '../types';
 
 /**
@@ -18,6 +18,6 @@ import type { EncodedRegex, RegexSequence } from '../types';
 export function lookahead(sequence: RegexSequence): EncodedRegex {
   return {
     precedence: 'atom',
-    pattern: `(?=${encodeSequence(sequence).pattern})`,
+    pattern: `(?=${encodePattern(sequence)})`,
   };
 }
