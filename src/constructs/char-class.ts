@@ -12,14 +12,14 @@ export interface CharacterRange {
 
 export interface CharacterClass extends RegexConstruct {
   type: 'characterClass';
-  chars?: string[];
+  chars: string[];
   ranges?: CharacterRange[];
 }
 
 export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
   return {
     type: 'characterClass',
-    chars: elements.map((c) => c.chars ?? []).flat(),
+    chars: elements.map((c) => c.chars).flat(),
     ranges: elements.map((c) => c.ranges ?? []).flat(),
     encode: encodeCharacterClass,
   };
@@ -40,6 +40,7 @@ export function charRange(start: string, end: string): CharacterClass {
 
   return {
     type: 'characterClass',
+    chars: [],
     ranges: [{ start, end }],
     encode: encodeCharacterClass,
   };
@@ -72,16 +73,16 @@ export function encodeCharacterClass(
   this: CharacterClass | CharacterEscape,
   isNegated?: boolean,
 ): EncodeResult {
-  if (!this.chars?.length && !this.ranges?.length) {
+  if (!this.chars.length && !this.ranges?.length) {
     throw new Error('Character class should contain at least one character or character range');
   }
 
   // If passed characters includes hyphen (`-`) it need to be moved to
   // first (or last) place in order to treat it as hyphen character and not a range.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
-  const hyphen = this.chars?.includes('-') ? '-' : '';
-  const caret = this.chars?.includes('^') ? '^' : '';
-  const otherChars = this.chars?.filter((c) => c !== '-' && c !== '^').join('') ?? '';
+  const hyphen = this.chars.includes('-') ? '-' : '';
+  const caret = this.chars.includes('^') ? '^' : '';
+  const otherChars = this.chars.filter((c) => c !== '-' && c !== '^').join('');
   const ranges = this.ranges?.map(({ start, end }) => `${start}-${end}`).join('') ?? '';
   const negation = isNegated ? '^' : '';
 
