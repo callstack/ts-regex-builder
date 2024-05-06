@@ -13,7 +13,7 @@ function zeroOrMore(
   options?: {
     greedy?: boolean; // default=true
   },
-): ZeroOrMore;
+): RegexConstruct;
 ```
 
 Regex syntax:
@@ -31,7 +31,7 @@ function oneOrMore(
   options?: {
     greedy?: boolean; // default=true
   },
-): OneOrMore;
+): RegexConstruct;
 ```
 
 Regex syntax:
@@ -49,7 +49,7 @@ function optional(
   options?: {
     greedy?: boolean; // default=true
   },
-): Optionally;
+): RegexConstruct;
 ```
 
 Regex syntax:
@@ -71,7 +71,7 @@ function repeat(
         max?: number;
         greedy?: boolean; // default=true
       },
-): Repeat;
+): RegexConstruct;
 ```
 
 Regex syntax:

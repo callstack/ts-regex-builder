@@ -8,9 +8,14 @@ export type ArrayOrSingle<T> = T[] | T;
 export type RegexSequence = RegexElement[] | RegexElement;
 
 /**
- * Fundamental building block of a regular expression, defined as either a regex construct or a string.
+ * Fundamental building block of a regular expression, defined as either a regex construct, `RegExp` object or a string.
  */
-export type RegexElement = EncodedRegex | CharacterClass | string | RegExp;
+export type RegexElement = RegexConstruct | RegExp | string;
+
+/**
+ * Fundamental building block of a regular expression, defined as either an encoded regex or a character class.
+ */
+export type RegexConstruct = EncodedRegex | CharacterClass;
 
 /**
  * Encoded regex pattern with information about its type (atom, sequence)

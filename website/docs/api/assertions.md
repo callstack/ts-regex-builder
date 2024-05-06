@@ -10,8 +10,8 @@ Anchors are special characters or sequences that specify positions in the input 
 ### Start and end of string
 
 ```ts
-const startOfString: Anchor;
-const endOfString: Anchor;
+const startOfString: RegexConstruct;
+const endOfString: RegexConstruct;
 ```
 
 - `startOfString` anchor matches the start of a string (or line, if multiline mode is enabled). Regex syntax: `^`.
@@ -22,8 +22,8 @@ const endOfString: Anchor;
 _This API was added in version 1.3.0._
 
 ```ts
-const wordBoundary: Anchor;
-const nonWordBoundary: Anchor;
+const wordBoundary: RegexConstruct;
+const nonWordBoundary: RegexConstruct;
 ```
 
 - `wordBoundary` matches the positions where a word character is not followed or preceded by another word character, effectively indicating the start or end of a word. Regex syntax: `\b`.
@@ -40,7 +40,7 @@ Lookarounds in regex are used for asserting that some pattern is or isn't follow
 _This API was added in version 1.3.0._
 
 ```ts
-function lookahead(sequence: RegexSequence): Lookahead;
+function lookahead(sequence: RegexSequence): RegexConstruct;
 ```
 
 Regex syntax: `(?=...)`.
@@ -52,7 +52,7 @@ Allows for conditional matching by checking for subsequent patterns in regexes w
 _This API was added in version 1.3.0._
 
 ```ts
-function negativeLookahead(sequence: RegexSequence): NegativeLookahead;
+function negativeLookahead(sequence: RegexSequence): RegexConstruct;
 ```
 
 Regex syntax: `(?!...)`.
@@ -64,7 +64,7 @@ Allows for matches to be rejected if a specified subsequent pattern is present, 
 _This API was added in version 1.3.0._
 
 ```ts
-function lookbehind(sequence: RegexSequence): Lookahead;
+function lookbehind(sequence: RegexSequence): RegexConstruct;
 ```
 
 Regex syntax: `(?<=...)`.
@@ -76,7 +76,7 @@ Allows for conditional matching by checking for preceeding patterns in regexes w
 _This API was added in version 1.3.0._
 
 ```ts
-function negativeLookahead(sequence: RegexSequence): NegativeLookahead;
+function negativeLookahead(sequence: RegexSequence): RegexConstruct;
 ```
 
 Regex syntax: `(?<!...)`.

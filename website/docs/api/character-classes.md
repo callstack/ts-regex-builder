@@ -8,13 +8,13 @@ Character classes are a set of characters that match any one of the characters i
 ### Common character classes
 
 ```ts
-const any: CharacterClass;
-const word: CharacterClass;
-const nonWord: CharacterClass;
-const digit: CharacterClass;
-const nonDigit: CharacterClass;
-const whitespace: CharacterClass;
-const nonWhitespace: CharacterClass;
+const any: RegexConstruct;
+const word: RegexConstruct;
+const nonWord: RegexConstruct;
+const digit: RegexConstruct;
+const nonDigit: RegexConstruct;
+const whitespace: RegexConstruct;
+const nonWhitespace: RegexConstruct;
 ```
 
 - `any` matches any character except newline characters. Regex syntax: `*`.
@@ -71,7 +71,7 @@ Examples:
 ### `negated()`
 
 ```ts
-function negated(element: CharacterClass): CharacterClass;
+function negated(element: CharacterClass): RegexConstruct;
 ```
 
 Regex syntax: `[^...]`.

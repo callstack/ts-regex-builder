@@ -10,7 +10,7 @@ These functions and objects represent available regex constructs.
 ```ts
 function choiceOf(
   ...alternatives: RegexSequence[],
-): ChoiceOf {
+): RegexConstruct {
 ```
 
 Regex syntax: `a|b|c`.
@@ -22,7 +22,7 @@ Example: `choiceOf("color", "colour")` matches either `color` or `colour` patter
 ### `regex()`
 
 ```ts
-function regex(sequence: RegexSequence): Regex;
+function regex(sequence: RegexSequence): RegexConstruct;
 ```
 
 Regex syntax: the pattern remains unchanged when wrapped by this construct.

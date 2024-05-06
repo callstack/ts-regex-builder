@@ -11,7 +11,7 @@ function capture(
   options?: {
     name?: string;
   },
-): Capture;
+): RegexConstruct;
 ```
 
 Regex syntax:
@@ -38,7 +38,7 @@ TS Regex Builder does not have a construct for non-capturing groups. Such groups
 ### `ref()`
 
 ```ts
-function ref(name: string): Reference;
+function ref(name: string): RegexConstruct;
 ```
 
 Regex syntax: `\k<...>`.
