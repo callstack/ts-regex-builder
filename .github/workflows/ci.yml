@@ -7,6 +7,9 @@ on:
     branches:
       - main
 
+permissions:
+  pull-requests: write
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -54,6 +57,11 @@ jobs:
 
       - name: Build package
         run: yarn build
+
+      - name: Calculate Size
+        uses: andresz1/size-limit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   test-website:
     runs-on: ubuntu-latest
