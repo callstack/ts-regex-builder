@@ -1,6 +1,6 @@
-import { encodeSequence } from '../encoder';
+import { encode } from '../encoder';
 import type { EncodedRegex, RegexSequence } from '../types';
 
 export function regex(sequence: RegexSequence): EncodedRegex {
-  return encodeSequence(sequence);
+  return encode(sequence);
 }

@@ -1,11 +1,6 @@
 import type { CharacterClass, EncodedRegex, RegexElement, RegexSequence } from './types';
 
-export function encodeAtomic(sequence: RegexSequence): string {
-  const encoded = encodeSequence(sequence);
-  return encoded.precedence === 'atom' ? encoded.pattern : `(?:${encoded.pattern})`;
-}
-
-export function encodeSequence(sequence: RegexSequence): EncodedRegex {
+export function encode(sequence: RegexSequence): EncodedRegex {
   const elements = Array.isArray(sequence) ? sequence : [sequence];
   const encoded = elements.map((n) => encodeElement(n));
 
@@ -19,6 +14,11 @@ export function encodeSequence(sequence: RegexSequence): EncodedRegex {
       .map((n) => (n.precedence === 'disjunction' ? encodeAtomic(n) : n.pattern))
       .join(''),
   };
+}
+
+export function encodeAtomic(sequence: RegexSequence): string {
+  const encoded = encode(sequence);
+  return encoded.precedence === 'atom' ? encoded.pattern : `(?:${encoded.pattern})`;
 }
 
 function encodeElement(element: RegexElement): EncodedRegex {
