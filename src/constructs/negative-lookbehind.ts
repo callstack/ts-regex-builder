@@ -1,7 +1,6 @@
 import { encodeSequence } from '../encoder/encoder';
 import type { EncodedRegex } from '../encoder/types';
-import { ensureArray } from '../utils/elements';
-import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
+import type { RegexSequence } from '../types';
 
 /**
  * Negative lookbehind assertion.
@@ -17,22 +16,9 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  * // /(?<!abc)/
  * ```
  */
-export interface NegativeLookbehind extends RegexConstruct {
-  type: 'negativeLookbehind';
-  children: RegexElement[];
-}
-
-export function negativeLookbehind(sequence: RegexSequence): NegativeLookbehind {
-  return {
-    type: 'negativeLookbehind',
-    children: ensureArray(sequence),
-    encode: encodeNegativeLookbehind,
-  };
-}
-
-function encodeNegativeLookbehind(this: NegativeLookbehind): EncodedRegex {
+export function negativeLookbehind(sequence: RegexSequence): EncodedRegex {
   return {
     precedence: 'atom',
-    pattern: `(?<!${encodeSequence(this.children).pattern})`,
+    pattern: `(?<!${encodeSequence(sequence).pattern})`,
   };
 }
