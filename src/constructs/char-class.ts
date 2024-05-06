@@ -2,6 +2,10 @@ import { encodeCharClass } from '../encoder';
 import type { CharacterClass, CharacterEscape, EncodedRegex } from '../types';
 
 export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
+  if (!elements.length) {
+    throw new Error('`charClass` should receive at least one element');
+  }
+
   return {
     chars: elements.map((c) => c.chars).flat(),
     ranges: elements.map((c) => c.ranges ?? []).flat(),

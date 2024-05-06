@@ -37,6 +37,12 @@ test('`charClass` joins character escapes', () => {
   expect(charClass(word, nonDigit)).toEqualRegex(/[\w\D]/);
 });
 
+test('`charClass` throws on empty text', () => {
+  expect(() => charClass()).toThrowErrorMatchingInlineSnapshot(
+    `"\`charClass\` should receive at least one element"`,
+  );
+});
+
 test('`charRange` pattern', () => {
   expect(charRange('a', 'z')).toEqualRegex(/[a-z]/);
   expect(['x', charRange('0', '9')]).toEqualRegex(/x[0-9]/);

@@ -75,7 +75,7 @@ test('`buildRegExp` throws error on unknown element', () => {
     // @ts-expect-error intentionally passing incorrect object
     buildRegExp({ type: 'unknown' }),
   ).toThrowErrorMatchingInlineSnapshot(`
-    "\`encodeNode\`: unknown element: {
+    "\`encodeElement\`: unknown element: {
       "type": "unknown"
     }"
   `);

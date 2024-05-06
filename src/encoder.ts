@@ -33,7 +33,7 @@ function encodeElement(element: RegexElement): EncodedRegex {
     return encodeCharClass(element);
   }
 
-  throw new Error(`\`encodeNode\`: unknown element: ${JSON.stringify(element, null, 2)}`);
+  throw new Error(`\`encodeElement\`: unknown element: ${JSON.stringify(element, null, 2)}`);
 }
 
 function encodeText(text: string): EncodedRegex {
