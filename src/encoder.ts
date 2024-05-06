@@ -48,16 +48,9 @@ function encodeText(text: string): EncodedRegex {
     throw new Error('`encodeText`: received text should not be empty');
   }
 
-  // Optimize for single character case
-  if (text.length === 1) {
-    return {
-      precedence: 'atom',
-      pattern: escapeText(text),
-    };
-  }
-
   return {
-    precedence: 'sequence',
+    // Optimize for single character case
+    precedence: text.length === 1 ? 'atom' : 'sequence',
     pattern: escapeText(text),
   };
 }
@@ -65,11 +58,28 @@ function encodeText(text: string): EncodedRegex {
 function encodeRegExp(regexp: RegExp): EncodedRegex {
   const pattern = regexp.source;
 
-  // Encode at safe precedence
   return {
+    // Encode at safe precedence
     precedence: isAtomicPattern(pattern) ? 'atom' : 'disjunction',
     pattern,
   };
+}
+
+// This is intended to catch only some popular atomic patterns like char classes.
+function isAtomicPattern(pattern: string): boolean {
+  if (pattern.length === 1) {
+    return true;
+  }
+
+  if (pattern.startsWith('[') && pattern.endsWith(']') && pattern.match(/[[\]]/g)?.length === 2) {
+    return true;
+  }
+
+  if (pattern.startsWith('(') && pattern.endsWith(')') && pattern.match(/[()]/g)?.length === 2) {
+    return true;
+  }
+
+  return false;
 }
 
 export function encodeCharClass(element: CharacterClass, isNegated?: boolean): EncodedRegex {
@@ -93,23 +103,6 @@ export function encodeCharClass(element: CharacterClass, isNegated?: boolean): E
     precedence: 'atom',
     pattern,
   };
-}
-
-// This is intended to catch only some popular atomic patterns like char classes.
-function isAtomicPattern(pattern: string): boolean {
-  if (pattern.length === 1) {
-    return true;
-  }
-
-  if (pattern.startsWith('[') && pattern.endsWith(']') && pattern.match(/[[\]]/g)?.length === 2) {
-    return true;
-  }
-
-  if (pattern.startsWith('(') && pattern.endsWith(')') && pattern.match(/[()]/g)?.length === 2) {
-    return true;
-  }
-
-  return false;
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
