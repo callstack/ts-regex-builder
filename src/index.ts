@@ -16,14 +16,10 @@ export {
   wordBoundary,
 } from './constructs/anchors';
 export { capture, ref } from './constructs/capture';
+export { anyOf, charClass, charRange, negated, inverted } from './constructs/char-class';
 export {
   any,
-  anyOf,
-  charClass,
-  charRange,
   digit,
-  negated,
-  inverted,
   nonDigit,
   nonWhitespace,
   nonWord,
@@ -32,7 +28,7 @@ export {
   notWord,
   whitespace,
   word,
-} from './constructs/character-class';
+} from './constructs/char-escape';
 export { choiceOf } from './constructs/choice-of';
 export { lookahead } from './constructs/lookahead';
 export { lookbehind } from './constructs/lookbehind';

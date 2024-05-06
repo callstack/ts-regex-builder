@@ -1,7 +1,4 @@
-import { negativeLookahead } from '../negative-lookahead';
-import { oneOrMore, zeroOrMore } from '../quantifiers';
-import { anyOf, digit } from '../character-class';
-import { capture } from '../capture';
+import { anyOf, capture, digit, negativeLookahead, oneOrMore, zeroOrMore } from '../../index';
 
 test('`negativeLookahead` pattern', () => {
   expect(negativeLookahead('a')).toEqualRegex(/(?!a)/);

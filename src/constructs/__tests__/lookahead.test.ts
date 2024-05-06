@@ -1,7 +1,4 @@
-import { capture } from '../capture';
-import { digit, word } from '../character-class';
-import { lookahead } from '../lookahead';
-import { oneOrMore, zeroOrMore } from '../quantifiers';
+import { capture, digit, lookahead, oneOrMore, word, zeroOrMore } from '../../index';
 
 test('`lookahead` pattern', () => {
   expect(lookahead('a')).toEqualRegex(/(?=a)/);
