@@ -1,6 +1,7 @@
 import { buildRegExp } from '../builders';
 import { endOfString, startOfString, wordBoundary } from '../constructs/anchors';
-import { charClass, charRange, digit } from '../constructs/character-class';
+import { charClass, charRange } from '../constructs/char-class';
+import { digit } from '../constructs/char-escape';
 import { choiceOf } from '../constructs/choice-of';
 import { repeat } from '../constructs/repeat';
 

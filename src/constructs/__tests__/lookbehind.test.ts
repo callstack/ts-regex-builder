@@ -1,6 +1,4 @@
-import { anyOf, digit, whitespace, word } from '../character-class';
-import { lookbehind } from '../lookbehind';
-import { oneOrMore, zeroOrMore } from '../quantifiers';
+import { anyOf, digit, lookbehind, oneOrMore, whitespace, word, zeroOrMore } from '../../index';
 
 test('`lookbehind` pattern', () => {
   expect(lookbehind('a')).toEqualRegex(/(?<=a)/);
