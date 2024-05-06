@@ -13,12 +13,8 @@ import type { CharacterEscape } from '../types';
  * @returns A character class representing the unicode escape.
  */
 export function unicodeChar(codePoint: number): CharacterEscape {
-  if (!Number.isInteger(codePoint)) {
-    throw new TypeError('Expected an integer code point but got: ' + codePoint);
-  }
-
-  if (codePoint < 0) {
-    throw new RangeError('Code point must be a positive integer but got: ' + codePoint);
+  if (!Number.isInteger(codePoint) || codePoint < 0 || codePoint > 0x10ffff) {
+    throw new RangeError('"unicodeChar": expected valid unicode code point but got: ' + codePoint);
   }
 
   let escape =

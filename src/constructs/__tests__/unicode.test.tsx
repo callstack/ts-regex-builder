@@ -81,6 +81,23 @@ test('`unicodeChar` nesting matching', () => {
   ).not.toMatchString('b');
 });
 
+test('`unicodeChar` edge cases handling', () => {
+  expect(() => u(unicodeChar(NaN))).toThrowErrorMatchingInlineSnapshot(
+    `""unicodeChar": expected valid unicode code point but got: NaN"`,
+  );
+  expect(() => u(unicodeChar(1.5))).toThrowErrorMatchingInlineSnapshot(
+    `""unicodeChar": expected valid unicode code point but got: 1.5"`,
+  );
+  expect(() => u(unicodeChar(-1))).toThrowErrorMatchingInlineSnapshot(
+    `""unicodeChar": expected valid unicode code point but got: -1"`,
+  );
+  expect(() => u(unicodeChar(0x110000))).toThrowErrorMatchingInlineSnapshot(
+    `""unicodeChar": expected valid unicode code point but got: 1114112"`,
+  );
+
+  expect(u(unicodeChar(0x10ffff))).toEqualRegex(/\u{10ffff}/u);
+});
+
 test('`unicodeProp` pattern', () => {
   expect(unicodeProp('General_Category', 'Letter')).toEqualRegex(/\p{General_Category=Letter}/);
   expect(unicodeProp('Letter')).toEqualRegex(/\p{Letter}/);
