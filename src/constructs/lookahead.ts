@@ -1,6 +1,5 @@
-import { encodeSequence } from '../encoder/encoder';
-import type { EncodedRegex } from '../encoder/types';
-import type { RegexSequence } from '../types';
+import { encodeSequence } from '../encoder';
+import type { EncodedRegex, RegexSequence } from '../types';
 
 /**
  * Positive lookahead assertion.

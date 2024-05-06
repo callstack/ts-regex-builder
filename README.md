@@ -63,7 +63,7 @@ TS Regex Builder allows you to build complex regular expressions using domain-sp
 
 Terminology:
 
-- regex construct (`RegexConstruct`) - common name for all regex constructs like character classes, quantifiers, and anchors.
+- regex construct - common name for all regex constructs like character classes, quantifiers, and anchors.
 - regex element (`RegexElement`) - a fundamental building block of a regular expression, defined as either a regex construct, a string, or `RegExp` literal (`/.../`).
 - regex sequence (`RegexSequence`) - a sequence of regex elements forming a regular expression. For developer convenience, it also accepts a single element instead of an array.
 

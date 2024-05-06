@@ -1,7 +1,6 @@
-import type { RegexElement, RegexSequence } from '../types';
-import { ensureArray } from '../utils/elements';
-import { escapeText } from '../utils/text';
-import type { EncodedRegex } from './types';
+import type { CharacterClass, EncodedRegex, RegexElement, RegexSequence } from './types';
+import { ensureArray } from './utils/elements';
+import { escapeText } from './utils/text';
 
 export function encodeSequence(sequence: RegexSequence): EncodedRegex {
   const elements = ensureArray(sequence);
@@ -26,11 +25,11 @@ function encodeNode(element: RegexElement): EncodedRegex {
     return element;
   }
 
-  if (typeof element === 'object' && typeof element.encode !== 'function') {
-    throw new Error(`\`encodeNode\`: unknown element type ${element.type}`);
+  if (typeof element === 'object' && 'chars' in element) {
+    return encodeCharClass(element);
   }
 
-  return element.encode();
+  throw new Error(`\`encodeNode\`: unknown element: ${JSON.stringify(element, null, 2)}`);
 }
 
 function encodeText(text: string): EncodedRegex {
@@ -58,6 +57,29 @@ function encodeRegExp(regexp: RegExp): EncodedRegex {
   // Encode at safe precedence
   return {
     precedence: isAtomicPattern(pattern) ? 'atom' : 'disjunction',
+    pattern,
+  };
+}
+
+export function encodeCharClass(element: CharacterClass, isNegated?: boolean): EncodedRegex {
+  if (!element.chars.length && !element.ranges?.length) {
+    throw new Error('Character class should contain at least one character or character range');
+  }
+
+  // If passed characters includes hyphen (`-`) it need to be moved to
+  // first (or last) place in order to treat it as hyphen character and not a range.
+  // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
+  const hyphen = element.chars.includes('-') ? '-' : '';
+  const caret = element.chars.includes('^') ? '^' : '';
+  const otherChars = element.chars.filter((c) => c !== '-' && c !== '^').join('');
+  const ranges = element.ranges?.map(({ start, end }) => `${start}-${end}`).join('') ?? '';
+  const negation = isNegated ? '^' : '';
+
+  let pattern = `[${negation}${ranges}${otherChars}${caret}${hyphen}]`;
+  if (pattern === '[^-]') pattern = '[\\^-]';
+
+  return {
+    precedence: 'atom',
     pattern,
   };
 }

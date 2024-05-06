@@ -1,6 +1,5 @@
-import { encodeSequence } from '../encoder/encoder';
-import type { EncodedRegex } from '../encoder/types';
-import type { RegexSequence } from '../types';
+import { encodeSequence } from '../encoder';
+import type { EncodedRegex, RegexSequence } from '../types';
 
 export function choiceOf(...alternatives: RegexSequence[]): EncodedRegex {
   if (alternatives.length === 0) {

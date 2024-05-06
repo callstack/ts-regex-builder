@@ -1,5 +1,5 @@
-import { encodeSequence } from '../encoder/encoder';
-import type { EncodedRegex } from '../encoder/types';
+import { encodeSequence } from '../encoder';
+import type { EncodedRegex } from '../types';
 import type { RegexSequence } from '../types';
 
 export type CaptureOptions = {

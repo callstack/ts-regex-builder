@@ -1,12 +1,4 @@
-import type { EncodedRegex } from '../encoder/types';
-
-export interface CharacterEscape extends EncodedRegex {
-  kind: 'escape';
-
-  // `CharacterClass` compatibility
-  chars: string[];
-  ranges?: never;
-}
+import type { CharacterEscape, EncodedRegex } from '../types';
 
 /**
  * Matches any single character.
@@ -21,42 +13,36 @@ export const digit: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\d',
   chars: ['\\d'],
-  kind: 'escape',
 };
 
 export const nonDigit: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\D',
   chars: ['\\D'],
-  kind: 'escape',
 };
 
 export const word: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\w',
   chars: ['\\w'],
-  kind: 'escape',
 };
 
 export const nonWord: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\W',
   chars: ['\\W'],
-  kind: 'escape',
 };
 
 export const whitespace: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\s',
   chars: ['\\s'],
-  kind: 'escape',
 };
 
 export const nonWhitespace: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\S',
   chars: ['\\S'],
-  kind: 'escape',
 };
 
 /**

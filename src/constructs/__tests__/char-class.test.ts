@@ -115,16 +115,7 @@ test('`negated` character class matching', () => {
 });
 
 test('`encodeCharacterClass` throws on empty text', () => {
-  expect(() =>
-    buildRegExp(
-      // @ts-expect-error
-      negated({
-        type: 'characterClass',
-        chars: [],
-        ranges: [],
-      }),
-    ),
-  ).toThrowErrorMatchingInlineSnapshot(
+  expect(() => buildRegExp(negated({ chars: [], ranges: [] }))).toThrowErrorMatchingInlineSnapshot(
     `"Character class should contain at least one character or character range"`,
   );
 });

@@ -1,6 +1,5 @@
-import { encodeAtom } from '../encoder/encoder';
-import type { EncodedRegex } from '../encoder/types';
-import type { RegexSequence } from '../types';
+import { encodeAtom } from '../encoder';
+import type { EncodedRegex, RegexSequence } from '../types';
 
 export interface QuantifierOptions {
   greedy?: boolean;

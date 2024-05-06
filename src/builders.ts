@@ -1,5 +1,5 @@
 import type { RegexFlags, RegexSequence } from './types';
-import { encodeSequence } from './encoder/encoder';
+import { encodeSequence } from './encoder';
 import { ensureArray } from './utils/elements';
 
 /**

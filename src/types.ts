@@ -1,5 +1,3 @@
-import type { EncodedRegex } from './encoder/types';
-
 export type ArrayOrSingle<T> = T[] | T;
 
 /**
@@ -12,13 +10,32 @@ export type RegexSequence = RegexElement[] | RegexElement;
 /**
  * Fundamental building block of a regular expression, defined as either a regex construct or a string.
  */
-export type RegexElement = RegexConstruct | EncodedRegex | string | RegExp;
+export type RegexElement = EncodedRegex | CharacterClass | string | RegExp;
 
 /**
- * Common interface for all regex constructs like character classes, quantifiers, and anchors.
+ * Encoded regex pattern with information about its type (atom, sequence)
  */
-export interface RegexConstruct {
-  encode(): EncodedRegex;
+export interface EncodedRegex {
+  precedence: EncodePrecedence;
+  pattern: string;
+}
+
+export type EncodePrecedence = 'atom' | 'sequence' | 'disjunction';
+
+export interface CharacterEscape extends EncodedRegex {
+  // `CharacterClass` compatibility
+  chars: string[];
+  ranges?: never;
+}
+
+export interface CharacterClass {
+  chars: string[];
+  ranges?: CharacterRange[];
+}
+
+export interface CharacterRange {
+  start: string;
+  end: string;
 }
 
 /**

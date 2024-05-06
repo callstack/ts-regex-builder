@@ -1,7 +1,6 @@
-import { encodeAtom } from '../encoder/encoder';
-import type { EncodedRegex } from '../encoder/types';
+import { encodeAtom } from '../encoder';
 import { ensureArray } from '../utils/elements';
-import type { RegexSequence } from '../types';
+import type { EncodedRegex, RegexSequence } from '../types';
 
 export type RepeatOptions = number | { min: number; max?: number; greedy?: boolean };
 

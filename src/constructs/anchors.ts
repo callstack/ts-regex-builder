@@ -1,4 +1,4 @@
-import type { EncodedRegex } from '../encoder/types';
+import type { EncodedRegex } from '../types';
 
 export const startOfString: EncodedRegex = {
   precedence: 'atom',
