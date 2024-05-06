@@ -22,12 +22,6 @@ test('`charClass` base cases', () => {
   expect(charClass(charRange('a', 'z'), whitespace, anyOf('05'))).toEqualRegex(/[a-z\s05]/);
 });
 
-test('`charClass` throws on negated arguments', () => {
-  expect(() => charClass(negated(whitespace))).toThrowErrorMatchingInlineSnapshot(
-    `"\`charClass\` should receive only non-negated character classes"`,
-  );
-});
-
 test('`charClass` joins character escapes', () => {
   expect(charClass(word)).toEqualRegex(/[\w]/);
   expect(charClass(digit)).toEqualRegex(/[\d]/);
@@ -115,11 +109,6 @@ test('`negated` character class pattern', () => {
   expect(negated(anyOf('abc'))).toEqualRegex(/[^abc]/);
 });
 
-test('`negated` character class pattern double inversion', () => {
-  expect(negated(negated(anyOf('a')))).toEqualRegex(/[a]/);
-  expect(negated(negated(anyOf('abc')))).toEqualRegex(/[abc]/);
-});
-
 test('`negated` character class matching', () => {
   expect(negated(anyOf('a'))).not.toMatchString('aa');
   expect(negated(anyOf('a'))).toMatchGroups('aba', ['b']);
@@ -133,7 +122,6 @@ test('`encodeCharacterClass` throws on empty text', () => {
         type: 'characterClass',
         chars: [],
         ranges: [],
-        isNegated: false,
       }),
     ),
   ).toThrowErrorMatchingInlineSnapshot(

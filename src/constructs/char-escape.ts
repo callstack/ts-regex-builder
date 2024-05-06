@@ -2,9 +2,10 @@ import type { EncodeResult } from '../encoder/types';
 
 export interface CharacterEscape extends EncodeResult {
   kind: 'escape';
+
+  // `CharacterClass` compatibility
   chars: string[];
-  ranges?: undefined;
-  isNegated?: undefined;
+  ranges?: never;
 }
 
 /**

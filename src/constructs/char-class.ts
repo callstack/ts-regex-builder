@@ -14,14 +14,9 @@ export interface CharacterClass extends RegexConstruct {
   type: 'characterClass';
   chars?: string[];
   ranges?: CharacterRange[];
-  isNegated?: boolean;
 }
 
 export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
-  if (elements.some((e) => e.isNegated)) {
-    throw new Error('`charClass` should receive only non-negated character classes');
-  }
-
   return {
     type: 'characterClass',
     chars: elements.map((c) => c.chars ?? []).flat(),
@@ -64,14 +59,8 @@ export function anyOf(characters: string): CharacterClass {
   };
 }
 
-export function negated(element: CharacterClass | CharacterEscape): CharacterClass {
-  return {
-    type: 'characterClass',
-    chars: element.chars,
-    ranges: element.ranges,
-    isNegated: !element.isNegated,
-    encode: encodeCharacterClass,
-  };
+export function negated(element: CharacterClass | CharacterEscape): EncodeResult {
+  return encodeCharacterClass.call(element, true);
 }
 
 /**
@@ -79,7 +68,10 @@ export function negated(element: CharacterClass | CharacterEscape): CharacterCla
  */
 export const inverted = negated;
 
-export function encodeCharacterClass(this: CharacterClass): EncodeResult {
+export function encodeCharacterClass(
+  this: CharacterClass | CharacterEscape,
+  isNegated?: boolean,
+): EncodeResult {
   if (!this.chars?.length && !this.ranges?.length) {
     throw new Error('Character class should contain at least one character or character range');
   }
@@ -91,7 +83,7 @@ export function encodeCharacterClass(this: CharacterClass): EncodeResult {
   const caret = this.chars?.includes('^') ? '^' : '';
   const otherChars = this.chars?.filter((c) => c !== '-' && c !== '^').join('') ?? '';
   const ranges = this.ranges?.map(({ start, end }) => `${start}-${end}`).join('') ?? '';
-  const negation = this.isNegated ? '^' : '';
+  const negation = isNegated ? '^' : '';
 
   let pattern = `[${negation}${ranges}${otherChars}${caret}${hyphen}]`;
   if (pattern === '[^-]') pattern = '[\\^-]';
