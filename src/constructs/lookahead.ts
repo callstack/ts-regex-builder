@@ -1,7 +1,5 @@
-import { encodeSequence } from '../encoder/encoder';
-import type { EncodeResult } from '../encoder/types';
-import { ensureArray } from '../utils/elements';
-import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
+import { encode } from '../encoder';
+import type { EncodedRegex, RegexSequence } from '../types';
 
 /**
  * Positive lookahead assertion.
@@ -17,22 +15,9 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  * // /(?=abc)/
  * ```
  */
-export interface Lookahead extends RegexConstruct {
-  type: 'lookahead';
-  children: RegexElement[];
-}
-
-export function lookahead(sequence: RegexSequence): Lookahead {
-  return {
-    type: 'lookahead',
-    children: ensureArray(sequence),
-    encode: encodeLookahead,
-  };
-}
-
-function encodeLookahead(this: Lookahead): EncodeResult {
+export function lookahead(sequence: RegexSequence): EncodedRegex {
   return {
     precedence: 'atom',
-    pattern: `(?=${encodeSequence(this.children).pattern})`,
+    pattern: `(?=${encode(sequence).pattern})`,
   };
 }

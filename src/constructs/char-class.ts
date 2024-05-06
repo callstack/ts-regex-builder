@@ -1,27 +1,14 @@
-import type { EncodeResult } from '../encoder/types';
-import type { RegexConstruct } from '../types';
-import type { CharacterEscape } from './char-escape';
-
-/**
- * Character range from start to end (inclusive).
- */
-export interface CharacterRange {
-  start: string;
-  end: string;
-}
-
-export interface CharacterClass extends RegexConstruct {
-  type: 'characterClass';
-  chars: string[];
-  ranges?: CharacterRange[];
-}
+import { encodeCharClass } from '../encoder';
+import type { CharacterClass, CharacterEscape, EncodedRegex } from '../types';
 
 export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
+  if (!elements.length) {
+    throw new Error('`charClass` should receive at least one element');
+  }
+
   return {
-    type: 'characterClass',
     chars: elements.map((c) => c.chars).flat(),
     ranges: elements.map((c) => c.ranges ?? []).flat(),
-    encode: encodeCharacterClass,
   };
 }
 
@@ -39,10 +26,8 @@ export function charRange(start: string, end: string): CharacterClass {
   }
 
   return {
-    type: 'characterClass',
     chars: [],
     ranges: [{ start, end }],
-    encode: encodeCharacterClass,
   };
 }
 
@@ -54,46 +39,18 @@ export function anyOf(characters: string): CharacterClass {
   }
 
   return {
-    type: 'characterClass',
     chars,
-    encode: encodeCharacterClass,
   };
 }
 
-export function negated(element: CharacterClass | CharacterEscape): EncodeResult {
-  return encodeCharacterClass.call(element, true);
+export function negated(element: CharacterClass | CharacterEscape): EncodedRegex {
+  return encodeCharClass(element, true);
 }
 
 /**
  * @deprecated Renamed to `negated`.
  */
 export const inverted = negated;
-
-export function encodeCharacterClass(
-  this: CharacterClass | CharacterEscape,
-  isNegated?: boolean,
-): EncodeResult {
-  if (!this.chars.length && !this.ranges?.length) {
-    throw new Error('Character class should contain at least one character or character range');
-  }
-
-  // If passed characters includes hyphen (`-`) it need to be moved to
-  // first (or last) place in order to treat it as hyphen character and not a range.
-  // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
-  const hyphen = this.chars.includes('-') ? '-' : '';
-  const caret = this.chars.includes('^') ? '^' : '';
-  const otherChars = this.chars.filter((c) => c !== '-' && c !== '^').join('');
-  const ranges = this.ranges?.map(({ start, end }) => `${start}-${end}`).join('') ?? '';
-  const negation = isNegated ? '^' : '';
-
-  let pattern = `[${negation}${ranges}${otherChars}${caret}${hyphen}]`;
-  if (pattern === '[^-]') pattern = '[\\^-]';
-
-  return {
-    precedence: 'atom',
-    pattern,
-  };
-}
 
 function escapeForCharacterClass(text: string): string {
   return text.replace(/[\]\\]/g, '\\$&'); // $& means the whole matched string

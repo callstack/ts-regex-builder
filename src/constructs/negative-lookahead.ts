@@ -1,7 +1,5 @@
-import { encodeSequence } from '../encoder/encoder';
-import type { EncodeResult } from '../encoder/types';
-import { ensureArray } from '../utils/elements';
-import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
+import { encode } from '../encoder';
+import type { EncodedRegex, RegexSequence } from '../types';
 
 /**
  * Negative lookahead assertion.
@@ -17,22 +15,9 @@ import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
  * // /(?=abc)/
  * ```
  */
-export interface NegativeLookahead extends RegexConstruct {
-  type: 'negativeLookahead';
-  children: RegexElement[];
-}
-
-export function negativeLookahead(sequence: RegexSequence): NegativeLookahead {
-  return {
-    type: 'negativeLookahead',
-    children: ensureArray(sequence),
-    encode: encodeNegativeLookahead,
-  };
-}
-
-function encodeNegativeLookahead(this: NegativeLookahead): EncodeResult {
+export function negativeLookahead(sequence: RegexSequence): EncodedRegex {
   return {
     precedence: 'atom',
-    pattern: `(?!${encodeSequence(this.children).pattern})`,
+    pattern: `(?!${encode(sequence).pattern})`,
   };
 }

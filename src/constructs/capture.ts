@@ -1,13 +1,5 @@
-import { encodeSequence } from '../encoder/encoder';
-import type { EncodeResult } from '../encoder/types';
-import { ensureArray } from '../utils/elements';
-import type { RegexConstruct, RegexElement, RegexSequence } from '../types';
-
-export interface Capture extends RegexConstruct {
-  type: 'capture';
-  children: RegexElement[];
-  options?: CaptureOptions;
-}
+import { encode } from '../encoder';
+import type { EncodedRegex, RegexSequence } from '../types';
 
 export type CaptureOptions = {
   /**
@@ -16,8 +8,7 @@ export type CaptureOptions = {
   name?: string;
 };
 
-export interface Reference extends RegexConstruct {
-  type: 'reference';
+export interface Reference extends EncodedRegex {
   name: string;
 }
 
@@ -26,12 +17,18 @@ export interface Reference extends RegexConstruct {
  * - in the match results (`String.match`, `String.matchAll`, or `RegExp.exec`)
  * - in the regex itself, through {@link ref}
  */
-export function capture(sequence: RegexSequence, options?: CaptureOptions): Capture {
+export function capture(sequence: RegexSequence, options?: CaptureOptions): EncodedRegex {
+  const name = options?.name;
+  if (name) {
+    return {
+      precedence: 'atom',
+      pattern: `(?<${name}>${encode(sequence).pattern})`,
+    };
+  }
+
   return {
-    type: 'capture',
-    children: ensureArray(sequence),
-    options,
-    encode: encodeCapture,
+    precedence: 'atom',
+    pattern: `(${encode(sequence).pattern})`,
   };
 }
 
@@ -46,30 +43,8 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Capt
  */
 export function ref(name: string): Reference {
   return {
-    type: 'reference',
+    precedence: 'atom',
+    pattern: `\\k<${name}>`,
     name,
-    encode: encodeReference,
-  };
-}
-
-function encodeCapture(this: Capture): EncodeResult {
-  const name = this.options?.name;
-  if (name) {
-    return {
-      precedence: 'atom',
-      pattern: `(?<${name}>${encodeSequence(this.children).pattern})`,
-    };
-  }
-
-  return {
-    precedence: 'atom',
-    pattern: `(${encodeSequence(this.children).pattern})`,
-  };
-}
-
-function encodeReference(this: Reference): EncodeResult {
-  return {
-    precedence: 'atom',
-    pattern: `\\k<${this.name}>`,
   };
 }

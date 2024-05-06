@@ -37,6 +37,12 @@ test('`charClass` joins character escapes', () => {
   expect(charClass(word, nonDigit)).toEqualRegex(/[\w\D]/);
 });
 
+test('`charClass` throws on empty text', () => {
+  expect(() => charClass()).toThrowErrorMatchingInlineSnapshot(
+    `"\`charClass\` should receive at least one element"`,
+  );
+});
+
 test('`charRange` pattern', () => {
   expect(charRange('a', 'z')).toEqualRegex(/[a-z]/);
   expect(['x', charRange('0', '9')]).toEqualRegex(/x[0-9]/);
@@ -115,16 +121,7 @@ test('`negated` character class matching', () => {
 });
 
 test('`encodeCharacterClass` throws on empty text', () => {
-  expect(() =>
-    buildRegExp(
-      // @ts-expect-error
-      negated({
-        type: 'characterClass',
-        chars: [],
-        ranges: [],
-      }),
-    ),
-  ).toThrowErrorMatchingInlineSnapshot(
+  expect(() => buildRegExp(negated({ chars: [], ranges: [] }))).toThrowErrorMatchingInlineSnapshot(
     `"Character class should contain at least one character or character range"`,
   );
 });

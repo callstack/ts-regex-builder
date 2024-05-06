@@ -5,19 +5,19 @@ title: Character Classes
 
 Character classes are a set of characters that match any one of the characters in the set.
 
-### Common character classes
+### Common character class escapes
 
 ```ts
-const any: CharacterClass;
-const word: CharacterClass;
-const nonWord: CharacterClass;
-const digit: CharacterClass;
-const nonDigit: CharacterClass;
-const whitespace: CharacterClass;
-const nonWhitespace: CharacterClass;
+const any: RegexConstruct;
+const word: CharacterEscape;
+const nonWord: CharacterEscape;
+const digit: CharacterEscape;
+const nonDigit: CharacterEscape;
+const whitespace: CharacterEscape;
+const nonWhitespace: CharacterEscape;
 ```
 
-- `any` matches any character except newline characters. Regex syntax: `*`.
+- `any` matches any character except newline characters. Regex syntax: `.`.
 - `word` matches any word character (letters, digits & underscore). Regex syntax: `\w`.
 - `nonWord` matches any character **except** word characters (letters, digits & underscore). Regex syntax: `\W`.
 - `digit` matches any digit. Regex syntax: `\d`.
@@ -71,7 +71,7 @@ Examples:
 ### `negated()`
 
 ```ts
-function negated(element: CharacterClass): CharacterClass;
+function negated(element: CharacterClass): RegexConstruct;
 ```
 
 Regex syntax: `[^...]`.
