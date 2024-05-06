@@ -1,12 +1,12 @@
 import { any, digit, nonDigit, nonWhitespace, nonWord, whitespace, word } from '../..';
 
-test('`any` character class', () => {
+test('`any` character escape', () => {
   expect(any).toEqualRegex(/./);
   expect(['x', any]).toEqualRegex(/x./);
   expect(['x', any, 'x']).toEqualRegex(/x.x/);
 });
 
-test('`digit` character class', () => {
+test('`digit` character escape', () => {
   expect(digit).toEqualRegex(/\d/);
   expect(['x', digit]).toEqualRegex(/x\d/);
   expect(['x', digit, 'x']).toEqualRegex(/x\dx/);
@@ -14,7 +14,7 @@ test('`digit` character class', () => {
   expect(digit).not.toMatchString('A');
 });
 
-test('`nonDigit` character class', () => {
+test('`nonDigit` character escape', () => {
   expect(nonDigit).toEqualRegex(/\D/);
   expect(['x', nonDigit]).toEqualRegex(/x\D/);
   expect(['x', nonDigit, 'x']).toEqualRegex(/x\Dx/);
@@ -22,7 +22,7 @@ test('`nonDigit` character class', () => {
   expect(nonDigit).toMatchString('A');
 });
 
-test('`word` character class', () => {
+test('`word` character escape', () => {
   expect(word).toEqualRegex(/\w/);
   expect(['x', word]).toEqualRegex(/x\w/);
   expect(['x', word, 'x']).toEqualRegex(/x\wx/);
@@ -31,7 +31,7 @@ test('`word` character class', () => {
   expect(word).not.toMatchString('$');
 });
 
-test('`nonWord` character class', () => {
+test('`nonWord` character escape', () => {
   expect(nonWord).toEqualRegex(/\W/);
   expect(['x', nonWord]).toEqualRegex(/x\W/);
   expect(['x', nonWord, 'x']).toEqualRegex(/x\Wx/);
@@ -40,7 +40,7 @@ test('`nonWord` character class', () => {
   expect(nonWord).toMatchString('$');
 });
 
-test('`whitespace` character class', () => {
+test('`whitespace` character escape', () => {
   expect(whitespace).toEqualRegex(/\s/);
   expect(['x', whitespace]).toEqualRegex(/x\s/);
   expect(['x', whitespace, 'x']).toEqualRegex(/x\sx/);
@@ -50,7 +50,7 @@ test('`whitespace` character class', () => {
   expect(whitespace).not.toMatchString('1');
 });
 
-test('`nonWhitespace` character class', () => {
+test('`nonWhitespace` character escape', () => {
   expect(nonWhitespace).toEqualRegex(/\S/);
   expect(['x', nonWhitespace]).toEqualRegex(/x\S/);
   expect(['x', nonWhitespace, 'x']).toEqualRegex(/x\Sx/);
