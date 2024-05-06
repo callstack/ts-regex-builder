@@ -2,5 +2,9 @@
   {
     "path": "dist/esm/index.mjs",
     "limit": "2 kB"
+  },
+  {
+    "path": "dist/esm/patterns/index.mjs",
+    "limit": "3 kB"
   }
 ]
