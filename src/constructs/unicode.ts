@@ -1,4 +1,4 @@
-import { type CharacterClass, encodeCharacterClass } from './character-class';
+import type { CharacterEscape } from '../types';
 
 /**
  * Unicode character escape.
@@ -12,7 +12,7 @@ import { type CharacterClass, encodeCharacterClass } from './character-class';
  * @param codePoint The code point of the character to escape.
  * @returns A character class representing the unicode escape.
  */
-export function unicodeChar(codePoint: number): CharacterClass {
+export function unicodeChar(codePoint: number): CharacterEscape {
   if (!Number.isInteger(codePoint)) {
     throw new TypeError('Expected an integer code point but got: ' + codePoint);
   }
@@ -27,9 +27,9 @@ export function unicodeChar(codePoint: number): CharacterClass {
       : `\\u{${codePoint.toString(16)}}`; // 1-6 digit hex (requires unicode-aware mode)
 
   return {
-    type: 'characterClass',
-    escape,
-    encode: encodeCharacterClass,
+    precedence: 'atom',
+    pattern: escape,
+    chars: [escape],
   };
 }
 
@@ -43,10 +43,12 @@ export function unicodeChar(codePoint: number): CharacterClass {
  * @param value Unicode property value (optional).
  * @returns A character class representing the unicode property escape.
  */
-export function unicodeProp(prop: string, value?: string): CharacterClass {
+export function unicodeProp(prop: string, value?: string): CharacterEscape {
+  const escape = `\\p{${prop}${value ? `=${value}` : ''}}`;
+
   return {
-    type: 'characterClass',
-    escape: `\\p{${prop}${value ? `=${value}` : ''}}`,
-    encode: encodeCharacterClass,
+    precedence: 'atom',
+    pattern: escape,
+    chars: [escape],
   };
 }
