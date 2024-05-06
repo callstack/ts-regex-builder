@@ -11,14 +11,12 @@ export interface CharacterRange {
 }
 
 export interface CharacterClass extends RegexConstruct {
-  type: 'characterClass';
   chars: string[];
   ranges?: CharacterRange[];
 }
 
 export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
   return {
-    type: 'characterClass',
     chars: elements.map((c) => c.chars).flat(),
     ranges: elements.map((c) => c.ranges ?? []).flat(),
     encode: encodeCharacterClass,
@@ -39,7 +37,6 @@ export function charRange(start: string, end: string): CharacterClass {
   }
 
   return {
-    type: 'characterClass',
     chars: [],
     ranges: [{ start, end }],
     encode: encodeCharacterClass,
@@ -54,7 +51,6 @@ export function anyOf(characters: string): CharacterClass {
   }
 
   return {
-    type: 'characterClass',
     chars,
     encode: encodeCharacterClass,
   };
