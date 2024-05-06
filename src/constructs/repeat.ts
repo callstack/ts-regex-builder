@@ -6,7 +6,6 @@ export type RepeatOptions = number | { min: number; max?: number; greedy?: boole
 
 export function repeat(sequence: RegexSequence, options: RepeatOptions): EncodedRegex {
   const children = ensureArray(sequence);
-
   if (children.length === 0) {
     throw new Error('`repeat` should receive at least one element');
   }
@@ -14,13 +13,13 @@ export function repeat(sequence: RegexSequence, options: RepeatOptions): Encoded
   if (typeof options === 'number') {
     return {
       precedence: 'sequence',
-      pattern: `${encodeAtomicPattern(sequence)}{${options}}`,
+      pattern: `${encodeAtomicPattern(children)}{${options}}`,
     };
   }
 
   return {
     precedence: 'sequence',
-    pattern: `${encodeAtomicPattern(sequence)}{${options.min},${options?.max ?? ''}}${
+    pattern: `${encodeAtomicPattern(children)}{${options.min},${options?.max ?? ''}}${
       options.greedy === false ? '?' : ''
     }`,
   };

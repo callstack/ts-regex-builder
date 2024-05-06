@@ -4,8 +4,18 @@ import { escapeText } from './utils/text';
 
 export function encode(sequence: RegexSequence): EncodedRegex {
   const elements = ensureArray(sequence);
-  const encodedNodes = elements.map((n) => encodeElement(n));
-  return concat(encodedNodes);
+  const encoded = elements.map((n) => encodeElement(n));
+
+  if (encoded.length === 1) {
+    return encoded[0]!;
+  }
+
+  return {
+    precedence: 'sequence',
+    pattern: encoded
+      .map((n) => (n.precedence === 'disjunction' ? encodeAtomicPattern(n) : n.pattern))
+      .join(''),
+  };
 }
 
 export function encodePattern(sequence: RegexSequence): string {
@@ -13,7 +23,12 @@ export function encodePattern(sequence: RegexSequence): string {
 }
 
 export function encodeAtomicPattern(sequence: RegexSequence): string {
-  return wrapAtom(encode(sequence)).pattern;
+  const encoded = encode(sequence);
+  if (encoded.precedence === 'atom') {
+    return encoded.pattern;
+  }
+
+  return `(?:${encoded.pattern})`;
 }
 
 function encodeElement(element: RegexElement): EncodedRegex {
@@ -103,28 +118,4 @@ function isAtomicPattern(pattern: string): boolean {
   }
 
   return false;
-}
-
-function concat(encoded: EncodedRegex[]): EncodedRegex {
-  if (encoded.length === 1) {
-    return encoded[0]!;
-  }
-
-  return {
-    precedence: 'sequence',
-    pattern: encoded
-      .map((n) => (n.precedence === 'disjunction' ? wrapAtom(n) : n).pattern)
-      .join(''),
-  };
-}
-
-function wrapAtom(encoded: EncodedRegex): EncodedRegex {
-  if (encoded.precedence === 'atom') {
-    return encoded;
-  }
-
-  return {
-    precedence: 'atom',
-    pattern: `(?:${encoded.pattern})`,
-  };
 }

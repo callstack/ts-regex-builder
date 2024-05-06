@@ -5,19 +5,19 @@ title: Character Classes
 
 Character classes are a set of characters that match any one of the characters in the set.
 
-### Common character classes
+### Common character class escapes
 
 ```ts
 const any: RegexConstruct;
-const word: RegexConstruct;
-const nonWord: RegexConstruct;
-const digit: RegexConstruct;
-const nonDigit: RegexConstruct;
-const whitespace: RegexConstruct;
-const nonWhitespace: RegexConstruct;
+const word: CharacterEscape;
+const nonWord: CharacterEscape;
+const digit: CharacterEscape;
+const nonDigit: CharacterEscape;
+const whitespace: CharacterEscape;
+const nonWhitespace: CharacterEscape;
 ```
 
-- `any` matches any character except newline characters. Regex syntax: `*`.
+- `any` matches any character except newline characters. Regex syntax: `.`.
 - `word` matches any word character (letters, digits & underscore). Regex syntax: `\w`.
 - `nonWord` matches any character **except** word characters (letters, digits & underscore). Regex syntax: `\W`.
 - `digit` matches any digit. Regex syntax: `\d`.
