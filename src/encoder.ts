@@ -5,7 +5,7 @@ import { escapeText } from './utils/text';
 export function encodeSequence(sequence: RegexSequence): EncodedRegex {
   const elements = ensureArray(sequence);
   const encodedNodes = elements.map((n) => encodeNode(n));
-  return concatSequence(encodedNodes);
+  return concatEncodedRegexes(encodedNodes);
 }
 
 export function encodeAtom(sequence: RegexSequence): EncodedRegex {
@@ -101,7 +101,7 @@ function isAtomicPattern(pattern: string): boolean {
   return false;
 }
 
-function concatSequence(encoded: EncodedRegex[]): EncodedRegex {
+function concatEncodedRegexes(encoded: EncodedRegex[]): EncodedRegex {
   if (encoded.length === 1) {
     return encoded[0]!;
   }
