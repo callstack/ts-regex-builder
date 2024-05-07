@@ -59,6 +59,7 @@ jobs:
         run: yarn build
 
       - name: Calculate Size
+        if: github.ref != 'refs/heads/main'
         uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
