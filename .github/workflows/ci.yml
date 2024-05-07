@@ -64,8 +64,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Debug
-        run: echo github.ref ${{ github.ref }}
   test-website:
     runs-on: ubuntu-latest
     name: Test Website
