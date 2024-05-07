@@ -32,6 +32,7 @@ function encodeFlags(flags: RegexFlags): string {
   if (flags.hasIndices) result += 'd';
   if (flags.dotAll) result += 's';
   if (flags.sticky) result += 'y';
+  if (flags.unicode) result += 'u';
 
   return result;
 }
