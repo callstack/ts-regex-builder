@@ -1,0 +1,9 @@
+[
+  { "type": "file", "name": "overview", "label": "Overview" },
+  "build-regexp",
+  "choice-of",
+  { "type": "dir", "name": "quantifiers", "label": "Quantifiers" },
+  { "type": "dir", "name": "char-classes", "label": "Character classes" },
+  { "type": "dir", "name": "capturing", "label": "Captures and references" },
+  { "type": "dir", "name": "misc", "label": "Miscellaneous" }
+]

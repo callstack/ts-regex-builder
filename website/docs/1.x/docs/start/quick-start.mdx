@@ -1,0 +1,28 @@
+import { PackageManagerTabs } from 'rspress/theme';
+
+# Quick Start
+
+## Installation
+
+<PackageManagerTabs command="install ts-regex-builder" />
+
+## Basic usage
+
+```js
+import { buildRegExp, capture, oneOrMore } from 'ts-regex-builder';
+
+// /Hello (\w+)/
+const regex = buildRegExp(['Hello ', capture(oneOrMore(word))]);
+```
+
+## Performance
+
+Regular expressions created with this library are executed at runtime, so you should avoid creating them in a context where they would need to be executed multiple times, e.g., inside loops or functions. We recommend that you create a top-level object for each required regex.
+
+## License
+
+MIT
+
+## Inspiration
+
+TS Regex Builder is inspired by [Swift Regex Builder API](https://developer.apple.com/documentation/regexbuilder).

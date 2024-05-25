@@ -1,0 +1,13 @@
+[
+  {
+    "type": "dir",
+    "name": "start",
+    "label": "Getting started"
+  },
+  { "type": "dir", "name": "api", "label": "API" },
+  {
+    "type": "dir",
+    "name": "guides",
+    "label": "Guides"
+  }
+]

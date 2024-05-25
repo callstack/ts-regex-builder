@@ -1,0 +1,12 @@
+[
+  {
+    "text": "Docs",
+    "link": "/docs/getting-started",
+    "activeMatch": "^/docs/"
+  },
+  {
+    "text": "Examples",
+    "link": "/examples",
+    "activeMatch": "^/examples/"
+  }
+]
