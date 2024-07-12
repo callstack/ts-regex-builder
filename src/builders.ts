@@ -1,5 +1,6 @@
 import type { RegexFlags, RegexSequence } from './types';
 import { encode } from './encoder';
+import { hasUnicodeAwareRegex } from './constructs/unicode';
 
 /**
  * Generate RegExp object from elements with optional flags.
@@ -11,6 +12,11 @@ import { encode } from './encoder';
 export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp {
   const pattern = encode(sequence).pattern;
   const flagsString = encodeFlags(flags ?? {});
+
+  if (hasUnicodeAwareRegex(pattern) && !flags?.unicode) {
+    throw new Error('Unicode-aware regex pattern requires "unicode" flag');
+  }
+
   return new RegExp(pattern, flagsString);
 }
 

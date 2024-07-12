@@ -23,7 +23,7 @@ Note: for code points above 0xFFFF, the regex engine must be [unicode-aware](htt
 ### Unicode character class escapes
 
 ```ts
-function unicodeProp(prop: string, value?: string): CharacterEscape;
+function unicodeProperty(property: string, value?: string): CharacterEscape;
 ```
 
 Unicode character class escape matching a set of characters specified by a Unicode property.

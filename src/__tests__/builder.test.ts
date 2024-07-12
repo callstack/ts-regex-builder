@@ -1,4 +1,5 @@
-import { buildRegExp } from '..';
+import { buildRegExp, unicodeChar } from '..';
+import { unicodeProperty } from '../constructs/unicode';
 
 test('`regexBuilder` flags', () => {
   expect(buildRegExp('a').flags).toBe('');
@@ -31,4 +32,17 @@ test('`regexBuilder` flags', () => {
       sticky: true,
     }).flags,
   ).toBe('gisy');
+});
+
+test('`regexBuilder` throws when using unicode-aware features without `unicode` flag', () => {
+  expect(() => buildRegExp(unicodeChar(0x1234))).not.toThrow();
+  expect(() => buildRegExp(unicodeChar(0x12345), { unicode: true })).not.toThrow();
+  expect(() => buildRegExp(unicodeProperty('Emoji_Presentation'), { unicode: true })).not.toThrow();
+
+  expect(() => buildRegExp(unicodeChar(0x123456))).toThrowErrorMatchingInlineSnapshot(
+    `""unicodeChar": expected valid unicode code point but got: 1193046"`,
+  );
+  expect(() =>
+    buildRegExp(unicodeProperty('Emoji_Presentation')),
+  ).toThrowErrorMatchingInlineSnapshot(`"Unicode-aware regex pattern requires "unicode" flag"`);
 });

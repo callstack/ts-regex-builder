@@ -35,16 +35,20 @@ export function unicodeChar(codePoint: number): CharacterEscape {
  * Regex pattern: `\p{Property}` or `\p{Property=Value}`
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Unicode_character_class_escape
  *
- * @param prop Unicode property name.
+ * @param property Unicode property name.
  * @param value Unicode property value (optional).
  * @returns A character class representing the unicode property escape.
  */
-export function unicodeProp(prop: string, value?: string): CharacterEscape {
-  const escape = `\\p{${prop}${value ? `=${value}` : ''}}`;
+export function unicodeProperty(property: string, value?: string): CharacterEscape {
+  const escape = `\\p{${property}${value ? `=${value}` : ''}}`;
 
   return {
     precedence: 'atom',
     pattern: escape,
     chars: [escape],
   };
+}
+
+export function hasUnicodeAwareRegex(pattern: string): boolean {
+  return /\\(u|p)\{/.test(pattern);
 }
