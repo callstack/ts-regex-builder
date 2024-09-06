@@ -14,7 +14,7 @@ import type { CharacterEscape } from '../types';
  */
 export function unicodeChar(codePoint: number): CharacterEscape {
   if (!Number.isInteger(codePoint) || codePoint < 0 || codePoint > 0x10ffff) {
-    throw new RangeError('"unicodeChar": expected valid unicode code point but got: ' + codePoint);
+    throw new RangeError(`Expected a valid unicode code point but received ${codePoint}`);
   }
 
   let escape =
@@ -49,6 +49,29 @@ export function unicodeProperty(property: string, value?: string): CharacterEsca
   };
 }
 
-export function hasUnicodeAwareRegex(pattern: string): boolean {
-  return /\\(u|p)\{/.test(pattern);
+/**
+ * Unicode character class escape matching a set of characters not specified by a Unicode property.
+ *
+ * Regex pattern: `\P{Property}` or `\P{Property=Value}`
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Unicode_character_class_escape
+ *
+ * @param property Unicode property name.
+ * @param value Unicode property value (optional).
+ * @returns A character class representing the complement of the unicode property escape.
+ */
+export function unicodePropertyComplement(property: string, value?: string): CharacterEscape {
+  const escape = `\\P{${property}${value ? `=${value}` : ''}}`;
+
+  return {
+    precedence: 'atom',
+    pattern: escape,
+    chars: [escape],
+  };
+}
+
+const unicodeModeRegex = /(?:\\u|\\p|\\P)\{.+?\}/;
+
+export function getFirstUnicodeAwarePattern(pattern: string): string | null {
+  const match = pattern.match(unicodeModeRegex);
+  return match?.[0] ?? null;
 }

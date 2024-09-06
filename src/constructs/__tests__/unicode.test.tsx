@@ -7,7 +7,6 @@ import {
   unicodeChar,
   unicodeProperty,
 } from '../../index';
-import { hasUnicodeAwareRegex } from '../unicode';
 
 function u(sequence: RegexSequence) {
   return buildRegExp(sequence, { unicode: true });
@@ -81,16 +80,16 @@ test('`unicodeChar` nesting matching', () => {
 
 test('`unicodeChar` edge cases handling', () => {
   expect(() => u(unicodeChar(NaN))).toThrowErrorMatchingInlineSnapshot(
-    `""unicodeChar": expected valid unicode code point but got: NaN"`,
+    `""unicodeChar": expected a valid unicode code point but got: NaN"`,
   );
   expect(() => u(unicodeChar(1.5))).toThrowErrorMatchingInlineSnapshot(
-    `""unicodeChar": expected valid unicode code point but got: 1.5"`,
+    `""unicodeChar": expected a valid unicode code point but got: 1.5"`,
   );
   expect(() => u(unicodeChar(-1))).toThrowErrorMatchingInlineSnapshot(
-    `""unicodeChar": expected valid unicode code point but got: -1"`,
+    `""unicodeChar": expected a valid unicode code point but got: -1"`,
   );
   expect(() => u(unicodeChar(0x110000))).toThrowErrorMatchingInlineSnapshot(
-    `""unicodeChar": expected valid unicode code point but got: 1114112"`,
+    `""unicodeChar": expected a valid unicode code point but got: 1114112"`,
   );
 
   expect(u(unicodeChar(0x10ffff))).toEqualRegex(/\u{10ffff}/u);
@@ -158,20 +157,4 @@ test('`unicodeProperty` nesting matching', () => {
   expect(
     u(charClass(unicodeProperty('Lowercase'), unicodeProperty('White_Space'))),
   ).not.toMatchString('A');
-});
-
-test('has unicode-aware regex', () => {
-  expect(hasUnicodeAwareRegex(/\p{Emoji_Presentation}/u.source)).toBe(true);
-  expect(hasUnicodeAwareRegex(/aaa\p{Emoji_Presentation}/u.source)).toBe(true);
-  expect(hasUnicodeAwareRegex(/\p{Emoji_Presentation}bbb/u.source)).toBe(true);
-  expect(hasUnicodeAwareRegex(/\u{123}/u.source)).toBe(true);
-  expect(hasUnicodeAwareRegex(/\u{01234}/u.source)).toBe(true);
-  expect(hasUnicodeAwareRegex(/aaa\u{01234}/u.source)).toBe(true);
-  expect(hasUnicodeAwareRegex(/\u{01234}bbb/u.source)).toBe(true);
-
-  expect(hasUnicodeAwareRegex(/\x23/.source)).toBe(false);
-  expect(hasUnicodeAwareRegex(/\u0123/.source)).toBe(false);
-  expect(hasUnicodeAwareRegex(/\u1f60/.source)).toBe(false);
-  expect(hasUnicodeAwareRegex(/a/.source)).toBe(false);
-  expect(hasUnicodeAwareRegex(/abc/.source)).toBe(false);
 });
