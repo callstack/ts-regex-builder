@@ -29,7 +29,7 @@ export {
   notWhitespace,
   notWord,
   char,
-  charProperty,
+  unicodeProperty,
 } from './constructs/char-escape';
 export { choiceOf } from './constructs/choice-of';
 export { lookahead } from './constructs/lookahead';

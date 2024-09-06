@@ -2,10 +2,10 @@ import {
   buildRegExp,
   char,
   charClass,
-  charProperty,
   endOfString,
   type RegexSequence,
   startOfString,
+  unicodeProperty,
 } from '../..';
 
 function u(sequence: RegexSequence) {
@@ -89,62 +89,66 @@ test('`char` edge cases handling', () => {
   expect(u(char(0x10ffff))).toEqualRegex(/\u{10ffff}/u);
 });
 
-test('`charProperty` pattern', () => {
-  expect(u(charProperty('General_Category', 'Letter'))).toEqualRegex(
+test('`unicodeProperty` pattern', () => {
+  expect(u(unicodeProperty('General_Category', 'Letter'))).toEqualRegex(
     /\p{General_Category=Letter}/u,
   );
-  expect(u(charProperty('Letter'))).toEqualRegex(/\p{Letter}/u);
-  expect(u(charProperty('L'))).toEqualRegex(/\p{L}/u);
-  expect(u(charProperty('Lu'))).toEqualRegex(/\p{Lu}/u);
-  expect(u(charProperty('Ll'))).toEqualRegex(/\p{Ll}/u);
-  expect(u(charProperty('Lt'))).toEqualRegex(/\p{Lt}/u);
-  expect(u(charProperty('Lm'))).toEqualRegex(/\p{Lm}/u);
-  expect(u(charProperty('Lo'))).toEqualRegex(/\p{Lo}/u);
+  expect(u(unicodeProperty('Letter'))).toEqualRegex(/\p{Letter}/u);
+  expect(u(unicodeProperty('L'))).toEqualRegex(/\p{L}/u);
+  expect(u(unicodeProperty('Lu'))).toEqualRegex(/\p{Lu}/u);
+  expect(u(unicodeProperty('Ll'))).toEqualRegex(/\p{Ll}/u);
+  expect(u(unicodeProperty('Lt'))).toEqualRegex(/\p{Lt}/u);
+  expect(u(unicodeProperty('Lm'))).toEqualRegex(/\p{Lm}/u);
+  expect(u(unicodeProperty('Lo'))).toEqualRegex(/\p{Lo}/u);
 
-  expect(u(charProperty('Script', 'Latin'))).toEqualRegex('\\p{Script=Latin}');
-  expect(u(charProperty('Script', 'Grek'))).toEqualRegex('\\p{Script=Grek}');
-  expect(u(charProperty('sc', 'Cyrillic'))).toEqualRegex('\\p{sc=Cyrillic}');
+  expect(u(unicodeProperty('Script', 'Latin'))).toEqualRegex('\\p{Script=Latin}');
+  expect(u(unicodeProperty('Script', 'Grek'))).toEqualRegex('\\p{Script=Grek}');
+  expect(u(unicodeProperty('sc', 'Cyrillic'))).toEqualRegex('\\p{sc=Cyrillic}');
 
-  expect(u(charProperty('Script', 'Thaana'))).toEqualRegex('\\p{Script=Thaana}');
-  expect(u(charProperty('Script_Extensions', 'Thaana'))).toEqualRegex(
+  expect(u(unicodeProperty('Script', 'Thaana'))).toEqualRegex('\\p{Script=Thaana}');
+  expect(u(unicodeProperty('Script_Extensions', 'Thaana'))).toEqualRegex(
     '\\p{Script_Extensions=Thaana}',
   );
-  expect(u(charProperty('scx', 'Thaana'))).toEqualRegex('\\p{scx=Thaana}');
+  expect(u(unicodeProperty('scx', 'Thaana'))).toEqualRegex('\\p{scx=Thaana}');
 
-  expect(u(charProperty('Emoji'))).toEqualRegex('\\p{Emoji}');
+  expect(u(unicodeProperty('Emoji'))).toEqualRegex('\\p{Emoji}');
 });
 
-test('`charProperty` matching', () => {
-  expect(u(charProperty('General_Category', 'Letter'))).toMatchString('A');
-  expect(u(charProperty('Letter'))).toMatchString('A');
-  expect(u(charProperty('L'))).toMatchString('A');
+test('`unicodeProperty` matching', () => {
+  expect(u(unicodeProperty('General_Category', 'Letter'))).toMatchString('A');
+  expect(u(unicodeProperty('Letter'))).toMatchString('A');
+  expect(u(unicodeProperty('L'))).toMatchString('A');
 
-  expect(u(charProperty('Uppercase'))).toMatchString('A');
-  expect(u(charProperty('Uppercase'))).not.toMatchString('a');
-  expect(u(charProperty('Lu'))).toMatchString('A');
+  expect(u(unicodeProperty('Uppercase'))).toMatchString('A');
+  expect(u(unicodeProperty('Uppercase'))).not.toMatchString('a');
+  expect(u(unicodeProperty('Lu'))).toMatchString('A');
 
-  expect(u(charProperty('Lowercase'))).toMatchString('a');
-  expect(u(charProperty('Lowercase'))).not.toMatchString('A');
-  expect(u(charProperty('Ll'))).toMatchString('a');
+  expect(u(unicodeProperty('Lowercase'))).toMatchString('a');
+  expect(u(unicodeProperty('Lowercase'))).not.toMatchString('A');
+  expect(u(unicodeProperty('Ll'))).toMatchString('a');
 
-  expect(u(charProperty('Script', 'Latin'))).toMatchString('A');
-  expect(u(charProperty('Script', 'Latin'))).not.toMatchString('α');
-  expect(u(charProperty('Script', 'Grek'))).toMatchString('α');
-  expect(u(charProperty('Script', 'Grek'))).not.toMatchString('A');
+  expect(u(unicodeProperty('Script', 'Latin'))).toMatchString('A');
+  expect(u(unicodeProperty('Script', 'Latin'))).not.toMatchString('α');
+  expect(u(unicodeProperty('Script', 'Grek'))).toMatchString('α');
+  expect(u(unicodeProperty('Script', 'Grek'))).not.toMatchString('A');
 
   // Basic emoji
-  expect(u([startOfString, charProperty('Emoji'), endOfString])).toMatchString('😎');
-  expect(u([startOfString, charProperty('Emoji'), endOfString])).toMatchString('🐌');
+  expect(u([startOfString, unicodeProperty('Emoji'), endOfString])).toMatchString('😎');
+  expect(u([startOfString, unicodeProperty('Emoji'), endOfString])).toMatchString('🐌');
 
   // Complex emoji with skin tone modifier
-  expect(u(charProperty('Emoji'))).toMatchString('☝🏼');
-  expect(u([startOfString, charProperty('Emoji'), endOfString])).not.toMatchString('☝🏼');
+  expect(u(unicodeProperty('Emoji'))).toMatchString('☝🏼');
+  expect(u([startOfString, unicodeProperty('Emoji'), endOfString])).not.toMatchString('☝🏼');
 });
 
-test('`charProperty` nesting matching', () => {
-  expect(u(charClass(charProperty('Lowercase'), charProperty('White_Space')))).toMatchString('a');
-  expect(u(charClass(charProperty('Lowercase'), charProperty('White_Space')))).toMatchString(' ');
-  expect(u(charClass(charProperty('Lowercase'), charProperty('White_Space')))).not.toMatchString(
-    'A',
+test('`unicodeProperty` nesting matching', () => {
+  expect(u(charClass(unicodeProperty('Lowercase'), unicodeProperty('White_Space')))).toMatchString(
+    'a',
   );
+  expect(u(charClass(unicodeProperty('Lowercase'), unicodeProperty('White_Space')))).toMatchString(
+    ' ',
+  );
+  expect(
+    u(charClass(unicodeProperty('Lowercase'), unicodeProperty('White_Space'))),
+  ).not.toMatchString('A');
 });

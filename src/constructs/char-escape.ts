@@ -90,7 +90,7 @@ export function char(codePoint: number): CharacterEscape {
 }
 
 /**
- * Unicode character property name escape matching a set of characters specified by a Unicode property.
+ * Unicode property escape matching a set of characters specified by a Unicode property.
  *
  * Regex pattern: `\p{Property}` or `\p{Property=Value}`
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Unicode_character_class_escape
@@ -101,7 +101,7 @@ export function char(codePoint: number): CharacterEscape {
  * @param value Unicode property value (optional).
  * @returns A character class representing the unicode property escape.
  */
-export function charProperty(property: string, value?: string): CharacterEscape {
+export function unicodeProperty(property: string, value?: string): CharacterEscape {
   const escape = `\\p{${property}${value ? `=${value}` : ''}}`;
 
   return {
