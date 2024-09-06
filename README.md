@@ -127,18 +127,21 @@ See [Quantifiers API doc](https://callstack.github.io/ts-regex-builder/api/quant
 
 ### Character classes
 
-| Character class       | Regex Syntax | Description                                       |
-| --------------------- | ------------ | ------------------------------------------------- |
-| `any`                 | `.`          | Any character                                     |
-| `word`                | `\w`         | Word character: letter, digit, underscore         |
-| `digit`               | `\d`         | Digit character: 0 to 9                           |
-| `whitespace`          | `\s`         | Whitespace character: space, tab, line break, ... |
-| `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
-| `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
-| `charClass(...)`      | `[...]`      | Union of multiple character classes               |
-| `negated(...)`        | `[^...]`     | Negation of a given character class               |
+| Character class        | Regex Syntax | Description                                       |
+| ---------------------- | ------------ | ------------------------------------------------- |
+| `any`                  | `.`          | Any character                                     |
+| `word`                 | `\w`         | Word character: letter, digit, underscore         |
+| `digit`                | `\d`         | Digit character: 0 to 9                           |
+| `whitespace`           | `\s`         | Whitespace character: space, tab, line break, ... |
+| `anyOf('abc')`         | `[abc]`      | Any of provided characters                        |
+| `charRange('a', 'z')`  | `[a-z]`      | Character in a range                              |
+| `charClass(...)`       | `[...]`      | Union of multiple character classes               |
+| `negated(...)`         | `[^...]`     | Negation of a given character class               |
+| `char(...)`            | `\uXXXX`     | Character specified given Unicode code point      |
+| `unicodeProperty(...)` | `\p{...}`    | Characters with given Unicode property            |
 
-See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api/character-classes) for more info.
+
+See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api/character-classes) and [Unicode API doc](https://callstack.github.io/ts-regex-builder/api/unicode) for more info.
 
 ### Assertions
 
