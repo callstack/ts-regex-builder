@@ -33,6 +33,7 @@ export default {
         'api/quantifiers',
         'api/character-classes',
         'api/assertions',
+        'api/unicode',
       ],
     },
     {
