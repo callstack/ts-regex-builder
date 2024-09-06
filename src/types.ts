@@ -88,8 +88,8 @@ export interface RegexFlags {
    * Enables [Unicode-aware mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode#unicode-aware_mode).
    *
    * This enables features like:
-   * - unicode character escapes: `\u{xxxx}`
-   * - unicode character class escapes:`\p{UnicodePropertyValue}`
+   * - Unicode character escapes: `\u{xxxx}`
+   * - Unicode character property escapes:`\p{Property=Value}`
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode
    */

@@ -1,6 +1,5 @@
 import type { RegexFlags, RegexSequence } from './types';
 import { encode } from './encoder';
-import { getFirstUnicodeAwarePattern } from './constructs/unicode';
 
 /**
  * Generate RegExp object from elements with optional flags.
@@ -14,10 +13,10 @@ export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp
   const flagsString = encodeFlags(flags ?? {});
 
   if (!flags?.unicode) {
-    const unicodePattern = getFirstUnicodeAwarePattern(pattern);
-    if (unicodePattern) {
+    const unicodeModePattern = getUnicodeModePattern(pattern);
+    if (unicodeModePattern) {
       throw new Error(
-        `The pattern "${unicodePattern}" requires Unicode-aware mode. Please ensure the "unicode" flag is set.`,
+        `The pattern "${unicodeModePattern}" requires Unicode-aware mode. Please ensure the "unicode" flag is set.`,
       );
     }
   }
@@ -46,4 +45,11 @@ function encodeFlags(flags: RegexFlags): string {
   if (flags.unicode) result += 'u';
 
   return result;
+}
+
+const unicodeModePatterns = /(?:\\u|\\p|\\P)\{.+?\}/;
+
+function getUnicodeModePattern(pattern: string): string | null {
+  const match = pattern.match(unicodeModePatterns);
+  return match?.[0] ?? null;
 }
