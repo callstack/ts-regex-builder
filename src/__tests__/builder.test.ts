@@ -1,4 +1,4 @@
-import { buildRegExp } from '..';
+import { buildRegExp, char, unicodeProperty } from '..';
 
 test('`regexBuilder` flags', () => {
   expect(buildRegExp('a').flags).toBe('');
@@ -31,4 +31,25 @@ test('`regexBuilder` flags', () => {
       sticky: true,
     }).flags,
   ).toBe('gisy');
+});
+
+test('`regexBuilder` throws when using unicode-aware features without `unicode` flag', () => {
+  expect(() => buildRegExp(char(0x1234))).not.toThrow();
+  expect(() => buildRegExp(char(0x12345), { unicode: true })).not.toThrow();
+  expect(() => buildRegExp(unicodeProperty('Emoji_Presentation'), { unicode: true })).not.toThrow();
+
+  expect(() => buildRegExp(char(0x123456))).toThrowErrorMatchingInlineSnapshot(
+    `"Expected a valid unicode code point but received 1193046"`,
+  );
+  expect(() => buildRegExp(char(0x12345))).toThrowErrorMatchingInlineSnapshot(
+    `"The pattern "\\u{12345}" requires Unicode-aware mode. Please ensure the "unicode" flag is set."`,
+  );
+  expect(() =>
+    buildRegExp(unicodeProperty('Emoji_Presentation')),
+  ).toThrowErrorMatchingInlineSnapshot(
+    `"The pattern "\\p{Emoji_Presentation}" requires Unicode-aware mode. Please ensure the "unicode" flag is set."`,
+  );
+  expect(() => buildRegExp(/\P{Letter}/u)).toThrowErrorMatchingInlineSnapshot(
+    `"The pattern "\\P{Letter}" requires Unicode-aware mode. Please ensure the "unicode" flag is set."`,
+  );
 });

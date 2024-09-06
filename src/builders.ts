@@ -11,6 +11,16 @@ import { encode } from './encoder';
 export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp {
   const pattern = encode(sequence).pattern;
   const flagsString = encodeFlags(flags ?? {});
+
+  if (!flags?.unicode) {
+    const unicodeModePattern = getUnicodeModePattern(pattern);
+    if (unicodeModePattern) {
+      throw new Error(
+        `The pattern "${unicodeModePattern}" requires Unicode-aware mode. Please ensure the "unicode" flag is set.`,
+      );
+    }
+  }
+
   return new RegExp(pattern, flagsString);
 }
 
@@ -32,6 +42,14 @@ function encodeFlags(flags: RegexFlags): string {
   if (flags.hasIndices) result += 'd';
   if (flags.dotAll) result += 's';
   if (flags.sticky) result += 'y';
+  if (flags.unicode) result += 'u';
 
   return result;
+}
+
+const unicodeModePatterns = /(?:\\u|\\p|\\P)\{.+?\}/;
+
+function getUnicodeModePattern(pattern: string): string | null {
+  const match = pattern.match(unicodeModePatterns);
+  return match?.[0] ?? null;
 }

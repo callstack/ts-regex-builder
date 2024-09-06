@@ -5,35 +5,37 @@ export type { QuantifierOptions } from './constructs/quantifiers';
 export type { RepeatOptions } from './constructs/repeat';
 
 // Builders
-export { buildPattern, buildRegExp } from './builders';
+export { buildRegExp, buildPattern } from './builders';
 
 // Constructs
 export {
+  startOfString,
   endOfString,
+  wordBoundary,
   nonWordBoundary,
   notWordBoundary,
-  startOfString,
-  wordBoundary,
 } from './constructs/anchors';
 export { capture, ref } from './constructs/capture';
-export { anyOf, charClass, charRange, negated, inverted } from './constructs/char-class';
+export { charClass, charRange, anyOf, negated, inverted } from './constructs/char-class';
 export {
   any,
   digit,
   nonDigit,
-  nonWhitespace,
+  word,
   nonWord,
+  whitespace,
+  nonWhitespace,
   notDigit,
   notWhitespace,
   notWord,
-  whitespace,
-  word,
+  char,
+  unicodeProperty,
 } from './constructs/char-escape';
 export { choiceOf } from './constructs/choice-of';
 export { lookahead } from './constructs/lookahead';
 export { lookbehind } from './constructs/lookbehind';
 export { negativeLookahead } from './constructs/negative-lookahead';
 export { negativeLookbehind } from './constructs/negative-lookbehind';
-export { oneOrMore, optional, zeroOrMore } from './constructs/quantifiers';
+export { zeroOrMore, oneOrMore, optional } from './constructs/quantifiers';
 export { regex } from './constructs/regex';
 export { repeat } from './constructs/repeat';

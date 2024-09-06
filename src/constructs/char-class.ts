@@ -32,7 +32,7 @@ export function charRange(start: string, end: string): CharacterClass {
 }
 
 export function anyOf(characters: string): CharacterClass {
-  const chars = characters.split('').map((c) => escapeForCharacterClass(c));
+  const chars = characters.split('').map((c) => escapeCharClass(c));
 
   if (chars.length === 0) {
     throw new Error('`anyOf` should received at least one character');
@@ -52,6 +52,6 @@ export function negated(element: CharacterClass | CharacterEscape): EncodedRegex
  */
 export const inverted = negated;
 
-function escapeForCharacterClass(text: string): string {
+function escapeCharClass(text: string): string {
   return text.replace(/[\]\\]/g, '\\$&'); // $& means the whole matched string
 }

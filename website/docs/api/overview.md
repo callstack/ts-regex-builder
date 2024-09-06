@@ -75,18 +75,20 @@ See [Quantifiers](./api/quantifiers) for more info.
 
 ### Character classes
 
-| Character class       | Regex Syntax | Description                                       |
-| --------------------- | ------------ | ------------------------------------------------- |
-| `any`                 | `.`          | Any character                                     |
-| `word`                | `\w`         | Word character: letter, digit, underscore         |
-| `digit`               | `\d`         | Digit character: 0 to 9                           |
-| `whitespace`          | `\s`         | Whitespace character: space, tab, line break, ... |
-| `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
-| `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
-| `charClass(...)`      | `[...]`      | Union of multiple character classes               |
-| `negated(...)`        | `[^...]`     | Negation of a given character class               |
+| Character class        | Regex Syntax | Description                                       |
+| ---------------------- | ------------ | ------------------------------------------------- |
+| `any`                  | `.`          | Any character                                     |
+| `word`                 | `\w`         | Word character: letter, digit, underscore         |
+| `digit`                | `\d`         | Digit character: 0 to 9                           |
+| `whitespace`           | `\s`         | Whitespace character: space, tab, line break, ... |
+| `anyOf('abc')`         | `[abc]`      | Any of provided characters                        |
+| `charRange('a', 'z')`  | `[a-z]`      | Character in a range                              |
+| `charClass(...)`       | `[...]`      | Union of multiple character classes               |
+| `negated(...)`         | `[^...]`     | Negation of a given character class               |
+| `char(...)`            | `\uXXXX`     | Character specified given Unicode code point      |
+| `unicodeProperty(...)` | `\p{...}`    | Characters with given Unicode property            |
 
-See [Character Classes](./api/character-classes) for more info.
+See [Character Classes](./api/character-classes) and [Unicode](./api/unicode) for more info.
 
 ### Assertions
 
