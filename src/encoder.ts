@@ -1,4 +1,4 @@
-import type { CharacterClass, EncodedRegex, RegexElement, RegexSequence } from './types';
+import type { EncodedRegex, RegexElement, RegexSequence } from './types';
 
 export function encode(sequence: RegexSequence): EncodedRegex {
   const elements = Array.isArray(sequence) ? sequence : [sequence];
@@ -69,11 +69,13 @@ function isAtomicPattern(pattern: string): boolean {
     return true;
   }
 
-  if (pattern.startsWith('[') && pattern.endsWith(']') && pattern.match(/[[\]]/g)?.length === 2) {
+  // Simple char class: [...]
+  if (pattern.match(/^\[[^[\]]*\]$/)) {
     return true;
   }
 
-  if (pattern.startsWith('(') && pattern.endsWith(')') && pattern.match(/[()]/g)?.length === 2) {
+  // Simple group: (...)
+  if (pattern.match(/^\([^()]*\)$/)) {
     return true;
   }
 
