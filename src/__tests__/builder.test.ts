@@ -42,14 +42,18 @@ test('`regexBuilder` throws when using unicode-aware features without `unicode` 
     `"Expected a valid unicode code point but received 1193046"`,
   );
   expect(() => buildRegExp(char(0x12345))).toThrowErrorMatchingInlineSnapshot(
-    `"The pattern "\\u{12345}" requires Unicode-aware mode. Please ensure the "unicode" flag is set."`,
+    `"Pattern "\\u{12345}" requires the "unicode" flag to be set."`,
   );
   expect(() =>
     buildRegExp(unicodeProperty('Emoji_Presentation')),
   ).toThrowErrorMatchingInlineSnapshot(
-    `"The pattern "\\p{Emoji_Presentation}" requires Unicode-aware mode. Please ensure the "unicode" flag is set."`,
+    `"Pattern "\\p{Emoji_Presentation}" requires the "unicode" flag to be set."`,
   );
   expect(() => buildRegExp(/\P{Letter}/u)).toThrowErrorMatchingInlineSnapshot(
-    `"The pattern "\\P{Letter}" requires Unicode-aware mode. Please ensure the "unicode" flag is set."`,
+    `"Pattern "\\P{Letter}" requires the "unicode" flag to be set."`,
   );
+});
+
+test('`regexBuilder` does not throws on tricky unicode mode-like patterns', () => {
+  expect(() => buildRegExp(/\\u{1234}/)).not.toThrow();
 });
