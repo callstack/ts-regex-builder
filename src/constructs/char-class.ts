@@ -2,7 +2,7 @@ import type { CharacterClass, CharacterEscape, EncodedRegex } from '../types';
 
 export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
   if (!elements.length) {
-    throw new Error('`charClass` should receive at least one element');
+    throw new Error('Expected at least one element');
   }
 
   return {
@@ -14,15 +14,15 @@ export function charClass(...elements: Array<CharacterClass | CharacterEscape>):
 
 export function charRange(start: string, end: string): CharacterClass {
   if (start.length !== 1) {
-    throw new Error('`charRange` should receive only single character `start` string');
+    throw new Error(`Expected a single character, received "${start}"`);
   }
 
   if (end.length !== 1) {
-    throw new Error('`charRange` should receive only single character `end` string');
+    throw new Error(`Expected a single character, received "${end}"`);
   }
 
   if (start > end) {
-    throw new Error('`start` should be before or equal to `end`');
+    throw new Error('`start` character should be before or same as `end` character');
   }
 
   return {
@@ -36,7 +36,7 @@ export function anyOf(characters: string): CharacterClass {
   const chars = characters.split('').map((c) => escapeCharClass(c));
 
   if (chars.length === 0) {
-    throw new Error('`anyOf` should received at least one character');
+    throw new Error('Expected at least one character');
   }
 
   return {
@@ -62,10 +62,6 @@ export function encodeCharClass(
   this: CharacterClass | CharacterEscape,
   isNegated?: boolean,
 ): EncodedRegex {
-  if (!this.chars.length && !this.ranges?.length) {
-    throw new Error('Character class should contain at least one character or character range');
-  }
-
   // If passed characters includes hyphen (`-`) it need to be moved to
   // first (or last) place in order to treat it as hyphen character and not a range.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types

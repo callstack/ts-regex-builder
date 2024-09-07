@@ -38,9 +38,7 @@ test('`charClass` joins character escapes', () => {
 });
 
 test('`charClass` throws on empty text', () => {
-  expect(() => charClass()).toThrowErrorMatchingInlineSnapshot(
-    `"\`charClass\` should receive at least one element"`,
-  );
+  expect(() => charClass()).toThrowErrorMatchingInlineSnapshot(`"Expected at least one element"`);
 });
 
 test('`charRange` pattern', () => {
@@ -51,13 +49,13 @@ test('`charRange` pattern', () => {
 
 test('`charRange` throws on incorrect arguments', () => {
   expect(() => charRange('z', 'a')).toThrowErrorMatchingInlineSnapshot(
-    `"\`start\` should be before or equal to \`end\`"`,
+    `"\`start\` character should be before or same as \`end\` character"`,
   );
   expect(() => charRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
-    `"\`charRange\` should receive only single character \`start\` string"`,
+    `"Expected a single character, received "aa""`,
   );
   expect(() => charRange('a', 'zz')).toThrowErrorMatchingInlineSnapshot(
-    `"\`charRange\` should receive only single character \`end\` string"`,
+    `"Expected a single character, received "zz""`,
   );
 });
 
@@ -105,9 +103,7 @@ test('`anyOf` pattern edge cases', () => {
 });
 
 test('`anyOf` throws on empty text', () => {
-  expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(
-    `"\`anyOf\` should received at least one character"`,
-  );
+  expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(`"Expected at least one character"`);
 });
 
 test('`negated` character class pattern', () => {
@@ -118,10 +114,4 @@ test('`negated` character class pattern', () => {
 test('`negated` character class matching', () => {
   expect(negated(anyOf('a'))).not.toMatchString('aa');
   expect(negated(anyOf('a'))).toMatchGroups('aba', ['b']);
-});
-
-test('`encodeCharacterClass` throws on empty text', () => {
-  expect(() => buildRegExp(negated({ chars: [], ranges: [] }))).toThrowErrorMatchingInlineSnapshot(
-    `"Character class should contain at least one character or character range"`,
-  );
 });
