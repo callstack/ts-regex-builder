@@ -75,7 +75,7 @@ test('`buildRegExp` throws error on unknown element', () => {
     // @ts-expect-error intentionally passing incorrect object
     buildRegExp({ type: 'unknown' }),
   ).toThrowErrorMatchingInlineSnapshot(`
-    "\`encodeElement\`: unknown element: {
+    "Unsupported element. Received: {
       "type": "unknown"
     }"
   `);
@@ -83,6 +83,6 @@ test('`buildRegExp` throws error on unknown element', () => {
 
 test('`buildPattern` throws on empty text', () => {
   expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
-    `"\`encodeText\`: received text should not be empty"`,
+    `"Unsupported element. Received: """`,
   );
 });
