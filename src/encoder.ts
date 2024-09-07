@@ -2,6 +2,10 @@ import type { EncodedRegex, RegexElement, RegexSequence } from './types';
 
 export function encode(sequence: RegexSequence): EncodedRegex {
   const elements = Array.isArray(sequence) ? sequence : [sequence];
+  if (elements.length === 0) {
+    throw new Error('Expected at least one element');
+  }
+
   const encoded = elements.map((n) => encodeElement(n));
 
   if (encoded.length === 1) {
@@ -46,6 +50,10 @@ function encodeElement(element: RegexElement): EncodedRegex {
 }
 
 function encodeText(text: string): EncodedRegex {
+  if (text.length === 0) {
+    throw new Error('Expected at least one character');
+  }
+
   return {
     // Optimize for single character case
     precedence: text.length === 1 ? 'atom' : 'sequence',
