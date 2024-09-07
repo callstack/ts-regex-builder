@@ -6,7 +6,7 @@ export type RepeatOptions = number | { min: number; max?: number; greedy?: boole
 export function repeat(sequence: RegexSequence, options: RepeatOptions): EncodedRegex {
   const elements = Array.isArray(sequence) ? sequence : [sequence];
   if (elements.length === 0) {
-    throw new Error('`repeat` should receive at least one element');
+    throw new Error('Expected at least one element');
   }
 
   if (typeof options === 'number') {

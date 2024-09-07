@@ -49,6 +49,6 @@ function ensureUnicodeFlagIfNeeded(pattern: string, flags: RegexFlags | undefine
 
   const match = pattern.match(unicodeModePatterns);
   if (match) {
-    throw new Error(`Pattern "${match?.[0]}" requires the "unicode" flag to be set.`);
+    throw new Error(`Pattern "${match?.[0]}" requires "unicode" flag to be set.`);
   }
 }
