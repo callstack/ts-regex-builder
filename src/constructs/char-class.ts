@@ -52,7 +52,7 @@ function escapeChar(text: string): string {
   return text.replace(/[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-export function encodeCharClass(
+function encodeCharClass(
   this: CharacterClass | CharacterEscape,
   isNegated?: boolean,
 ): EncodedRegex {

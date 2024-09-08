@@ -28,8 +28,6 @@ export {
   notDigit,
   notWhitespace,
   notWord,
-  char,
-  unicodeProperty,
 } from './constructs/char-escape';
 export { choiceOf } from './constructs/choice-of';
 export { lookahead } from './constructs/lookahead';
@@ -39,3 +37,4 @@ export { negativeLookbehind } from './constructs/negative-lookbehind';
 export { zeroOrMore, oneOrMore, optional } from './constructs/quantifiers';
 export { regex } from './constructs/regex';
 export { repeat } from './constructs/repeat';
+export { char, unicodeProperty } from './constructs/unicode';
