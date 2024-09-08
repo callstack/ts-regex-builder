@@ -1,11 +1,8 @@
 import type { EncodedRegex, RegexElement, RegexSequence } from './types';
+import { ensureElements } from './utils';
 
 export function encode(sequence: RegexSequence): EncodedRegex {
-  const elements = Array.isArray(sequence) ? sequence : [sequence];
-  if (elements.length === 0) {
-    throw new Error('Expected at least one element');
-  }
-
+  const elements = ensureElements(sequence);
   const encoded = elements.map((n) => encodeElement(n));
 
   if (encoded.length === 1) {

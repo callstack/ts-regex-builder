@@ -1,13 +1,11 @@
 import { encodeAtomic } from '../encoder';
 import type { EncodedRegex, RegexSequence } from '../types';
+import { ensureElements } from '../utils';
 
 export type RepeatOptions = number | { min: number; max?: number; greedy?: boolean };
 
 export function repeat(sequence: RegexSequence, options: RepeatOptions): EncodedRegex {
-  const elements = Array.isArray(sequence) ? sequence : [sequence];
-  if (elements.length === 0) {
-    throw new Error('Expected at least one element');
-  }
+  const elements = ensureElements(sequence);
 
   if (typeof options === 'number') {
     return {
