@@ -37,4 +37,4 @@ export { negativeLookbehind } from './constructs/negative-lookbehind';
 export { zeroOrMore, oneOrMore, optional } from './constructs/quantifiers';
 export { regex } from './constructs/regex';
 export { repeat } from './constructs/repeat';
-export { char, unicodeProperty } from './constructs/unicode';
+export { unicodeChar, unicodeProperty } from './constructs/unicode';

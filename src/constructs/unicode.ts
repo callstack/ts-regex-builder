@@ -12,7 +12,7 @@ import type { CharacterEscape } from '../types';
  * @param codePoint The code point of the character to escape.
  * @returns A character class representing the unicode escape.
  */
-export function char(codePoint: number): CharacterEscape {
+export function unicodeChar(codePoint: number): CharacterEscape {
   if (!Number.isInteger(codePoint) || codePoint < 0 || codePoint > 0x10ffff) {
     throw new RangeError(`Expected a valid unicode code point but received ${codePoint}`);
   }
