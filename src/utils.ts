@@ -8,3 +8,9 @@ export function ensureElements(sequence: RegexSequence): RegexElement[] {
 
   return elements;
 }
+
+export function ensureText(text: string): void {
+  if (text.length === 0) {
+    throw new Error('Expected at least one character');
+  }
+}

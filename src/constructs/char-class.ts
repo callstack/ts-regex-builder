@@ -1,4 +1,5 @@
 import type { CharacterClass, CharacterEscape, EncodedRegex } from '../types';
+import { ensureText } from '../utils';
 
 export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
   if (!elements.length) {
@@ -32,15 +33,11 @@ export function charRange(start: string, end: string): CharacterClass {
   };
 }
 
-export function anyOf(characters: string): CharacterClass {
-  const chars = characters.split('').map((c) => escapeCharClass(c));
-
-  if (chars.length === 0) {
-    throw new Error('Expected at least one character');
-  }
+export function anyOf(chars: string): CharacterClass {
+  ensureText(chars);
 
   return {
-    chars,
+    chars: chars.split('').map(escapeChar),
     encode: encodeCharClass,
   };
 }
@@ -54,7 +51,8 @@ export function negated(element: CharacterClass | CharacterEscape): EncodedRegex
  */
 export const inverted = negated;
 
-function escapeCharClass(text: string): string {
+/** Escape chars for usage inside char class */
+function escapeChar(text: string): string {
   return text.replace(/[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 

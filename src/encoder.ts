@@ -1,5 +1,5 @@
 import type { EncodedRegex, RegexElement, RegexSequence } from './types';
-import { ensureElements } from './utils';
+import { ensureElements, ensureText } from './utils';
 
 export function encode(sequence: RegexSequence): EncodedRegex {
   const elements = ensureElements(sequence);
@@ -47,9 +47,7 @@ function encodeElement(element: RegexElement): EncodedRegex {
 }
 
 function encodeText(text: string): EncodedRegex {
-  if (text.length === 0) {
-    throw new Error('Expected at least one character');
-  }
+  ensureText(text);
 
   return {
     // Optimize for single character case
@@ -68,23 +66,10 @@ function encodeRegExp(regexp: RegExp): EncodedRegex {
   };
 }
 
-// This is intended to catch only some popular atomic patterns like char classes.
+// This is intended to catch only some popular atomic patterns like char classes and groups.
 function isAtomicPattern(pattern: string): boolean {
-  if (pattern.length === 1) {
-    return true;
-  }
-
-  // Simple char class: [...]
-  if (pattern.match(/^\[[^[\]]*\]$/)) {
-    return true;
-  }
-
-  // Simple group: (...)
-  if (pattern.match(/^\([^()]*\)$/)) {
-    return true;
-  }
-
-  return false;
+  // Simple char, char class [...] or group (...)
+  return pattern.length === 1 || /^\[[^[\]]*\]$/.test(pattern) || /^\([^()]*\)$/.test(pattern);
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
