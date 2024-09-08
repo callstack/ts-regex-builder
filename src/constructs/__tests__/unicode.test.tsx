@@ -12,7 +12,7 @@ function u(sequence: RegexSequence) {
   return buildRegExp(sequence, { unicode: true });
 }
 
-test('`char` pattern', () => {
+test('`unicodeChar` pattern', () => {
   // eslint-disable-next-line no-control-regex
   expect(unicodeChar(0)).toEqualRegex(/\u0000/);
   // eslint-disable-next-line no-control-regex
@@ -39,7 +39,7 @@ test('`char` pattern', () => {
   expect(u(unicodeChar(0x103456))).toEqualRegex(new RegExp('\\u{103456}', 'u'));
 });
 
-test('`char` matching', () => {
+test('`unicodeChar` matching', () => {
   expect(unicodeChar(0)).toMatchString('\u{0}');
   expect(unicodeChar(0x1)).toMatchString('\u{1}');
   expect(unicodeChar(0x12)).toMatchString('\u{12}}');
@@ -66,7 +66,7 @@ test('`char` matching', () => {
   expect(u(unicodeChar('😎'.codePointAt(0)!))).toMatchString('\u{1f60e}');
 });
 
-test('`char` nesting matching', () => {
+test('`unicodeChar` nesting matching', () => {
   expect(
     u(charClass(unicodeChar('a'.codePointAt(0)!), unicodeChar('ą'.codePointAt(0)!))),
   ).toMatchString('a');
@@ -78,7 +78,7 @@ test('`char` nesting matching', () => {
   ).not.toMatchString('b');
 });
 
-test('`char` edge cases handling', () => {
+test('`unicodeChar` edge cases handling', () => {
   expect(() => u(unicodeChar(NaN))).toThrowErrorMatchingInlineSnapshot(
     `"Expected a valid unicode code point but received NaN"`,
   );
