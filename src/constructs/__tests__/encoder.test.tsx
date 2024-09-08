@@ -83,6 +83,6 @@ test('`buildRegExp` throws error on unknown element', () => {
 
 test('`buildPattern` throws on empty text', () => {
   expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
-    `"Unsupported element. Received: """`,
+    `"Expected at least one character"`,
   );
 });

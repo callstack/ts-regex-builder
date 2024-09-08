@@ -16,9 +16,7 @@ test('`repeat` pattern optimizes grouping for atoms', () => {
 });
 
 test('`repeat` throws on no children', () => {
-  expect(() => repeat([], 1)).toThrowErrorMatchingInlineSnapshot(
-    `"\`repeat\` should receive at least one element"`,
-  );
+  expect(() => repeat([], 1)).toThrowErrorMatchingInlineSnapshot(`"Expected at least one element"`);
 });
 
 test('greedy `repeat` quantifier pattern', () => {
