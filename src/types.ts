@@ -15,7 +15,7 @@ export type RegexElement = RegexConstruct | RegExp | string;
 /**
  * Fundamental building block of a regular expression, defined as either an encoded regex or a character class.
  */
-export type RegexConstruct = EncodedRegex | SelfEncodableRegex;
+export type RegexConstruct = EncodedRegex | LazyEncodableRegex;
 
 /**
  * Encoded regex pattern with information about its type (atom, sequence)
@@ -33,11 +33,11 @@ export interface CharacterEscape extends EncodedRegex {
   ranges?: never;
 }
 
-export interface SelfEncodableRegex {
+export interface LazyEncodableRegex {
   encode: () => EncodedRegex;
 }
 
-export interface CharacterClass extends SelfEncodableRegex {
+export interface CharacterClass extends LazyEncodableRegex {
   chars: string[];
   ranges?: CharacterRange[];
 }

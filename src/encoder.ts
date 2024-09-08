@@ -23,21 +23,21 @@ export function encodeAtomic(sequence: RegexSequence): string {
 }
 
 function encodeElement(element: RegexElement): EncodedRegex {
-  if (typeof element === 'string' && element.length > 0) {
+  if (typeof element === 'string') {
     return encodeText(element);
   }
 
-  if (typeof element === 'object') {
-    if (element instanceof RegExp) {
-      return encodeRegExp(element);
-    }
+  if (element instanceof RegExp) {
+    return encodeRegExp(element);
+  }
 
+  if (typeof element === 'object') {
     // EncodedRegex
     if ('pattern' in element) {
       return element;
     }
 
-    // SelfEncodableRegex
+    // LazyEncodableRegex
     if ('encode' in element) {
       return element.encode();
     }
