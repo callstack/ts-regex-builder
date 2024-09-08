@@ -14,16 +14,12 @@ export function charClass(...elements: Array<CharacterClass | CharacterEscape>):
 }
 
 export function charRange(start: string, end: string): CharacterClass {
-  if (start.length !== 1) {
-    throw new Error(`Expected a single character, received "${start}"`);
-  }
-
-  if (end.length !== 1) {
-    throw new Error(`Expected a single character, received "${end}"`);
+  if (start.length !== 1 || end.length !== 1) {
+    throw new Error(`Expected a single characters, received "${start}" & "${end}"`);
   }
 
   if (start > end) {
-    throw new Error('`start` character should be before or same as `end` character');
+    [start, end] = [end, start];
   }
 
   return {

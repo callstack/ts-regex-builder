@@ -46,15 +46,23 @@ test('`charRange` pattern', () => {
   expect([charRange('A', 'F'), 'x']).toEqualRegex(/[A-F]x/);
 });
 
+test('`charRange` works both ways', () => {
+  expect(charRange('a', 'z')).toEqualRegex(/[a-z]/);
+  expect(charRange('z', 'a')).toEqualRegex(/[a-z]/);
+});
+
 test('`charRange` throws on incorrect arguments', () => {
-  expect(() => charRange('z', 'a')).toThrowErrorMatchingInlineSnapshot(
-    `"\`start\` character should be before or same as \`end\` character"`,
-  );
   expect(() => charRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a single character, received "aa""`,
+    `"Expected a single characters, received "aa" & "z""`,
   );
   expect(() => charRange('a', 'zz')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a single character, received "zz""`,
+    `"Expected a single characters, received "a" & "zz""`,
+  );
+  expect(() => charRange('', 'z')).toThrowErrorMatchingInlineSnapshot(
+    `"Expected a single characters, received "" & "z""`,
+  );
+  expect(() => charRange('a', '')).toThrowErrorMatchingInlineSnapshot(
+    `"Expected a single characters, received "a" & """`,
   );
 });
 
