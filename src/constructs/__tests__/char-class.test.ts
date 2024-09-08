@@ -1,6 +1,5 @@
 import {
   anyOf,
-  buildRegExp,
   charClass,
   charRange,
   digit,
