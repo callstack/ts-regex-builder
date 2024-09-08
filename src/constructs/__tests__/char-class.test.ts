@@ -53,16 +53,16 @@ test('`charRange` works both ways', () => {
 
 test('`charRange` throws on incorrect arguments', () => {
   expect(() => charRange('aa', 'z')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a single characters, received "aa" & "z""`,
+    `"Expected single characters, but received "aa" & "z""`,
   );
   expect(() => charRange('a', 'zz')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a single characters, received "a" & "zz""`,
+    `"Expected single characters, but received "a" & "zz""`,
   );
   expect(() => charRange('', 'z')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a single characters, received "" & "z""`,
+    `"Expected single characters, but received "" & "z""`,
   );
   expect(() => charRange('a', '')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a single characters, received "a" & """`,
+    `"Expected single characters, but received "a" & """`,
   );
 });
 

@@ -15,7 +15,7 @@ export function charClass(...elements: Array<CharacterClass | CharacterEscape>):
 
 export function charRange(start: string, end: string): CharacterClass {
   if (start.length !== 1 || end.length !== 1) {
-    throw new Error(`Expected a single characters, received "${start}" & "${end}"`);
+    throw new Error(`Expected single characters, but received "${start}" & "${end}"`);
   }
 
   if (start > end) {
