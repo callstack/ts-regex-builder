@@ -10,17 +10,9 @@ import { encode } from './encoder';
  */
 export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp {
   const pattern = encode(sequence).pattern;
+  ensureUnicodeFlagIfNeeded(pattern, flags);
+
   const flagsString = encodeFlags(flags ?? {});
-
-  if (!flags?.unicode) {
-    const unicodeModePattern = getUnicodeModePattern(pattern);
-    if (unicodeModePattern) {
-      throw new Error(
-        `The pattern "${unicodeModePattern}" requires Unicode-aware mode. Please ensure the "unicode" flag is set.`,
-      );
-    }
-  }
-
   return new RegExp(pattern, flagsString);
 }
 
@@ -47,9 +39,16 @@ function encodeFlags(flags: RegexFlags): string {
   return result;
 }
 
-const unicodeModePatterns = /(?:\\u|\\p|\\P)\{.+?\}/;
+// Matches unicode mode patterns: \u{...}, \p{...}, \P{...}, but avoids valid \\u{...}, etc
+const unicodeModePatterns = /(?<!\\)(?:\\u|\\[pP])\{.+?\}/;
 
-function getUnicodeModePattern(pattern: string): string | null {
+function ensureUnicodeFlagIfNeeded(pattern: string, flags: RegexFlags | undefined) {
+  if (flags?.unicode) {
+    return;
+  }
+
   const match = pattern.match(unicodeModePatterns);
-  return match?.[0] ?? null;
+  if (match) {
+    throw new Error(`Pattern "${match?.[0]}" requires "unicode" flag to be set.`);
+  }
 }

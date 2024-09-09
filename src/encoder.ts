@@ -1,7 +1,8 @@
-import type { CharacterClass, EncodedRegex, RegexElement, RegexSequence } from './types';
+import type { EncodedRegex, RegexElement, RegexSequence } from './types';
+import { ensureElements, ensureText } from './utils';
 
 export function encode(sequence: RegexSequence): EncodedRegex {
-  const elements = Array.isArray(sequence) ? sequence : [sequence];
+  const elements = ensureElements(sequence);
   const encoded = elements.map((n) => encodeElement(n));
 
   if (encoded.length === 1) {
@@ -26,27 +27,27 @@ function encodeElement(element: RegexElement): EncodedRegex {
     return encodeText(element);
   }
 
-  if (typeof element === 'object' && element instanceof RegExp) {
+  if (element instanceof RegExp) {
     return encodeRegExp(element);
   }
 
-  // EncodedRegex
-  if (typeof element === 'object' && 'pattern' in element) {
-    return element;
+  if (typeof element === 'object') {
+    // EncodedRegex
+    if ('pattern' in element) {
+      return element;
+    }
+
+    // LazyEncodableRegex
+    if ('encode' in element) {
+      return element.encode();
+    }
   }
 
-  // CharacterClass
-  if (typeof element === 'object' && 'chars' in element) {
-    return encodeCharClass(element);
-  }
-
-  throw new Error(`\`encodeElement\`: unknown element: ${JSON.stringify(element, null, 2)}`);
+  throw new Error(`Unsupported element. Received: ${JSON.stringify(element, null, 2)}`);
 }
 
 function encodeText(text: string): EncodedRegex {
-  if (text.length === 0) {
-    throw new Error('`encodeText`: received text should not be empty');
-  }
+  ensureText(text);
 
   return {
     // Optimize for single character case
@@ -65,44 +66,10 @@ function encodeRegExp(regexp: RegExp): EncodedRegex {
   };
 }
 
-// This is intended to catch only some popular atomic patterns like char classes.
+// This is intended to catch only some popular atomic patterns like char classes and groups.
 function isAtomicPattern(pattern: string): boolean {
-  if (pattern.length === 1) {
-    return true;
-  }
-
-  if (pattern.startsWith('[') && pattern.endsWith(']') && pattern.match(/[[\]]/g)?.length === 2) {
-    return true;
-  }
-
-  if (pattern.startsWith('(') && pattern.endsWith(')') && pattern.match(/[()]/g)?.length === 2) {
-    return true;
-  }
-
-  return false;
-}
-
-export function encodeCharClass(element: CharacterClass, isNegated?: boolean): EncodedRegex {
-  if (!element.chars.length && !element.ranges?.length) {
-    throw new Error('Character class should contain at least one character or character range');
-  }
-
-  // If passed characters includes hyphen (`-`) it need to be moved to
-  // first (or last) place in order to treat it as hyphen character and not a range.
-  // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
-  const hyphen = element.chars.includes('-') ? '-' : '';
-  const caret = element.chars.includes('^') ? '^' : '';
-  const otherChars = element.chars.filter((c) => c !== '-' && c !== '^').join('');
-  const ranges = element.ranges?.map(({ start, end }) => `${start}-${end}`).join('') ?? '';
-  const negation = isNegated ? '^' : '';
-
-  let pattern = `[${negation}${ranges}${otherChars}${caret}${hyphen}]`;
-  if (pattern === '[^-]') pattern = '[\\^-]';
-
-  return {
-    precedence: 'atom',
-    pattern,
-  };
+  // Simple char, char class [...] or group (...)
+  return pattern.length === 1 || /^\[[^[\]]*\]$/.test(pattern) || /^\([^()]*\)$/.test(pattern);
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping

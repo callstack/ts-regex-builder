@@ -34,6 +34,6 @@ test('`choiceOf` pattern using nested regex', () => {
 
 test('`choiceOf` throws on empty options', () => {
   expect(() => choiceOf()).toThrowErrorMatchingInlineSnapshot(
-    `"\`choiceOf\` should receive at least one alternative"`,
+    `"Expected at least one alternative"`,
   );
 });

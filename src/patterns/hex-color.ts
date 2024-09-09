@@ -1,11 +1,9 @@
 import { buildRegExp } from '../builders';
 import { endOfString, startOfString, wordBoundary } from '../constructs/anchors';
-import { charClass, charRange } from '../constructs/char-class';
-import { digit } from '../constructs/char-escape';
 import { choiceOf } from '../constructs/choice-of';
 import { repeat } from '../constructs/repeat';
 
-const hexDigit = charClass(digit, charRange('a', 'f'));
+const hexDigit = /[0-9a-f]/;
 
 /** Find hex color strings in a text. */
 export const hexColorFinder = buildRegExp(

@@ -10,13 +10,15 @@ JavaScript `RegExp` object offers [Unicode-aware](https://developer.mozilla.org/
 ### Character escapes
 
 ```ts
-function char(codePoint: number): CharacterEscape;
+function unicodeChar(codePoint: number): CharacterEscape;
 ```
+
+Alias: `char`.
 
 Regex syntax:
 
 - `\uXXXX`: 4-digit hex escape for code points below 0x10000.
-- `\u{X}`: Unicode code point escape for code points above 0xFFFF.
+- `\u{XXXXXX}`: Unicode code point escape for code points above 0xFFFF.
 
 Note: for code points above 0xFFFF, the regex engine must be [unicode-aware](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode#unicode-aware_mode).
 
