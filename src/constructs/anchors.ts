@@ -1,22 +1,22 @@
 import type { EncodedRegex } from '../types';
 
 export const startOfString: EncodedRegex = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '^',
 };
 
 export const endOfString: EncodedRegex = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '$',
 };
 
 export const wordBoundary: EncodedRegex = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '\\b',
 };
 
 export const nonWordBoundary: EncodedRegex = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '\\B',
 };
 

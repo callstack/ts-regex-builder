@@ -23,7 +23,7 @@ export function unicodeChar(codePoint: number): CharacterEscape {
       : `\\u{${codePoint.toString(16)}}`; // 1-6 digit hex (requires unicode-aware mode)
 
   return {
-    precedence: 'atom',
+    type: 'atom',
     pattern: escape,
     chars: [escape],
   };
@@ -50,7 +50,7 @@ export function unicodeProperty(property: string, value?: string): CharacterEsca
   const escape = `\\p{${property}${value ? `=${value}` : ''}}`;
 
   return {
-    precedence: 'atom',
+    type: 'atom',
     pattern: escape,
     chars: [escape],
   };

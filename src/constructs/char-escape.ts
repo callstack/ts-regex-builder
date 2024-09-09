@@ -5,42 +5,42 @@ import type { CharacterEscape, EncodedRegex } from '../types';
  * Specifically this one is NOT a character escape.
  */
 export const any: EncodedRegex = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '.',
 };
 
 export const digit: CharacterEscape = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '\\d',
   chars: ['\\d'],
 };
 
 export const nonDigit: CharacterEscape = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '\\D',
   chars: ['\\D'],
 };
 
 export const word: CharacterEscape = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '\\w',
   chars: ['\\w'],
 };
 
 export const nonWord: CharacterEscape = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '\\W',
   chars: ['\\W'],
 };
 
 export const whitespace: CharacterEscape = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '\\s',
   chars: ['\\s'],
 };
 
 export const nonWhitespace: CharacterEscape = {
-  precedence: 'atom',
+  type: 'atom',
   pattern: '\\S',
   chars: ['\\S'],
 };

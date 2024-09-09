@@ -9,13 +9,13 @@ export function repeat(sequence: RegexSequence, options: RepeatOptions): Encoded
 
   if (typeof options === 'number') {
     return {
-      precedence: 'sequence',
+      type: 'sequence',
       pattern: `${encodeAtomic(elements)}{${options}}`,
     };
   }
 
   return {
-    precedence: 'sequence',
+    type: 'sequence',
     pattern: `${encodeAtomic(elements)}{${options.min},${options?.max ?? ''}}${
       options.greedy === false ? '?' : ''
     }`,

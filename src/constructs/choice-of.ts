@@ -12,7 +12,7 @@ export function choiceOf(...alternatives: RegexSequence[]): EncodedRegex {
   }
 
   return {
-    precedence: 'disjunction',
+    type: 'disjunction',
     pattern: encodedAlternatives.map((n) => n.pattern).join('|'),
   };
 }

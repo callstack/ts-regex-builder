@@ -17,7 +17,7 @@ import type { EncodedRegex, RegexSequence } from '../types';
  */
 export function negativeLookbehind(sequence: RegexSequence): EncodedRegex {
   return {
-    precedence: 'atom',
+    type: 'atom',
     pattern: `(?<!${encode(sequence).pattern})`,
   };
 }

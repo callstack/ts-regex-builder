@@ -69,7 +69,7 @@ function encodeCharClass(
   if (pattern === '[^-]') pattern = '[\\^-]';
 
   return {
-    precedence: 'atom',
+    type: 'atom',
     pattern,
   };
 }

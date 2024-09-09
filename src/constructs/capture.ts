@@ -21,13 +21,13 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Enco
   const name = options?.name;
   if (name) {
     return {
-      precedence: 'atom',
+      type: 'atom',
       pattern: `(?<${name}>${encode(sequence).pattern})`,
     };
   }
 
   return {
-    precedence: 'atom',
+    type: 'atom',
     pattern: `(${encode(sequence).pattern})`,
   };
 }
@@ -43,7 +43,7 @@ export function capture(sequence: RegexSequence, options?: CaptureOptions): Enco
  */
 export function ref(name: string): Reference {
   return {
-    precedence: 'atom',
+    type: 'atom',
     pattern: `\\k<${name}>`,
     name,
   };

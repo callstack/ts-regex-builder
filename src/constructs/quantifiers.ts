@@ -9,7 +9,7 @@ export interface QuantifierOptions {
 export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
   const elements = ensureElements(sequence);
   return {
-    precedence: 'sequence',
+    type: 'sequence',
     pattern: `${encodeAtomic(elements)}*${options?.greedy === false ? '?' : ''}`,
   };
 }
@@ -17,7 +17,7 @@ export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions)
 export function oneOrMore(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
   const elements = ensureElements(sequence);
   return {
-    precedence: 'sequence',
+    type: 'sequence',
     pattern: `${encodeAtomic(elements)}+${options?.greedy === false ? '?' : ''}`,
   };
 }
@@ -25,7 +25,7 @@ export function oneOrMore(sequence: RegexSequence, options?: QuantifierOptions):
 export function optional(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
   const elements = ensureElements(sequence);
   return {
-    precedence: 'sequence',
+    type: 'sequence',
     pattern: `${encodeAtomic(elements)}?${options?.greedy === false ? '?' : ''}`,
   };
 }

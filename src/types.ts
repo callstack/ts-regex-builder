@@ -21,11 +21,11 @@ export type RegexConstruct = EncodedRegex | LazyEncodableRegex;
  * Encoded regex pattern with information about its type (atom, sequence)
  */
 export interface EncodedRegex {
-  precedence: EncodePrecedence;
+  type: RegexType;
   pattern: string;
 }
 
-export type EncodePrecedence = 'atom' | 'sequence' | 'disjunction';
+export type RegexType = 'atom' | 'sequence' | 'disjunction';
 
 export interface CharacterEscape extends EncodedRegex {
   // `CharacterClass` compatibility
