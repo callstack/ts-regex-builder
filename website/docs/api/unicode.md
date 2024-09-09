@@ -33,5 +33,6 @@ Unicode character property escape matching a set of characters specified by a Un
 Regex syntax: `\p{Property}` or `\p{Property=Value}`
 
 See:
+
 - [MDN: Unicode character class escape](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Unicode_character_class_escape)
 - [UTS#18: Unicode Regular Expressions](https://www.unicode.org/reports/tr18/)

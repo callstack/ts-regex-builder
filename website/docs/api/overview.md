@@ -24,7 +24,8 @@ Most of the regex constructs accept a regex sequence as their argument.
 Regex constructs can be composed into a tree structure:
 
 ```ts
-const currencyCode = repeat(charRange('A', 'Z'), 3);
+const currencyCode = repeat(/[A-Z]/, 3); // or repeat(charRange('A', 'Z'), 3);
+
 const currencyAmount = buildRegExp([
   choiceOf('$', '€', currencyCode), // currency
   capture(
@@ -64,31 +65,14 @@ TS Regex Builder does not have a construct for non-capturing groups. Such groups
 
 | Quantifier                       | Regex Syntax | Description                                       |
 | -------------------------------- | ------------ | ------------------------------------------------- |
-| `zeroOrMore(x)`                  | `x*`         | Zero or more occurence of a pattern               |
-| `oneOrMore(x)`                   | `x+`         | One or more occurence of a pattern                |
-| `optional(x)`                    | `x?`         | Zero or one occurence of a pattern                |
+| `zeroOrMore(x)`                  | `x*`         | Zero or more occurrence of a pattern              |
+| `oneOrMore(x)`                   | `x+`         | One or more occurrence of a pattern               |
+| `optional(x)`                    | `x?`         | Zero or one occurrence of a pattern               |
 | `repeat(x, n)`                   | `x{n}`       | Pattern repeats exact number of times             |
 | `repeat(x, { min: n, })`         | `x{n,}`      | Pattern repeats at least given number of times    |
 | `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times |
 
 See [Quantifiers](./api/quantifiers) for more info.
-
-### Character classes
-
-| Character class        | Regex Syntax | Description                                       |
-| ---------------------- | ------------ | ------------------------------------------------- |
-| `any`                  | `.`          | Any character                                     |
-| `word`                 | `\w`         | Word character: letter, digit, underscore         |
-| `digit`                | `\d`         | Digit character: 0 to 9                           |
-| `whitespace`           | `\s`         | Whitespace character: space, tab, line break, ... |
-| `anyOf('abc')`         | `[abc]`      | Any of provided characters                        |
-| `charRange('a', 'z')`  | `[a-z]`      | Character in a range                              |
-| `charClass(...)`       | `[...]`      | Union of multiple character classes               |
-| `negated(...)`         | `[^...]`     | Negation of a given character class               |
-| `char(...)`            | `\uXXXX`     | Character specified given Unicode code point      |
-| `unicodeProperty(...)` | `\p{...}`    | Characters with given Unicode property            |
-
-See [Character Classes](./api/character-classes) and [Unicode](./api/unicode) for more info.
 
 ### Assertions
 
@@ -98,8 +82,29 @@ See [Character Classes](./api/character-classes) and [Unicode](./api/unicode) fo
 | `endOfString`             | `$`          | Match the end of the string (or the end of a line in multiline mode)     |
 | `wordBoundary`            | `\b`         | Match the start or end of a word without consuming characters            |
 | `lookahead(...)`          | `(?=...)`    | Match subsequent text without consuming it                               |
-| `negativeLookhead(...)`   | `(?!...)`    | Reject subsequent text without consuming it                              |
+| `negativeLookahead(...)`  | `(?!...)`    | Reject subsequent text without consuming it                              |
 | `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it                                |
 | `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it                               |
 
 See [Assertions](./api/assertions) for more info.
+
+### Character classes
+
+::: tip
+
+You may also use inline regexes for specifying character classes, as they offer a concise yet readable syntax. For example, `/[a-z0-9_]/`.
+
+:::
+
+| Character class       | Regex Syntax | Description                                       |
+| --------------------- | ------------ | ------------------------------------------------- |
+| `any`                 | `.`          | Any character                                     |
+| `word`                | `\w`         | Word character: letter, digit, underscore         |
+| `digit`               | `\d`         | Digit character: 0 to 9                           |
+| `whitespace`          | `\s`         | Whitespace character: space, tab, line break, ... |
+| `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
+| `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
+| `charClass(...)`      | `[...]`      | Union of multiple character classes               |
+| `negated(...)`        | `[^...]`     | Negation of a given character class               |
+
+See [Character Classes](./api/character-classes) and [Unicode](./api/unicode) for more info.

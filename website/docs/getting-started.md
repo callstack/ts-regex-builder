@@ -15,10 +15,10 @@ This library allows users to create regular expressions in a structured way, mak
 
 ```ts
 // Regular JS RegExp
-const hexColor = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
+const hexColor = /^#?([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/;
 
 // TS Regex Builder DSL
-const hexDigit = charClass(charRange('a', 'f'), charRange('A', 'F'), charRange('0', '9'));
+const hexDigit = /[0-9a-fA-F]/; // or charClass(charRange('0', '9'), charRange('a', 'f'), charRange('A', 'F'));
 
 const hexColor = buildRegExp([
   startOfString,
