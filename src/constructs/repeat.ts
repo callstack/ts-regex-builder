@@ -17,7 +17,7 @@ export type RepeatOptions = number | { min: number; max?: number; greedy?: boole
  * @param sequence - Sequence to match.
  * @param options - Quantifier options.
  */
-export function repeat(sequence: RegexSequence, options: RepeatOptions): EncodedRegex | null {
+export function repeat(sequence: RegexSequence, options: RepeatOptions): EncodedRegex {
   const elements = ensureElements(sequence);
 
   if (typeof options === 'number') {

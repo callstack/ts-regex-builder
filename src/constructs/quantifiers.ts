@@ -12,10 +12,7 @@ export interface QuantifierOptions {
  * @param sequence - Elements to match zero or more of.
  * @param options - Quantifier options.
  */
-export function zeroOrMore(
-  sequence: RegexSequence,
-  options?: QuantifierOptions,
-): EncodedRegex | null {
+export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
   const elements = ensureElements(sequence);
   return {
     precedence: 'sequence',
@@ -29,10 +26,7 @@ export function zeroOrMore(
  * @param sequence - Elements to match one or more of.
  * @param options - Quantifier options.
  */
-export function oneOrMore(
-  sequence: RegexSequence,
-  options?: QuantifierOptions,
-): EncodedRegex | null {
+export function oneOrMore(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
   const elements = ensureElements(sequence);
   return {
     precedence: 'sequence',
@@ -46,10 +40,7 @@ export function oneOrMore(
  * @param sequence - Elements to match zero or one of.
  * @param options - Quantifier options.
  */
-export function optional(
-  sequence: RegexSequence,
-  options?: QuantifierOptions,
-): EncodedRegex | null {
+export function optional(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
   const elements = ensureElements(sequence);
   return {
     precedence: 'sequence',
