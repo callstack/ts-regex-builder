@@ -21,7 +21,7 @@ This library allows users to create regular expressions in a structured way, mak
 const hexColor = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 
 // TS Regex Builder DSL
-const hexDigit = charClass(charRange('a', 'f'), charRange('A', 'F'), charRange('0', '9'));
+const hexDigit = /[a-fA-F0-9]/; // or: charClass(charRange('a', 'f'), charRange('A', 'F'), charRange('0', '9'));
 
 const hexColor = buildRegExp([
   startOfString,
@@ -116,9 +116,9 @@ See [Constructs API doc](https://callstack.github.io/ts-regex-builder/api/constr
 
 | Quantifier                       | Regex Syntax | Description                                       |
 | -------------------------------- | ------------ | ------------------------------------------------- |
-| `zeroOrMore(x)`                  | `x*`         | Zero or more occurence of a pattern               |
-| `oneOrMore(x)`                   | `x+`         | One or more occurence of a pattern                |
-| `optional(x)`                    | `x?`         | Zero or one occurence of a pattern                |
+| `zeroOrMore(x)`                  | `x*`         | Zero or more occurrence of a pattern              |
+| `oneOrMore(x)`                   | `x+`         | One or more occurrence of a pattern               |
+| `optional(x)`                    | `x?`         | Zero or one occurrence of a pattern               |
 | `repeat(x, n)`                   | `x{n}`       | Pattern repeats exact number of times             |
 | `repeat(x, { min: n, })`         | `x{n,}`      | Pattern repeats at least given number of times    |
 | `repeat(x, { min: n, max: n2 })` | `x{n1,n2}`   | Pattern repeats between n1 and n2 number of times |
@@ -137,9 +137,8 @@ See [Quantifiers API doc](https://callstack.github.io/ts-regex-builder/api/quant
 | `charRange('a', 'z')`  | `[a-z]`      | Character in a range                              |
 | `charClass(...)`       | `[...]`      | Union of multiple character classes               |
 | `negated(...)`         | `[^...]`     | Negation of a given character class               |
-| `char(...)`            | `\uXXXX`     | Character specified given Unicode code point      |
+| `unicodeChar(...)`     | `\uXXXX`     | Character specified given Unicode code point      |
 | `unicodeProperty(...)` | `\p{...}`    | Characters with given Unicode property            |
-
 
 See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api/character-classes) and [Unicode API doc](https://callstack.github.io/ts-regex-builder/api/unicode) for more info.
 
@@ -151,7 +150,7 @@ See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api
 | `endOfString`             | `$`          | Match the end of the string (or the end of a line in multiline mode)     |
 | `wordBoundary`            | `\b`         | Match the start or end of a word without consuming characters            |
 | `lookahead(...)`          | `(?=...)`    | Match subsequent text without consuming it                               |
-| `negativeLookhead(...)`   | `(?!...)`    | Reject subsequent text without consuming it                              |
+| `negativeLookahead(...)`  | `(?!...)`    | Reject subsequent text without consuming it                              |
 | `lookbehind(...)`         | `(?<=...)`   | Match preceding text without consuming it                                |
 | `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it                               |
 
@@ -184,8 +183,6 @@ TS Regex Builder is inspired by [Swift Regex Builder API](https://developer.appl
 - [Unicode Regular Expressions](https://www.unicode.org/reports/tr18/)
 - [Swift Evolution 351: Regex Builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md)
 - [Swift Regex Builder API docs](https://developer.apple.com/documentation/regexbuilder)
-
-
 
 ---
 
