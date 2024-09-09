@@ -1,6 +1,12 @@
 import type { CharacterClass, CharacterEscape, EncodedRegex } from '../types';
 import { ensureText } from '../utils';
 
+/**
+ * Creates a character class which matches any one of the given characters.
+ *
+ * @param elements - Member characters or character ranges.
+ * @returns Character class.
+ */
 export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
   if (!elements.length) {
     throw new Error('Expected at least one element');
@@ -13,6 +19,13 @@ export function charClass(...elements: Array<CharacterClass | CharacterEscape>):
   };
 }
 
+/**
+ * Creates a character class which matches any one of the characters in the range.
+ *
+ * @param start - Start of the range (single character).
+ * @param end - End of the range (single character).
+ * @returns Character class.
+ */
 export function charRange(start: string, end: string): CharacterClass {
   if (start.length !== 1 || end.length !== 1) {
     throw new Error(`Expected single characters, but received "${start}" & "${end}"`);
@@ -29,6 +42,12 @@ export function charRange(start: string, end: string): CharacterClass {
   };
 }
 
+/**
+ * Creates a character class which matches any one of the given characters.
+ *
+ * @param chars - Characters to match.
+ * @returns Character class.
+ */
 export function anyOf(chars: string): CharacterClass {
   ensureText(chars);
 
@@ -38,6 +57,12 @@ export function anyOf(chars: string): CharacterClass {
   };
 }
 
+/**
+ * Creates a negated character class which matches any character that is not in the given character class.
+ *
+ * @param element - Character class or character escape to negate.
+ * @returns Negated character class.
+ */
 export function negated(element: CharacterClass | CharacterEscape): EncodedRegex {
   return encodeCharClass.call(element, true);
 }

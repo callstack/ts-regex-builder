@@ -6,7 +6,16 @@ export interface QuantifierOptions {
   greedy?: boolean;
 }
 
-export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
+/**
+ * Creates a quantifier which matches zero or more of the given elements.
+ *
+ * @param sequence - Elements to match zero or more of.
+ * @param options - Quantifier options.
+ */
+export function zeroOrMore(
+  sequence: RegexSequence,
+  options?: QuantifierOptions,
+): EncodedRegex | null {
   const elements = ensureElements(sequence);
   return {
     precedence: 'sequence',
@@ -14,7 +23,16 @@ export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions)
   };
 }
 
-export function oneOrMore(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
+/**
+ * Creates a quantifier which matches one or more of the given elements.
+ *
+ * @param sequence - Elements to match one or more of.
+ * @param options - Quantifier options.
+ */
+export function oneOrMore(
+  sequence: RegexSequence,
+  options?: QuantifierOptions,
+): EncodedRegex | null {
   const elements = ensureElements(sequence);
   return {
     precedence: 'sequence',
@@ -22,7 +40,16 @@ export function oneOrMore(sequence: RegexSequence, options?: QuantifierOptions):
   };
 }
 
-export function optional(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
+/**
+ * Creates a quantifier which matches zero or one of the given elements.
+ *
+ * @param sequence - Elements to match zero or one of.
+ * @param options - Quantifier options.
+ */
+export function optional(
+  sequence: RegexSequence,
+  options?: QuantifierOptions,
+): EncodedRegex | null {
   const elements = ensureElements(sequence);
   return {
     precedence: 'sequence',
