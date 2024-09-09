@@ -125,23 +125,6 @@ See [Constructs API doc](https://callstack.github.io/ts-regex-builder/api/constr
 
 See [Quantifiers API doc](https://callstack.github.io/ts-regex-builder/api/quantifiers) for more info.
 
-### Character classes
-
-| Character class        | Regex Syntax | Description                                       |
-| ---------------------- | ------------ | ------------------------------------------------- |
-| `any`                  | `.`          | Any character                                     |
-| `word`                 | `\w`         | Word character: letter, digit, underscore         |
-| `digit`                | `\d`         | Digit character: 0 to 9                           |
-| `whitespace`           | `\s`         | Whitespace character: space, tab, line break, ... |
-| `anyOf('abc')`         | `[abc]`      | Any of provided characters                        |
-| `charRange('a', 'z')`  | `[a-z]`      | Character in a range                              |
-| `charClass(...)`       | `[...]`      | Union of multiple character classes               |
-| `negated(...)`         | `[^...]`     | Negation of a given character class               |
-| `unicodeChar(...)`     | `\uXXXX`     | Character specified given Unicode code point      |
-| `unicodeProperty(...)` | `\p{...}`    | Characters with given Unicode property            |
-
-See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api/character-classes) and [Unicode API doc](https://callstack.github.io/ts-regex-builder/api/unicode) for more info.
-
 ### Assertions
 
 | Assertion                 | Regex Syntax | Description                                                              |
@@ -155,6 +138,24 @@ See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api
 | `negativeLookbehind(...)` | `(?<!...)`   | Reject preceding text without consuming it                               |
 
 See [Assertions API doc](https://callstack.github.io/ts-regex-builder/api/assertions) for more info.
+
+### Character classes
+
+> [!TIP]
+> You may also use inline regexes for specifying character classes, as they offer a concise yet readable syntax. For example, `/[a-z0-9_]/`.
+
+| Character class       | Regex Syntax | Description                                       |
+| --------------------- | ------------ | ------------------------------------------------- |
+| `any`                 | `.`          | Any character                                     |
+| `word`                | `\w`         | Word character: letter, digit, underscore         |
+| `digit`               | `\d`         | Digit character: 0 to 9                           |
+| `whitespace`          | `\s`         | Whitespace character: space, tab, line break, ... |
+| `anyOf('abc')`        | `[abc]`      | Any of provided characters                        |
+| `charRange('a', 'z')` | `[a-z]`      | Character in a range                              |
+| `charClass(...)`      | `[...]`      | Union of multiple character classes               |
+| `negated(...)`        | `[^...]`     | Negation of a given character class               |
+
+See [Character Classes API doc](https://callstack.github.io/ts-regex-builder/api/character-classes) and [Unicode API doc](https://callstack.github.io/ts-regex-builder/api/unicode) for more info.
 
 ## Examples
 

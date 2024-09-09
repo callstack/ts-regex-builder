@@ -90,7 +90,11 @@ See [Assertions](./api/assertions) for more info.
 
 ### Character classes
 
-You may use inline regexes for specifying character classes, as they offer a concise yet readable syntax. For example, `/[a-z0-9_]/`.
+::: tip
+
+You may also use inline regexes for specifying character classes, as they offer a concise yet readable syntax. For example, `/[a-z0-9_]/`.
+
+:::
 
 | Character class       | Regex Syntax | Description                                       |
 | --------------------- | ------------ | ------------------------------------------------- |
