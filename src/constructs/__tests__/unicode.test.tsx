@@ -1,5 +1,6 @@
 import {
   buildRegExp,
+  char,
   charClass,
   endOfString,
   type RegexSequence,
@@ -93,6 +94,10 @@ test('`unicodeChar` edge cases handling', () => {
   );
 
   expect(u(unicodeChar(0x10ffff))).toEqualRegex(/\u{10ffff}/u);
+});
+
+test('"char" alias', () => {
+  expect(char('a'.codePointAt(0)!)).toEqualRegex(/\u0061/);
 });
 
 test('`unicodeProperty` pattern', () => {

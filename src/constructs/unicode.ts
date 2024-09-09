@@ -30,6 +30,11 @@ export function unicodeChar(codePoint: number): CharacterEscape {
 }
 
 /**
+ * Alias for `unicodeChar`.
+ */
+export const char = unicodeChar;
+
+/**
  * Unicode property escape matching a set of characters specified by a Unicode property.
  *
  * Regex pattern: `\p{Property}` or `\p{Property=Value}`
