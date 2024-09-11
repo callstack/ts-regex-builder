@@ -45,6 +45,7 @@ test('example: simple url validation', () => {
   expect(regex).not.toMatchString('@gmail.com');
 
   expect(regex).toEqualRegex(
-    /^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d-]*[a-z\d])\.)+[a-z][a-z\d]+$/,
+    // eslint-disable-next-line no-useless-escape
+    /^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d\-]*[a-z\d])\.)+[a-z][a-z\d]+$/,
   );
 });

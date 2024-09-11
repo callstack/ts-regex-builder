@@ -12,7 +12,7 @@ import {
 
 test('example: email validation', () => {
   const usernameChars = charClass(charRange('a', 'z'), digit, anyOf('._%+-'));
-  const hostnameChars = charClass(charRange('a', 'z'), digit, anyOf('-.'));
+  const hostnameChars = charClass(charRange('a', 'z'), digit, anyOf('.-'));
   const domainChars = charRange('a', 'z');
 
   const regex = buildRegExp(
@@ -38,5 +38,6 @@ test('example: email validation', () => {
   expect(regex).not.toMatchString('a@gmail.c');
   expect(regex).not.toMatchString('@gmail.com');
 
-  expect(regex).toEqualRegex(/^[a-z\d._%+-]+@[a-z\d.-]+\.[a-z]{2,}$/i);
+  // eslint-disable-next-line no-useless-escape
+  expect(regex).toEqualRegex(/^[a-z\d._%+\-]+@[a-z\d.\-]+\.[a-z]{2,}$/i);
 });

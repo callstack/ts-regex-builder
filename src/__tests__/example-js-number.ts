@@ -47,5 +47,6 @@ test('example: validate JavaScript number', () => {
   expect(numberValidator).not.toMatchString('.1.1');
   expect(numberValidator).not.toMatchString('.');
 
-  expect(numberValidator).toEqualRegex(/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/);
+  // eslint-disable-next-line no-useless-escape
+  expect(numberValidator).toEqualRegex(/^[+\-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+\-]?\d+)?$/);
 });
