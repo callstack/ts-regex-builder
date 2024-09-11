@@ -13,8 +13,7 @@ export function charClass(...elements: Array<CharacterClass | CharacterEscape>):
   }
 
   return {
-    chars: elements.map((c) => c.chars).flat(),
-    ranges: elements.map((c) => c.ranges ?? []).flat(),
+    parts: elements.map((c) => c.parts).flat(),
     encode: encodeCharClass,
   };
 }
@@ -36,8 +35,7 @@ export function charRange(start: string, end: string): CharacterClass {
   }
 
   return {
-    chars: [],
-    ranges: [{ start, end }],
+    parts: [`${start}-${end}`],
     encode: encodeCharClass,
   };
 }
@@ -52,7 +50,7 @@ export function anyOf(chars: string): CharacterClass {
   ensureText(chars);
 
   return {
-    chars: chars.split('').map(escapeChar),
+    parts: chars.split('').map(escapeChar),
     encode: encodeCharClass,
   };
 }
@@ -82,13 +80,8 @@ function encodeCharClass(
   this: CharacterClass | CharacterEscape,
   isNegated?: boolean,
 ): EncodedRegex {
-  // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes#types
-  const chars = this.chars.join('');
-  const ranges = this.ranges?.map(({ start, end }) => `${start}-${end}`).join('') ?? '';
-  const negation = isNegated ? '^' : '';
-
   return {
     precedence: 'atom',
-    pattern: `[${negation}${ranges}${chars}]`,
+    pattern: `[${isNegated ? '^' : ''}${this.parts.join('')}]`,
   };
 }

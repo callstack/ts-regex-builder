@@ -29,8 +29,7 @@ export type EncodePrecedence = 'atom' | 'sequence' | 'disjunction';
 
 export interface CharacterEscape extends EncodedRegex {
   // `CharacterClass` compatibility
-  chars: string[];
-  ranges?: never;
+  parts: string[];
 }
 
 export interface LazyEncodableRegex {
@@ -38,8 +37,7 @@ export interface LazyEncodableRegex {
 }
 
 export interface CharacterClass extends LazyEncodableRegex {
-  chars: string[];
-  ranges?: CharacterRange[];
+  parts: string[];
 }
 
 export interface CharacterRange {

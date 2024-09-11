@@ -42,5 +42,5 @@ test('example: hex color validation', () => {
   expect(regex).not.toMatchString('#12345');
   expect(regex).not.toMatchString('#1234567');
 
-  expect(regex).toEqualRegex(/^#?(?:[a-f\d]{6}|[a-f\d]{3})$/i);
+  expect(regex).toEqualRegex(/^#?(?:[\da-f]{6}|[\da-f]{3})$/i);
 });
