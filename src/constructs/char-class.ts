@@ -13,7 +13,7 @@ export function charClass(...elements: Array<CharacterClass | CharacterEscape>):
   }
 
   return {
-    parts: elements.map((c) => c.parts).flat(),
+    elements: elements.map((c) => c.elements).flat(),
     encode: encodeCharClass,
   };
 }
@@ -35,7 +35,7 @@ export function charRange(start: string, end: string): CharacterClass {
   }
 
   return {
-    parts: [`${start}-${end}`],
+    elements: [`${start}-${end}`],
     encode: encodeCharClass,
   };
 }
@@ -50,7 +50,7 @@ export function anyOf(chars: string): CharacterClass {
   ensureText(chars);
 
   return {
-    parts: chars.split('').map(escapeChar),
+    elements: chars.split('').map(escapeChar),
     encode: encodeCharClass,
   };
 }
@@ -82,6 +82,6 @@ function encodeCharClass(
 ): EncodedRegex {
   return {
     precedence: 'atom',
-    pattern: `[${isNegated ? '^' : ''}${this.parts.join('')}]`,
+    pattern: `[${isNegated ? '^' : ''}${this.elements.join('')}]`,
   };
 }

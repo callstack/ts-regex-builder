@@ -25,7 +25,7 @@ export function unicodeChar(codePoint: number): CharacterEscape {
   return {
     precedence: 'atom',
     pattern: escape,
-    parts: [escape],
+    elements: [escape],
   };
 }
 
@@ -52,6 +52,6 @@ export function unicodeProperty(property: string, value?: string): CharacterEsca
   return {
     precedence: 'atom',
     pattern: escape,
-    parts: [escape],
+    elements: [escape],
   };
 }
