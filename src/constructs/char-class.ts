@@ -81,7 +81,7 @@ function encodeCharClass(
   isNegated?: boolean,
 ): EncodedRegex {
   return {
-    precedence: 'atom',
+    precedence: 0,
     pattern: `[${isNegated ? '^' : ''}${this.elements.join('')}]`,
   };
 }

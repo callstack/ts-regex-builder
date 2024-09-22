@@ -10,16 +10,14 @@ export function encode(sequence: RegexSequence): EncodedRegex {
   }
 
   return {
-    precedence: 'sequence',
-    pattern: encoded
-      .map((n) => (n.precedence === 'disjunction' ? encodeAtomic(n) : n.pattern))
-      .join(''),
+    precedence: 1,
+    pattern: encoded.map((n) => (n.precedence === 2 ? encodeAtomic(n) : n.pattern)).join(''),
   };
 }
 
 export function encodeAtomic(sequence: RegexSequence): string {
   const encoded = encode(sequence);
-  return encoded.precedence === 'atom' ? encoded.pattern : `(?:${encoded.pattern})`;
+  return encoded.precedence === 0 ? encoded.pattern : `(?:${encoded.pattern})`;
 }
 
 function encodeElement(element: RegexElement): EncodedRegex {
@@ -51,7 +49,7 @@ function encodeText(text: string): EncodedRegex {
 
   return {
     // Optimize for single character case
-    precedence: text.length === 1 ? 'atom' : 'sequence',
+    precedence: text.length === 1 ? 0 : 1,
     pattern: escapeText(text),
   };
 }
@@ -61,7 +59,7 @@ function encodeRegExp(regexp: RegExp): EncodedRegex {
 
   return {
     // Encode at safe precedence
-    precedence: isAtomicPattern(pattern) ? 'atom' : 'disjunction',
+    precedence: isAtomicPattern(pattern) ? 0 : 2,
     pattern,
   };
 }

@@ -18,7 +18,7 @@ export function choiceOf(...alternatives: RegexSequence[]): EncodedRegex {
   }
 
   return {
-    precedence: 'disjunction',
+    precedence: 2,
     pattern: encodedAlternatives.map((n) => n.pattern).join('|'),
   };
 }

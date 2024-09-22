@@ -28,7 +28,7 @@ export interface EncodedRegex {
 /**
  * Precedence of given regex pattern.
  */
-export type EncodePrecedence = 'atom' | 'sequence' | 'disjunction';
+export type EncodePrecedence = 0 | 1 | 2;
 
 /**
  * Regex patter that can be encoded by calling the `encode` method.

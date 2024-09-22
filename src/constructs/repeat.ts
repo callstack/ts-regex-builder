@@ -22,13 +22,13 @@ export function repeat(sequence: RegexSequence, options: RepeatOptions): Encoded
 
   if (typeof options === 'number') {
     return {
-      precedence: 'sequence',
+      precedence: 1,
       pattern: `${encodeAtomic(elements)}{${options}}`,
     };
   }
 
   return {
-    precedence: 'sequence',
+    precedence: 1,
     pattern: `${encodeAtomic(elements)}{${options.min},${options?.max ?? ''}}${
       options.greedy === false ? '?' : ''
     }`,

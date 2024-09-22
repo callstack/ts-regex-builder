@@ -5,7 +5,7 @@ import type { CharacterEscape, EncodedRegex } from '../types';
  * Specifically this one is NOT a character escape.
  */
 export const any: EncodedRegex = {
-  precedence: 'atom',
+  precedence: 0,
   pattern: '.',
 };
 
@@ -13,7 +13,7 @@ export const any: EncodedRegex = {
  * Matches any digit (0-9).
  */
 export const digit: CharacterEscape = {
-  precedence: 'atom',
+  precedence: 0,
   pattern: '\\d',
   elements: ['\\d'],
 };
@@ -22,7 +22,7 @@ export const digit: CharacterEscape = {
  * Matches any non-digit (0-9) character.
  */
 export const nonDigit: CharacterEscape = {
-  precedence: 'atom',
+  precedence: 0,
   pattern: '\\D',
   elements: ['\\D'],
 };
@@ -31,7 +31,7 @@ export const nonDigit: CharacterEscape = {
  * Matches any word character (alphanumeric or underscore).
  */
 export const word: CharacterEscape = {
-  precedence: 'atom',
+  precedence: 0,
   pattern: '\\w',
   elements: ['\\w'],
 };
@@ -40,7 +40,7 @@ export const word: CharacterEscape = {
  * Matches any non-word (alphanumeric or underscore) character.
  */
 export const nonWord: CharacterEscape = {
-  precedence: 'atom',
+  precedence: 0,
   pattern: '\\W',
   elements: ['\\W'],
 };
@@ -49,7 +49,7 @@ export const nonWord: CharacterEscape = {
  * Matches any whitespace character (space, tab, newline, etc.).
  */
 export const whitespace: CharacterEscape = {
-  precedence: 'atom',
+  precedence: 0,
   pattern: '\\s',
   elements: ['\\s'],
 };
@@ -58,7 +58,7 @@ export const whitespace: CharacterEscape = {
  * Matches any non-whitespace (space, tab, newline, etc.) character.
  */
 export const nonWhitespace: CharacterEscape = {
-  precedence: 'atom',
+  precedence: 0,
   pattern: '\\S',
   elements: ['\\S'],
 };
