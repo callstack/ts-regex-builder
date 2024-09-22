@@ -18,33 +18,38 @@ export type RegexElement = RegexConstruct | RegExp | string;
 export type RegexConstruct = EncodedRegex | LazyEncodableRegex;
 
 /**
- * Encoded regex pattern with information about its type (atom, sequence)
+ * Encoded regex pattern with information about its precedence (atom, sequence, disjunction)
  */
 export interface EncodedRegex {
   precedence: EncodePrecedence;
   pattern: string;
 }
 
+/**
+ * Precedence of given regex pattern.
+ */
 export type EncodePrecedence = 'atom' | 'sequence' | 'disjunction';
 
-export interface CharacterEscape extends EncodedRegex {
-  // `CharacterClass` compatibility
-  chars: string[];
-  ranges?: never;
-}
-
+/**
+ * Regex patter that can be encoded by calling the `encode` method.
+ */
 export interface LazyEncodableRegex {
   encode: () => EncodedRegex;
 }
 
-export interface CharacterClass extends LazyEncodableRegex {
-  chars: string[];
-  ranges?: CharacterRange[];
+/**
+ * Character escape: `EncodedRegex` that can albo be put into `charClass`.
+ */
+export interface CharacterEscape extends EncodedRegex {
+  elements: string[];
 }
 
-export interface CharacterRange {
-  start: string;
-  end: string;
+/**
+ * Character class.
+ * Regex: `[...]`
+ */
+export interface CharacterClass extends LazyEncodableRegex {
+  elements: string[];
 }
 
 /**

@@ -15,7 +15,7 @@ export const any: EncodedRegex = {
 export const digit: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\d',
-  chars: ['\\d'],
+  elements: ['\\d'],
 };
 
 /**
@@ -24,7 +24,7 @@ export const digit: CharacterEscape = {
 export const nonDigit: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\D',
-  chars: ['\\D'],
+  elements: ['\\D'],
 };
 
 /**
@@ -33,7 +33,7 @@ export const nonDigit: CharacterEscape = {
 export const word: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\w',
-  chars: ['\\w'],
+  elements: ['\\w'],
 };
 
 /**
@@ -42,7 +42,7 @@ export const word: CharacterEscape = {
 export const nonWord: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\W',
-  chars: ['\\W'],
+  elements: ['\\W'],
 };
 
 /**
@@ -51,7 +51,7 @@ export const nonWord: CharacterEscape = {
 export const whitespace: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\s',
-  chars: ['\\s'],
+  elements: ['\\s'],
 };
 
 /**
@@ -60,7 +60,7 @@ export const whitespace: CharacterEscape = {
 export const nonWhitespace: CharacterEscape = {
   precedence: 'atom',
   pattern: '\\S',
-  chars: ['\\S'],
+  elements: ['\\S'],
 };
 
 /**

@@ -16,11 +16,11 @@ import {
 test('example: simple url validation', () => {
   const protocol = [choiceOf('http', 'https'), '://'];
   const domainChars = charClass(charRange('a', 'z'), digit);
-  const domainCharsHypen = charClass(domainChars, anyOf('-'));
+  const domainCharsHyphen = charClass(domainChars, anyOf('-'));
 
   const domainSegment = choiceOf(
     domainChars, // single char
-    [domainChars, zeroOrMore(domainCharsHypen), domainChars], // multi char
+    [domainChars, zeroOrMore(domainCharsHyphen), domainChars], // multi char
   );
 
   const regex = buildRegExp([
@@ -45,6 +45,7 @@ test('example: simple url validation', () => {
   expect(regex).not.toMatchString('@gmail.com');
 
   expect(regex).toEqualRegex(
-    /^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d-]*[a-z\d])\.)+[a-z][a-z\d]+$/,
+    // eslint-disable-next-line no-useless-escape
+    /^(?:(?:http|https):\/\/)?(?:(?:[a-z\d]|[a-z\d][a-z\d\-]*[a-z\d])\.)+[a-z][a-z\d]+$/,
   );
 });
