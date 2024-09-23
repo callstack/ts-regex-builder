@@ -8,8 +8,12 @@ import { encode } from './encoder';
  * @param flags RegExp flags object
  * @returns RegExp object
  */
-export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp {
-  const pattern = encode(sequence).pattern;
+export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp | undefined {
+  const pattern = encode(sequence)?.pattern;
+  if (!pattern) {
+    return undefined;
+  }
+
   ensureUnicodeFlagIfNeeded(pattern, flags);
 
   const flagsString = encodeFlags(flags ?? {});
@@ -21,8 +25,8 @@ export function buildRegExp(sequence: RegexSequence, flags?: RegexFlags): RegExp
  * @param elements Single regex element or array of elements
  * @returns regex pattern string
  */
-export function buildPattern(sequence: RegexSequence): string {
-  return encode(sequence).pattern;
+export function buildPattern(sequence: RegexSequence): string | undefined {
+  return encode(sequence)?.pattern;
 }
 
 function encodeFlags(flags: RegexFlags): string {

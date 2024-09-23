@@ -43,8 +43,8 @@ test('`charClass` joins character escapes', () => {
   expect(charClass(word, nonDigit)).toEqualRegex(/[\w\D]/);
 });
 
-test('`charClass` throws on empty text', () => {
-  expect(() => charClass()).toThrowErrorMatchingInlineSnapshot(`"Expected at least one element"`);
+test('`charClass` on empty text', () => {
+  expect(charClass()).toBeNull();
 });
 
 test('`charRange` pattern', () => {
@@ -94,10 +94,6 @@ test('`anyOf` handles basic cases pattern', () => {
   expect(['x', anyOf('ab'), 'x']).toMatchString('xbx');
   expect(['x', anyOf('ab'), 'x']).not.toMatchString('x0x');
   expect(['x', anyOf('ab'), 'x']).toEqualRegex(/x[ab]x/);
-});
-
-test('`anyOf` throws on empty text', () => {
-  expect(() => anyOf('')).toThrowErrorMatchingInlineSnapshot(`"Expected at least one character"`);
 });
 
 test('`anyOf` pattern with quantifiers', () => {

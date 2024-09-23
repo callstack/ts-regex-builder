@@ -1,5 +1,6 @@
 import { encode } from '../encoder';
 import type { EncodedRegex, RegexSequence } from '../types';
+import { ensureElements } from '../utils';
 
 export type CaptureOptions = {
   /**
@@ -17,18 +18,23 @@ export interface Reference extends EncodedRegex {
  * - in the match results (`String.match`, `String.matchAll`, or `RegExp.exec`)
  * - in the regex itself, through {@link ref}
  */
-export function capture(sequence: RegexSequence, options?: CaptureOptions): EncodedRegex {
+export function capture(sequence: RegexSequence, options?: CaptureOptions): EncodedRegex | null {
+  const elements = ensureElements(sequence);
+  if (elements.length === 0) {
+    return null;
+  }
+
   const name = options?.name;
   if (name) {
     return {
       precedence: 'atom',
-      pattern: `(?<${name}>${encode(sequence).pattern})`,
+      pattern: `(?<${name}>${encode(elements).pattern})`,
     };
   }
 
   return {
     precedence: 'atom',
-    pattern: `(${encode(sequence).pattern})`,
+    pattern: `(${encode(elements).pattern})`,
   };
 }
 

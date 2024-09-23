@@ -1,5 +1,4 @@
 import type { CharacterClass, CharacterEscape, EncodedRegex } from '../types';
-import { ensureText } from '../utils';
 
 /**
  * Creates a character class which matches any one of the given characters.
@@ -7,13 +6,16 @@ import { ensureText } from '../utils';
  * @param elements - Member characters or character ranges.
  * @returns Character class.
  */
-export function charClass(...elements: Array<CharacterClass | CharacterEscape>): CharacterClass {
-  if (!elements.length) {
-    throw new Error('Expected at least one element');
+export function charClass(
+  ...elements: Array<CharacterClass | CharacterEscape | null>
+): CharacterClass | null {
+  const allElements = elements.flatMap((c) => c?.elements).filter((c) => c != null);
+  if (allElements.length === 0) {
+    return null;
   }
 
   return {
-    elements: elements.map((c) => c.elements).flat(),
+    elements: allElements,
     encode: encodeCharClass,
   };
 }
@@ -46,9 +48,7 @@ export function charRange(start: string, end: string): CharacterClass {
  * @param chars - Characters to match.
  * @returns Character class.
  */
-export function anyOf(chars: string): CharacterClass {
-  ensureText(chars);
-
+export function anyOf(chars: string): CharacterClass | null {
   return {
     elements: chars.split('').map(escapeChar),
     encode: encodeCharClass,
@@ -61,7 +61,7 @@ export function anyOf(chars: string): CharacterClass {
  * @param element - Character class or character escape to negate.
  * @returns Negated character class.
  */
-export function negated(element: CharacterClass | CharacterEscape): EncodedRegex {
+export function negated(element: CharacterClass | CharacterEscape): EncodedRegex | null {
   return encodeCharClass.call(element, true);
 }
 
@@ -79,7 +79,11 @@ function escapeChar(text: string): string {
 function encodeCharClass(
   this: CharacterClass | CharacterEscape,
   isNegated?: boolean,
-): EncodedRegex {
+): EncodedRegex | null {
+  if (this.elements.length === 0) {
+    return null;
+  }
+
   return {
     precedence: 'atom',
     pattern: `[${isNegated ? '^' : ''}${this.elements.join('')}]`,

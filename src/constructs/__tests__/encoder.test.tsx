@@ -81,8 +81,6 @@ test('`buildRegExp` throws error on unknown element', () => {
   `);
 });
 
-test('`buildPattern` throws on empty text', () => {
-  expect(() => buildPattern('')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected at least one character"`,
-  );
+test('`buildPattern` on empty text', () => {
+  expect(buildPattern('')).toBeUndefined();
 });

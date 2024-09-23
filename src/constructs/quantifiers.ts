@@ -12,8 +12,15 @@ export interface QuantifierOptions {
  * @param sequence - Elements to match zero or more of.
  * @param options - Quantifier options.
  */
-export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
+export function zeroOrMore(
+  sequence: RegexSequence,
+  options?: QuantifierOptions,
+): EncodedRegex | null {
   const elements = ensureElements(sequence);
+  if (elements.length === 0) {
+    return null;
+  }
+
   return {
     precedence: 'sequence',
     pattern: `${encodeAtomic(elements)}*${options?.greedy === false ? '?' : ''}`,
@@ -26,8 +33,15 @@ export function zeroOrMore(sequence: RegexSequence, options?: QuantifierOptions)
  * @param sequence - Elements to match one or more of.
  * @param options - Quantifier options.
  */
-export function oneOrMore(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
+export function oneOrMore(
+  sequence: RegexSequence,
+  options?: QuantifierOptions,
+): EncodedRegex | null {
   const elements = ensureElements(sequence);
+  if (elements.length === 0) {
+    return null;
+  }
+
   return {
     precedence: 'sequence',
     pattern: `${encodeAtomic(elements)}+${options?.greedy === false ? '?' : ''}`,
@@ -40,8 +54,15 @@ export function oneOrMore(sequence: RegexSequence, options?: QuantifierOptions):
  * @param sequence - Elements to match zero or one of.
  * @param options - Quantifier options.
  */
-export function optional(sequence: RegexSequence, options?: QuantifierOptions): EncodedRegex {
+export function optional(
+  sequence: RegexSequence,
+  options?: QuantifierOptions,
+): EncodedRegex | null {
   const elements = ensureElements(sequence);
+  if (elements.length === 0) {
+    return null;
+  }
+
   return {
     precedence: 'sequence',
     pattern: `${encodeAtomic(elements)}?${options?.greedy === false ? '?' : ''}`,

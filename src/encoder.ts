@@ -1,9 +1,12 @@
 import type { EncodedRegex, RegexElement, RegexSequence } from './types';
-import { ensureElements, ensureText } from './utils';
+import { ensureElements } from './utils';
 
-export function encode(sequence: RegexSequence): EncodedRegex {
+export function encode(sequence: RegexSequence): EncodedRegex | null {
   const elements = ensureElements(sequence);
-  const encoded = elements.map((n) => encodeElement(n));
+  const encoded = elements.map((n) => encodeElement(n)).filter((n) => n != null);
+  if (encoded.length === 0) {
+    return null;
+  }
 
   if (encoded.length === 1) {
     return encoded[0]!;
@@ -17,12 +20,20 @@ export function encode(sequence: RegexSequence): EncodedRegex {
   };
 }
 
-export function encodeAtomic(sequence: RegexSequence): string {
+export function encodeAtomic(sequence: RegexSequence): string | null {
   const encoded = encode(sequence);
+  if (encoded == null) {
+    return null;
+  }
+
   return encoded.precedence === 'atom' ? encoded.pattern : `(?:${encoded.pattern})`;
 }
 
-function encodeElement(element: RegexElement): EncodedRegex {
+function encodeElement(element: RegexElement): EncodedRegex | null {
+  if (element == null) {
+    return null;
+  }
+
   if (typeof element === 'string') {
     return encodeText(element);
   }
@@ -46,8 +57,10 @@ function encodeElement(element: RegexElement): EncodedRegex {
   throw new Error(`Unsupported element. Received: ${JSON.stringify(element, null, 2)}`);
 }
 
-function encodeText(text: string): EncodedRegex {
-  ensureText(text);
+function encodeText(text: string): EncodedRegex | null {
+  if (text.length === 0) {
+    return null;
+  }
 
   return {
     // Optimize for single character case

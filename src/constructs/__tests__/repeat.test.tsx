@@ -15,8 +15,8 @@ test('`repeat` pattern optimizes grouping for atoms', () => {
   expect(repeat(digit, { min: 1, max: 5 })).toEqualRegex(/\d{1,5}/);
 });
 
-test('`repeat` throws on no children', () => {
-  expect(() => repeat([], 1)).toThrowErrorMatchingInlineSnapshot(`"Expected at least one element"`);
+test('`repeat` accepts no children', () => {
+  expect(repeat([], 1)).toBeNull();
 });
 
 test('greedy `repeat` quantifier pattern', () => {

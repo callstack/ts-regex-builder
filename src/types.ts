@@ -10,7 +10,7 @@ export type RegexSequence = RegexElement[] | RegexElement;
 /**
  * Fundamental building block of a regular expression, defined as either a regex construct, `RegExp` object or a string.
  */
-export type RegexElement = RegexConstruct | RegExp | string;
+export type RegexElement = RegexConstruct | RegExp | string | null;
 
 /**
  * Fundamental building block of a regular expression, defined as either an encoded regex or a character class.
@@ -34,7 +34,7 @@ export type EncodePrecedence = 'atom' | 'sequence' | 'disjunction';
  * Regex patter that can be encoded by calling the `encode` method.
  */
 export interface LazyEncodableRegex {
-  encode: () => EncodedRegex;
+  encode: () => EncodedRegex | null;
 }
 
 /**

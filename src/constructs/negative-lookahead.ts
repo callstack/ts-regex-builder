@@ -1,5 +1,6 @@
 import { encode } from '../encoder';
 import type { EncodedRegex, RegexSequence } from '../types';
+import { ensureElements } from '../utils';
 
 /**
  * Negative lookahead assertion.
@@ -15,7 +16,12 @@ import type { EncodedRegex, RegexSequence } from '../types';
  * // /(?=abc)/
  * ```
  */
-export function negativeLookahead(sequence: RegexSequence): EncodedRegex {
+export function negativeLookahead(sequence: RegexSequence): EncodedRegex | null {
+  const elements = ensureElements(sequence);
+  if (elements.length === 0) {
+    return null;
+  }
+
   return {
     precedence: 'atom',
     pattern: `(?!${encode(sequence).pattern})`,

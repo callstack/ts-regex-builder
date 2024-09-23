@@ -7,12 +7,12 @@ import type { EncodedRegex, RegexSequence } from '../types';
  * @param alternatives - Alternatives to choose from.
  * @returns Choice of alternatives.
  */
-export function choiceOf(...alternatives: RegexSequence[]): EncodedRegex {
+export function choiceOf(...alternatives: RegexSequence[]): EncodedRegex | null {
   if (alternatives.length === 0) {
-    throw new Error('Expected at least one alternative');
+    return null;
   }
 
-  const encodedAlternatives = alternatives.map((c) => encode(c));
+  const encodedAlternatives = alternatives.map((c) => encode(c)).filter((c) => c != null);
   if (encodedAlternatives.length === 1) {
     return encodedAlternatives[0]!;
   }
