@@ -25,18 +25,21 @@ export function buildPattern(sequence: RegexSequence): string {
   return encode(sequence).pattern;
 }
 
+const flagsMap: Record<keyof RegexFlags, string> = {
+  global: 'g',
+  ignoreCase: 'i',
+  multiline: 'm',
+  hasIndices: 'd',
+  dotAll: 's',
+  sticky: 'y',
+  unicode: 'u',
+};
+
 function encodeFlags(flags: RegexFlags): string {
-  let result = '';
-
-  if (flags.global) result += 'g';
-  if (flags.ignoreCase) result += 'i';
-  if (flags.multiline) result += 'm';
-  if (flags.hasIndices) result += 'd';
-  if (flags.dotAll) result += 's';
-  if (flags.sticky) result += 'y';
-  if (flags.unicode) result += 'u';
-
-  return result;
+  return Object.entries(flags)
+    .filter(([, value]) => value)
+    .map(([key]) => flagsMap[key as keyof RegexFlags])
+    .join('');
 }
 
 // Matches unicode mode patterns: \u{...}, \p{...}, \P{...}, but avoids valid \\u{...}, etc
