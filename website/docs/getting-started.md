@@ -50,6 +50,13 @@ yarn add ts-regex-builder
 ```
 
 </TabItem>
+<TabItem value="pnpm" label="pnpm">
+
+```sh
+pnpm add ts-regex-builder
+```
+
+</TabItem>
 </Tabs>
 
 ## Basic usage

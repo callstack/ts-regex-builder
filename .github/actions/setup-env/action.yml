@@ -1,0 +1,26 @@
+name: Setup env
+description: Setup Node.js and install deps
+
+inputs:
+  working-directory:
+    description: 'Working directory'
+    required: true
+    default: '.'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.2.1+sha512.398035c7bd696d0ba0b10a688ed558285329d27ea994804a52bad9167d8e3a72bcb993f9699585d3ca25779ac64949ef422757a6c31102c12ab932e5cbe5cc92
+
+    - name: Install deps
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: pnpm install

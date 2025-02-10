@@ -48,6 +48,12 @@ or
 yarn add ts-regex-builder
 ```
 
+or
+
+```sh
+pnpm add ts-regex-builder
+```
+
 ## Basic usage
 
 ```js
