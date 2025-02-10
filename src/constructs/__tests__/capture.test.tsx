@@ -50,7 +50,9 @@ test('named `capture` matching', () => {
 });
 
 test('`reference` pattern', () => {
+  // @ts-expect-error
   expect([ref('ref0')]).toEqualRegex(/\k<ref0>/);
+  // @ts-expect-error
   expect([ref('xyz')]).toEqualRegex(/\k<xyz>/);
   expect([capture(any, { name: 'ref0' }), ' ', ref('ref0')]).toEqualRegex('(?<ref0>.) \\k<ref0>');
 
