@@ -31,12 +31,13 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli dist",
-    "release": "yarn build && release-it",
-    "release:beta": "yarn build && release-it --preRelease=beta",
-    "build": "yarn clean && yarn build:commonjs && yarn build:esm && yarn build:typescript",
+    "release": "pnpm build && release-it",
+    "release:beta": "pnpm build && release-it --preRelease=beta",
+    "build": "pnpm clean && pnpm build:commonjs && pnpm build:esm && pnpm build:typescript",
     "build:commonjs": "BABEL_ENV=cjs babel src --out-dir \"dist/commonjs\" --extensions .js,.ts --out-file-extension .js --source-maps --no-comments",
     "build:esm": "BABEL_ENV=esm babel src --out-dir \"dist/esm\" --extensions .js,.ts --out-file-extension .mjs  --source-maps --no-comments",
-    "build:typescript": "tsc --project tsconfig.release.json --outDir \"dist/types\""
+    "build:typescript": "tsc --project tsconfig.release.json --outDir \"dist/types\"",
+    "validate": "pnpm typecheck && pnpm test && pnpm lint"
   },
   "keywords": [
     "regex",
@@ -75,7 +76,6 @@
     "release-it": "^15.11.0",
     "typescript": "^5.4.5"
   },
-  "packageManager": "yarn@4.2.1",
   "engines": {
     "node": ">= 18.0.0"
   },
@@ -149,5 +149,6 @@
     "tabWidth": 2,
     "trailingComma": "all",
     "useTabs": false
-  }
+  },
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
 }
