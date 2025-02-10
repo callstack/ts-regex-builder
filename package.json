@@ -16,14 +16,14 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "require": "./dist/commonjs/index.js",
-      "import": "./dist/esm/index.mjs",
-      "types": "./dist/types/index.d.ts"
+      "import": "./dist/esm/index.mjs"
     },
     "./patterns": {
+      "types": "./dist/types/patterns/index.d.ts",
       "require": "./dist/commonjs/patterns/index.js",
-      "import": "./dist/esm/patterns/index.mjs",
-      "types": "./dist/types/patterns/index.d.ts"
+      "import": "./dist/esm/patterns/index.mjs"
     }
   },
   "scripts": {
